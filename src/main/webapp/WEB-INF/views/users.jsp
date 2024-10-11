@@ -10,7 +10,6 @@
     <title>PageOn</title>
 </head>
 <body>
-users
 <table border="1">
     <tr>
         <th>ID</th>
