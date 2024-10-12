@@ -18,15 +18,11 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/board")
-    public String getboard(Model model) {
-        log.info("게시판 메인 페이지");
-        List<BoardVO> board = boardService.getAllBoard();
-        model.addAttribute("board", board);
-        return "board";
+    @GetMapping("/freeboard")
+    public String freeboard(Model model) {
+        log.info("자유게시판 페이지");
+        return "freeboard";
     }
-
-
 
 
 }
