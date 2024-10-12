@@ -174,7 +174,7 @@
     <nav id="header-nav" class="navbar navbar-expand-lg py-3">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <img src="images/main-logo.png" class="logo">
+                <h1 class="logo">PageOn</h1>
             </a>
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -184,7 +184,7 @@
             </button>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
                 <div class="offcanvas-header px-4 pb-0">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="#">
                         <img src="images/main-logo.png" class="logo">
                     </a>
                     <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
@@ -194,49 +194,42 @@
                     <ul id="navbar"
                         class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link me-4 active" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-4" href="index.html">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-4" href="index.html">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link me-4" href="index.html">Blogs</a>
+                            <a class="nav-link me-4" href="#">홈</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                               aria-expanded="false">Pages</a>
+                               aria-expanded="false">작품</a>
                             <ul class="dropdown-menu animate slide border">
                                 <li>
-                                    <a href="index.html" class="dropdown-item fw-light">About</a>
+                                    <a href="#" class="dropdown-item fw-light">한 번에 보기</a>
                                 </li>
                                 <li>
-                                    <a href="index.html" class="dropdown-item fw-light">Shop</a>
+                                    <a href="#" class="dropdown-item fw-light">웹툰</a>
                                 </li>
                                 <li>
-                                    <a href="index.html" class="dropdown-item fw-light">Single Product</a>
+                                    <a href="#" class="dropdown-item fw-light">웹소설</a>
                                 </li>
                                 <li>
-                                    <a href="index.html" class="dropdown-item fw-light">Cart</a>
+                                    <a href="#" class="dropdown-item fw-light">도서</a>
+                                </li>
+                            </ul>
+                        </li><li class="nav-item dropdown">
+                            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                               aria-expanded="false">커뮤니티</a>
+                            <ul class="dropdown-menu animate slide border">
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">공지사항</a>
                                 </li>
                                 <li>
-                                    <a href="index.html" class="dropdown-item fw-light">Checkout</a>
+                                    <a href="#" class="dropdown-item fw-light">자유게시판</a>
                                 </li>
                                 <li>
-                                    <a href="index.html" class="dropdown-item fw-light">Blog</a>
-                                </li>
-                                <li>
-                                    <a href="index.html" class="dropdown-item fw-light">Single Post</a>
-                                </li>
-                                <li>
-                                    <a href="index.html" class="dropdown-item fw-light">Contact</a>
+                                    <a href="#" class="dropdown-item fw-light">토론</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link me-4" href="index.html">Contact</a>
+                            <a class="nav-link me-4" href="#">리뷰</a>
                         </li>
                     </ul>
                     <div class="user-items d-flex">
@@ -317,91 +310,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="wishlist-dropdown dropdown pe-3">
-                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
-                                    <svg class="wishlist">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
-                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="text-primary">Your wishlist</span>
-                                        <span class="badge bg-primary rounded-pill">2</span>
-                                    </h4>
-                                    <ul class="list-group mb-3">
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                                            <div>
-                                                <h5>
-                                                    <a href="index.html">The Emerald Crown</a>
-                                                </h5>
-                                                <small>Special discounted price.</small>
-                                                <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
-                                            </div>
-                                            <span class="text-primary">$2000</span>
-                                        </li>
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                                            <div>
-                                                <h5>
-                                                    <a href="index.html">The Last Enchantment</a>
-                                                </h5>
-                                                <small>Perfect for enlightened people.</small>
-                                                <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
-                                            </div>
-                                            <span class="text-primary">$400</span>
-                                        </li>
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between">
-                                            <span class="text-capitalize"><b>Total (USD)</b></span>
-                                            <strong>$1470</strong>
-                                        </li>
-                                    </ul>
-                                    <div class="d-flex flex-wrap justify-content-center">
-                                        <a href="#" class="w-100 btn btn-dark mb-1" type="submit">Add all to cart</a>
-                                        <a href="index.html" class="w-100 btn btn-primary" type="submit">View cart</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="cart-dropdown dropdown">
-                                <a href="index.html" class="dropdown-toggle" data-bs-toggle="dropdown" role="button"
-                                   aria-expanded="false">
-                                    <svg class="cart">
-                                        <use xlink:href="#cart"></use>
-                                    </svg><span class="fs-6 fw-light">(02)</span>
-                                </a>
-                                <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
-                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="text-primary">Your cart</span>
-                                        <span class="badge bg-primary rounded-pill">2</span>
-                                    </h4>
-                                    <ul class="list-group mb-3">
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                                            <div>
-                                                <h5>
-                                                    <a href="index.html">Secrets of the Alchemist</a>
-                                                </h5>
-                                                <small>High quality in good price.</small>
-                                            </div>
-                                            <span class="text-primary">$870</span>
-                                        </li>
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                                            <div>
-                                                <h5>
-                                                    <a href="index.html">Quest for the Lost City</a>
-                                                </h5>
-                                                <small>Professional Quest for the Lost City.</small>
-                                            </div>
-                                            <span class="text-primary">$600</span>
-                                        </li>
-                                        <li class="list-group-item bg-transparent d-flex justify-content-between">
-                                            <span class="text-capitalize"><b>Total (USD)</b></span>
-                                            <strong>$1470</strong>
-                                        </li>
-                                    </ul>
-                                    <div class="d-flex flex-wrap justify-content-center">
-                                        <a href="index.html" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
-                                        <a href="index.html" class="w-100 btn btn-primary" type="submit">Go to checkout</a>
                                     </div>
                                 </div>
                             </li>
