@@ -9,9 +9,7 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
-    public List<BoardVO> selectAll() {
-
-    };
+    public List<BoardVO> findAll();
 
 
 

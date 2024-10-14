@@ -13,7 +13,7 @@ public class BoardService {
     @Autowired
     private BoardMapper boardMapper;
 
-    public List<BoardVO> selectAll() {
-        return BoardMapper.selectAll();
+    public List<BoardVO> findAll() {
+        return boardMapper.findAll();
     }
 }

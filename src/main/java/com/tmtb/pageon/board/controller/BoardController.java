@@ -21,6 +21,11 @@ public class BoardController {
     @GetMapping("/freeboard")
     public String freeboard(Model model) {
         log.info("자유게시판 페이지");
+
+        List<BoardVO> boardList = boardService.findAll();
+
+        model.addAttribute("boardList", boardList);
+        log.info("boardList : " + boardList);
         return "freeboard";
     }
 
