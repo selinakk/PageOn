@@ -170,12 +170,10 @@
     </div>
 </div>
 
-<header id="header" class="site-header">
+<header id="header" class="site-header border-bottom">
     <nav id="header-nav" class="navbar navbar-expand-lg py-3">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                <h1 class="logo">PageOn</h1>
-            </a>
+            <a class="navbar-brand fs-2" href="/">PageOn</a>
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <svg class="navbar-icon">
@@ -192,7 +190,7 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul id="navbar"
-                        class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1">
+                        class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1 fs-4">
                         <li class="nav-item">
                             <a class="nav-link me-4" href="#">홈</a>
                         </li>
@@ -233,7 +231,7 @@
                         </li>
                     </ul>
                     <div class="user-items d-flex">
-                        <ul class="d-flex justify-content-end list-unstyled mb-0">
+                        <ul class="d-flex align-items-lg-center list-unstyled mb-0">
                             <li class="search-item pe-3">
                                 <a href="#" class="search-button">
                                     <svg class="search">
