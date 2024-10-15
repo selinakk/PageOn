@@ -245,12 +245,13 @@
                                         <use xlink:href="#user"></use>
                                     </svg>
                                 </a>
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
+
+                                <!-- 로그인 / 회원가입 모달 -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header border-bottom-0">
+                                                <h5 class="modal-title" id="exampleModalLabel">로그인 / 회원가입</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -266,43 +267,69 @@
                                                         </div>
                                                     </nav>
                                                     <div class="tab-content" id="nav-tabContent">
-                                                        <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel"
-                                                             aria-labelledby="nav-sign-in-tab">
-                                                            <div class="form-group py-3">
-                                                                <label class="mb-2" for="sign-in">Username or email address *</label>
-                                                                <input type="text" minlength="2" name="username" placeholder="Your Username"
-                                                                       class="form-control w-100 rounded-3 p-3" required>
-                                                            </div>
-                                                            <div class="form-group pb-3">
-                                                                <label class="mb-2" for="sign-in">Password *</label>
-                                                                <input type="password" minlength="2" name="password" placeholder="Your Password"
-                                                                       class="form-control w-100 rounded-3 p-3" required>
-                                                            </div>
-                                                            <label class="py-3">
-                                                                <input type="checkbox" required="" class="d-inline">
-                                                                <span class="label-body">Remember me</span>
-                                                                <span class="label-body"><a href="#" class="fw-bold">Forgot Password</a></span>
-                                                            </label>
-                                                            <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Login</button>
+                                                        <!-- 로그인 탭 -->
+                                                        <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel" aria-labelledby="nav-sign-in-tab">
+                                                            <form action="/login" method="post">
+                                                                <div class="form-group py-3">
+                                                                    <label class="mb-2" for="sign-in">Username or email address *</label>
+                                                                    <input type="text" minlength="2" name="username" placeholder="Your Username"
+                                                                           class="form-control w-100 rounded-3 p-3" required>
+                                                                </div>
+                                                                <div class="form-group pb-3">
+                                                                    <label class="mb-2" for="sign-in">Password *</label>
+                                                                    <input type="password" minlength="2" name="password" placeholder="Your Password"
+                                                                           class="form-control w-100 rounded-3 p-3" required>
+                                                                </div>
+                                                                <label class="py-3">
+                                                                    <input type="checkbox" required="" class="d-inline">
+                                                                    <span class="label-body">Remember me</span>
+                                                                    <span class="label-body"><a href="#" class="fw-bold">Forgot Password</a></span>
+                                                                </label>
+                                                                <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Login</button>
+                                                            </form>
                                                         </div>
-                                                        <div class="tab-pane fade" id="nav-register" role="tabpanel"
-                                                             aria-labelledby="nav-register-tab">
-                                                            <div class="form-group py-3">
-                                                                <label class="mb-2" for="register">Your email address *</label>
-                                                                <input type="text" minlength="2" name="username" placeholder="Your Email Address"
-                                                                       class="form-control w-100 rounded-3 p-3" required>
-                                                            </div>
-                                                            <div class="form-group pb-3">
-                                                                <label class="mb-2" for="sign-in">Password *</label>
-                                                                <input type="password" minlength="2" name="password" placeholder="Your Password"
-                                                                       class="form-control w-100 rounded-3 p-3" required>
-                                                            </div>
-                                                            <label class="py-3">
-                                                                <input type="checkbox" required="" class="d-inline">
-                                                                <span class="label-body">I agree to the <a href="#" class="fw-bold">Privacy
-                                        Policy</a></span>
-                                                            </label>
-                                                            <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Register</button>
+                                                        <!-- 회원가입 탭 -->
+                                                        <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
+                                                            <form action="/insertUserForm" method="post" enctype="multipart/form-data">
+                                                                <div class="form-group py-3">
+                                                                    <label class="mb-2" for="register">Your email address *</label>
+                                                                    <input type="text" minlength="2" name="id" placeholder="Your Email Address"
+                                                                           class="form-control w-100 rounded-3 p-3" required>
+                                                                </div>
+                                                                <div class="form-group pb-3">
+                                                                    <label class="mb-2" for="password">Password *</label>
+                                                                    <input type="password" minlength="2" name="pw" placeholder="Your Password"
+                                                                           class="form-control w-100 rounded-3 p-3" required>
+                                                                </div>
+                                                                <div class="form-group pb-3">
+                                                                    <label class="mb-2" for="name">이름 *</label>
+                                                                    <input type="text" name="name" placeholder="이름" class="form-control w-100 rounded-3 p-3" required>
+                                                                </div>
+                                                                <div class="form-group pb-3">
+                                                                    <label class="mb-2" for="tel">전화번호 *</label>
+                                                                    <input type="tel" name="tel" placeholder="전화번호" class="form-control w-100 rounded-3 p-3" required>
+                                                                </div>
+                                                                <div class="form-group pb-3">
+                                                                    <label class="mb-2" for="like_categories">관심 카테고리 *</label>
+                                                                    <div class="input-group">
+                                                                        <input type="text" id="selected-category" name="like_categories" placeholder="관심 카테고리" class="form-control w-100 rounded-3 p-3" readonly required>
+                                                                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal">선택</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group pb-3">
+                                                                    <label class="mb-2" for="introduce">자기소개</label>
+                                                                    <textarea name="introduce" placeholder="자기소개" class="form-control w-100 rounded-3 p-3"></textarea>
+                                                                </div>
+                                                                <div class="form-group pb-3">
+                                                                    <label class="mb-2" for="imgFile">프로필 이미지 업로드</label>
+                                                                    <input type="file" name="imgFile" class="form-control w-100 rounded-3 p-3">
+                                                                </div>
+                                                                <label class="py-3">
+                                                                    <input type="checkbox" required="" class="d-inline">
+                                                                    <span class="label-body">I agree to the <a href="#" class="fw-bold">Privacy Policy</a></span>
+                                                                </label>
+                                                                <button type="submit" class="btn btn-dark w-100 my-3">Register</button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -310,6 +337,101 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- 카테고리 모달 -->
+                                <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="categoryModalLabel">카테고리 선택</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group pb-3">
+                                                    <label class="mb-2">관심 카테고리 *</label>
+                                                    <div class="row" id="category-checkboxes">
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리1" id="cat1">
+                                                            <label for="cat1">카테고리1</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리2" id="cat2">
+                                                            <label for="cat2">카테고리2</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리3" id="cat3">
+                                                            <label for="cat3">카테고리3</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리4" id="cat4">
+                                                            <label for="cat4">카테고리4</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리5" id="cat5">
+                                                            <label for="cat5">카테고리5</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리6" id="cat6">
+                                                            <label for="cat6">카테고리6</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리7" id="cat7">
+                                                            <label for="cat7">카테고리7</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리8" id="cat8">
+                                                            <label for="cat8">카테고리8</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리9" id="cat9">
+                                                            <label for="cat9">카테고리9</label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="checkbox" value="카테고리10" id="cat10">
+                                                            <label for="cat10">카테고리10</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                                <button type="button" class="btn btn-primary" id="confirm-categories">확인</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- JavaScript 코드 -->
+                                <script>
+                                    document.getElementById('confirm-categories').addEventListener('click', function() {
+                                        const selectedCategories = [];
+                                        const checkboxes = document.querySelectorAll('#category-checkboxes input[type="checkbox"]:checked');
+
+                                        checkboxes.forEach(checkbox => {
+                                            selectedCategories.push(checkbox.value);
+                                        });
+
+                                        // 선택한 카테고리들을 콤마로 구분하여 입력 필드에 설정
+                                        document.getElementById('selected-category').value = selectedCategories.join(', ');
+
+                                        // 모달 닫기
+                                        const categoryModal = bootstrap.Modal.getInstance(document.getElementById('categoryModal'));
+                                        categoryModal.hide();
+
+                                        // 로그인 탭으로 돌아가기
+                                        const signInTab = new bootstrap.Tab(document.getElementById('nav-register-tab'));
+                                        signInTab.show();
+
+                                        // 로그인 모달로 돌아가기
+                                        const exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                                        exampleModal.show();
+                                    });
+                                </script>
+
+
+
                             </li>
                         </ul>
                     </div>
