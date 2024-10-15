@@ -15,8 +15,18 @@
 .card.fs-6 .img-fluid{
     height: 18rem;
 }
+.card-concern.vstack {
+    bottom: unset;
+    top: 9rem;
+    z-index: -1;
+}
 .card-concern.vstack .btn{
     margin: 0 2rem;
+    padding: 0.5rem;
+}
+.card.fs-6:hover .card-concern{
+    bottom: unset;
+    z-index: 2;
 }
 .sort-wrapper .dropdown-menu {
     display: none;
