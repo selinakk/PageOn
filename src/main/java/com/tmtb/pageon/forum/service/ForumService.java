@@ -14,7 +14,11 @@ public class ForumService {
     @Autowired
     ForumMapper mapper;
 
-    public List<ForumVO> selectAll() {
-        return mapper.selectAll();
+    public List<ForumVO> getList(int page, int size, String sortField, String sortDir) {
+        int offset = (page - 1) * size;
+        return mapper.getList(offset, size, sortField, sortDir);
+    }
+    public int getListCount(){
+        return mapper.getListCount();
     }
 }

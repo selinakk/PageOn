@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tmtb.pageon.forum.mapper.ForumMapper">
-    <select id="selectAll" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        SELECT * FROM forum;
+    <select id="getList" resultType="com.tmtb.pageon.forum.model.ForumVO">
+        SELECT f.*, w.title AS work_title, w.img_name
+        FROM forum f
+                 JOIN work w ON f.work_num = w.num ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
+    </select>
+    <select id="getListCount" resultType="int">
+        SELECT count(*) FROM forum
     </select>
 </mapper>

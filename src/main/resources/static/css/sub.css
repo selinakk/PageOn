@@ -1,0 +1,32 @@
+/***** custom sub style 시작 *****/
+/** 작성자: 김시윤 */
+
+/* Global */
+/* Global 끝 */
+
+/* 토론 */
+.search-list--custom{
+    max-width: 340px;
+}
+.search-list--custom .form-select{
+    min-width: 6rem;
+    background-position: right 0.25em center;
+}
+.card.fs-6 .img-fluid{
+    height: 18rem;
+}
+.card-concern.vstack .btn{
+    margin: 0 2rem;
+}
+.sort-wrapper .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 7rem;
+}
+.sort-wrapper .dropdown-menu a.text-black {text-decoration: none;}
+.sort-wrapper:hover .dropdown-menu {display: flex;}
+/* 토론 끝 */
+
+/***** //custom sub style 끝 *****/

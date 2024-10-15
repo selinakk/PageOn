@@ -1207,16 +1207,17 @@ th{
 /*----------------------------------------------*/
 .card-concern{
   text-align: center;
-  bottom: 145px;
+  top: 9rem;
   display: flex;
   justify-content: center;
   cursor: pointer;
   text-transform: uppercase;
   transition: all 0.3s ease-out;
   opacity: 0;
+  z-index: -1;
 }
 .card-concern .btn{
-  padding: 1.125rem;
+  padding: 0.5rem;
 }
 .card-concern svg {
   width: 27px;
@@ -1224,8 +1225,9 @@ th{
   cursor: pointer;
 }
 .card:hover .card-concern{
-  bottom: 160px;
+  /*bottom: 160px;*/
   opacity: 1;
+  z-index: 2;
 }
 
 /* 4.5 Items Listings
