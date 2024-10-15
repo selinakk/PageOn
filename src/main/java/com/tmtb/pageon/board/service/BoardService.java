@@ -42,4 +42,18 @@ public class BoardService {
         return boardMapper.updateOK(vo);
     }
 
+//    public List<BoardVO> getBoardList(int page, int pageSize) {
+//        int offset = (page - 1) * pageSize;
+//        return boardMapper.getBoardList(offset, pageSize);
+//    }
+
+    public List<BoardVO> getFreeBoardList(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return boardMapper.getFreeBoardList(offset, pageSize);
+    }
+
+    public int getTotalCount() {
+        return boardMapper.getTotalCount();
+    }
+
 }

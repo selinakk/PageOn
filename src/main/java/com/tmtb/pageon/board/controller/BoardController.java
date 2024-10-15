@@ -29,12 +29,19 @@ public class BoardController {
     ServletContext context;
 
     @GetMapping("/freeboard")
-    public String freeboard(Model model) {
+    public String freeboard(@RequestParam(defaultValue = "1") int page, Model model) {
         log.info("자유게시판 페이지");
 
-        List<BoardVO> boardList = boardService.selectFreeAll();
+        int pageSize = 10;
+        int totalCount = boardService.getTotalCount();
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        List<BoardVO> boardList = boardService.getFreeBoardList(page, pageSize);
+
 
         model.addAttribute("boardList", boardList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         return "board/freeboard";
     }
 

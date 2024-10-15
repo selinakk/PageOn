@@ -7,11 +7,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freeboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .board-box {
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            max-width: 150px;
+        }
+
+        .board-box.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .board-container {
+            .board-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+    </style>
 </head>
 
 <body>
 <div class="container mt-5">
-    <h1 class="mb-4">자유 게시판</h1>
+    <div class="board-container">
+        <div class="board-box ${pageContext.request.requestURI.contains('/freeboard') ? 'active' : ''}"
+             onclick="location.href='/freeboard'">
+            자유 게시판
+        </div>
+    </div>
+    <div class="board-container">
+        <div class="board-box ${pageContext.request.requestURI.contains('/qnaboard') ? 'active' : ''}"
+             onclick="location.href='/qnaboard'">
+            질문 게시판
+        </div>
+    </div>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
         <tr>
@@ -38,6 +72,31 @@
         </c:forEach>
         </tbody>
     </table>
+
+    <!-- 페이징 -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <c:if test="${currentPage > 1}">
+                <li class="page-item">
+                    <a class="page-link" href="?page=${currentPage - 1}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            </c:if>
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                    <a class="page-link" href="?page=${i}">${i}</a>
+                </li>
+            </c:forEach>
+            <c:if test="${currentPage < totalPages}">
+                <li class="page-item">
+                    <a class="page-link" href="?page=${currentPage + 1}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </c:if>
+        </ul>
+    </nav>
 
     <div class="mt-3">
         <a href="/b_insert" class="btn btn-primary">글작성</a>

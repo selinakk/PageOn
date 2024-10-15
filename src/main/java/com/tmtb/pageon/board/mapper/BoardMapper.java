@@ -3,6 +3,7 @@ package com.tmtb.pageon.board.mapper;
 
 import com.tmtb.pageon.board.model.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +23,9 @@ public interface BoardMapper {
     public int updateOK(BoardVO vo);
 
     public int updateBoardHitCount(BoardVO vo);
+
+    //페이징 관련
+    //List<BoardVO> getBoardList(@Param("offset") int offset, @Param("pageSize") int pageSize);
+    List<BoardVO> getFreeBoardList(@Param("offset") int offset, @Param("pageSize") int pageSize);
+    int getTotalCount();
 }
