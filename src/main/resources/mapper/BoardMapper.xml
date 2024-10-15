@@ -2,10 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-
-
-<mapper namespace="com.tmtb.pageon.mapper.BoardMapper">
-    <select id="findAll" resultType="com.tmtb.pageon.board.model.BoardVO">
-        SELECT * FROM board;
+<mapper namespace="com.tmtb.pageon.board.mapper.BoardMapper">
+    <select id="selectFreeAll" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE category = 'free'
+        ORDER BY wdate DESC;
     </select>
+
+    <select id="selectQnaAll" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE category = 'qna'
+        ORDER BY wdate DESC;
+    </select>
+
+    <insert id="insertOK">
+        INSERT INTO board (num, title, content, user_id, img_name, category, wdate)
+        VALUES (NULL, #{title}, #{content}, #{user_id}, #{img_name}, #{category}, DEFAULT);
+    </insert>
+
+    <update id="updateBoardHitCount">
+        UPDATE board
+        SET boardhitcount = boardhitcount + 1
+        WHERE num = #{num};
+    </update>
+
+    <select id="selectOne" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE num = #{num};
+    </select>
+
+    <delete id="deleteOK">
+        DELETE FROM board WHERE num = #{num};
+    </delete>
+
+    <update id="updateOK">
+        UPDATE board
+        SET title=#{title}, content=#{content}, user_id=#{user_id}, wdate=NOW(), category=#{category}, img_name=#{img_name}
+        WHERE num=#{num};
+    </update>
+
 </mapper>
