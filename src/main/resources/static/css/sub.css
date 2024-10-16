@@ -2,6 +2,8 @@
 /** 작성자: 김시윤 */
 
 /* Global */
+i.svg-icon{width:0.9rem;}
+input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{color:var(--light-gray-color) !important;}
 /* Global 끝 */
 
 /* 토론 */
@@ -10,14 +12,16 @@
 }
 .search-list--custom .form-select{
     min-width: 6rem;
+    margin-right: -1px;
     background-position: right 0.25em center;
 }
 .card.fs-6 .img-fluid{
-    height: 18rem;
+    height: 14rem;
+    object-fit: cover;
 }
 .card-concern.vstack {
     bottom: unset;
-    top: 9rem;
+    top: 6.5rem;
     z-index: -1;
 }
 .card-concern.vstack .btn{
@@ -37,6 +41,11 @@
 }
 .sort-wrapper .dropdown-menu a.text-black {text-decoration: none;}
 .sort-wrapper:hover .dropdown-menu {display: flex;}
+.forum__comments .gap-2{max-width:1200px;}
+a.text-danger .svg-icon {
+    top: -1px;
+    fill: rgba(var(--bs-danger-rgb),var(--bs-text-opacity))!important;
+}
 /* 토론 끝 */
 
 /***** //custom sub style 끝 *****/

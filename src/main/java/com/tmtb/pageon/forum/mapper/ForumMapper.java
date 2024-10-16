@@ -13,4 +13,12 @@ public interface ForumMapper {
                                  @Param("sortField") String sortField,
                                  @Param("sortDir") String sortDir);
     int getListCount();
+    public List<ForumVO> searchForum(@Param("searchKey") String searchKey,
+                                     @Param("searchWord") String searchWord,
+                                    @Param("offset") int offset,
+                                    @Param("size") int size);
+    int searchForumCount(@Param("searchKey") String searchKey,
+                         @Param("searchWord") String searchWord);
+    public ForumVO selectOne(ForumVO vo);
+    public boolean insertForumOK(ForumVO vo);
 }

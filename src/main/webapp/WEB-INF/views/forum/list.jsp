@@ -5,33 +5,44 @@
     <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
             <h3 class="d-flex align-items-center">토론 게시판</h3>
-            <form action="" method="GET" class="search-list--custom d-flex">
+            <form action="/forum/search" method="GET" class="search-list--custom d-flex">
                 <select name="searchKey" id="searchKey" class="form-select p-2 w-25 rounded-0">
                     <option value="title">토론 제목</option>
                     <option value="work_title">작품 제목</option>
                     <option value="content">내용</option>
-                    <option value="writer">게시자명</option>
+                    <option value="user_id">게시자명</option>
                 </select>
-                <input type="text" minlength="2" name="searchWord" placeholder="검색어를 입력해 주세요"
-                       class="form-control p-2 w-75 rounded-0">
+                <input type="text" minlength="2" name="searchWord" value="${searchWord}" placeholder="검색어를 입력해 주세요"
+                       class="form-control p-2 w-75 rounded-0" required>
                 <input type="submit" class="btn btn-dark rounded-0" value="검색">
             </form>
         </div>
         <div class="d-flex justify-content-between align-items-center w-100">
-            <p class="f-3">총 ${totalList}건</p>
-            <div class="sort-wrapper position-relative">
-                <button class="nav-link dropdown-toggle">정렬</button>
-                <div class="dropdown-menu animate slide border vstack text-center">
-                    <a class="p-1 text-black" href="/forum/list?page=${currentPage}&size=${pageSize}&sortField=wdate&sortDir=desc"><small>최신순</small></a>
-                    <a class="p-1 text-black" href="/forum/list?page=${currentPage}&size=${pageSize}&sortField=hitcount&sortDir=desc"><small>조회수순</small></a>
-                    <a class="p-1 text-black" href="/forum/list?page=${currentPage}&size=${pageSize}&sortField=comment_count&sortDir=desc"><small>댓글이 많은 순</small></a>
+            <c:choose>
+                <c:when test="${not empty searchWord}">
+                    <p class="f-3">"${searchWord}"에 대한 검색 결과: ${totalSearchList}건</p>
+                </c:when>
+                <c:otherwise>
+                    <p class="f-3">총 ${totalList}건</p>
+                </c:otherwise>
+            </c:choose>
+
+            <c:if test="${empty searchWord}">
+                <div class="sort-wrapper position-relative">
+                    <button class="nav-link dropdown-toggle">정렬</button>
+                    <div class="dropdown-menu animate slide border vstack text-center">
+                        <a class="p-1 text-black" href="/forum/list?page=${currentPage}&size=${pageSize}&sortField=wdate&sortDir=desc"><small>최신순</small></a>
+                        <a class="p-1 text-black" href="/forum/list?page=${currentPage}&size=${pageSize}&sortField=hitcount&sortDir=desc"><small>조회수순</small></a>
+                        <a class="p-1 text-black" href="/forum/list?page=${currentPage}&size=${pageSize}&sortField=comment_count&sortDir=desc"><small>댓글이 많은 순</small></a>
+                    </div>
                 </div>
-            </div>
+            </c:if>
         </div>
-        <ul class="list-unstyled row-cols-4 padding-small d-flex flex-wrap" id="forumList">
+
+        <ul class="list-unstyled row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">
             <c:forEach var="forum" items="${list}">
                 <li class="p-3">
-                    <a href="#" class="card position-relative p-4 border rounded-3 fs-6">
+                    <a href="/forum/view?num=${forum.num}" class="card position-relative p-4 border rounded-3 fs-6">
                         <img class="img-fluid shadow-sm" src="/img/${forum.img_name}" alt="${forum.work_title} 작품 이미지">
                         <p class="mt-4 mb-0">${forum.work_title}</p>
                         <h6 class="my-3 fw-bold">${forum.title}</h6>
@@ -55,9 +66,26 @@
 <%--                <a href="?page=${currentPage - 1}&sortField=${sortField}&sortDir=${sortDir}">Previous</a>--%>
 <%--            </c:if>--%>
 
-            <c:forEach var="i" begin="1" end="${totalPages}">
-                <a href="?page=${i}&sortField=${sortField}&sortDir=${sortDir}">${i}</a>
+    <c:if test="${not empty searchWord}">
+        <div class="d-flex justify-content-center">
+            <c:forEach var="i" begin="1" end="${totalSearchPages}">
+                <a href="?page=${i}&searchKey=${searchKey}&searchWord=${searchWord}">${i}</a>
             </c:forEach>
+        </div>
+    </c:if>
+
+
+    <c:if test="${empty searchWord}">
+        <div class="d-flex justify-content-center">
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <a href="?page=${i}&sortField=${sortField}&sortDir=${sortDir}" class="p-1">${i}</a>
+            </c:forEach>
+        </div>
+    </c:if>
+
+<%--    <c:forEach var="i" begin="1" end="${totalPages}">--%>
+<%--                <a href="?page=${i}&sortField=${sortField}&sortDir=${sortDir}">${i}</a>--%>
+<%--            </c:forEach>--%>
 
 <%--            <c:if test="${currentPage < totalPages}">--%>
 <%--                <a href="?page=${currentPage + 1}&sortField=${sortField}&sortDir=${sortDir}">Next</a>--%>
