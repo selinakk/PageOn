@@ -29,29 +29,47 @@ public class BoardController {
     ServletContext context;
 
     @GetMapping("/freeboard")
-    public String freeboard(@RequestParam(defaultValue = "1") int page, Model model) {
+    public String freeboard(@RequestParam(defaultValue = "1") int page, Model model, String sort) {
         log.info("자유게시판 페이지");
 
-        int pageSize = 10;
+        int pageSize = 15;
         int totalCount = boardService.getTotalCount();
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
-        List<BoardVO> boardList = boardService.getFreeBoardList(page, pageSize);
+        List<BoardVO> boardList;
+        if ("hitcount".equals(sort)) {
+            boardList = boardService.getFreeBoardListByHitCount(page, pageSize);
+        } else {
+            boardList = boardService.getFreeBoardList(page, pageSize);
+        }
+
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("sort", sort);
+        return "board/freeboard";
+    }
+
+    @GetMapping("/qnaboard")
+    public String qnaboard(@RequestParam(defaultValue = "1") int page, Model model, String sort) {
+        log.info("QnA게시판 페이지");
+
+        int pageSize = 15;
+        int totalCount = boardService.getTotalCount();
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        List<BoardVO> boardList;
+        if ("hitcount".equals(sort)) {
+            boardList = boardService.getQnaBoardListByHitCount(page, pageSize);
+        } else {
+            boardList = boardService.getQnaBoardList(page, pageSize);
+        }
 
 
         model.addAttribute("boardList", boardList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
-        return "board/freeboard";
-    }
-
-    @GetMapping("/qnaboard")
-    public String qnaboard(Model model) {
-        log.info("QnA게시판 페이지");
-
-        List<BoardVO> boardList = boardService.selectQnaAll();
-
-        model.addAttribute("boardList", boardList);
+        model.addAttribute("sort", sort);
         return "board/qnaboard";
     }
 
@@ -198,6 +216,43 @@ public class BoardController {
             }
         } else {
             return "redirect:/b_update?num=" + vo.getNum();
+        }
+    }
+
+    @GetMapping("/b_search")
+    public String searchBoard(@RequestParam(required = true) String searchWord,
+                              @RequestParam String searchType,
+                              @RequestParam String category,
+                              @RequestParam(defaultValue = "1") int page,
+                              Model model) {
+        log.info("게시판 검색");
+
+        int pageSize = 15;
+        int offset = (page - 1) * pageSize;
+
+        List<BoardVO> boardList;
+        int totalCount;
+        if ("title".equals(searchType)) {
+            boardList = boardService.searchBoardByTitle(searchWord, category, offset, pageSize);
+            totalCount = boardService.getTotalCountByTitle(searchWord, category);
+        } else {
+            boardList = boardService.searchBoardByContent(searchWord, category, offset, pageSize);
+            totalCount = boardService.getTotalCountByContent(searchWord, category);
+        }
+
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("searchWord", searchWord);
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("category", category);
+
+        if ("qna".equals(category)) {
+            return "board/qnaboard";
+        } else {
+            return "board/freeboard";
         }
     }
 

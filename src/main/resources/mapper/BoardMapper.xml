@@ -3,11 +3,39 @@
 
 
 <mapper namespace="com.tmtb.pageon.board.mapper.BoardMapper">
-    <select id="selectFreeAll" resultType="com.tmtb.pageon.board.model.BoardVO">
+
+    <select id="getFreeBoardList" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
         WHERE category = 'free'
-        ORDER BY wdate DESC;
+        ORDER BY num DESC
+            LIMIT #{pageSize}
+        OFFSET #{offset}
+    </select>
+
+    <select id="getQnaBoardList" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE category = 'qna'
+        ORDER BY num DESC
+            LIMIT #{pageSize}
+        OFFSET #{offset}
+    </select>
+
+    <select id="getFreeBoardListByHitCount" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE category = 'free'
+        ORDER BY boardhitcount DESC
+            LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getQnaBoardListByHitCount" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE category = 'qna'
+        ORDER BY boardhitcount DESC
+            LIMIT #{offset}, #{pageSize}
     </select>
 
     <select id="selectQnaAll" resultType="com.tmtb.pageon.board.model.BoardVO">
@@ -35,30 +63,55 @@
     </select>
 
     <delete id="deleteOK">
-        DELETE FROM board WHERE num = #{num};
+        DELETE
+        FROM board
+        WHERE num = #{num};
     </delete>
 
     <update id="updateOK">
         UPDATE board
-        SET title=#{title}, content=#{content}, user_id=#{user_id}, wdate=NOW(), category=#{category}, img_name=#{img_name}
-        WHERE num=#{num};
+        SET title=#{title},
+            content=#{content},
+            user_id=#{user_id},
+            wdate=NOW(),
+            category=#{category},
+            img_name=#{img_name}
+        WHERE num = #{num};
     </update>
 
-    <!-- 페이지네이션을 위한 쿼리 추가 -->
-<!--    <select id="getBoardList" resultType="com.tmtb.pageon.board.model.BoardVO">-->
-<!--        SELECT * FROM board-->
-<!--        ORDER BY num DESC-->
-<!--            LIMIT #{pageSize} OFFSET #{offset}-->
-<!--    </select>-->
-
-    <select id="getFreeBoardList" resultType="com.tmtb.pageon.board.model.BoardVO">
-        SELECT * FROM board
-        WHERE category = 'free'
-        ORDER BY num DESC
-            LIMIT #{pageSize} OFFSET #{offset}
-    </select>
-
     <select id="getTotalCount" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM board
+        SELECT COUNT(*)
+        FROM board
     </select>
+
+    <!--   검색 기능-->
+    <select id="searchBoardByTitle" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT * FROM board
+        WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%')
+        ORDER BY num DESC
+            LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="searchBoardByContent" resultType="com.tmtb.pageon.board.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE (category = #{category} OR #{category} = 'all')
+          AND content LIKE CONCAT('%', #{searchWord}, '%')
+        ORDER BY num DESC
+            LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="getTotalCountByTitle" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%')
+    </select>
+
+    <select id="getTotalCountByContent" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE (category = #{category} OR #{category} = 'all') AND content LIKE CONCAT('%', #{searchWord}, '%')
+    </select>
+
+
 </mapper>

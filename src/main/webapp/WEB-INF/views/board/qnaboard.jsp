@@ -7,10 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freeboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/board.css" rel="stylesheet">
 </head>
 
 <body>
 <div class="container mt-5">
+    <div class="board-container">
+
+        <%--게시판 선택--%>
+        <div class="board-box ${pageContext.request.requestURI.contains('/freeboard') ? 'active' : ''}"
+             onclick="location.href='/freeboard'">
+            자유 게시판
+        </div>
+        <div class="board-box ${pageContext.request.requestURI.contains('/qnaboard') ? 'active' : ''}"
+             onclick="location.href='/qnaboard'">
+            질문 게시판
+        </div>
+
+        <%--검색탭--%>
+        <div class="mt-3">
+            <form action="/b_search" method="get" class="form-inline">
+                <input type="text" name="searchWord" class="form-control mr-2" placeholder="검색어를 입력하세요">
+                <select name="searchType" class="form-control mr-2">
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                </select>
+                <select name="category" class="form-control mr-2">
+                    <option value="all">전체</option>
+                    <option value="free">자유</option>
+                    <option value="qna">질문</option>
+                </select>
+                <button type="submit" class="btn btn-primary">검색</button>
+            </form>
+        </div>
+
+
+    </div>
     <h1 class="mb-4">질문 게시판</h1>
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
@@ -50,5 +82,4 @@
 </body>
 
 
-
-<jsp:include page="/WEB-INF/include/sub/i_footer.jsp" flush="false" ></jsp:include>
+<jsp:include page="/WEB-INF/include/sub/i_footer.jsp" flush="false"></jsp:include>
