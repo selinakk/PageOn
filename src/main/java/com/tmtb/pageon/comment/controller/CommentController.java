@@ -19,8 +19,8 @@ public class CommentController {
     @PostMapping
     public void insertOK(@RequestBody CommentVO vo) {
         if (vo.getCnum() != 0) { // 대댓글인 경우
-            service.insertOKChid(vo); // 대댓글 추가 메서드
-            log.info("insertOKChid()... Parent comment ID: " + vo.getCnum());
+            service.insertOKChild(vo); // 대댓글 추가 메서드
+            log.info("insertOKChild()... Parent comment ID: " + vo.getCnum());
         } else { // 댓글인 경우
             service.insertOK(vo); // 일반 댓글 추가 메서드
             log.info("insertOK()...");

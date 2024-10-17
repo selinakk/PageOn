@@ -20,8 +20,8 @@ public class CommentService {
         mapper.insertOK(vo);
     }
 
-    public void insertOKChid(CommentVO vo) {
-        log.info("insertOKChid()...");
+    public void insertOKChild(CommentVO vo) {
+        log.info("insertOKChild()...");
         mapper.insertOK(vo); // 대댓글은 댓글과 같은 매퍼 메서드를 사용
     }
 
