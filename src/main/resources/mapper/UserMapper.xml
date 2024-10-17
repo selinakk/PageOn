@@ -13,4 +13,11 @@
     </select>
 
 
+    <select id="findById" parameterType="String">
+        SELECT id,pw,name,tel,imgname,reg_date,like_categories,introduce,imgPath
+        FROM pageon.member
+        WHERE id = #{id}
+    </select>
+
+
 </mapper>

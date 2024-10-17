@@ -17,13 +17,16 @@ public class UserService {
 
     @Autowired
     UserMapper mapper;
+    @Autowired
+    private UserMapper userMapper;
 
 
     public void insertUser(UserVO userVO) {
         // 이미지 저장 경로 및 파일명 설정
         MultipartFile imgFile = userVO.getImgFile();  // userVO에서 MultipartFile을 가져옴
-        String imgPath = "C:\\Project2\\src\\main\\webapp\\USER-Image\\";       // 실제 저장 경로 설정
+        String imgPath = "C:\\Project2\\src\\main\\resources\\static\\profile\\";       // 실제 저장 경로 설정
         String imgName = imgFile.getOriginalFilename(); // 원본 파일명 가져오기
+
 
         try {
             // 이미지 파일 저장
@@ -46,6 +49,10 @@ public class UserService {
     public boolean selectUser(String id) {
         int count = mapper.selectfindUser(id);
         return count > 0; // 중복 아이디가 존재하면 true
+    }
+
+    public UserVO findById(String id){
+        return userMapper.findById(id);
     }
 
 
