@@ -33,4 +33,8 @@ public class ForumService {
     public boolean insertForumOK(ForumVO vo){
         return mapper.insertForumOK(vo);
     }
+
+    public boolean updateForumOK(ForumVO vo) {return mapper.updateForumOK(vo);}
+
+    public boolean deleteForumOK(ForumVO vo) {return mapper.deleteForumOK(vo);}
 }

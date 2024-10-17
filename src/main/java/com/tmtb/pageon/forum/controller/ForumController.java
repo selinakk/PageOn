@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,7 +53,9 @@ public class ForumController {
         List<ForumVO> list = service.searchForum(searchKey, searchWord, page, size);
         int totalSearchList = service.searchForumCount(searchKey, searchWord);
         int totalSearchPages = (int) Math.ceil((double) totalSearchList / size);
-
+        if (totalSearchPages < 1) {
+            totalSearchPages = 0;
+        }
         model.addAttribute("list", list);
         model.addAttribute("searchKey", searchKey);
         model.addAttribute("searchWord", searchWord);
@@ -85,18 +86,41 @@ public class ForumController {
 
     }
     @GetMapping("/forum/update")
-    public String updateForum() {
-
+    public String updateForum(ForumVO vo, Model model) {
         log.info("/forum/update - 토론 수정하기");
+
+        ForumVO vo2 = service.selectOne(vo);
+        log.info("vo2:{}", vo2);
+
+        model.addAttribute("vo2", vo2);
         return "forum/update";
     }
-    @PostMapping("/forum/insertOK.do")
+    @PostMapping("/forum/insertOK")
     public String insertForumOK(ForumVO vo) {
         boolean result = service.insertForumOK(vo);
         if (result) {
             return "redirect:/forum/list";
         } else {
             return "forum/write";
+        }
+    }
+    @PostMapping("/forum/updateOK")
+    public String updateForumOK(ForumVO vo) {
+        boolean result = service.updateForumOK(vo);
+        if (result) {
+            return "redirect:/forum/view?num=" + vo.getNum();
+        } else {
+            return "redirect:/forum/update?num=" + vo.getNum();
+        }
+    }
+    @GetMapping("/forum/deleteOK")
+    public String deleteForumOK(ForumVO vo) {
+        boolean result = service.deleteForumOK(vo);
+        if (result) {
+
+            return "redirect:/forum/list";
+        } else {
+            return "redirect:/forum/view?num=" + vo.getNum();
         }
     }
 //    DML 끝

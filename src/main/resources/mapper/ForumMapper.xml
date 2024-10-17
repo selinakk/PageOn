@@ -65,12 +65,14 @@
     </select>
 <!--    상세 보기 끝-->
 <!--    DML -->
-    <select id="insertForum" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        select f.*, w.title AS work_title, w.img_name FROM forum f
-            JOIN work w ON f.work_num = w.num where f.num=#{num}
-    </select>
     <insert id="insertForumOK">
         insert into forum(work_num,title,content,user_id) values(#{work_num},#{title},#{content},#{user_id})
     </insert>
+    <update id="updateForumOK">
+        update forum set title=#{title},content=#{content} where num=#{num}
+    </update>
+    <delete id="deleteForumOK">
+        delete from forum where num=#{num}
+    </delete>
 <!--    DML-->
 </mapper>

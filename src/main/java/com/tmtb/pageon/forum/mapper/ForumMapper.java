@@ -21,4 +21,8 @@ public interface ForumMapper {
                          @Param("searchWord") String searchWord);
     public ForumVO selectOne(ForumVO vo);
     public boolean insertForumOK(ForumVO vo);
+
+    public boolean updateForumOK(ForumVO vo);
+
+    public boolean deleteForumOK(ForumVO vo);
 }

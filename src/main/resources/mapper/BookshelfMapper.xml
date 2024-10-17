@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmtb.pageon.bookshelf.mapper.BookshelfMapper">
+<!--    목록 보기-->
+    <select id="getList" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
+        SELECT b.*, w.title AS work_title, w.img_name, mb.name
+        FROM bookshelf b
+        JOIN work w ON b.work_num = w.num
+        JOIN member mb ON b.user_id = mb.id
+        ORDER BY ${sortField} ${sortDir}
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="getListCount" resultType="int">
+        SELECT count(*) FROM bookshelf
+    </select>
+<!--    목록 보기 끝-->
+<!--    목록 검색-->
+
+
+    <!-- 목록 검색 끝-->
+<!--    상세 보기 -->
+
+<!--    상세 보기 끝-->
+<!--    DML -->
+    <update id="updateSortOK">
+        update bookshelf set sort=#{sort} where num=#{num}
+    </update>
+<!--    DML-->
+</mapper>

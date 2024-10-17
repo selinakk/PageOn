@@ -4,7 +4,8 @@
 /* Global */
 i.svg-icon{width:0.9rem;}
 input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{color:var(--light-gray-color) !important;}
-/* Global 끝 */
+.modal-md .modal-dialog{max-width: 500px;}
+    /* Global 끝 */
 
 /* 토론 */
 .search-list--custom{
@@ -50,5 +51,8 @@ a.text-danger .svg-icon {
     fill: rgba(var(--bs-danger-rgb),var(--bs-text-opacity))!important;
 }
 /* 토론 끝 */
+/*서재 시작*/
+.work-cover--sm {max-width: 6rem;}
+/*서재 끝*/
 
 /***** //custom sub style 끝 *****/
