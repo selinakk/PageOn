@@ -43,6 +43,7 @@ public class BoardController {
             boardList = boardService.getFreeBoardList(page, pageSize);
         }
 
+        model.addAttribute("category", "free");
         model.addAttribute("boardList", boardList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -65,7 +66,7 @@ public class BoardController {
             boardList = boardService.getQnaBoardList(page, pageSize);
         }
 
-
+        model.addAttribute("category", "qna");
         model.addAttribute("boardList", boardList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
