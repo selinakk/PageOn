@@ -219,10 +219,7 @@
                                 <a href="#" class="dropdown-item fw-light">공지사항</a>
                             </li>
                             <li>
-                                <a href="/freeboard" class="dropdown-item fw-light">자유게시판</a>
-                            </li>
-                            <li>
-                                <a href="/qnaboard" class="dropdown-item fw-light">질문게시판</a>
+                                <a href="#" class="dropdown-item fw-light">자유게시판</a>
                             </li>
                             <li>
                                 <a href="#" class="dropdown-item fw-light">토론</a>
