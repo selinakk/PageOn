@@ -222,7 +222,7 @@
                                 <a href="#" class="dropdown-item fw-light">자유게시판</a>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item fw-light">토론</a>
+                                <a href="/forum/list" class="dropdown-item fw-light">토론</a>
                             </li>
                         </ul>
                     </li>

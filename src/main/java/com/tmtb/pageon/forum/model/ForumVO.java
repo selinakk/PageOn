@@ -13,5 +13,9 @@ public class ForumVO {
     private String user_id;
     private Date wdate;
     private boolean report;
-    private int like;
+    private int hitcount;
+    private int comment_count;
+    //work 테이블 참조
+    private String work_title;
+    private String img_name;
 }

@@ -212,20 +212,20 @@
                                 </li>
                             </ul>
                         </li><li class="nav-item dropdown">
-                            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                               aria-expanded="false">커뮤니티</a>
-                            <ul class="dropdown-menu animate slide border">
-                                <li>
-                                    <a href="#" class="dropdown-item fw-light">공지사항</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item fw-light">자유게시판</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item fw-light">토론</a>
-                                </li>
-                            </ul>
-                        </li>
+                        <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                           aria-expanded="false">커뮤니티</a>
+                        <ul class="dropdown-menu animate slide border">
+                            <li>
+                                <a href="#" class="dropdown-item fw-light">공지사항</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item fw-light">자유게시판</a>
+                            </li>
+                            <li>
+                                <a href="/forum/list" class="dropdown-item fw-light">토론</a>
+                            </li>
+                        </ul>
+                    </li>
                         <li class="nav-item">
                             <a class="nav-link me-4" href="#">리뷰</a>
                         </li>
