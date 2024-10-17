@@ -1,21 +1,4 @@
-.board-box {
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    max-width: 150px;
-    margin-right: 5px;
-}
-
-.board-box.active {
-    background-color: #007bff;
+.table tbody tr:hover {
+    background-color: #6c757d;
     color: white;
-}
-
-.board-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
 }

@@ -5,11 +5,14 @@ import com.tmtb.pageon.board.model.BoardVO;
 import jakarta.servlet.ServletContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -28,6 +31,7 @@ public class BoardController {
     @Autowired
     ServletContext context;
 
+    //자유게시판 목록
     @GetMapping("/freeboard")
     public String freeboard(@RequestParam(defaultValue = "1") int page, Model model, String sort) {
         log.info("자유게시판 페이지");
@@ -51,6 +55,7 @@ public class BoardController {
         return "board/freeboard";
     }
 
+    //질문 게시판 목록
     @GetMapping("/qnaboard")
     public String qnaboard(@RequestParam(defaultValue = "1") int page, Model model, String sort) {
         log.info("QnA게시판 페이지");
@@ -74,7 +79,7 @@ public class BoardController {
         return "board/qnaboard";
     }
 
-
+    //게시판 글 작성 페이지
     @GetMapping("/b_insert")
     public String b_insert(Model model) {
         log.info("게시글 작성 페이지");
@@ -82,6 +87,7 @@ public class BoardController {
         return "board/insert";
     }
 
+    //게시판 글 작성 완료
     @PostMapping("/b_insertOK")
     public String b_insertOK(BoardVO vo) throws IOException {
         log.info("게시글 작성 완료");
@@ -127,6 +133,7 @@ public class BoardController {
         }
     }
 
+    //게시글 상세 보기
     @GetMapping("/b_selectOne")
     public String b_selectOne(BoardVO vo, Model model) {
         log.info("게시글 상세보기 페이지");
@@ -141,12 +148,15 @@ public class BoardController {
         return "board/selectOne";
     }
 
+
+    //게시글 삭제 페이지
     @GetMapping("/b_delete")
     public String b_delete() {
         log.info("삭제페이지입니다.");
         return "board/delete";
     }
 
+    //게시글 삭제 완료
     @PostMapping("/b_deleteOK")
     public String b_deleteOK(BoardVO vo) {
         log.info("삭제완료 페이지");
@@ -164,6 +174,7 @@ public class BoardController {
         }
     }
 
+    //게시글 수정 페이지
     @GetMapping("/b_update")
     public String b_update(BoardVO vo, Model model) {
         log.info("수정페이지입니다.");
@@ -172,6 +183,7 @@ public class BoardController {
         return "board/update";
     }
 
+    //게시글 수정 완료
     @PostMapping("/b_updateOK")
     public String b_updateOK(BoardVO vo) throws IOException {
         log.info("수정완료 페이지");
@@ -220,6 +232,7 @@ public class BoardController {
         }
     }
 
+    //게시글 검색
     @GetMapping("/b_search")
     public String searchBoard(@RequestParam(required = true) String searchWord,
                               @RequestParam String searchType,
@@ -256,6 +269,7 @@ public class BoardController {
             return "board/freeboard";
         }
     }
+
 
 
 }

@@ -42,4 +42,6 @@ public interface BoardMapper {
 
     int getTotalCountByTitle(@Param("searchWord") String searchWord, @Param("category") String category);
     int getTotalCountByContent(@Param("searchWord") String searchWord, @Param("category") String category);
+
+    void updateReportStatus(int num);
 }

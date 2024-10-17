@@ -72,6 +72,11 @@ public class BoardService {
         return boardMapper.getTotalCountByContent(searchWord, category);
     }
 
+    public void reportPost(int num) {
+        boardMapper.updateReportStatus(num);
+    }
+
+
 //    public List<BoardVO> getBoardList(int page, int pageSize) {
 //        int offset = (page - 1) * pageSize;
 //        return boardMapper.getBoardList(offset, pageSize);

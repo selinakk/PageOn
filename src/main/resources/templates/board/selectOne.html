@@ -1,40 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 상세 페이지</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>자유게시판</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/sub.css">
+    <link rel="stylesheet" href="/css/board.css">
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="mb-4">게시글 상세 페이지</h1>
-    <div class="card p-4">
-        <table class="table table-bordered">
-            <thead class="thead-light">
-            <tr>
-                <th>글번호</th>
-                <th>글제목</th>
-                <th>글내용</th>
-                <th>작성자</th>
-                <th>작성일자</th>
-                <th>사진</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td th:text="${vo2.num}"></td>
-                <td th:text="${vo2.title}"></td>
-                <td th:text="${vo2.content}"></td>
-                <td th:text="${vo2.user_id}"></td>
-                <td th:text="${vo2.wdate}"></td>
-                <td><img th:src="@{/resources/upload_img/{vo2.img_name}(vo2.img_name=${vo2.img_name})}" class="img-thumbnail"></td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-between">
-            <a th:href="@{/b_update(num=${vo2.num})}" class="btn btn-primary">게시글수정</a>
-            <a th:href="@{/b_delete(num=${vo2.num}, category=${vo2.category})}" class="btn btn-danger">게시글삭제</a>
+<div th:fragment="content">
+    <div class="container mt-5">
+        <h1 class="mb-4">게시글 상세 페이지</h1>
+        <div class="card p-4">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th>글번호</th>
+                    <th>글제목</th>
+                    <th>글내용</th>
+                    <th>작성자</th>
+                    <th>작성일자</th>
+                    <th>사진</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${vo2.num}"></td>
+                    <td th:text="${vo2.title}"></td>
+                    <td th:text="${vo2.content}"></td>
+                    <td th:text="${vo2.user_id}"></td>
+                    <td th:text="${vo2.wdate}"></td>
+                    <td><img th:src="@{/resources/upload_img/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <a th:href="@{/b_update(num=${vo2.num})}" class="btn btn-primary">게시글수정</a>
+                <a th:href="@{/b_delete(num=${vo2.num}, category=${vo2.category})}" class="btn btn-danger">게시글삭제</a>
+            </div>
         </div>
     </div>
 </div>

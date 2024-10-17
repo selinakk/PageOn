@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>delete.html</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<div>
+    <h1>delete.html</h1>
+
+    <div>
+        <form action="b_deleteOK" method="post">
+            <input type="hidden" name="num" th:value="${param.num}">
+            <table id="insertTable">
+                <tr>
+                    <th>[[${param.num}]]번글을 정말 삭제하시겠습니까?<input type="submit"
+                                                               value="삭제완료"></th>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+</div>
+
+</body>
+</html>
