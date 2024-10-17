@@ -173,7 +173,7 @@
 <header id="header" class="site-header border-bottom">
     <nav id="header-nav" class="navbar navbar-expand-lg py-3">
         <div class="container">
-            <a class="navbar-brandd fs-2" href="/">PageOn</a>
+            <a class="navbar-brand fs-2" href="/">PageOn</a>
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <svg class="navbar-icon">
