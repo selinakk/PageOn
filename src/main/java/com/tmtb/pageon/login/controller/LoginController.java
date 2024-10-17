@@ -27,6 +27,7 @@ public class LoginController {
         if(login != null){
             httpSession.setAttribute("id",login);
             log.info("로그인 기능성공");
+            log.info("로그인 성공, 세션에 id 저장: " + login);
             return "redirect:/";
         }else{
             model.addAttribute("error","로그인 실패하였습니다");

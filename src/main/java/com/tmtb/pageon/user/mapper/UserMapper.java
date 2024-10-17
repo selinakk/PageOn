@@ -10,4 +10,6 @@ public interface UserMapper {
 
     int selectfindUser(String id);
 
+    UserVO findById(String id);
+
 }
