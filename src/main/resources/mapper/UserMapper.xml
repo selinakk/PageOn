@@ -5,4 +5,12 @@
         INSERT INTO pageon.member (id, pw, name, tel, imgname, like_categories, introduce, imgPath)
         VALUES (#{id}, #{pw}, #{name}, #{tel}, #{imgname}, #{like_categories}, #{introduce}, #{imgPath})
     </insert>
+
+    <select id="selectfindUser" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM pageon.member
+        WHERE id = #{id}
+    </select>
+
+
 </mapper>
