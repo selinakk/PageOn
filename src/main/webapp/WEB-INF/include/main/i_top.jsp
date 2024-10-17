@@ -239,11 +239,10 @@
                                     </svg>
                                 </a>
                             </li>
+
+
                             <li class="pe-3">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    <svg class="user">
-                                        <use xlink:href="#user"></use>
-                                    </svg>
                                 </a>
 
                                 <!-- 로그인 / 회원가입 모달 -->
@@ -267,17 +266,18 @@
                                                         </div>
                                                     </nav>
                                                     <div class="tab-content" id="nav-tabContent">
+
                                                         <!-- 로그인 탭 -->
                                                         <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel" aria-labelledby="nav-sign-in-tab">
                                                             <form action="/login" method="post">
                                                                 <div class="form-group py-3">
-                                                                    <label class="mb-2" for="sign-in">Username or email address *</label>
-                                                                    <input type="text" minlength="2" name="username" placeholder="Your Username"
+                                                                    <label class="mb-2" for="id">Username or email address *</label>
+                                                                    <input type="text" minlength="2" name="id" placeholder="Your Username"
                                                                            class="form-control w-100 rounded-3 p-3" required>
                                                                 </div>
                                                                 <div class="form-group pb-3">
-                                                                    <label class="mb-2" for="sign-in">Password *</label>
-                                                                    <input type="password" minlength="2" name="password" placeholder="Your Password"
+                                                                    <label class="mb-2" for="pw">Password *</label>
+                                                                    <input type="password" minlength="2" name="pw" placeholder="Your Password"
                                                                            class="form-control w-100 rounded-3 p-3" required>
                                                                 </div>
                                                                 <label class="py-3">
@@ -288,27 +288,42 @@
                                                                 <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Login</button>
                                                             </form>
                                                         </div>
-                                                        <!-- 회원가입 탭 -->
                                                         <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
-                                                            <form action="/insertUserForm" method="post" enctype="multipart/form-data">
+                                                            <form id="registerForm" action="${pageContext.request.contextPath}/insertUserForm" method="post" enctype="multipart/form-data">
+                                                                <!-- 오류 메시지 출력 -->
+                                                                <c:if test="${not empty errorMessage}">
+                                                                    <div style="color:red;">${errorMessage}</div>
+                                                                </c:if>
+
+                                                                <!-- 아이디 입력 -->
                                                                 <div class="form-group py-3">
                                                                     <label class="mb-2" for="register">Your email address *</label>
-                                                                    <input type="text" minlength="2" name="id" placeholder="Your Email Address"
+                                                                    <input type="text" id="idInput" minlength="2" name="id" placeholder="Your Email Address"
                                                                            class="form-control w-100 rounded-3 p-3" required>
+                                                                    <button type="button" id="checkIdButton" class="btn btn-secondary mt-2">아이디 유효성 체크</button>
+                                                                    <div id="checkResult" style="color: red; margin-top: 10px;"></div> <!-- 중복 체크 결과 표시 -->
                                                                 </div>
+
+                                                                <!-- 비밀번호 입력 -->
                                                                 <div class="form-group pb-3">
                                                                     <label class="mb-2" for="password">Password *</label>
                                                                     <input type="password" minlength="2" name="pw" placeholder="Your Password"
                                                                            class="form-control w-100 rounded-3 p-3" required>
                                                                 </div>
+
+                                                                <!-- 이름 입력 -->
                                                                 <div class="form-group pb-3">
                                                                     <label class="mb-2" for="name">이름 *</label>
                                                                     <input type="text" name="name" placeholder="이름" class="form-control w-100 rounded-3 p-3" required>
                                                                 </div>
+
+                                                                <!-- 전화번호 입력 -->
                                                                 <div class="form-group pb-3">
                                                                     <label class="mb-2" for="tel">전화번호 *</label>
                                                                     <input type="tel" name="tel" placeholder="전화번호" class="form-control w-100 rounded-3 p-3" required>
                                                                 </div>
+
+                                                                <!-- 관심 카테고리 선택 -->
                                                                 <div class="form-group pb-3">
                                                                     <label class="mb-2" for="like_categories">관심 카테고리 *</label>
                                                                     <div class="input-group">
@@ -316,19 +331,27 @@
                                                                         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal">선택</button>
                                                                     </div>
                                                                 </div>
+
+                                                                <!-- 자기소개 -->
                                                                 <div class="form-group pb-3">
                                                                     <label class="mb-2" for="introduce">자기소개</label>
                                                                     <textarea name="introduce" placeholder="자기소개" class="form-control w-100 rounded-3 p-3"></textarea>
                                                                 </div>
+
+                                                                <!-- 프로필 이미지 업로드 -->
                                                                 <div class="form-group pb-3">
                                                                     <label class="mb-2" for="imgFile">프로필 이미지 업로드</label>
                                                                     <input type="file" name="imgFile" class="form-control w-100 rounded-3 p-3">
                                                                 </div>
+
+                                                                <!-- 개인정보 정책 동의 -->
                                                                 <label class="py-3">
                                                                     <input type="checkbox" required="" class="d-inline">
                                                                     <span class="label-body">I agree to the <a href="#" class="fw-bold">Privacy Policy</a></span>
                                                                 </label>
-                                                                <button type="submit" class="btn btn-dark w-100 my-3">Register</button>
+
+                                                                <!-- 등록 버튼 -->
+                                                                <button type="submit" id="registerButton" class="btn btn-dark w-100 my-3" disabled>Register</button>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -338,7 +361,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 카테고리 모달 -->
                                 <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -402,37 +424,110 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- JavaScript 코드 -->
-                                <script>
-                                    document.getElementById('confirm-categories').addEventListener('click', function() {
-                                        const selectedCategories = [];
-                                        const checkboxes = document.querySelectorAll('#category-checkboxes input[type="checkbox"]:checked');
-
-                                        checkboxes.forEach(checkbox => {
-                                            selectedCategories.push(checkbox.value);
-                                        });
-
-                                        // 선택한 카테고리들을 콤마로 구분하여 입력 필드에 설정
-                                        document.getElementById('selected-category').value = selectedCategories.join(', ');
-
-                                        // 모달 닫기
-                                        const categoryModal = bootstrap.Modal.getInstance(document.getElementById('categoryModal'));
-                                        categoryModal.hide();
-
-                                        // 로그인 탭으로 돌아가기
-                                        const signInTab = new bootstrap.Tab(document.getElementById('nav-register-tab'));
-                                        signInTab.show();
-
-                                        // 로그인 모달로 돌아가기
-                                        const exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                                        exampleModal.show();
-                                    });
-                                </script>
-
-
-
                             </li>
+
+                            <li class="pe-3">
+                                <a href="${pageContext.request.contextPath}/logout" class="text-decoration-none">
+                                    <!-- SVG 아이콘 사용 -->
+                                    <svg class="icon" aria-hidden="true">
+                                        <use xlink:href="#icon-logout"></use>
+                                    </svg>
+                                    로그아웃
+                                </a>
+                            </li>
+
+                            <script>
+                                let isIdValid = true;
+
+                                document.getElementById('checkIdButton').addEventListener('click', function() {
+                                    const id = document.getElementById('idInput').value;
+                                    if (id.length >= 2) {  // 아이디가 최소 2자일 때만 요청
+                                        const xhr = new XMLHttpRequest();  // XMLHttpRequest 객체 생성
+                                        xhr.open('POST', '/selectUser', true);  // 비동기 방식으로 POST 요청 설정
+                                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                                        // 요청 상태가 변경되었을 때 호출되는 함수
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                                if (xhr.status === 200) {  // 요청이 성공했을 때
+                                                    const resultMessage = xhr.responseText;  // 서버 응답
+                                                    document.getElementById('checkResult').innerText = resultMessage;  // 서버 응답 출력
+
+                                                    // 아이디 중복 시 폼 제출 방지
+                                                    if (resultMessage.includes("해당 아이디가 존재합니다")) {
+                                                        isIdValid = false;  // 아이디가 유효하지 않음
+                                                        document.getElementById('registerButton').disabled = true; // 등록 버튼 비활성화
+                                                    } else {
+                                                        isIdValid = true;  // 아이디가 유효함
+                                                        document.getElementById('registerButton').disabled = false; // 등록 버튼 활성화
+                                                    }
+                                                } else {
+                                                    console.error('Error:', xhr.statusText);  // 에러 처리
+                                                }
+                                            }
+                                        };
+
+                                        // 서버로 데이터 전송
+                                        xhr.send('id=' + encodeURIComponent(id));
+                                    } else {
+                                        document.getElementById('checkResult').innerText = '아이디는 최소 2자 이상이어야 합니다.';  // 유효성 검사 실패
+                                        document.getElementById('registerButton').disabled = true; // 등록 버튼 비활성화
+                                    }
+                                });
+
+                                // 폼 제출 이벤트 리스너 추가
+                                document.getElementById('registerForm').addEventListener('submit', function(event) {
+                                    if (!isIdValid) {
+                                        event.preventDefault();  // 폼 제출 방지
+                                        alert("아이디가 중복되었습니다. 다른 아이디를 사용해주세요.");  // 경고 메시지
+                                    }
+                                });
+                            </script>
+
+                            <!-- JavaScript 코드 -->
+                            <script>
+                                document.getElementById('confirm-categories').addEventListener('click', function() {
+                                    const selectedCategories = [];
+                                    const checkboxes = document.querySelectorAll('#category-checkboxes input[type="checkbox"]:checked');
+
+                                    checkboxes.forEach(checkbox => {
+                                        selectedCategories.push(checkbox.value);
+                                    });
+
+                                    // 선택한 카테고리들을 콤마로 구분하여 입력 필드에 설정
+                                    document.getElementById('selected-category').value = selectedCategories.join(', ');
+
+                                    // 모달 닫기
+                                    const categoryModal = bootstrap.Modal.getInstance(document.getElementById('categoryModal'));
+                                    categoryModal.hide();
+
+                                    // 로그인 탭으로 돌아가기
+                                    const signInTab = new bootstrap.Tab(document.getElementById('nav-register-tab'));
+                                    signInTab.show();
+
+                                    // 로그인 모달로 돌아가기
+                                    const exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                                    exampleModal.show();
+                                });
+                            </script>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    // 세션에서 id 값을 가져옵니다. (예: 세션에서 정보를 얻는 방법은 backend 언어에 따라 다를 수 있습니다.)
+                                    const id = "${sessionScope.id}"; // 서버에서 세션 값을 가져오는 예 (JSP)
+
+                                    const loginLink = document.querySelector('a[data-bs-toggle="modal"]');
+
+                                    // 세션에 id가 존재하면 마이페이지로 이동
+                                    if (id) {
+                                        loginLink.setAttribute('href', '/my page'); // 마이페이지 링크
+                                        loginLink.innerHTML = '마이페이지'; // 링크 텍스트 변경
+                                    } else {
+                                        loginLink.setAttribute('href', '#'); // 모달 열기
+                                        loginLink.innerHTML = '로그인 / 회원가입'; // 링크 텍스트 변경
+                                    }
+                                });
+                            </script>
                         </ul>
                     </div>
                 </div>

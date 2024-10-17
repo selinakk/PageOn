@@ -8,5 +8,6 @@ public interface UserMapper {
 
     public void insertUser(UserVO userVO);
 
+    int selectfindUser(String id);
 
 }

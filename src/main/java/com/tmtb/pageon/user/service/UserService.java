@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -20,7 +19,7 @@ public class UserService {
     UserMapper mapper;
 
 
-    public void insertMember(UserVO userVO) {
+    public void insertUser(UserVO userVO) {
         // 이미지 저장 경로 및 파일명 설정
         MultipartFile imgFile = userVO.getImgFile();  // userVO에서 MultipartFile을 가져옴
         String imgPath = "C:\\Project2\\src\\main\\webapp\\USER-Image\\";       // 실제 저장 경로 설정
@@ -43,4 +42,12 @@ public class UserService {
             // 예외 처리 로직 추가 가능
         }
     }
+
+    public boolean selectUser(String id) {
+        int count = mapper.selectfindUser(id);
+        return count > 0; // 중복 아이디가 존재하면 true
+    }
+
+
+
 }
