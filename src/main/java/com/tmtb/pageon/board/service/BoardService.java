@@ -58,6 +58,10 @@ public class BoardService {
         return boardMapper.updateOK(vo);
     }
 
+    public int updateReport(BoardVO vo) {
+        return boardMapper.updateReport(vo);
+    }
+
     //검색 관련
     public List<BoardVO> searchBoardByTitle(String searchWord, String category, int offset, int pageSize) {
         return boardMapper.searchBoardByTitle(searchWord, category, offset, pageSize);
@@ -72,15 +76,7 @@ public class BoardService {
         return boardMapper.getTotalCountByContent(searchWord, category);
     }
 
-    public void reportPost(int num) {
-        boardMapper.updateReportStatus(num);
-    }
 
-
-//    public List<BoardVO> getBoardList(int page, int pageSize) {
-//        int offset = (page - 1) * pageSize;
-//        return boardMapper.getBoardList(offset, pageSize);
-//    }
 
 
 

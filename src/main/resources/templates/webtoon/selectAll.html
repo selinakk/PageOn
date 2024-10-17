@@ -38,13 +38,7 @@
             <div class="col-md-3 col-sm-6 mb-4 content-item" th:each="webtoon : ${webtoonList}">
                 <div class="card">
 
-
-                    <!--  <img th:src="@{/img/{webtoon.img_name}(webtoon= *{webtoon})}" class="card-img-top" alt="Content Image">-->
-
-                    <!-- 임시로 업로드 이미지 경로로 잡아둠-->
-                    <img th:src="@{/resources/upload_img/{img_name}(img_name=${webtoon.img_name})}"
-                         class="img-thumbnail">
-
+                    <img th:src="@{/img/{img_name}(img_name=${webtoon.img_name})}" class="img-thumbnail">
 
                     <div class="card-body">
                         <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>

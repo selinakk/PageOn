@@ -79,6 +79,12 @@
         WHERE num = #{num};
     </update>
 
+    <update id="updateReport">
+        UPDATE board
+        SET report = 1
+        WHERE num = #{num};
+    </update>
+
     <select id="getTotalCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM board
@@ -112,6 +118,8 @@
         FROM board
         WHERE (category = #{category} OR #{category} = 'all') AND content LIKE CONCAT('%', #{searchWord}, '%')
     </select>
+
+
 
 
 

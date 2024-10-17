@@ -24,6 +24,7 @@ public interface BoardMapper {
 
     public int updateBoardHitCount(BoardVO vo);
 
+    public int updateReport(BoardVO vo);
 
     //조회수 관련
     List<BoardVO> getFreeBoardListByHitCount(@Param("offset") int offset, @Param("pageSize") int pageSize);
@@ -43,5 +44,5 @@ public interface BoardMapper {
     int getTotalCountByTitle(@Param("searchWord") String searchWord, @Param("category") String category);
     int getTotalCountByContent(@Param("searchWord") String searchWord, @Param("category") String category);
 
-    void updateReportStatus(int num);
+
 }

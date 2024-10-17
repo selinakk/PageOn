@@ -232,6 +232,18 @@ public class BoardController {
         }
     }
 
+
+
+    //게시판 신고 기능
+    @PostMapping("/b_reportOK")
+    @ResponseBody
+    public ResponseEntity<String> b_reportOK(BoardVO vo) {
+        log.info("신고완료 ");
+        boardService.updateReport(vo);
+        return new ResponseEntity<>("신고되었습니다", HttpStatus.OK); // "신고되었습니다" 메시지와 함께 HTTP 200 상태 코드를 반환
+    }
+
+
     //게시글 검색
     @GetMapping("/b_search")
     public String searchBoard(@RequestParam(required = true) String searchWord,
