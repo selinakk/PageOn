@@ -15,6 +15,9 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     margin-right: -1px;
     background-position: right 0.25em center;
 }
+.search-list--custom .form-control{
+    font-size: 1rem;
+}
 .card.fs-6 .img-fluid{
     height: 14rem;
     object-fit: cover;
