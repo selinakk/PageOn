@@ -51,4 +51,117 @@ a.text-danger .svg-icon {
 }
 /* 토론 끝 */
 
+/* 댓글 */
+#comment {
+    max-width: 1200px; /* 최대 폭을 설정합니다 */
+    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
+    padding: 20px; /* 내부 여백을 추가합니다 */
+    border: 1px solid #ccc; /* 테두리를 추가합니다 (선택 사항) */
+    border-radius: 8px; /* 모서리를 둥글게 설정합니다 (선택 사항) */
+    background-color: #f9f9f9; /* 배경색을 추가합니다 (선택 사항) */
+}
+
+.comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.childComment {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin-left: 40px; /* 들여쓰기 추가 */
+    background-color: #f9f9f9; /* 배경색을 약간 변경해서 시각적 구분 */
+}
+
+.replyForm {
+    margin-top: 10px;
+    padding: 10px; /* 내부 여백 추가 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+    border-radius: 5px; /* 모서리를 둥글게 설정 */
+    background-color: #f1f1f1; /* 배경색 설정 */
+    max-width: 100%; /* 부모 요소의 폭에 맞춤 */
+    width: 100%; /* 전체 폭을 사용 */
+}
+
+.editForm {
+    margin-top: 10px;
+    display: none; /* 기본적으로 숨김 */
+    padding: 10px; /* 내부 여백 추가 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+    border-radius: 5px; /* 모서리를 둥글게 설정 */
+    background-color: #f1f1f1; /* 배경색 설정 */
+    max-width: 800px; /* 최대 폭을 댓글 작성과 동일하게 설정 */
+    width: 100%; /* 전체 폭을 사용 */
+}
+
+/* 댓글 텍스트 영역 스타일 */
+#commentText {
+    width: calc(100% - 100px); /* 버튼 폭을 제외한 폭 설정 */
+    margin-top: 10px; /* 텍스트 영역 간격 설정 */
+    padding: 8px; /* 텍스트 영역 내부 여백 */
+    border: 1px solid #ccc; /* 텍스트 영역 경계선 */
+    border-radius: 4px; /* 텍스트 영역 둥근 모서리 */
+    resize: none; /* 텍스트 영역 크기 조절 비활성화 */
+}
+
+/* 댓글 작성 버튼 스타일 */
+#submitCommentButton {
+    margin-top: 10px; /* 버튼과 텍스트 간격 설정 */
+    padding: 10px 15px; /* 버튼 내부 여백 */
+    border: none; /* 버튼 경계선 제거 */
+    border-radius: 5px; /* 버튼 둥근 모서리 */
+    background-color: #007bff; /* 버튼 배경색 */
+    color: white; /* 버튼 글자색 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+    display: block; /* 버튼을 블록 요소로 변경하여 전체 폭 사용 */
+    width: 100%; /* 버튼 폭을 100%로 설정 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 폭 계산 */
+}
+
+#submitCommentButton:hover {
+    background-color: #0056b3; /* 버튼 hover 색상 */
+}
+
+/* 대댓글 버튼 스타일 */
+.replyButton, .editButton, .deleteButton, .reportButton {
+    margin-top: 5px; /* 버튼 간격 설정 */
+    padding: 8px 12px; /* 버튼 내부 여백 */
+    border: none; /* 버튼 경계선 제거 */
+    border-radius: 5px; /* 버튼 둥글게 */
+    background-color: #28a745; /* 기본 버튼 색상 */
+    color: white; /* 버튼 글자색 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+}
+
+.replyButton:hover, .editButton:hover, .deleteButton:hover, .reportButton:hover {
+    background-color: #218838; /* hover 색상 */
+}
+
+/* 대댓글 입력 버튼 스타일 */
+.replySubmitButton {
+    margin-top: 5px; /* 버튼과 텍스트 간격 설정 */
+    padding: 8px 12px; /* 버튼 내부 여백 */
+    border: none; /* 버튼 경계선 제거 */
+    border-radius: 5px; /* 버튼 둥글게 */
+    background-color: #007bff; /* 버튼 배경색 */
+    color: white; /* 버튼 글자색 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+}
+
+.replySubmitButton:hover {
+    background-color: #0056b3; /* 버튼 hover 색상 */
+}
+
+.comment-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px; /* 버튼 간격 */
+}
+/* 댓글 끝 */
+
 /***** //custom sub style 끝 *****/
