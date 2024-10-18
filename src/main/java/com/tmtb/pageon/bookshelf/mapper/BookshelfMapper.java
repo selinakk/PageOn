@@ -11,18 +11,21 @@ public interface BookshelfMapper {
     List<BookshelfVO> getList(@Param("offset") int offset,
                               @Param("size") int size,
                               @Param("sortField") String sortField,
-                              @Param("sortDir") String sortDir);
-
-    int getListCnt();
-    void updateSortOK(String sort, int num);
+                              @Param("sortDir") String sortDir,
+                              @Param("userId") String userId);
 
     List<BookshelfVO> getListBySort(@Param("sort") String sort,
                                     @Param("offset") int offset,
                                     @Param("size") int size,
                                     @Param("sortField") String sortField,
-                                    @Param("sortDir") String sortDir);
+                                    @Param("sortDir") String sortDir,
+                                    @Param("userId") String userId);
 
-    int getListBySortCnt(@Param("sort") String sort);
+    int getListCnt(@Param("userId") String userId);
+    int getListBySortCnt(@Param("sort") String sort, @Param("userId") String userId);
+    String getUserName(@Param("userId") String userId);
 
-    boolean deleteBookshelfOK(int num);
+    boolean insertBookshelfOK(@Param("userId") String userId, @Param("sort") String sort, @Param("num") int num);
+    void updateSortOK(@Param("sort") String sort, @Param("num") int num);
+    boolean deleteBookshelfOK(@Param("num") int num);
 }
