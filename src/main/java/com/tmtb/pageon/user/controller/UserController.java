@@ -1,6 +1,8 @@
 package com.tmtb.pageon.user.controller;
 
 
+import com.tmtb.pageon.user.model.BoardVO;
+import com.tmtb.pageon.user.model.ForumVO;
 import com.tmtb.pageon.user.service.UserService;
 import com.tmtb.pageon.user.model.UserVO;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -40,18 +44,23 @@ public class UserController {
 
 
     @GetMapping("/user/profile")
-    public String findById(HttpSession session,Model model){
+    public String findById(HttpSession session, Model model) {
         String id = (String) session.getAttribute("id");
         log.info("세션에서 가져온 id: " + id);
-        if(id != null){
+        if (id != null) {
             UserVO userVO = userService.findById(id);
-            model.addAttribute("userVO",userVO);
-        }else {
+            List<ForumVO> forumList = userService.findByForum(id); // 포럼 데이터 조회
+            List<BoardVO>boardList = userService.findByBoard(id);
+            model.addAttribute("userVO", userVO);
+            model.addAttribute("forumList", forumList); // 포럼 데이터를 모델에 추가
+            model.addAttribute("boardList",boardList);
+        } else {
             return "redirect:/";
         }
-
         return "user/profile";
     }
+
+
 
 
 

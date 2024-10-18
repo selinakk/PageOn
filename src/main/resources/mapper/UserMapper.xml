@@ -18,6 +18,30 @@
         FROM pageon.member
         WHERE id = #{id}
     </select>
+    
+    <select id="findByforum" parameterType="String">
+        SELECT num,content_num,title,content,user_id,wdate,report,likes
+        FROM pageon.forum
+        WHERE user_id = #{id}
+    </select>
+
+    <select id="findBycomment" parameterType="String">
+        SELECT num,type,bnum,rnum,cnum,content,wdate,user_id,report
+        FROM pageon.comment
+        WHERE user_id = #{id}
+    </select>
+
+    <select id="findByboard" parameterType="String">
+        SELECT num,title,content,user_id,wdate,img_name,report,category,hitcount
+        FROM pageon.board
+        WHERE user_id = #{id}
+    </select>
+
+    <select id="findByreview" parameterType="String">
+        SELECT num,content_num,title,content,user_id,wdate,report,likes
+        FROM pageon.forum
+        WHERE user_id = #{id}
+    </select>
 
 
 </mapper>

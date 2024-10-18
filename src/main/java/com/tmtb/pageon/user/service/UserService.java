@@ -1,6 +1,8 @@
 package com.tmtb.pageon.user.service;
 
 
+import com.tmtb.pageon.user.model.BoardVO;
+import com.tmtb.pageon.user.model.ForumVO;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class UserService {
 
+
     @Autowired
-    UserMapper mapper;
-    @Autowired
-    private UserMapper userMapper;
+    private UserMapper mapper;
 
 
     public void insertUser(UserVO userVO) {
@@ -52,9 +54,17 @@ public class UserService {
     }
 
     public UserVO findById(String id){
-        return userMapper.findById(id);
+        return mapper.findById(id);
     }
 
 
+  public List<ForumVO>findByForum(String id){
+        return mapper.findByforum(id);
+    }
+
+
+    public List<BoardVO>findByBoard(String id){
+        return mapper.findByboard(id);
+    }
 
 }
