@@ -4,6 +4,7 @@
 
 <mapper namespace="com.tmtb.pageon.board.mapper.BoardMapper">
 
+<!--    자유게시판 목록-->
     <select id="getFreeBoardList" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
@@ -13,6 +14,7 @@
         OFFSET #{offset}
     </select>
 
+<!--    질문 게시판 목록-->
     <select id="getQnaBoardList" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
@@ -22,6 +24,7 @@
         OFFSET #{offset}
     </select>
 
+<!--    조회수 높은 순으로 자유게시판 목록-->
     <select id="getFreeBoardListByHitCount" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
@@ -30,6 +33,7 @@
             LIMIT #{offset}, #{pageSize}
     </select>
 
+<!--    조회수 높은 순으로 질문게시판 목록-->
     <select id="getQnaBoardListByHitCount" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
@@ -38,6 +42,7 @@
             LIMIT #{offset}, #{pageSize}
     </select>
 
+<!--    확인후 삭제-->
     <select id="selectQnaAll" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
@@ -50,24 +55,28 @@
         VALUES (NULL, #{title}, #{content}, #{user_id}, #{img_name}, #{category}, DEFAULT);
     </insert>
 
+<!--  클릭시  조회수 +1-->
     <update id="updateBoardHitCount">
         UPDATE board
         SET boardhitcount = boardhitcount + 1
         WHERE num = #{num};
     </update>
 
+<!--    상세보기-->
     <select id="selectOne" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
         WHERE num = #{num};
     </select>
 
+<!--    삭제-->
     <delete id="deleteOK">
         DELETE
         FROM board
         WHERE num = #{num};
     </delete>
 
+<!--    수정-->
     <update id="updateOK">
         UPDATE board
         SET title=#{title},
@@ -79,25 +88,26 @@
         WHERE num = #{num};
     </update>
 
+<!--    신고-->
     <update id="updateReport">
         UPDATE board
         SET report = 1
         WHERE num = #{num};
     </update>
 
+<!-- 페이징 관련-->
     <select id="getTotalCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM board
     </select>
 
-    <!--   검색 기능-->
+    <!--   검색 기능 + 페이징-->
     <select id="searchBoardByTitle" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT * FROM board
         WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%')
         ORDER BY num DESC
             LIMIT #{offset}, #{pageSize}
     </select>
-
     <select id="searchBoardByContent" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT *
         FROM board
@@ -106,13 +116,11 @@
         ORDER BY num DESC
             LIMIT #{offset}, #{pageSize}
     </select>
-
     <select id="getTotalCountByTitle" resultType="int">
         SELECT COUNT(*)
         FROM board
         WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%')
     </select>
-
     <select id="getTotalCountByContent" resultType="int">
         SELECT COUNT(*)
         FROM board

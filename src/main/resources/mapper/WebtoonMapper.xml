@@ -1,9 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="com.tmtb.pageon.webtoon.mapper.WebtoonMapper">
+
     <select id="getWebtoonList" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
-        SELECT * FROM work;
+        SELECT *
+        FROM work
+        WHERE type = 'webtoon'
+        ORDER BY num DESC
+            LIMIT #{pageSize} OFFSET #{offset}
     </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM work
+        WHERE type = 'webtoon'
+    </select>
+
+    <select id="selectOne" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE num = #{num}
+          AND type = 'webtoon';
+    </select>
+
+    <select id="searchWebtoonByTitle" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE title LIKE CONCAT('%', #{searchWord}, '%')
+          AND type = 'webtoon'
+        ORDER BY num DESC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="searchWebtoonWriter" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
+          AND type = 'webtoon'
+        ORDER BY num DESC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="getTotalCountByTitle" resultType="int">
+        SELECT COUNT(*)
+        FROM work
+        WHERE title LIKE CONCAT('%', #{searchWord}, '%')
+          AND type = 'webtoon'
+    </select>
+
+    <select id="getTotalCountByContent" resultType="int">
+        SELECT COUNT(*)
+        FROM work
+        WHERE content LIKE CONCAT('%', #{searchWord}, '%')
+          AND type = 'webtoon'
+    </select>
+
 </mapper>

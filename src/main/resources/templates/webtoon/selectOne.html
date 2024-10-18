@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>웹툰 상세</title>
+</head>
+<body>
+<div th:fragment="content">
+
+    <h1>웹툰 상세</h1>
+    <table>
+        <tr>
+            <th>웹툰 번호</th>
+            <td th:text="${vo2.num}"></td>
+        </tr>
+        <tr>
+            <th>웹툰 제목</th>
+            <td th:text="${vo2.title}"></td>
+        </tr>
+        <tr>
+            <th>작가</th>
+            <td th:text="${vo2.writer}"></td>
+        </tr>
+        <tr>
+            <th>설명</th>
+            <td th:text="${vo2.desc}"></td>
+        </tr>
+        <tr>
+            <th>평점</th>
+            <td th:text="${vo2.rank}"></td>
+        </tr>
+        <tr>
+            <th>종류</th>
+            <td th:text="${vo2.type}"></td>
+        </tr>
+        <tr>
+            <th>이미지</th>
+            <td><img th:src="@{/img/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail"></td>
+        </tr>
+    </table>
+
+    <a th:href="@{/wt_selectAll}">목록으로 돌아가기</a>
+
+
+
+
+</div>
+
+
+</body>
+</html>

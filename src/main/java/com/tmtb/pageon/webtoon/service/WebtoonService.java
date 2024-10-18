@@ -14,8 +14,32 @@ public class WebtoonService {
     @Autowired
     private WebtoonMapper webtoonMapper;
 
-    public List<WebtoonVO> getWebtoonList() {
-        return webtoonMapper.getWebtoonList();
+    public List<WebtoonVO> getWebtoonList(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return webtoonMapper.getWebtoonList(offset, pageSize);
     }
+
+    public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize) {
+        return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize);
+    }
+    public List<WebtoonVO> searchWebtoonWriter(String searchWord, int offset, int pageSize) {
+        return webtoonMapper.searchWebtoonWriter(searchWord, offset, pageSize);
+    }
+    public int getTotalCountByTitle(String searchWord) {
+        return webtoonMapper.getTotalCountByTitle(searchWord);
+    }
+    public int getTotalCountByContent(String searchWord) {
+        return webtoonMapper.getTotalCountByContent(searchWord);
+    }
+
+    public int getTotalCount() {
+        return webtoonMapper.getTotalCount();
+    }
+
+    public WebtoonVO selectOne(WebtoonVO vo) {
+        return webtoonMapper.selectOne(vo);
+    }
+
+
 
 }
