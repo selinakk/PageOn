@@ -27,6 +27,10 @@ public interface WebtoonMapper {
 
     WebtoonVO selectOne(WebtoonVO vo);
 
+
+    //필터링 관련
+    List<WebtoonVO> filterByCategories(@Param("categories") List<String> categories);
+
 }
 
 

@@ -9,15 +9,20 @@
     <div class="container mt-5">
         <h1 class="mb-4">웹툰 목록 게시판</h1>
 
-        <div class="hashtags mb-3">
-            <span class="badge bg-secondary me-1">#스릴러</span>
-            <span class="badge bg-secondary me-1">#회귀물</span>
-            <span class="badge bg-secondary me-1">#로맨스</span>
-            <span class="badge bg-secondary me-1">#판타지</span>
-            <span class="badge bg-secondary me-1">#공포</span>
-            <span class="badge bg-secondary me-1">#잔잔한</span>
-            <span class="badge bg-secondary me-1">#힐링</span>
+
+        <!-- 필터링 태그-->
+<!--        style="cursor:pointer;" 이 부분 따로 빼서 수정해야함-->
+        <div class="hashtags mb-3" style="cursor:pointer;">
+            <span class="badge bg-secondary me-1" data-category="스릴러" onclick="filterByCategory(this)">#스릴러</span>
+            <span class="badge bg-secondary me-1" data-category="회귀물" onclick="filterByCategory(this)">#회귀물</span>
+            <span class="badge bg-secondary me-1" data-category="로맨스" onclick="filterByCategory(this)">#로맨스</span>
+            <span class="badge bg-secondary me-1" data-category="판타지" onclick="filterByCategory(this)">#판타지</span>
+            <span class="badge bg-secondary me-1" data-category="공포" onclick="filterByCategory(this)">#공포</span>
+            <span class="badge bg-secondary me-1" data-category="잔잔한" onclick="filterByCategory(this)">#잔잔한</span>
+            <span class="badge bg-secondary me-1" data-category="힐링" onclick="filterByCategory(this)">#힐링</span>
         </div>
+
+
         <!--        검색탭-->
         <div class="mt-3">
             <form action="/wt_search" method="get" class="form-inline">

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmtb.pageon.comment.mapper.CommentMapper">
+
+    <insert id="insertOK" parameterType="com.tmtb.pageon.comment.model.CommentVO">
+        INSERT INTO pageon.comment (type, bnum, fnum, rnum, cnum, content, user_id)
+        VALUES (#{type}, #{bnum}, #{fnum}, #{rnum}, #{cnum}, #{content}, #{user_id})
+    </insert>
+
+    <update id="updateOK" parameterType="com.tmtb.pageon.comment.model.CommentVO">
+        UPDATE pageon.comment
+        SET content = #{content}
+        WHERE num = #{num}
+    </update>
+
+    <delete id="deleteOK" parameterType="int">
+        DELETE FROM pageon.comment WHERE num = #{num}
+    </delete>
+
+    <select id="selectAll" resultType="com.tmtb.pageon.comment.model.CommentVO">
+        SELECT * FROM pageon.comment
+        WHERE
+            (type = 'forum' AND fnum = #{fnum} AND cnum = 0) OR
+            (type = 'review' AND rnum = #{rnum} AND cnum = 0) OR
+            (type = 'board' AND bnum = #{bnum} AND cnum = 0)
+        ORDER BY wdate ASC
+            LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <select id="getTotalRows" resultType="int">
+        SELECT COUNT(*) FROM pageon.comment
+        WHERE
+            (type = 'forum' AND fnum = #{fnum} AND cnum = 0) OR
+            (type = 'review' AND rnum = #{rnum} AND cnum = 0) OR
+            (type = 'board' AND bnum = #{bnum} AND cnum = 0)
+    </select>
+
+    <select id="selectAllChild" resultType="com.tmtb.pageon.comment.model.CommentVO">
+        SELECT * FROM pageon.comment
+        WHERE cnum = #{cnum}
+        ORDER BY wdate ASC
+            LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <select id="getTotalChildRows" resultType="int">
+        SELECT COUNT(*) FROM pageon.comment
+        WHERE cnum = #{cnum}
+    </select>
+
+    <!-- 신고 상태 확인 -->
+    <select id="checkReport" parameterType="int" resultType="int">
+        SELECT report FROM pageon.comment WHERE num = #{num}
+    </select>
+
+    <!-- 신고 상태 업데이트 -->
+    <update id="reportOK" parameterType="int">
+        UPDATE pageon.comment SET report = 1 WHERE num = #{num}
+    </update>
+</mapper>

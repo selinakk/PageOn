@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -93,6 +94,14 @@ public class WebtoonController {
         model.addAttribute("vo2", vo2);
 
         return "webtoon/selectOne";
+    }
+
+    //필터링
+    @GetMapping("/wt_filter")
+    @ResponseBody
+    public List<WebtoonVO> filterByCategories(@RequestParam List<String> categories) {
+        log.info("카테고리 필터링: {}", categories);
+        return webtoonService.filterByCategories(categories);
     }
 
 }

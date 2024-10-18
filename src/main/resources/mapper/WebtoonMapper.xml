@@ -56,4 +56,16 @@
           AND type = 'webtoon'
     </select>
 
+<!--    필터링 관련-->
+    <select id="filterByCategories" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE categories IN
+        <foreach item="category" collection="categories" open="(" separator="," close=")">
+            #{category}
+        </foreach>
+        AND type = 'webtoon'
+        ORDER BY num DESC
+    </select>
+
 </mapper>

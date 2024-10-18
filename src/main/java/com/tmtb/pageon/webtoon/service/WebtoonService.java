@@ -40,6 +40,11 @@ public class WebtoonService {
         return webtoonMapper.selectOne(vo);
     }
 
+    // 필터링 관련
+    public List<WebtoonVO> filterByCategories(List<String> categories) {
+        return webtoonMapper.filterByCategories(categories);
+    }
+
 
 
 }
