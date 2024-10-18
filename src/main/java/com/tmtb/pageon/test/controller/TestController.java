@@ -27,7 +27,7 @@ public class TestController {
         log.info("testPage()... cpage: {}, pageBlock: {}", cpage, pageBlock);
 
         // CommentController의 selectAll() 메서드를 호출하여 댓글 데이터를 가져옵니다.
-        Map<String, Object> commentsData = controller.selectAll(model, "forum", null, 1, null, cpage, pageBlock); // type과 부모글의 num(fnum, rnum, bnum)에 맞게 매개변수 추가하시면됩니다.
+        Map<String, Object> commentsData = controller.selectAll("forum", null, 1, null, cpage, pageBlock); // type과 부모글의 num(fnum, rnum, bnum)에 맞게 매개변수 추가하시면됩니다.
 
         // 댓글 목록 가져오기
         List<CommentVO> comments = (List<CommentVO>) commentsData.get("comments");

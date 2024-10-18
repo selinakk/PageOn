@@ -5,7 +5,6 @@ import com.tmtb.pageon.comment.model.CommentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -46,8 +45,7 @@ public class CommentController {
 
     @GetMapping("/comments") // 비동기 요청을 위한 URL
     @ResponseBody // JSON 형식으로 응답
-    public Map<String, Object> selectAll(Model model,
-                                         @RequestParam String type,
+    public Map<String, Object> selectAll(@RequestParam String type,
                                          @RequestParam(required = false) Integer bnum,
                                          @RequestParam(required = false) Integer fnum,
                                          @RequestParam(required = false) Integer rnum,
