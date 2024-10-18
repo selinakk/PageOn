@@ -162,6 +162,71 @@ a.text-danger .svg-icon {
     justify-content: flex-end;
     gap: 10px; /* 버튼 간격 */
 }
+
+#paging {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin: 20px 0; /* 상하 여백 */
+}
+
+#paging ul {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    margin: 0; /* 기본 마진 제거 */
+    display: flex; /* 가로 방향으로 나열 */
+}
+
+#paging li {
+    margin: 0 5px; /* 각 페이지 간의 간격 */
+}
+
+#paging a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: #007bff; /* 링크 색상 */
+    font-size: 16px; /* 글자 크기 */
+}
+
+#paging a:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+
+#paging .active {
+    font-weight: bold; /* 현재 페이지 강조 */
+    color: #333; /* 강조 색상 */
+}
+
+.page-link {
+    cursor: pointer; /* 포인터 커서로 변경 */
+    color: #007bff; /* 링크 색상 */
+    margin: 0 5px; /* 각 페이지 간의 간격 */
+    font-size: 16px; /* 글자 크기 */
+    text-decoration: none; /* 밑줄 제거 */
+    display: inline-block; /* 수평 정렬을 위해 inline-block 사용 */
+}
+
+.page-link:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+
+.page-link.active {
+    font-weight: bold; /* 현재 페이지 강조 */
+    color: #333; /* 강조 색상 */
+    cursor: default; /* 기본 커서로 변경 */
+}
+
+.comment-icon {
+    cursor: pointer; /* 포인터 커서로 변경 */
+    width: 30px; /* 이미지 너비 */
+    height: 30px; /* 이미지 높이 */
+    margin-right: 20px; /* 오른쪽 여백 */
+}
+
+/* 이미지 호버 효과 (원하는 경우 추가) */
+.comment-icon:hover {
+    opacity: 0.8; /* 호버 시 투명도 변경 */
+    transition: opacity 0.3s; /* 부드러운 전환 효과 */
+}
+
 /* 댓글 끝 */
 
 /***** //custom sub style 끝 *****/

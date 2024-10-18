@@ -2,6 +2,8 @@ package com.tmtb.pageon.comment.mapper;
 
 import com.tmtb.pageon.comment.model.CommentVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -14,7 +16,18 @@ public interface CommentMapper {
 
     void deleteOK(int num);
 
-    List<CommentVO> selectAll(String type, Integer bnum, Integer fnum, Integer rnum);
+    List<CommentVO> selectAll(String type, Integer bnum, Integer fnum, Integer rnum, int startRow, int pageBlock);
 
-    List<CommentVO> selectAllChild(int cnum);
+    int getTotalRows(String type, Integer bnum, Integer fnum, Integer rnum);
+
+    List<CommentVO> selectAllChild(int cnum, int startRow, int pageBlock);
+
+    int getTotalChildRows(int cnum);
+
+    // 신고 상태 확인 메서드 추가
+    int checkReport(int num);
+
+    // 신고 상태 업데이트 메서드 추가
+    void reportOK(int num);
+
 }

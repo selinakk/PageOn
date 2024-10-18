@@ -36,16 +36,31 @@ public class CommentService {
         mapper.deleteOK(num);
     }
 
-    public List<CommentVO> selectAll(String type, Integer bnum, Integer fnum, Integer rnum) {
-        log.info("selectAll()...");
-        return mapper.selectAll(type, bnum, fnum, rnum);
+    public List<CommentVO> selectAllPageBlock(String type, Integer bnum, Integer fnum, Integer rnum, int cpage, int pageBlock) {
+        int startRow = (cpage - 1) * pageBlock;
+        return mapper.selectAll(type, bnum, fnum, rnum, startRow, pageBlock);
     }
 
-    public List<CommentVO> selectAllChild(int cnum) {
-        log.info("getChildComments()...");
-        List<CommentVO> child = mapper.selectAllChild(cnum);
-        log.info("Retrieved child comments: {}", child);
-        return mapper.selectAllChild(cnum);
+    public int getTotalRows(String type, Integer bnum, Integer fnum, Integer rnum) {
+        return mapper.getTotalRows(type, bnum, fnum, rnum);
+    }
+
+    public List<CommentVO> selectAllChildPageBlock(int cnum, int cpage, int pageBlock) {
+        int startRow = (cpage - 1) * pageBlock;
+        return mapper.selectAllChild(cnum, startRow, pageBlock);
+    }
+
+    public int getTotalChildRows(int cnum) {
+        return mapper.getTotalChildRows(cnum);
+    }
+
+    public void reportOK(int num) {
+        // 기존의 신고 상태가 0인 경우에만 1로 업데이트
+        if (mapper.checkReport(num) == 0) {
+            log.info("reportOK()... Updating report status for comment: " + num);
+            mapper.reportOK(num);
+        } else {
+            log.info("reportOK()... Comment already reported: " + num);
+        }
     }
 }
-
