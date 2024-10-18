@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>delete.html</title>
+
+    <style>
+
+
+    </style>
+
+</head>
+
+
+<body>
+<h1>공지사항 삭제 페이지</h1>
+<br/>
+
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<form action="/notice/n_deleteOK.do" method="post">
+    <table border="1">
+        <tbody>
+        <tr>
+            <th>[[${param.num}]] 번 글을 삭제하시겠습니까?</th>
+            <td><input type="hidden" name="num" th:value="${param.num}"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="6">
+                <input type="submit" value="삭제완료">
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</form>
+</body>
+</html>

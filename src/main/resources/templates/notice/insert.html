@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>insert.html</title>
+
+  <style>
+
+    table {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    tbody {
+      text-align: center;
+    }
+
+    input[type=text],textarea {
+      width: 100%;
+      padding: 8px 8px;
+      margin: 8px 0;
+      display: inline-block;
+      box-sizing: border-box;
+    }
+
+    #btn1 {
+      width: 10%;
+      background-color: #7DB7DFFF;
+      color: white;
+      padding: 8px 5px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      margin-left: 600px;
+    }
+
+    input[type=submit]:hover {
+      background-color: #b7e5b9;
+    }
+
+    #btn1:hover {
+      background-color: #b7e5b9;
+    }
+
+
+    #insertTable {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #insertTable td {
+      /*border: 1px solid #ddd;*/
+    }
+
+    #insertTable tr:nth-child(even) {
+      background-color: #ebebeb;
+    }
+
+    #insertTable tr:hover {
+      background-color: #7db7df;
+    }
+  </style>
+</head>
+
+<body>
+<h1>공지사항 작성 페이지</h1>
+
+<br>
+<br>
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<br>
+
+<form action="/notice/n_insertOK.do" method="post" enctype="multipart/form-data">
+  <table id="insertTable" border="1">
+    <tr>
+      <td><label for="title">제목</label></td>
+      <td><input type="text" id="title" name="title" value="서버 안정화" placeholder="제목을 입력하세요"></td>
+    </tr>
+    <tr>
+      <td><label for="content">내용</label></td>
+      <td><textarea name="content" id="content" cols="30" rows="10">시스템 업데이트</textarea></td>
+    </tr>
+    <tr>
+      <td><label for="user_id">작성자</label></td>
+      <td><input type="text" id="user_id" name="user_id" value="관리자"></td>
+    </tr>
+    <tr>
+      <td><label for="file">이미지</label></td>
+      <td><input type="file" id="file" name="file" ></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input id="btn1" type="submit" value="등록하기"></td>
+    </tr>
+  </table>
+</form>
+</body>
+
+</html>

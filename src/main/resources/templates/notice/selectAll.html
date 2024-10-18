@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>selectAll.html</title>
+
+  <style>
+    #write {
+      background-color: #135e98;
+      color: white;
+      font-style: initial;
+      font-size: 20px;
+      margin-left: 650px;
+      width: 10%;
+      background-color: #7DB7DFFF;
+      color: white;
+      padding: 8px 5px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    #write:hover {
+      background-color: #aee4ae;
+    }
+
+    table{
+      width: 90%;
+      height: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    tbody {
+      text-align: center;
+    }
+
+    #input1 {
+      width: 35%;
+    }
+
+    #input2 {
+      margin-left: 50%;
+    }
+
+    input[type=submit]:hover {
+      background-color: #b7e5b9;
+    }
+
+    #insertTable tr:nth-child(even) {
+      background-color: #ebebeb;
+    }
+
+    #insertTable tr:hover {
+      background-color: #7db7df;
+    }
+
+    #form1 {
+      margin-left: 90%;
+    }
+
+    #form2 {
+      margin-left: 90%;
+    }
+
+    tbody {
+      text-align: center;
+    }
+
+    tfoot {
+      text-align: center;
+    }
+
+
+
+
+  </style>
+
+</head>
+
+
+
+<body>
+<h1>공지사항 페이지</h1>
+<br>
+
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<form action="/notice/n_searchList.do">
+  <select id="input2" name="searchKey">
+    <option value="title">제목</option>
+    <option value="content">내용</option>
+  </select>
+  <input id="input1" type="text" name="searchWord" value="서버">
+  <input type="submit" value="검색">
+</form>
+
+<br>
+
+<!--최신순-->
+<form id="form1" action="/notice/n_selectAll.do">
+  <input type="submit" value="최신순">
+</form>
+
+<!--오래된순-->
+<form id="form2" action="/notice/n_selectAllNew.do">
+  <input type="submit" value="오래된순">
+</form>
+
+<!--조회순-->
+
+<br><br>
+
+
+<!--<%&#45;&#45;<li class="nav-item dropdown">&#45;&#45;%>-->
+<!--  <%&#45;&#45;  <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"&#45;&#45;%>-->
+<!--    <%&#45;&#45;     aria-expanded="false">검색</a>&#45;&#45;%>-->
+<!--  <%&#45;&#45;  <ul class="dropdown-menu animate slide border">&#45;&#45;%>-->
+<!--    <%&#45;&#45;    <li>&#45;&#45;%>-->
+<!--      <%&#45;&#45;      <a href="notice/n_selectAll.do" class="dropdown-item fw-light">공지사항</a>&#45;&#45;%>-->
+<!--      <%&#45;&#45;    </li>&#45;&#45;%>-->
+<!--    <%&#45;&#45;    <li>&#45;&#45;%>-->
+<!--      <%&#45;&#45;      <a href="#" class="dropdown-item fw-light">자유게시판</a>&#45;&#45;%>-->
+<!--      <%&#45;&#45;    </li>&#45;&#45;%>-->
+<!--    <%&#45;&#45;    <li>&#45;&#45;%>-->
+<!--      <%&#45;&#45;      <a href="#" class="dropdown-item fw-light">토론</a>&#45;&#45;%>-->
+<!--      <%&#45;&#45;    </li>&#45;&#45;%>-->
+<!--    <%&#45;&#45;  </ul>&#45;&#45;%>-->
+<!--  <%&#45;&#45;</li>&#45;&#45;%>-->
+
+
+
+<table id="insertTable" border="1">
+  <thead>
+  <tr>
+    <th>글번호</th>
+    <th>제목</th>
+    <th>작성자</th>
+    <th>조회수</th>
+    <th>작성일자</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tbody>
+  <th:block th:each="vo : ${list}">
+    <tr>
+      <td><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.num}]]</a></td>
+      <td><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+      <td>[[${vo.user_id}]]</td>
+      <td>[[${vo.hitcount}]]</td>
+      <td>[[${vo.wdate}]]</td>
+    </tr>
+  </th:block>
+  </tbody>
+
+
+  <tfoot>
+  <tr>
+    <td colspan="6">
+      <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+        <th:block th:if="${param.searchKey == null}">
+          <a th:href="|/notice/n_selectAll.do?cpage=${i}|">[[${i}]]</a>
+        </th:block>
+        <th:block th:if="${param.searchKey != null}" >
+          <th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
+            <a th:href="|/notice/n_searchList.do?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|">[[${i}]]</a>
+          </th:block>
+        </th:block>
+      </th:block>
+
+    </td>
+  </tr>
+  </tfoot>
+
+</table>
+
+<br>
+<form action="/notice/n_insert.do">
+  <input id="write" type="submit" value="글쓰기">
+</form>
+
+</body>
+</html>

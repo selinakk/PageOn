@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>selectOne.html</title>
+
+    <style>
+
+        tbody {
+            text-align: center;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #btn1 {
+            margin-left: 500px;
+            padding: 10px 30px;
+        }
+
+        #btn2 {
+            padding: 10px 30px;
+        }
+
+        input[type=button]:hover {
+            background-color: #b7e5b9;
+        }
+
+        input[type=submit]:hover {
+            background-color: #b7e5b9;
+        }
+
+        #submit1 {
+            margin-left: 500px;
+            padding: 10px 30px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h1>공지사항 상세 페이지</h1>
+<br/>
+<nav th:replace="~{top_menu::top_menu}"></nav>
+
+<br><br>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>글번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일자</th>
+        <th>조회수</th>
+        <th>첨부파일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>[[${vo2.num}]]</td>
+        <td>[[${vo2.title}]]</td>
+        <td>[[${vo2.user_id}]]</td>
+        <td>[[${vo2.wdate}]]</td>
+        <td>[[${vo2.hitcount}]]</td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>내 <br> 용</td>
+        <td colspan="4"><textarea cols="185" rows="25">[[${vo2.content}]]</textarea></td>
+        <td colspan="6"><img th:src="|/uploadimgPath/${vo2.img_name}|" width="200" height="200"></td>
+    </tr>
+
+
+    </tbody>
+</table>
+
+<br>
+
+</form>
+<a th:href="|/notice/n_update.do?num=${vo2.num}|"><input id="btn1" type="button" value="수정하기"></a>
+<form action="/notice/n_deleteOK.do" method="post">
+    <td><input type="hidden" name="num" th:value="${param.num}"></td>
+    <input id="submit1" type="submit" value="삭제하기">
+</form>
+
+</body>
+</html>
