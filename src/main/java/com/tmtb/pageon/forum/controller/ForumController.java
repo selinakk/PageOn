@@ -28,7 +28,7 @@ public class ForumController {
                             @RequestParam(defaultValue = "desc") String sortDir
                             ) {
         List<ForumVO> list = service.getList(page, size, sortField, sortDir);
-        int totalList = service.getListCount();
+        int totalList = service.getListCnt();
         int totalPages = (int)Math.ceil((double)totalList/size);
 
         model.addAttribute("list", list);
@@ -51,7 +51,7 @@ public class ForumController {
             Model model) {
 
         List<ForumVO> list = service.searchForum(searchKey, searchWord, page, size);
-        int totalSearchList = service.searchForumCount(searchKey, searchWord);
+        int totalSearchList = service.searchForumCnt(searchKey, searchWord);
         int totalSearchPages = (int) Math.ceil((double) totalSearchList / size);
         if (totalSearchPages < 1) {
             totalSearchPages = 0;
@@ -117,7 +117,6 @@ public class ForumController {
     public String deleteForumOK(ForumVO vo) {
         boolean result = service.deleteForumOK(vo);
         if (result) {
-
             return "redirect:/forum/list";
         } else {
             return "redirect:/forum/view?num=" + vo.getNum();

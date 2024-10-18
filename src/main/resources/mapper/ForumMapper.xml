@@ -7,7 +7,7 @@
         FROM forum f
                  JOIN work w ON f.work_num = w.num ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
     </select>
-    <select id="getListCount" resultType="int">
+    <select id="getListCnt" resultType="int">
         SELECT count(*) FROM forum
     </select>
 <!--    목록 보기 끝-->
@@ -35,7 +35,7 @@
         </if>
         LIMIT #{offset}, #{size}
     </select>
-    <select id="searchForumCount" resultType="int">
+    <select id="searchForumCnt" resultType="int">
         SELECT COUNT(*)
         FROM forum f
         LEFT JOIN work w ON f.work_num = w.num

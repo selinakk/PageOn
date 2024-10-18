@@ -3,27 +3,33 @@
 <mapper namespace="com.tmtb.pageon.bookshelf.mapper.BookshelfMapper">
 <!--    목록 보기-->
     <select id="getList" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
-        SELECT b.*, w.title AS work_title, w.img_name, mb.name
+        SELECT b.*, w.title AS work_title, w.img_name
         FROM bookshelf b
         JOIN work w ON b.work_num = w.num
-        JOIN member mb ON b.user_id = mb.id
         ORDER BY ${sortField} ${sortDir}
         LIMIT #{offset}, #{size}
     </select>
-    <select id="getListCount" resultType="int">
+    <select id="getListCnt" resultType="int">
         SELECT count(*) FROM bookshelf
     </select>
+    <select id="getListBySort" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
+        SELECT b.*, w.title AS work_title, w.img_name
+        FROM bookshelf b
+        JOIN work w ON b.work_num = w.num
+        WHERE b.sort=#{sort}
+        ORDER BY ${sortField} ${sortDir}
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="getListBySortCnt" resultType="int">
+        SELECT count(*) FROM bookshelf where sort=#{sort}
+    </select>
 <!--    목록 보기 끝-->
-<!--    목록 검색-->
-
-
-    <!-- 목록 검색 끝-->
-<!--    상세 보기 -->
-
-<!--    상세 보기 끝-->
 <!--    DML -->
     <update id="updateSortOK">
         update bookshelf set sort=#{sort} where num=#{num}
     </update>
+    <delete id="deleteBookshelfOK">
+        delete from bookshelf where num=#{num}
+    </delete>
 <!--    DML-->
 </mapper>

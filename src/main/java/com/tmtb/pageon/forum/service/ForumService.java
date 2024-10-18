@@ -18,14 +18,14 @@ public class ForumService {
         int offset = (page - 1) * size;
         return mapper.getList(offset, size, sortField, sortDir);
     }
-    public int getListCount(){
-        return mapper.getListCount();
+    public int getListCnt(){
+        return mapper.getListCnt();
     }
     public List<ForumVO> searchForum(String searchKey, String searchTerm, int page, int size){
         return mapper.searchForum(searchKey, searchTerm, page, size);
     }
-    public int searchForumCount(String searchKey, String searchWord){
-        return mapper.searchForumCount(searchKey, searchWord);
+    public int searchForumCnt(String searchKey, String searchWord){
+        return mapper.searchForumCnt(searchKey, searchWord);
     }
     public ForumVO selectOne(ForumVO vo){
         return mapper.selectOne(vo);

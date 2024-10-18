@@ -3,8 +3,14 @@
 
 /* Global */
 i.svg-icon{width:0.9rem;}
-input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{color:var(--light-gray-color) !important;}
+i.svg-icon--lg{width:1.25rem;}
+input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{opacity:.5 !important;}
 .modal-md .modal-dialog{max-width: 500px;}
+.paging.d-flex > a {padding:.5rem;}
+.paging.d-flex > a.active {
+    color: var(--primary-color);
+    font-weight: 500;
+}
     /* Global 끝 */
 
 /* 토론 */
@@ -53,6 +59,14 @@ a.text-danger .svg-icon {
 /* 토론 끝 */
 /*서재 시작*/
 .work-cover--sm {max-width: 6rem;}
+.custom-category li > a {
+    padding: .5rem 0;
+    border-bottom: 2px solid transparent;
+}
+.custom-category li > a.active {
+    border-bottom: 2px solid var(--primary-color);
+    font-weight: 500;
+}
 /*서재 끝*/
 
 /***** //custom sub style 끝 *****/

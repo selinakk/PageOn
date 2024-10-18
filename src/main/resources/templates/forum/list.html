@@ -76,10 +76,10 @@
         </div>
       </th:block>
       <th:block th:if="${searchWord == null}">
-        <div class="d-flex justify-content-center">
+        <div class="paging d-flex justify-content-center">
           <a th:each="i : ${#numbers.sequence(1, totalPages)}"
              th:href="@{/forum/list(page=${i}, sortField=${sortField}, sortDir=${sortDir})}"
-             class="p-1"
+             th:classappend="${i == currentPage} ? 'active' : ''"
              th:text="${i}">
           </a>
         </div>
