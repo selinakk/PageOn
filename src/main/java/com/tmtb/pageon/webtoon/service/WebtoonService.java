@@ -1,7 +1,11 @@
 package com.tmtb.pageon.webtoon.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
+import com.tmtb.pageon.webtoon.model.WebtoonApiTest;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -60,16 +66,25 @@ public class WebtoonService {
 
     //웹툰 api 연동
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    public WebtoonService(RestTemplateBuilder restTemplateBuilder) {
+    @Autowired
+    public WebtoonService(RestTemplateBuilder restTemplateBuilder, ObjectMapper objectMapper) {
         this.restTemplate = restTemplateBuilder.build();
+        this.objectMapper = objectMapper;
     }
+
     //웹툰 목록 가져오기
-    public String getWebtoons() {
+    public List<WebtoonApiTest> getWebtoons() {
         String url = "https://korea-webtoon-api-cc7dda2f0d77.herokuapp.com/webtoons";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        return response.getBody();
+        try {
+            JsonNode root = objectMapper.readTree(response.getBody());
+            return objectMapper.convertValue(root.get("webtoons"), objectMapper.getTypeFactory().constructCollectionType(List.class, WebtoonApiTest.class));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+
     }
-
-
 }

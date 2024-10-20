@@ -1,6 +1,7 @@
 package com.tmtb.pageon.webtoon.controller;
 
 
+import com.tmtb.pageon.webtoon.model.WebtoonApiTest;
 import com.tmtb.pageon.webtoon.service.WebtoonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.List;
+
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class WebtoonRestController {
 
     private final WebtoonService webtoonService;
@@ -19,10 +22,8 @@ public class WebtoonRestController {
     }
 
     @GetMapping("/webtoons")
-    public ResponseEntity<String> getWebtoons() {
-        String result = webtoonService.getWebtoons();
-        return ResponseEntity.ok(result);
-
-
+    public List<WebtoonApiTest> getWebtoons() {
+        return webtoonService.getWebtoons();
     }
+
 }
