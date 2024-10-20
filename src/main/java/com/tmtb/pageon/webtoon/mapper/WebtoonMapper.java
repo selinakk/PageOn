@@ -29,7 +29,10 @@ public interface WebtoonMapper {
 
 
     //필터링 관련
-    List<WebtoonVO> filterByCategories(@Param("categories") List<String> categories);
+
+    List<WebtoonVO> filterByCategories(@Param("categories") List<String> categories, @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    int getTotalCountByCategories(@Param("categories") List<String> categories);
 
 }
 

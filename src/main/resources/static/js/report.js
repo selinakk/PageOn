@@ -24,6 +24,7 @@ function confirmReport() {
 
 //아래로 필터링 관련입니다.
 let selectedCategories = [];
+let currentPage = 1;
 
 function filterByCategory(element) {
     const category = element.getAttribute('data-category');
@@ -40,29 +41,56 @@ function filterByCategory(element) {
         selectedCategories.push(category);
     }
 
+    // 페이지 번호를 1로 초기화
+    currentPage = 1;
+
     // AJAX 요청을 통해 필터링된 데이터를 가져옴
-    fetch(`/wt_filter?categories=${selectedCategories.join(',')}`)
+    fetchFilteredData();
+}
+
+function fetchFilteredData() {
+    fetch(`/wt_filter?categories=${selectedCategories.join(',')}&page=${currentPage}`)
         .then(response => response.json())
         .then(data => {
             const contentGrid = document.querySelector('.content-grid');
             contentGrid.innerHTML = '';
 
-            data.forEach(webtoon => {
+            data.webtoons.forEach(webtoon => {
                 const webtoonItem = `
-                        <div class="col-md-3 col-sm-6 mb-4 content-item">
-                            <div class="card" onclick="location.href='/wt_selectOne?num=${webtoon.num}'" style="cursor:pointer;">
-                                <img src="/img/${webtoon.img_name}" class="img-thumbnail">
-                                <div class="card-body">
-                                    <div class="rating">★ ${webtoon.rank}</div>
-                                    <div class="card-title">${webtoon.title}</div>
-                                </div>
+                    <div class="col-md-3 col-sm-6 mb-4 content-item">
+                        <div class="card" onclick="location.href='/wt_selectOne?num=${webtoon.num}'" style="cursor:pointer;">
+                            <img src="/img/${webtoon.img_name}" class="img-thumbnail">
+                            <div class="card-body">
+                                <div class="rating">★ ${webtoon.rank}</div>
+                                <div class="card-title">${webtoon.title}</div>
                             </div>
                         </div>
-                    `;
+                    </div>
+                `;
                 contentGrid.innerHTML += webtoonItem;
             });
+
+            // 페이지네이션 업데이트
+            updatePagination(data.totalPages);
         });
-//필터링 끝
+}
 
+function updatePagination(totalPages) {
+    const pagination = document.querySelector('.pagination');
+    pagination.innerHTML = '';
 
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.classList.add('page-item');
+        if (i === currentPage) {
+            pageItem.classList.add('active');
+        }
+        pageItem.innerHTML = `<a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>`;
+        pagination.appendChild(pageItem);
+    }
+}
+
+function goToPage(page) {
+    currentPage = page;
+    fetchFilteredData();
 }

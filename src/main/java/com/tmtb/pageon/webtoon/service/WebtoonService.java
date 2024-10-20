@@ -3,6 +3,7 @@ package com.tmtb.pageon.webtoon.service;
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +42,12 @@ public class WebtoonService {
     }
 
     // 필터링 관련
-    public List<WebtoonVO> filterByCategories(List<String> categories) {
-        return webtoonMapper.filterByCategories(categories);
+    public List<WebtoonVO> filterByCategories(List<String> categories, int offset, int pageSize) {
+        return webtoonMapper.filterByCategories(categories, offset, pageSize);
+    }
+
+    public int getTotalCountByCategories(List<String> categories) {
+        return webtoonMapper.getTotalCountByCategories(categories);
     }
 
 

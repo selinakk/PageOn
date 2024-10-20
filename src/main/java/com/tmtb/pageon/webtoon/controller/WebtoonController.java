@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -99,9 +101,21 @@ public class WebtoonController {
     //필터링
     @GetMapping("/wt_filter")
     @ResponseBody
-    public List<WebtoonVO> filterByCategories(@RequestParam List<String> categories) {
-        log.info("카테고리 필터링: {}", categories);
-        return webtoonService.filterByCategories(categories);
+    public Map<String, Object> filterByCategories(@RequestParam List<String> categories, @RequestParam(defaultValue = "1") int page) {
+        log.info("카테고리 필터링: {}, 페이지: {}", categories, page);
+
+        int pageSize = 12;
+        int offset = (page - 1) * pageSize;
+
+        List<WebtoonVO> webtoons = webtoonService.filterByCategories(categories, offset, pageSize);
+        int totalCount = webtoonService.getTotalCountByCategories(categories);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("webtoons", webtoons);
+        response.put("totalPages", totalPages);
+
+        return response;
     }
 
 }

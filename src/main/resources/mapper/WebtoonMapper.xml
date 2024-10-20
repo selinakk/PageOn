@@ -66,6 +66,19 @@
         </foreach>
         AND type = 'webtoon'
         ORDER BY num DESC
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
+
+    <select id="getTotalCountByCategories" resultType="int">
+        SELECT COUNT(*)
+        FROM work
+        WHERE categories IN
+        <foreach item="category" collection="categories" open="(" separator="," close=")">
+            #{category}
+        </foreach>
+        AND type = 'webtoon'
+    </select>
+
+
 
 </mapper>
