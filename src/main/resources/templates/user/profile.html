@@ -12,6 +12,21 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/sub.css">
 </head>
+
+<style>
+    .profile-image {
+        width: 100px; /* 원하는 크기로 조정 */
+        height: auto; /* 비율을 유지 */
+    }
+
+    .user-info {
+        margin-top: 10px; /* 상단 여백을 조정 */
+    }
+
+    .more-link {
+        float: right; /* 오른쪽으로 정렬 */
+    }
+</style>
 <header th:replace="~{header :: header}"></header>
 
 <body>
@@ -21,10 +36,10 @@
         <div class="col-5 border p-4 d-flex align-items-start">
             <!-- 프로필 이미지 -->
             <div class="me-4">
-                <img th:src="@{'/profile/' + ${userVO.imgname}}" alt="Profile Image" class="img-fluid">
+                <img th:src="@{'/profile/' + ${userVO.imgname}}" alt="Profile Image" class="img-fluid profile-image">
             </div>
 
-            <div>
+            <div class="user-info">
                 <h4>User Information</h4>
                 <p><strong>ID:</strong> <span th:text="${userVO.id}"></span></p>
                 <p><strong>Name:</strong> <span th:text="${userVO.name}"></span></p>
@@ -59,14 +74,13 @@
         </div>
     </div>
 
-
-    <!-- 포럼 데이터 가로로 나열 -->
-    <h5>Forums</h5>
+    <!-- 포럼 목록 섹션 -->
+    <h5>Forums <a class="more-link" th:href="@{/user/profile/all/pazing/forum(type='forum', page=0)}">더보기</a></h5>
     <div class="row">
         <div class="col-12">
             <div class="row">
-                <div class="col-2" th:each="forum : ${forumList}">
-                    <div class="card mb-3">
+                <div class="col-3" th:each="forum, iterStat : ${forumList}">
+                    <div class="card mb-3" th:if="${iterStat.index < 4}"> <!-- 4개까지만 표시 -->
                         <div class="card-body">
                             <h6 class="card-title" th:text="${forum.title}"></h6> <!-- 포럼 제목 출력 -->
                             <p class="card-text" th:text="${forum.content}"></p>
@@ -81,26 +95,47 @@
         </div>
     </div>
 
-    <h5>Forums</h5>
-<!--    <div class="row">-->
-<!--        <div class="col-12">-->
-<!--            <div class="row">-->
-<!--                <div class="col-2" th:each="board : ${boardList}">-->
-<!--                    <div class="card mb-3">-->
-<!--                        <div class="card-body">-->
-<!--                            <h6 class="card-title" th:text="${board.report}"></h6> &lt;!&ndash; 포럼 제목 출력 &ndash;&gt;-->
-<!--                            <p class="card-text" th:text="${board.wdate}"></p>-->
-<!--                            <p class="card-text" th:text="${board.content}"></p>-->
-<!--                            <p class="card-text"><small class="text-muted">작성자: <span th:text="${forum.user_id}"></span></small></p>-->
-<!--                            <p class="card-text"><small class="text-muted">날짜: <span th:text="${forum.wdate}"></span></small></p>-->
-<!--                            <p class="card-text"><small class="text-muted">신고: <span th:text="${forum.report}"></span></small></p>-->
-<!--                            <p class="card-text"><small class="text-muted">좋아요: <span th:text="${forum.likes}"></span></small></p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!-- 리뷰 목록 섹션 -->
+    <h5>Reviews <a class="more-link" th:href="@{/user/profile/all/pazing/review(type='review', page=0)}">더보기</a></h5>
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-3" th:each="review, iterStat : ${reviewList}">
+                    <div class="card mb-3" th:if="${iterStat.index < 4}"> <!-- 4개까지만 표시 -->
+                        <div class="card-body">
+                            <h6 class="card-title" th:text="${review.title}"></h6> <!-- 리뷰 제목 출력 -->
+                            <p class="card-text" th:text="${review.content}"></p> <!-- 리뷰 내용 출력 -->
+                            <p class="card-text"><small class="text-muted">작성자: <span th:text="${review.user_id}"></span></small></p>
+                            <p class="card-text"><small class="text-muted">날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                            <p class="card-text"><small class="text-muted">평점: <span th:text="${review.rating}"></span></small></p>
+                            <p class="card-text"><small class="text-muted">좋아요: <span th:text="${review.likes}"></span> / 싫어요: <span th:text="${review.hate}"></span></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 게시판 목록 섹션 -->
+    <h5>Boards <a class="more-link" th:href="@{/user/profile/all/pazing/board(type='board', page=0)}">더보기</a></h5>
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-3" th:each="board, iterStat : ${boardList}">
+                    <div class="card mb-3" th:if="${iterStat.index < 4}"> <!-- 4개까지만 표시 -->
+                        <div class="card-body">
+                            <h6 class="card-title" th:text="${board.title}"></h6> <!-- 게시글 제목 출력 -->
+                            <p class="card-text" th:text="${board.content}"></p> <!-- 게시글 내용 출력 -->
+                            <p class="card-text"><small class="text-muted">작성자: <span th:text="${board.user_id}"></span></small></p>
+                            <p class="card-text"><small class="text-muted">날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                            <p class="card-text"><small class="text-muted">조회수: <span th:text="${board.hitcount}"></span></small></p>
+                            <img th:src="@{/images/{img_name}(img_name=${board.img_name})}" alt="Board Image" th:if="${board.img_name != null}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bootstrap JS, Popper.js, and jQuery CDN -->
@@ -114,5 +149,9 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
+
+<script type="text/javascript">
+    // 기존의 loadMore 함수 제거
+</script>
 </body>
 </html>
