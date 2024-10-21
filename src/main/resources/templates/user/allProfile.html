@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>All User Information</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${type} + ' 전체보기'"></h2>
+
+    <!-- Forums Section -->
+    <div th:if="${type == 'forum'}">
+        <h5>Forums</h5>
+        <ul class="list-group">
+            <li class="list-group-item" th:each="forum : ${forumList}">
+                <h6 th:text="${forum.title}"></h6>
+                <p th:text="${forum.content}"></p>
+                <p><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
+                <p><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
+            </li>
+        </ul>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='forum', page=${currentPage - 1})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, (forumList.size() / (size != null ? size : 1)) - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='forum', page=${i})}" th:text="${i + 1}"></a>
+                </li>
+                <li class="page-item" th:classappend="${forumList.size() < (size != null ? size : 1)} ? 'disabled'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='forum', page=${currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Boards Section -->
+    <div th:if="${type == 'board'}">
+        <h5>Boards</h5>
+        <ul class="list-group">
+            <li class="list-group-item" th:each="board : ${boardList}">
+                <h6 th:text="${board.title}"></h6>
+                <p th:text="${board.content}"></p>
+                <p><small>작성자: <span th:text="${board.user_id}"></span></small></p>
+                <p><small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+            </li>
+        </ul>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='board', page=${currentPage - 1})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, (boardList.size() / (size != null ? size : 1)) - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='board', page=${i})}" th:text="${i + 1}"></a>
+                </li>
+                <li class="page-item" th:classappend="${boardList.size() < (size != null ? size : 1)} ? 'disabled'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='board', page=${currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Reviews Section -->
+    <div th:if="${type == 'review'}">
+        <h5>Reviews</h5>
+        <ul class="list-group">
+            <li class="list-group-item" th:each="review : ${reviewList}">
+                <h6 th:text="${review.title}"></h6>
+                <p th:text="${review.content}"></p>
+                <p><small>작성자: <span th:text="${review.user_id}"></span></small></p>
+                <p><small>날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+            </li>
+        </ul>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='review', page=${currentPage - 1})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, (reviewList.size() / (size != null ? size : 1)) - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='review', page=${i})}" th:text="${i + 1}"></a>
+                </li>
+                <li class="page-item" th:classappend="${reviewList.size() < (size != null ? size : 1)} ? 'disabled'">
+                    <a class="page-link" th:href="@{/user/profile/all/pazing/{type}(type='review', page=${currentPage + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <a href="/user/profile" class="btn btn-secondary mt-3">뒤로가기</a>
+</div>
+</body>
+</html>
