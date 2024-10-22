@@ -87,4 +87,14 @@ public class WebtoonService {
         }
 
     }
+
+    //웹툰 db에 저장
+    public void saveWebtoonsToDB(List<WebtoonApiTest> webtoons) {
+        for (WebtoonApiTest webtoonApiTest : webtoons) {
+            webtoonMapper.saveWebtoon(webtoonApiTest);
+        }
+    }
+
+
+
 }

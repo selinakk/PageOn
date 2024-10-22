@@ -23,7 +23,10 @@ public class WebtoonRestController {
 
     @GetMapping("/webtoons")
     public List<WebtoonApiTest> getWebtoons() {
-        return webtoonService.getWebtoons();
+        List<WebtoonApiTest> webtoons = webtoonService.getWebtoons();
+        webtoonService.saveWebtoonsToDB(webtoons);
+        return webtoons;
     }
+
 
 }
