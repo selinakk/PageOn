@@ -11,7 +11,7 @@
 
 
         <!-- 필터링 태그-->
-<!--        style="cursor:pointer;" 이 부분 따로 빼서 수정해야함-->
+        <!--style="cursor:pointer;" 이 부분 따로 빼서 수정해야함-->
         <div class="hashtags mb-3" style="cursor:pointer;">
             <span class="badge bg-secondary me-1" data-category="스릴러" onclick="filterByCategory(this)">#스릴러</span>
             <span class="badge bg-secondary me-1" data-category="회귀물" onclick="filterByCategory(this)">#회귀물</span>
@@ -23,7 +23,7 @@
         </div>
 
 
-        <!--        검색탭-->
+        <!--검색탭-->
         <div class="mt-3">
             <form action="/wt_search" method="get" class="form-inline">
                 <input type="text" name="searchWord" class="form-control mr-2" placeholder="검색어를 입력하세요">
@@ -41,7 +41,8 @@
 
         <div class="row content-grid">
             <div class="col-md-3 col-sm-6 mb-4 content-item" th:each="webtoon : ${webtoonList}">
-                <div class="card" th:onclick="'location.href=\'/wt_selectOne?num=' + ${webtoon.num} + '\''" style="cursor:pointer;">
+                <div class="card" th:onclick="'location.href=\'/wt_selectOne?num=' + ${webtoon.num} + '\''"
+                     style="cursor:pointer;">
                     <img th:src="@{/img/{img_name}(img_name=${webtoon.img_name})}" class="img-thumbnail">
                     <div class="card-body">
                         <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
@@ -54,13 +55,18 @@
         <div class="pagination">
             <ul class="pagination">
                 <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${currentPage - 1})}">이전</a>
+                    <a class="page-link"
+                       th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${currentPage - 1})}">이전</a>
                 </li>
-                <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:classappend="${pageNum == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${pageNum})}" th:text="${pageNum}">1</a>
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${pageNum})}"
+                       th:text="${pageNum}">1</a>
                 </li>
                 <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                    <a class="page-link" th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${currentPage + 1})}">다음</a>
+                    <a class="page-link"
+                       th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${currentPage + 1})}">다음</a>
                 </li>
             </ul>
         </div>

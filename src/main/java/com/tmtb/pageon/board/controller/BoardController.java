@@ -36,7 +36,7 @@ public class BoardController {
     public String freeboard(@RequestParam(defaultValue = "1") int page, Model model, String sort) {
         log.info("자유게시판 페이지");
 
-        int pageSize = 15;
+        int pageSize = 20;
         int totalCount = boardService.getTotalCount();
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
@@ -60,7 +60,7 @@ public class BoardController {
     public String qnaboard(@RequestParam(defaultValue = "1") int page, Model model, String sort) {
         log.info("QnA게시판 페이지");
 
-        int pageSize = 15;
+        int pageSize = 20;
         int totalCount = boardService.getTotalCount();
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
@@ -135,7 +135,7 @@ public class BoardController {
 
     //게시글 상세 보기
     @GetMapping("/b_selectOne")
-    public String b_selectOne(BoardVO vo, Model model) {
+    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category) {
         log.info("게시글 상세보기 페이지");
 
         boardService.updateBoardHitCount(vo);
@@ -144,6 +144,7 @@ public class BoardController {
         log.info("vo2:{}", vo2);
 
         model.addAttribute("vo2", vo2);
+        model.addAttribute("category", category);
 
         return "board/selectOne";
     }

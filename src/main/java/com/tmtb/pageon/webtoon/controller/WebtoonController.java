@@ -101,14 +101,21 @@ public class WebtoonController {
     //필터링
     @GetMapping("/wt_filter")
     @ResponseBody
-    public Map<String, Object> filterByCategories(@RequestParam List<String> categories, @RequestParam(defaultValue = "1") int page) {
+    public Map<String, Object> filterByCategories(@RequestParam(value = "categories", required = false) List<String> categories, @RequestParam(defaultValue = "1") int page) {
         log.info("카테고리 필터링: {}, 페이지: {}", categories, page);
 
         int pageSize = 12;
         int offset = (page - 1) * pageSize;
 
-        List<WebtoonVO> webtoons = webtoonService.filterByCategories(categories, offset, pageSize);
-        int totalCount = webtoonService.getTotalCountByCategories(categories);
+        List<WebtoonVO> webtoons;
+        int totalCount;
+        if (categories == null || categories.isEmpty()) {
+            webtoons = webtoonService.getWebtoonList(page, pageSize);
+            totalCount = webtoonService.getTotalCount();
+        } else {
+            webtoons = webtoonService.filterByCategories(categories, offset, pageSize);
+            totalCount = webtoonService.getTotalCountByCategories(categories);
+        }
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         Map<String, Object> response = new HashMap<>();

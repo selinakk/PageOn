@@ -20,4 +20,9 @@ public class BoardVO {
     private Integer boardhitcount;
     private MultipartFile file;
 
+    // 줄바꿈을 <br> 태그로 변환하는 메서드
+    public String getFormattedContent() {
+        return this.content != null ? this.content.replace("\n", "<br>") : null;
+    }
+
 }
