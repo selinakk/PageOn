@@ -30,11 +30,13 @@ public class ForumService {
     public ForumVO selectOne(ForumVO vo){
         return mapper.selectOne(vo);
     }
+
+    //
     public boolean insertForumOK(ForumVO vo){
         return mapper.insertForumOK(vo);
     }
-
     public boolean updateForumOK(ForumVO vo) {return mapper.updateForumOK(vo);}
-
     public boolean deleteForumOK(ForumVO vo) {return mapper.deleteForumOK(vo);}
+    public void reportForum(int num) {mapper.reportForumOK(num);}
+    public void increaseForumHit(int num) {mapper.increaseForumHit(num);}
 }

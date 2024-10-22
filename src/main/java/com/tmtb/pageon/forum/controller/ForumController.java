@@ -1,5 +1,7 @@
 package com.tmtb.pageon.forum.controller;
 
+import com.tmtb.pageon.comment.controller.CommentController;
+import com.tmtb.pageon.comment.model.CommentVO;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -19,17 +22,24 @@ public class ForumController {
     @Autowired
     ForumService service;
 
+    @Autowired
+    private CommentController controller;
+
 //    목록 시작
     @GetMapping("/forum/list")
     public String forumList(Model model,
                             @RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "4") int size,
                             @RequestParam(defaultValue = "wdate") String sortField,
-                            @RequestParam(defaultValue = "desc") String sortDir
+                            @RequestParam(defaultValue = "desc") String sortDir,
+                            @RequestParam String userId
                             ) {
         List<ForumVO> list = service.getList(page, size, sortField, sortDir);
         int totalList = service.getListCnt();
         int totalPages = (int)Math.ceil((double)totalList/size);
+
+        //게시자 프로필 가져오기
+        service.getUserProfile(userId);
 
         model.addAttribute("list", list);
         model.addAttribute("currentPage", page);
@@ -70,12 +80,37 @@ public class ForumController {
 //    목록 끝
 //    상세보기 시작
     @GetMapping("/forum/view")
-    public String forumView(ForumVO vo, Model model) {
-        ForumVO vo2 = service.selectOne(vo);
+    public String forumView(ForumVO vo,
+                            Model model,
+                            @RequestParam(defaultValue = "1") int cpage,
+                            @RequestParam(defaultValue = "20") int pageBlock) {
+        //아래 라인 조회수 증가 메서드
+        service.increaseForumHit(vo.getNum());
 
-        model.addAttribute("vo2", vo2);
+        ForumVO vo2 = service.selectOne(vo);
         log.info("/forum/view - 토론 상세보기 {}", vo2);
+
+//        이하 이수민님 코드
+        // CommentController의 selectAll() 메서드를 호출하여 댓글 데이터를 가져옵니다.
+        Map<String, Object> commentsData = controller.selectAll("forum", null, vo2.getNum(), null, cpage, pageBlock); // type과 부모글의 num(fnum, rnum, bnum)에 맞게 매개변수 추가하시면됩니다.
+        // 댓글 목록 가져오기
+        List<CommentVO> comments = (List<CommentVO>) commentsData.get("comments");
+
+        // 전체 댓글 수 가져오기
+        int totalRows = (int) commentsData.get("totalRows");
+
+        model.addAttribute("totalPageCount", (int) Math.ceil((double) totalRows / pageBlock));
+        model.addAttribute("comments", comments);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("pageBlock", pageBlock);
+        model.addAttribute("vo2", vo2);
         return "forum/view";
+    }
+    @GetMapping("/forum/report")
+    public String reportForum(@RequestParam int num){
+        service.reportForum(num);
+        log.info("신고 TRUE로 설정");
+        return "redirect:/forum/view?num=" + num;
     }
 //    상세보기 끝
 //    DML 시작

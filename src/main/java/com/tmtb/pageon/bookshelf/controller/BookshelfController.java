@@ -72,6 +72,10 @@ public class BookshelfController {
     }
     //목록 끝
     //DML 시작
+    @GetMapping("/bookshelf/write")
+    public String bookshelfWrite(Model model){
+        return "bookshelf/write";
+    }
     @PostMapping("/bookshelf/insertOK")
     public String insertBookshelf(@RequestParam("user_id") String userId,
                                   @RequestParam("sort") String sort,

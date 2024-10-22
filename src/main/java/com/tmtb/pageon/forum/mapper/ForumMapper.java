@@ -20,9 +20,10 @@ public interface ForumMapper {
     int searchForumCnt(@Param("searchKey") String searchKey,
                          @Param("searchWord") String searchWord);
     public ForumVO selectOne(ForumVO vo);
+    //
     public boolean insertForumOK(ForumVO vo);
-
     public boolean updateForumOK(ForumVO vo);
-
     public boolean deleteForumOK(ForumVO vo);
+    void reportForumOK(@Param("num") int num);
+    void increaseForumHit(@Param("num") int num);
 }

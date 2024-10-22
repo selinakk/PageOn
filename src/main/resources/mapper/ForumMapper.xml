@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tmtb.pageon.forum.mapper.ForumMapper">
 <!--    목록 보기-->
-    <select id="getList" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        SELECT f.*, w.title AS work_title, w.img_name
-        FROM forum f
-                 JOIN work w ON f.work_num = w.num ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
+    <select id="getList" resultType="com.tmtb.pageon.forum.model.ForumVO" flushCache="true">
+        SELECT SQL_NO_CACHE f.*, w.title AS work_title, w.img_name, (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS comment_count
+        FROM forum f JOIN work w ON f.work_num = w.num
+        ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
     </select>
     <select id="getListCnt" resultType="int">
         SELECT count(*) FROM forum
@@ -13,7 +13,7 @@
 <!--    목록 보기 끝-->
 <!--    목록 검색-->
     <select id="searchForum" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        SELECT f.*, w.title AS work_title, w.img_name
+        SELECT f.*, w.title AS work_title, w.img_name, (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS comment_count
         FROM forum f
         LEFT JOIN work w ON f.work_num = w.num
         WHERE 1=1
@@ -57,11 +57,18 @@
             </choose>
         </if>
     </select>
+    <select id="getUserProfile">
+        SELECT name, img_name FROM member WHERE id = #{userId}
+    </select>
     <!-- 목록 검색 끝-->
 <!--    상세 보기 -->
     <select id="selectOne" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        select f.*, w.title AS work_title, w.img_name FROM forum f
+        select f.*, w.title AS work_title, w.img_name, (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS comment_count
+            FROM forum f
             JOIN work w ON f.work_num = w.num where f.num=#{num}
+    </select>
+    <select id="getCommentCnt" resultType="int">
+        SELECT COUNT(*) AS comment_count FROM comment WHERE fnum = #{fnum}
     </select>
 <!--    상세 보기 끝-->
 <!--    DML -->
@@ -70,6 +77,12 @@
     </insert>
     <update id="updateForumOK">
         update forum set title=#{title},content=#{content} where num=#{num}
+    </update>
+    <update id="increaseForumHit">
+        update forum set hitcount=hitcount+1 where num=#{num}
+    </update>
+    <update id="reportForumOK">
+        update forum set report="1" where num=#{num}
     </update>
     <delete id="deleteForumOK">
         delete from forum where num=#{num}

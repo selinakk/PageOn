@@ -25,7 +25,7 @@ public interface BookshelfMapper {
     int getListBySortCnt(@Param("sort") String sort, @Param("userId") String userId);
     String getUserName(@Param("userId") String userId);
 
-    boolean insertBookshelfOK(@Param("userId") String userId, @Param("sort") String sort, @Param("num") int num);
+    boolean insertBookshelfOK(@Param("userId") String userId, @Param("sort") String sort, @Param("workNum") int workNum);
     void updateSortOK(@Param("sort") String sort, @Param("num") int num);
     boolean deleteBookshelfOK(@Param("num") int num);
 }
