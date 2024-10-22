@@ -1,16 +1,14 @@
 package com.tmtb.pageon.user.controller;
 
-import com.tmtb.pageon.user.model.BoardVO;
-import com.tmtb.pageon.user.model.ForumVO;
-import com.tmtb.pageon.user.model.ReviewVO;
+import com.tmtb.pageon.user.model.*;
 import com.tmtb.pageon.user.service.UserService;
-import com.tmtb.pageon.user.model.UserVO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -25,8 +23,8 @@ public class UserController {
     @PostMapping("/insertUserForm")
     public String insertUserForm(@ModelAttribute("user") UserVO userVO) {
         log.info("사용자 정보 전달: {}", userVO);
-        userService.insertUser(userVO); // 사용자 정보 저장
-        return "redirect:/"; // 성공 후 리디렉션
+        userService.insertUser(userVO);
+        return "redirect:/";
     }
 
     @PostMapping("/selectUser")
@@ -45,11 +43,17 @@ public class UserController {
             List<ForumVO> forumList = userService.findByForum(id); // 포럼 데이터 조회
             List<BoardVO> boardList = userService.findByBoard(id); // 게시판 데이터 조회
             List<ReviewVO> reviewList = userService.findByReviews(id); // 리뷰 데이터 조회
+            List<CommentVO> commentList = userService.findByComment(id);
+
+            // 사용자 카테고리 정보 추가
+            String[] categories = userVO.getLike_categories().split(","); // 카테고리를 배열로 변환
+            model.addAttribute("categories", categories); // 카테고리 목록을 모델에 추가
 
             model.addAttribute("userVO", userVO);
             model.addAttribute("forumList", forumList);
             model.addAttribute("boardList", boardList);
             model.addAttribute("reviewList", reviewList);
+            model.addAttribute("commentList", commentList);
         } else {
             return "redirect:/";
         }
@@ -77,6 +81,10 @@ public class UserController {
                     List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size); // 리뷰 데이터 조회
                     model.addAttribute("reviewList", reviewList);
                     break;
+                case "comment":
+                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size); // 리뷰 데이터 조회
+                    model.addAttribute("commentList", commentList);
+                    break;
                 default:
                     return "redirect:/";
             }
@@ -87,5 +95,53 @@ public class UserController {
         }
         return "user/allProfile"; // 전체보기 페이지로 이동
     }
+
+    @PostMapping("user/update")
+    public String updateUserInfo(@ModelAttribute UserVO user, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        user.setId(id);
+        userService.updateUserInfo(user);
+        log.info("udpate");
+        return "redirect:/user/profile";
+    }
+
+    @PostMapping("user/updateCategories")
+    public String updateUserCategories(@RequestParam List<String> likeCategories, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+
+        // 로그 추가
+        log.info("Received categories: {}", likeCategories); // 수신된 카테고리 확인
+
+        userService.updateUserCategories(id, String.join(",", likeCategories)); // 카테고리 리스트를 콤마로 구분된 문자열로 변환
+        return "redirect:/user/profile"; // 성공 후 리디렉션
+    }
+
+    @GetMapping("/user/updateProfile")
+    public String updateUserProfile(HttpSession session, Model model) {
+        String id = (String) session.getAttribute("id");
+        if (id != null) {
+            UserVO userVO = userService.findById(id);
+            model.addAttribute("userVO", userVO);
+            return "user/updateProfile"; // 사용자 정보 수정 페이지
+        } else {
+            return "redirect:/";
+        }
+    }
+
+
+    @GetMapping("/user/updateCategoriesPage")
+    public String updateUserCategoriesPage(HttpSession session, Model model) {
+        String id = (String) session.getAttribute("id");
+        if (id != null) {
+            // 여기에 사용자의 현재 카테고리를 가져오는 로직을 추가합니다.
+            UserVO userVO = userService.findById(id);
+            model.addAttribute("likeCategories", userVO.getLike_categories().split(",")); // 현재 카테고리
+            return "user/updateCategories"; // 카테고리 수정 페이지
+        } else {
+            return "redirect:/";
+        }
+
+    }
+
 }
 
