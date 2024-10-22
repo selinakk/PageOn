@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::body})}">
+<head>
+    <title>Webnovel List</title>
+    <style>
+        /* 기본 카테고리 색상 */
+        .category {
+            color: black;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        /* 선택된 카테고리 색상 */
+        .selected-category {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Webnovel List</h1>
+
+<!-- 카테고리 선택 링크 -->
+<div>
+    <a th:href="@{/webnovels}" th:classappend="${category == null || category == '전체'} ? 'selected-category' : 'category'">#전체</a>
+    <a th:href="@{/webnovels(category='로맨틱판타지')}" th:classappend="${category == '로맨틱판타지'} ? 'selected-category' : 'category'">#로맨틱판타지</a>
+    <a th:href="@{/webnovels(category='게임판타지')}" th:classappend="${category == '게임판타지'} ? 'selected-category' : 'category'">#게임판타지</a>
+    <a th:href="@{/webnovels(category='대체역사물')}" th:classappend="${category == '대체역사물'} ? 'selected-category' : 'category'">#대체역사물</a>
+    <a th:href="@{/webnovels(category='스포츠물')}" th:classappend="${category == '스포츠물'} ? 'selected-category' : 'category'">#스포츠물</a>
+    <a th:href="@{/webnovels(category='정통판타지')}" th:classappend="${category == '정통판타지'} ? 'selected-category' : 'category'">#정통판타지</a>
+    <a th:href="@{/webnovels(category='현대판타지')}" th:classappend="${category == '현대판타지'} ? 'selected-category' : 'category'">#현대판타지</a>
+</div>
+
+<!-- 검색 폼 -->
+<form th:action="@{/webnovels}" method="get">
+    <input type="hidden" name="category" th:value="${category}"/> <!-- 선택된 카테고리 유지 -->
+    <select name="searchKey">
+        <option value="title" th:selected="${searchKey == 'title'}">Title</option>
+        <option value="writer" th:selected="${searchKey == 'writer'}">Author</option>
+    </select>
+    <input type="text" name="searchWord" placeholder="Search..." th:value="${searchWord}"/>
+    <button type="submit">Search</button>
+</form>
+
+<!-- 웹소설 목록 -->
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="vo : ${list}">
+        <!-- Title에 상세보기 링크를 추가 -->
+        <td><a th:href="@{/webnovel/detail(item_id=${vo.item_id})}" th:text="${vo.title}"></a></td>
+        <td th:text="${vo.writer}"></td>
+        <td th:text="${vo.categories}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 페이지네이션 -->
+<div>
+    <span th:if="${totalPageCount > 1}">
+        <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+           th:href="@{/webnovels(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord})}"
+           th:text="${i}"></a>
+    </span>
+</div>
+
+</body>
+</html>

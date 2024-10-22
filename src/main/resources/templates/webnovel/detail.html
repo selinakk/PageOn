@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::body})}">
+<head>
+    <title>Webnovel Detail</title>
+</head>
+<body>
+<h1>Webnovel Detail</h1>
+
+<div>
+    <h2 th:text="${vo2.title}"></h2>
+    <p><strong>Author:</strong> <span th:text="${vo2.writer}"></span></p>
+    <p><strong>Publisher:</strong> <span th:text="${vo2.provider}"></span></p>
+    <p><strong>Category:</strong> <span th:text="${vo2.categories}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${vo2.desc}"></span></p>
+    <img th:src="@{${vo2.img_name}}" alt="Webnovel Cover" />
+</div>
+
+<a href="/webnovels">Back to List</a>
+
+</body>
+</html>

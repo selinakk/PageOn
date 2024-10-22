@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tmtb.pageon.Book.mapper.BookMapper">
+
+    <!-- 데이터베이스에 알라딘 API 작품 정보 추가 -->
+    <insert id="insertBook" parameterType="com.tmtb.pageon.Book.model.BookVO">
+        INSERT INTO pageon.work (type, title, `desc`, writer, provider, categories, img_name)
+        VALUES (#{type}, #{title}, #{desc}, #{writer}, #{provider}, #{categories}, #{img_name})
+    </insert>
+
+    <select id="checkDuplicateTitle" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE title = #{title}
+    </select>
+
+    <!-- Book 기능 -->
+    <!-- 상세 조회 -->
+    <select id="selectOne" resultType="com.tmtb.pageon.Book.model.BookVO">
+        SELECT * FROM pageon.work WHERE item_id = #{item_id}
+    </select>
+
+    <!-- 페이징 목록 조회 -->
+    <select id="selectAllBooks" resultType="com.tmtb.pageon.Book.model.BookVO">
+        SELECT * FROM pageon.work WHERE type = 'book'
+        ORDER BY item_id DESC
+            LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 전체 행 개수 조회 -->
+    <select id="getTotalRows" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'book'
+    </select>
+
+    <!-- 제목 검색 페이징 조회 -->
+    <select id="searchBooksByTitle" resultType="com.tmtb.pageon.Book.model.BookVO">
+        SELECT * FROM pageon.work WHERE title LIKE #{searchWord} AND type = 'book'
+        ORDER BY item_id DESC
+            LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 작가 검색 페이징 조회 -->
+    <select id="searchBooksByAuthor" resultType="com.tmtb.pageon.Book.model.BookVO">
+        SELECT * FROM pageon.work WHERE writer LIKE #{searchWord} AND type = 'book'
+        ORDER BY item_id DESC
+            LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 제목 검색 결과 총 행 개수 -->
+    <select id="getSearchTotalRowsByTitle" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE title LIKE #{searchWord} AND type = 'book'
+    </select>
+
+    <!-- 작가 검색 결과 총 행 개수 -->
+    <select id="getSearchTotalRowsByAuthor" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE writer LIKE #{searchWord} AND type = 'book'
+    </select>
+
+    <!-- 카테고리별 조회 기능 -->
+    <select id="selectBooksByCategory" resultType="com.tmtb.pageon.Book.model.BookVO">
+        SELECT * FROM pageon.work WHERE categories = #{category} AND type = 'book'
+        ORDER BY item_id DESC
+            LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 카테고리별 조회 결과 총 행 개수 -->
+    <select id="getTotalRowsByCategory" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE categories = #{category} AND type = 'book'
+    </select>
+
+    <!-- 카테고리 내에서 제목이나 작가로 검색 -->
+    <select id="searchBooksInCategory" resultType="com.tmtb.pageon.Book.model.BookVO">
+        SELECT * FROM pageon.work
+        WHERE type = 'book'
+        AND categories = #{category}
+        <if test="searchKey == 'title'">
+            AND title LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        ORDER BY item_id DESC
+        LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 카테고리 내 검색된 총 행 개수 -->
+    <select id="getSearchTotalRowsInCategory" resultType="int">
+        SELECT COUNT(*) FROM pageon.work
+        WHERE type = 'book'
+        AND categories = #{category}
+        <if test="searchKey == 'title'">
+            AND title LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+    </select>
+
+    <!-- 전체 검색 (제목 또는 작가) -->
+    <select id="searchBooks" resultType="com.tmtb.pageon.Book.model.BookVO">
+        SELECT * FROM pageon.work
+        WHERE type = 'book'
+        <if test="searchKey == 'title'">
+            AND title LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        ORDER BY item_id DESC
+        LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 전체 검색 결과 총 행 개수 -->
+    <select id="getSearchTotalRows" resultType="int">
+        SELECT COUNT(*) FROM pageon.work
+        WHERE type = 'book'
+        <if test="searchKey == 'title'">
+            AND title LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+    </select>
+
+</mapper>

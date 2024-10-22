@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::body})}">
+<head>
+    <title>Book List</title>
+    <style>
+        /* 기본 카테고리 색상 */
+        .category {
+            color: black;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        /* 선택된 카테고리 색상 */
+        .selected-category {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Book List</h1>
+
+<!-- 카테고리 선택 링크 -->
+<div>
+    <a th:href="@{/books}" th:classappend="${category == null || category == '전체'} ? 'selected-category' : 'category'">#전체</a>
+    <a th:href="@{/books(category='판타지')}" th:classappend="${category == '판타지'} ? 'selected-category' : 'category'">#판타지</a>
+    <a th:href="@{/books(category='무협')}" th:classappend="${category == '무협'} ? 'selected-category' : 'category'">#무협</a>
+    <a th:href="@{/books(category='액션/스릴러')}" th:classappend="${category == '액션/스릴러'} ? 'selected-category' : 'category'">#액션/스릴러</a>
+    <a th:href="@{/books(category='추리/미스터리')}" th:classappend="${category == '추리/미스터리'} ? 'selected-category' : 'category'">#추리/미스터리</a>
+    <a th:href="@{/books(category='로맨스')}" th:classappend="${category == '로맨스'} ? 'selected-category' : 'category'">#로맨스</a>
+    <a th:href="@{/books(category='호러/공포')}" th:classappend="${category == '호러/공포'} ? 'selected-category' : 'category'">#호러/공포</a>
+    <a th:href="@{/books(category='과학(SF)')}" th:classappend="${category == '과학(SF)'} ? 'selected-category' : 'category'">#과학(SF)</a>
+</div>
+
+<!-- 검색 폼 -->
+<form th:action="@{/books}" method="get">
+    <input type="hidden" name="category" th:value="${category}"/> <!-- 선택된 카테고리 유지 -->
+    <select name="searchKey">
+        <option value="title" th:selected="${searchKey == 'title'}">Title</option>
+        <option value="writer" th:selected="${searchKey == 'writer'}">Author</option>
+    </select>
+    <input type="text" name="searchWord" placeholder="Search..." th:value="${searchWord}"/>
+    <button type="submit">Search</button>
+</form>
+
+<!-- 책 목록 -->
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="vo : ${list}">
+        <!-- Title에 상세보기 링크를 추가 -->
+        <td><a th:href="@{/book/detail(item_id=${vo.item_id})}" th:text="${vo.title}"></a></td>
+        <td th:text="${vo.writer}"></td>
+        <td th:text="${vo.categories}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- 페이지네이션 -->
+<div>
+    <span th:if="${totalPageCount > 1}">
+        <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+           th:href="@{/books(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord})}"
+           th:text="${i}"></a>
+    </span>
+</div>
+
+</body>
+</html>
