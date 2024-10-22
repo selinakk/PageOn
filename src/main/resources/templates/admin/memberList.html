@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 목록</title>
+</head>
+<body>
+<h1>회원 목록</h1>
+
+<a href="/admin/members/new">새 회원 추가</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th>이미지</th>
+        <th>카테고리</th>
+        <th>소개</th>
+        <th>수정</th>
+        <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member : ${members}">
+        <td th:text="${member.id}"></td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${member.tel}"></td>
+        <td><img th:src="@{/profile/{imgName}(imgName=${member.imgname})}" alt="Profile Image" width="50" height="50"/></td>
+        <td th:text="${member.like_categories}"></td>
+        <td th:text="${member.introduce}"></td>
+        <td><a th:href="@{/admin/members/edit(id=${member.id})}">수정</a></td>
+        <td><a th:href="@{/admin/members/delete(id=${member.id})}">삭제</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <span>페이지: </span>
+    <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/admin/members(page=${i})}" th:text="${i + 1}"></a>
+            <span th:if="${i < totalPages - 1}"> | </span>
+        </span>
+</div>
+</body>
+</html>

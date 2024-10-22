@@ -206,6 +206,16 @@
                       </svg>
                     </a>
                   </li>
+
+                  <li class="pe-3">
+                    <a th:href="${session.id == 'admin' ? '/members' : '#'}"
+                       th:text="${session.id == 'admin' ? '회원 관리' : ''}">
+                      <svg class="admin">
+                        <use xlink:href="#admin"></use> <!-- 회원 관리 아이콘 -->
+                      </svg>
+                    </a>
+                  </li>
+
                   <li class="pe-3">
 
                     <a th:href="${session.id != null ? 'user/profile' : '#'}"

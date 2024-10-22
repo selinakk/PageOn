@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 등록/수정</title>
+</head>
+<body>
+<h1 th:text="${userVO.id} == null ? '회원 등록' : '회원 수정'"></h1>
+
+<form th:action="${userVO.id == null ? '/admin/members' : '/admin/memberList'}" method="post">
+    <input type="hidden" th:name="id" th:value="${userVO.id}"/>
+
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="name" th:value="${userVO.name}" required/><br/>
+
+    <label for="tel">전화번호:</label>
+    <input type="text" id="tel" name="tel" th:value="${userVO.tel}" required/><br/>
+
+    <label for="pw">비밀번호:</label>
+    <input type="password" id="pw" name="pw" th:value="${userVO.pw}" required/><br/>
+
+    <label for="imgname">이미지 이름:</label>
+    <input type="text" id="imgname" name="imgname" th:value="${userVO.imgname}"/><br/>
+
+    <label for="like_categories">카테고리:</label>
+    <input type="text" id="like_categories" name="like_categories" th:value="${userVO.like_categories}"/><br/>
+
+    <label for="introduce">소개:</label>
+    <textarea id="introduce" name="introduce" th:text="${userVO.introduce}"></textarea><br/>
+
+    <button type="submit">제출</button>
+</form>
+
+<a href="/admin/members">회원 목록으로 돌아가기</a>
+</body>
+</html>
