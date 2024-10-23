@@ -1,42 +1,41 @@
 /*검색 선택*/
 .search-select {
-    width: auto;
+    width: 100px;
     padding: 0.25rem;
-    font-size: 0.875rem; /* 폰트 크기 조정 */
+    font-size: 0.875rem;
 }
 
-/*검색칸*/
+
 input[name="searchWord"] {
     padding: 0.25rem;
     width: 50%;
-    padding: 0.25rem;
+    font-size:10pt;
 }
 
 .input-group-append .btn {
     padding: 0.25rem 0.5rem;
 }
 
-/* 게시판 상하좌우 여백 줄이기 */
+
 .board-container {
     margin: 5px 0;
 }
 
 .card {
-    margin: 0 8px; /* 카드 간격 조정 */
+    margin: 0 8px;
 }
 
-/* 최신순, 조회순 버튼과 검색창 간의 간격 */
+
 .input-group {
-    margin-left: 20px; /* 검색창과 정렬 선택 박스 사이의 간격 */
+    margin-left: 20px;
 }
 
 .write-button {
-    margin-left: 15px; /* 글작성 버튼 간격 조정 */
+    margin-left: 15px;
 }
 
 .input-group .form-control-sm {
-    width: 150px; /* 검색창 크기 조정 */
-}
+    width: 150px;
 
 .board-card {
     width: 10rem;
@@ -46,4 +45,12 @@ input[name="searchWord"] {
 .sort-card {
     width: 6rem;
     cursor: pointer;
+}
+
+
+}
+
+/*검색 + 글작성 */
+.board-tap {
+
 }
