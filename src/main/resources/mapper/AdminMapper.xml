@@ -27,4 +27,18 @@
         DELETE FROM member WHERE id = #{id}
     </delete>
 
+    <select id="searchMembers" parameterType="map" resultType="com.tmtb.pageon.user.model.UserVO">
+        SELECT *
+        FROM pageon.member
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY reg_date ${sortOrder}
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="countSearchMembers" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM pageon.member
+        WHERE name LIKE CONCAT('%', #{keyword}, '%') OR tel LIKE CONCAT('%', #{keyword}, '%') OR id LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
 </mapper>

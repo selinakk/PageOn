@@ -20,20 +20,24 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public String login (@ModelAttribute LoginVO loginVO, Model model , HttpSession httpSession){
-        String login = loginService.login(loginVO.getId() , loginVO.getPw());
-
-
-        if(login != null){
-            httpSession.setAttribute("id",login);
-            log.info("로그인 기능성공");
-            log.info("로그인 성공, 세션에 id 저장: " + login);
-            return "redirect:/";
-        }else{
-            model.addAttribute("error","로그인 실패하였습니다");
-            return "redirect:/";
+    public String login(@ModelAttribute LoginVO loginVO, Model model, HttpSession httpSession) {
+        // ID와 PW가 비어있는지 확인
+        if (loginVO.getId() == null || loginVO.getId().isEmpty() || loginVO.getPw() == null || loginVO.getPw().isEmpty()) {
+            model.addAttribute("error", "아이디와 비밀번호를 모두 입력해야 합니다.");
+            return "login"; // 로그인 페이지의 뷰 이름을 반환
         }
 
+        String login = loginService.login(loginVO.getId(), loginVO.getPw());
+
+        if (login != null) {
+            httpSession.setAttribute("id", login);
+            log.info("로그인 기능 성공");
+            log.info("로그인 성공, 세션에 id 저장: " + login);
+            return "redirect:/"; // 메인 페이지로 리다이렉트
+        } else {
+            model.addAttribute("error", "로그인 아이디가 없습니다. 다시 시도해주세요.");
+            return "login"; // 로그인 페이지의 뷰 이름을 반환
+        }
     }
 
     @GetMapping("/logout")

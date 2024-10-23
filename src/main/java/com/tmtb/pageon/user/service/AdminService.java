@@ -33,4 +33,12 @@ public class AdminService {
     public void deleteUser(String id) {
         mapper.deleteMember(id);
     }
+
+    public List<UserVO> searchMembers(String keyword, String sortOrder, int offset, int size) {
+        return mapper.searchMembers(keyword, sortOrder, offset, size);
+    }
+
+    public int countSearchMembers(String keyword) {
+        return mapper.countSearchMembers(keyword);
+    }
 }

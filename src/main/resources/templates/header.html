@@ -12,9 +12,12 @@
               clip-rule="evenodd" />
       </symbol>
 
-      <symbol id="logout" viewBox="0 0 16 16">
-        <path d="M5.5 0a5.5 5.5 0 0 0 0 11h3a5.5 5.5 0 0 0 0-11h-3zM4 4h8a4 4 0 1 1 0 8H4a4 4 0 1 1 0-8zm10 6.5V13h-1.5v-2.5H13v-1h2.5zm-4-1.5v-1h-1v1h1z"/>
+      <!-- 로그아웃 아이콘 추가 -->
+      <symbol id="logout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path fill="currentColor" fill-rule="evenodd"
+              d="M16 13v-2h-5V3H7v18h4v-8h5zm5 4h-2v-2h2v2zM17 8h-2V6h2v2z" />
       </symbol>
+
 
       <symbol id="user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path fill="currentColor" fill-rule="evenodd"
@@ -249,14 +252,6 @@
                       </svg>
                     </a>
                   </li>
-                  <li class="pe-3" th:if="${session.id != null}">
-                    <a th:href="@{/logout}">
-                      <svg class="logout">
-                        <use xlink:href="#logout"></use> <!-- 로그아웃 아이콘 -->
-                      </svg>
-                    </a>
-                  </li>
-
                   <li class="pe-3">
                     <a th:href="${session.id == 'admin' ? '/members' : '#'}"
                        th:text="${session.id == 'admin' ? '회원 관리' : ''}">
@@ -268,10 +263,10 @@
 
                   <li class="pe-3">
 
-                    <a th:href="${session.id != null ? 'user/profile' : '#'}"
+                    <a th:href="${session.id != null ? '/user/profile' : '#'}"
                        th:text="${session.id != null ? '마이페이지' : '로그인 / 회원가입'}"
                        th:attr="data-bs-toggle=${session.id != null ? null : 'modal'},
-                data-bs-target=${session.id != null ? null : '#exampleModal'}">
+             data-bs-target=${session.id != null ? null : '#exampleModal'}">
                       <svg class="user">
                         <use xlink:href="#user"></use>
                       </svg>
@@ -305,13 +300,11 @@
                                   <form action="#" th:action="@{/login}" method="post">
                                     <div class="form-group py-3">
                                       <label class="mb-2" for="id">Username or email address *</label>
-                                      <input type="text" minlength="2" name="id" placeholder="Your Username"
-                                             class="form-control w-100 rounded-3 p-3" required>
+                                      <input type="text" minlength="2" name="id" placeholder="Your Username" class="form-control w-100 rounded-3 p-3" required>
                                     </div>
                                     <div class="form-group pb-3">
                                       <label class="mb-2" for="pw">Password *</label>
-                                      <input type="password" minlength="2" name="pw" placeholder="Your Password"
-                                             class="form-control w-100 rounded-3 p-3" required>
+                                      <input type="password" minlength="2" name="pw" placeholder="Your Password" class="form-control w-100 rounded-3 p-3" required>
                                     </div>
                                     <label class="py-3">
                                       <input type="checkbox" required="" class="d-inline">
@@ -320,9 +313,13 @@
                                     </label>
                                     <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Login</button>
                                   </form>
+                                  <div th:if="${error}" class="alert alert-danger" role="alert">
+                                    <span th:text="${error}"></span>
+                                  </div>
                                 </div>
 
-                                <!-- 회원가입 탭 -->
+
+
                                 <!-- 회원가입 탭 -->
                                 <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
                                   <form id="registerForm" th:action="@{/insertUserForm}" method="post" enctype="multipart/form-data">
@@ -362,7 +359,7 @@
                                       <label class="mb-1" for="like_categories">관심 카테고리 *</label>
                                       <div class="input-group">
                                         <input type="text" id="selected-category" name="like_categories" placeholder="관심 카테고리" class="form-control w-100 rounded-2 p-1" readonly required>
-                                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal">선택</button>
+                                        <button type="button" id="nextButton" class="btn btn-outline-secondary">다음</button>
                                       </div>
                                     </div>
 
@@ -428,29 +425,23 @@
                                   <label for="cat5">카테고리5</label>
                                 </div>
                               </div>
-                              <div class="row">
-                                <div class="col-2">
-                                  <input type="checkbox" value="카테고리6" id="cat6">
-                                  <label for="cat6">카테고리6</label>
-                                </div>
-                                <div class="col-2">
-                                  <input type="checkbox" value="카테고리7" id="cat7">
-                                  <label for="cat7">카테고리7</label>
-                                </div>
-                                <div class="col-2">
-                                  <input type="checkbox" value="카테고리8" id="cat8">
-                                  <label for="cat8">카테고리8</label>
-                                </div>
-                              </div>
                             </div>
                           </div>
                           <div class="modal-footer">
+                            <button type="button" id="saveCategories" class="btn btn-primary">Save changes</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="saveCategories">Save changes</button>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </li>
+
+                  <li class="pe-3" th:if="${session.id != null}">
+                    <a th:href="@{/logout}">
+                      <svg class="logout" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#logout"></use> <!-- 로그아웃 아이콘 사용 -->
+                      </svg>
+                    </a>
                   </li>
 
                                 <script>
@@ -474,19 +465,40 @@
                                             });
                                   });
 
-                    // 카테고리 저장 버튼 클릭 시
-                    document.getElementById('saveCategories').addEventListener('click', function() {
-                      const selectedCategories = [];
-                      const checkboxes = document.querySelectorAll('#category-checkboxes input[type="checkbox"]:checked');
-                      checkboxes.forEach((checkbox) => {
-                        selectedCategories.push(checkbox.value);
+                      // "다음" 버튼 클릭 시 카테고리 모달 열기
+                      document.getElementById('nextButton').addEventListener('click', function() {
+                        const selectedCategories = [];
+                        const checkboxes = document.querySelectorAll('#category-checkboxes input[type="checkbox"]');
+                        checkboxes.forEach((checkbox) => {
+                          if (checkbox.checked) {
+                            selectedCategories.push(checkbox.value);
+                          }
+                        });
+                        document.getElementById('selected-category').value = selectedCategories.join(', ');
+                        const registerButton = document.getElementById('registerButton');
+                        registerButton.disabled = selectedCategories.length === 0; // 카테고리가 선택되지 않은 경우 비활성화
+
+                        // 모달 열기
+                        const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+                        categoryModal.show();
                       });
-                      document.getElementById('selected-category').value = selectedCategories.join(', '); // 선택된 카테고리를 입력 필드에 담기
-                      const registerButton = document.getElementById('registerButton');
-                      registerButton.disabled = selectedCategories.length === 0; // 최소 하나의 카테고리가 선택되지 않은 경우 버튼 비활성화
-                      $('#categoryModal').modal('hide'); // 모달 닫기
-                    });
-                  </script>
+
+                      // 카테고리 저장 버튼 클릭 시 선택된 카테고리 저장
+                      document.getElementById('saveCategories').addEventListener('click', function() {
+                        const selectedCategories = [];
+                        const checkboxes = document.querySelectorAll('#category-checkboxes input[type="checkbox"]');
+                        checkboxes.forEach((checkbox) => {
+                          if (checkbox.checked) {
+                            selectedCategories.push(checkbox.value);
+                          }
+                        });
+                        document.getElementById('selected-category').value = selectedCategories.join(', ');
+
+                        // 카테고리 모달 닫기
+                        const categoryModal = bootstrap.Modal.getInstance(document.getElementById('categoryModal'));
+                        categoryModal.hide();
+                      });
+                    </script>
                   </li>
                 </ul>
               </div>

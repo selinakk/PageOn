@@ -60,6 +60,43 @@ public class UserController {
         return "user/profile";
     }
 
+    @GetMapping("/user/userprofile")
+    public String findByIdUser(@RequestParam("id") String id, Model model) {
+        log.info("URL 파라미터에서 가져온 id: " + id);
+
+        // id 값이 존재할 경우 처리
+        if (id != null && !id.isEmpty()) {
+            // 사용자 정보 조회
+            UserVO userVO = userService.findById(id);
+
+            // 포럼, 게시판, 리뷰, 댓글 데이터 조회
+            List<ForumVO> forumList = userService.findByForum(id);
+            List<BoardVO> boardList = userService.findByBoard(id);
+            List<ReviewVO> reviewList = userService.findByReviews(id);
+            List<CommentVO> commentList = userService.findByComment(id);
+
+            // 사용자 선호 카테고리 처리
+            if (userVO.getLike_categories() != null && !userVO.getLike_categories().isEmpty()) {
+                String[] categories = userVO.getLike_categories().split(","); // 카테고리 문자열을 배열로 변환
+                model.addAttribute("categories", categories); // 카테고리 배열을 모델에 추가
+            }
+
+            // 모델에 필요한 데이터 추가
+            model.addAttribute("userVO", userVO);
+            model.addAttribute("forumList", forumList);
+            model.addAttribute("boardList", boardList);
+            model.addAttribute("reviewList", reviewList);
+            model.addAttribute("commentList", commentList);
+
+        } else {
+
+            return "redirect:/";
+        }
+
+
+        return "user/profile";
+    }
+
     @GetMapping("/user/profile/all/pazing/{type}")
     public String viewAllPazing(@PathVariable String type, HttpSession session, Model model,
                                 @RequestParam(defaultValue = "0") int page) {

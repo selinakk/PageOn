@@ -14,41 +14,82 @@
 </head>
 
 <style>
-    .profile-image {
-        width: 100px; /* 원하는 크기로 조정 */
-        height: auto; /* 비율을 유지 */
-        border-radius: 50%; /* 원형 이미지 */
-        border: 2px solid #007bff; /* 테두리 색상 */
+    .container {
+        margin-top: 20px; /* 컨테이너 상단 여백 추가 */
     }
 
-    .user-info {
-        margin-top: 10px; /* 상단 여백을 조정 */
+    /* 프로필 이미지 */
+    .profile-image {
+        width: 120px; /* 이미지 크기 */
+        height: auto; /* 비율 유지 */
+        border-radius: 50%; /* 원형 이미지 */
+        border: 3px solid #007bff; /* 테두리 색상 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    }
+
+    /* 사용자 정보 스타일 */
+    .user-info h4 {
+        font-size: 1.5rem; /* 제목 크기 */
+        margin-bottom: 10px; /* 제목 하단 여백 */
+    }
+
+    .user-info p {
+        margin-bottom: 5px; /* 문단 간격 조정 */
+    }
+
+    /* introduce 스타일 */
+    .user-introduce {
+        height: 150px; /* 높이 설정 */
+        overflow-y: auto; /* 내용이 넘칠 경우 스크롤 가능 */
+        border: 1px solid #dee2e6; /* 테두리 */
+        padding: 10px; /* 패딩 추가 */
+        border-radius: 4px; /* 둥근 모서리 */
+        background-color: #f8f9fa; /* 배경색 */
+    }
+
+    /* 카드 스타일 */
+    .card {
+        border: none; /* 기본 테두리 제거 */
+        border-radius: 8px; /* 둥근 모서리 */
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+        height: 100%; /* 카드 높이를 동일하게 설정 */
+        display: flex; /* Flexbox 사용 */
+        flex-direction: column; /* 세로 방향으로 정렬 */
+    }
+
+    .card-body {
+        flex-grow: 1; /* 여유 공간을 채우도록 설정 */
     }
 
     .more-link {
         float: right; /* 오른쪽으로 정렬 */
         text-decoration: underline; /* 밑줄 추가 */
-        color: black; /* 검은색으로 변경 */
+        color: #007bff; /* 색상 변경 */
     }
 
-    .card {
-        border: none; /* 기본 테두리 제거 */
-        border-radius: 8px; /* 둥근 모서리 */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    /* 리스트와 버튼 스타일 */
+    .list-group-item {
+        transition: background-color 0.3s; /* 배경색 전환 효과 */
     }
 
-    .card-title {
-        font-weight: bold; /* 제목 두껍게 */
+    .btn {
+        transition: background-color 0.3s; /* 버튼 배경색 전환 효과 */
     }
 
-    .border-custom {
-        border: 1px solid #e0e0e0; /* 사용자 정의 테두리 */
-        border-radius: 8px; /* 둥근 모서리 */
+    .btn-primary {
+        background-color: #007bff; /* 기본 버튼 색상 */
     }
 
-    /* 텍스트 색상을 검은색으로 설정 */
-    .text-muted {
-        color: black !important; /* 모든 text-muted 클래스의 색상 변경 */
+    .btn-primary:hover {
+        background-color: #0056b3; /* 호버 시 버튼 색상 변경 */
+    }
+
+    .btn-secondary {
+        background-color: #6c757d; /* 기본 버튼 색상 */
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268; /* 호버 시 버튼 색상 변경 */
     }
 </style>
 
@@ -58,47 +99,61 @@
 <div class="container my-4">
     <div class="row">
         <!-- 왼쪽 박스: 프로필 이미지와 사용자 정보 함께 표시 -->
-        <div class="col-md-4 border-custom p-4 d-flex align-items-start">
-            <!-- 프로필 이미지 -->
-            <div class="me-4">
-                <img th:src="@{'/profile/' + ${userVO.imgname}}" alt="Profile Image" class="img-fluid profile-image">
-            </div>
+        <div class="col-md-4">
+            <div class="card border-custom p-4 d-flex flex-column">
+                <div class="d-flex align-items-start mb-3">
+                    <!-- 프로필 이미지 -->
+                    <div class="me-4">
+                        <img th:src="@{'/profile/' + ${userVO.imgname}}" alt="Profile Image" class="img-fluid profile-image">
+                    </div>
 
-            <div class="user-info">
-                <h4>User Information</h4>
-                <p><strong>ID:</strong> <span th:text="${userVO.id}"></span></p>
-                <p><strong>Name:</strong> <span th:text="${userVO.name}"></span></p>
-                <p><strong>Tel:</strong> <span th:text="${userVO.tel}"></span></p>
-                <p><strong>Introduce:</strong> <span th:text="${userVO.introduce}"></span></p>
-                <!-- 수정하기 버튼이 페이지로 이동 -->
-                <a class="btn btn-primary mt-2" href="/user/updateProfile">수정하기</a>
+                    <div class="user-info">
+                        <h4>User Information</h4>
+                        <p><strong>ID:</strong> <span th:text="${userVO.id}"></span></p>
+                        <p><strong>Name:</strong> <span th:text="${userVO.name}"></span></p>
+                        <p><strong>Tel:</strong> <span th:text="${userVO.tel}"></span></p>
+                        <a class="btn btn-primary mt-2" href="/user/updateProfile">수정하기</a>
+                    </div>
+                </div>
+
+                <div class="user-introduce mt-auto">
+                    <h5>Introduce:</h5>
+                    <span th:text="${userVO.introduce}"></span>
+                </div>
             </div>
         </div>
+
 
         <!-- 오른쪽 박스: 카테고리 데이터 출력 -->
-        <div class="col-md-3 border-custom p-4">
-            <h5>Categories</h5>
-            <div class="border p-3 mb-3">
+        <div class="col-md-4">
+            <div class="card border-custom p-4">
+                <h5>Categories</h5>
+                <div class="border p-3 mb-3">
+                    <ul class="list-group">
+                        <li class="list-group-item" th:each="category : ${categories}">
+                            <span th:text="${category}"></span>
+                        </li>
+                    </ul>
+                </div>
+                <a class="btn btn-secondary mt-2" href="/user/updateCategoriesPage">카테고리 수정하기</a>
+            </div>
+        </div>
+
+        <!-- 오른쪽 박스: 세로로 나열되는 리스트 추가 -->
+        <div class="col-md-4">
+            <div class="card border-custom p-4">
+                <h5>Vertical List</h5>
                 <ul class="list-group">
-                    <li class="list-group-item" th:each="category : ${categories}">
-                        <span th:text="${category}"></span>
-                    </li>
+                    <li class="list-group-item">Item 1</li>
+                    <li class="list-group-item">Item 2</li>
+                    <li class="list-group-item">Item 3</li>
+                    <li class="list-group-item">Item 4</li>
+                    <li class="list-group-item">Item 5</li>
                 </ul>
             </div>
-            <a class="btn btn-secondary mt-2" href="/user/updateCategoriesPage">카테고리 수정하기</a>
-        </div>
-        <!-- 오른쪽 박스: 세로로 나열되는 리스트 추가 -->
-        <div class="col-md-5 border-custom p-4">
-            <h5>Vertical List</h5>
-            <ul class="list-group">
-                <li class="list-group-item">Item 1</li>
-                <li class="list-group-item">Item 2</li>
-                <li class="list-group-item">Item 3</li>
-                <li class="list-group-item">Item 4</li>
-                <li class="list-group-item">Item 5</li>
-            </ul>
         </div>
     </div>
+
 
     <!-- 포럼 목록 섹션 -->
     <h5>Forums <a class="more-link" th:href="@{/user/profile/all/pazing/forum(type='forum', page=0)}">더보기</a></h5>
@@ -106,7 +161,7 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-md-3" th:each="forum, iterStat : ${forumList}">
-                    <div class="card mb-3" th:if="${iterStat.index < 4}"> <!-- 4개까지만 표시 -->
+                    <div class="card mb-3" th:if="${iterStat.index < 4}">
                         <div class="card-body">
                             <h6 class="card-title" th:text="${forum.title}"></h6>
                             <p class="card-text" th:text="${forum.content}"></p>
