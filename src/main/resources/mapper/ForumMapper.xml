@@ -2,9 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tmtb.pageon.forum.mapper.ForumMapper">
 <!--    목록 보기-->
-    <select id="getList" resultType="com.tmtb.pageon.forum.model.ForumVO" flushCache="true">
-        SELECT SQL_NO_CACHE f.*, w.title AS work_title, w.img_name, (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS comment_count
-        FROM forum f JOIN work w ON f.work_num = w.num
+    <select id="getList" resultType="com.tmtb.pageon.forum.model.ForumVO">
+        SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
+               m.name AS userName, m.img_name AS userImgName,
+               (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
+        FROM forum f JOIN work w ON f.work_num = w.num JOIN member m ON f.user_id = m.id
         ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
     </select>
     <select id="getListCnt" resultType="int">
@@ -13,23 +15,24 @@
 <!--    목록 보기 끝-->
 <!--    목록 검색-->
     <select id="searchForum" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        SELECT f.*, w.title AS work_title, w.img_name, (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS comment_count
-        FROM forum f
-        LEFT JOIN work w ON f.work_num = w.num
+        SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
+        m.name AS userName, m.img_name AS userImgName,
+        (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
+        FROM forum f JOIN work w ON f.work_num = w.num JOIN member m ON f.user_id = m.id
         WHERE 1=1
-        <if test="searchKey != null and searchWord != ''">
+        <if test="searchKey != null and searchWord != null and searchWord != '' and searchWord != ''">
             <choose>
                 <when test="searchKey == 'title'">
                     AND f.title LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
-                <when test="searchKey == 'work_title'">
+                <when test="searchKey == 'workTitle'">
                     AND w.title LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
                 <when test="searchKey == 'content'">
                     AND f.content LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
-                <when test="searchKey == 'user_id'">
-                    AND f.user_id LIKE CONCAT('%', #{searchWord}, '%')
+                <when test="searchKey == 'userName'">
+                    AND m.name LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
             </choose>
         </if>
@@ -38,37 +41,35 @@
     <select id="searchForumCnt" resultType="int">
         SELECT COUNT(*)
         FROM forum f
-        LEFT JOIN work w ON f.work_num = w.num
+        JOIN work w ON f.work_num = w.num
+        JOIN member m ON f.user_id = m.id
         WHERE 1=1
-        <if test="searchKey != null and searchWord != '' ">
+        <if test="searchKey != null and searchWord != null and searchWord != '' and searchWord != ''">
             <choose>
                 <when test="searchKey == 'title'">
                     AND f.title LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
-                <when test="searchKey == 'work_title'">
+                <when test="searchKey == 'workTitle'">
                     AND w.title LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
                 <when test="searchKey == 'content'">
                     AND f.content LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
-                <when test="searchKey == 'user_id'">
-                    AND f.user_id LIKE CONCAT('%', #{searchWord}, '%')
+                <when test="searchKey == 'userName'">
+                    AND m.name LIKE CONCAT('%', #{searchWord}, '%')
                 </when>
             </choose>
         </if>
     </select>
-    <select id="getUserProfile">
-        SELECT name, img_name FROM member WHERE id = #{userId}
-    </select>
     <!-- 목록 검색 끝-->
 <!--    상세 보기 -->
     <select id="selectOne" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        select f.*, w.title AS work_title, w.img_name, (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS comment_count
-            FROM forum f
-            JOIN work w ON f.work_num = w.num where f.num=#{num}
+        select f.*, w.title AS workTitle, w.img_name AS workImgName, m.name AS userName, m.img_name AS userImgName,
+               (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
+            FROM forum f JOIN work w ON f.work_num = w.num JOIN member m ON f.user_id = m.id where f.num=#{num}
     </select>
     <select id="getCommentCnt" resultType="int">
-        SELECT COUNT(*) AS comment_count FROM comment WHERE fnum = #{fnum}
+        SELECT COUNT(*) AS commentCnt FROM comment WHERE fnum = #{fnum}
     </select>
 <!--    상세 보기 끝-->
 <!--    DML -->

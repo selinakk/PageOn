@@ -12,10 +12,10 @@
       </div>
       <div class="d-flex flex-wrap justify-content-md-between justify-content-center border-bottom pb-5">
         <div class="col-md-3 col-4 mb-2">
-          <img class="img-fluid shadow-sm" th:src="@{/img/{imgName}(imgName=${vo2.img_name})}" th:alt="|${vo2.work_title} 작품 이미지|"/>
+          <img class="img-fluid shadow-sm" th:src="@{/img/{workImgName}(workImgName=${vo2.workImgName})}" th:alt="|${vo2.workTitle} 작품 이미지|"/>
         </div>
         <div class="col-md-8 col-12">
-          <div class="d-flex justify-content-between mb-2 text-black-50">
+          <div class="d-flex justify-content-between mb-4 text-black-50">
             <div>
               <small th:text="'조회수 '+${vo2.hitcount} "></small>
               <small th:text="' 게시일 '+${vo2.wdate}"></small>
@@ -30,15 +30,20 @@
             </div>
 
           </div>
-<!--          <a class="" href="#"><span th:text="${vo2.userName}"></span><span class="user-profile"><img th:src="@{/img/{imgName}(imgName=${vo2.img_name})}" th:alt="|${vo2.userName} 작품 이미지|"></span></a>-->
-          <p class="mb-0 text-black-50" th:text="${vo2.work_title} + '에 대한 토론'"></p>
+          <a th:href="@{/bookshelf/list(userId=${vo2.user_id})}" class="d-inline-flex align-items-center">
+                      <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
+                        <img class="w-100 h-100" th:src="@{/img/{userImgName}(userImgName=${vo2.userImgName})}" th:alt="|${vo2.userName}님 프로필 이미지|">
+                      </span>
+            <strong th:text="${vo2.userName}"></strong>
+          </a>
+          <span class="align-super" th:text="'님이 게시한 '+${vo2.workTitle} + '에 대한 토론'"></span>
           <h6 class="mt-2 mb-3 py-2 fw-bold fs-3" th:text="'Q. '+${vo2.title}"></h6>
           <p th:text="${vo2.content}"></p>
         </div>
       </div>
       <!-- 여기가 댓글 관련 내용입니다. 이부분을 부모글의 상세보기와 추가해주시면 됩니다. -->
       <section id="comment" class="position-relative my-5">
-        <h3>댓글<small th:text="'('+${vo2.comment_count}+')'"></small></h3>
+        <h3>댓글<small th:text="'('+${vo2.commentCnt}+')'"></small></h3>
         <div class="replyForm">
           <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
           <img src="/img/comment_write.png" alt="대댓글 작성" onclick="submitComment()" class="comment-icon"/>

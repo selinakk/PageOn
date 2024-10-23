@@ -11,6 +11,7 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     color: var(--primary-color);
     font-weight: 500;
 }
+.align-super {vertical-align:super !important}
     /* Global 끝 */
 
 /* 토론 */
@@ -56,6 +57,14 @@ a.text-danger .svg-icon {
     top: -1px;
     fill: rgba(var(--bs-danger-rgb),var(--bs-text-opacity))!important;
 }
+.user-profile{
+    width: 1.7rem;
+    height: 1.7rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 /* 토론 끝 */
 /*서재 시작*/
 .work-cover--sm {max-width: 6rem;}

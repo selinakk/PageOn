@@ -12,7 +12,7 @@ public interface BookshelfMapper {
                               @Param("size") int size,
                               @Param("sortField") String sortField,
                               @Param("sortDir") String sortDir,
-                              @Param("userId") String userId);
+                              @Param("user_id") String userId);
 
     List<BookshelfVO> getListBySort(@Param("sort") String sort,
                                     @Param("offset") int offset,

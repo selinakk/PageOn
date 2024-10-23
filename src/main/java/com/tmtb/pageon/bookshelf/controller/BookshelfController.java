@@ -29,7 +29,7 @@ public class BookshelfController {
                             @RequestParam(defaultValue = "date_added") String sortField,
                             @RequestParam(defaultValue = "desc") String sortDir,
                                 @RequestParam(value="sort", defaultValue="all") String sort,
-                                @RequestParam String userId,
+                                @RequestParam(value="userId") String userId,
                                 HttpSession session
     ) {
         List<BookshelfVO> list;
@@ -66,8 +66,8 @@ public class BookshelfController {
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("userId", userId);
         model.addAttribute("userName", userName);
-        log.info("/bookshelf/list - {}님의 서재 목록 페이지", userName);
 
+        log.info("/bookshelf/list - {}님의 서재 목록 페이지", userName);
         return "bookshelf/list";
     }
     //목록 끝
@@ -82,6 +82,7 @@ public class BookshelfController {
                                   @RequestParam("work_num") int workNum,
                                   RedirectAttributes redirectAttributes){
         log.info("/bookshelf/insertOK - 서재에 작품 추가");
+
         boolean result = service.insertBookshelfOK(userId, sort, workNum);
         if (result) {
             redirectAttributes.addFlashAttribute("successMsg", "서재에 추가되었습니다.");

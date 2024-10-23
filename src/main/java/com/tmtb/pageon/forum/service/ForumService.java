@@ -22,7 +22,8 @@ public class ForumService {
         return mapper.getListCnt();
     }
     public List<ForumVO> searchForum(String searchKey, String searchTerm, int page, int size){
-        return mapper.searchForum(searchKey, searchTerm, page, size);
+        int offset = (page - 1) * size;
+        return mapper.searchForum(searchKey, searchTerm, offset, size);
     }
     public int searchForumCnt(String searchKey, String searchWord){
         return mapper.searchForumCnt(searchKey, searchWord);
@@ -32,9 +33,7 @@ public class ForumService {
     }
 
     //
-    public boolean insertForumOK(ForumVO vo){
-        return mapper.insertForumOK(vo);
-    }
+    public boolean insertForumOK(ForumVO vo){return mapper.insertForumOK(vo);}
     public boolean updateForumOK(ForumVO vo) {return mapper.updateForumOK(vo);}
     public boolean deleteForumOK(ForumVO vo) {return mapper.deleteForumOK(vo);}
     public void reportForum(int num) {mapper.reportForumOK(num);}

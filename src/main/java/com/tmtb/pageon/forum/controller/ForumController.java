@@ -31,15 +31,12 @@ public class ForumController {
                             @RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "4") int size,
                             @RequestParam(defaultValue = "wdate") String sortField,
-                            @RequestParam(defaultValue = "desc") String sortDir,
-                            @RequestParam String userId
+                            @RequestParam(defaultValue = "desc") String sortDir
                             ) {
         List<ForumVO> list = service.getList(page, size, sortField, sortDir);
         int totalList = service.getListCnt();
         int totalPages = (int)Math.ceil((double)totalList/size);
 
-        //게시자 프로필 가져오기
-        service.getUserProfile(userId);
 
         model.addAttribute("list", list);
         model.addAttribute("currentPage", page);
@@ -74,7 +71,8 @@ public class ForumController {
         model.addAttribute("pageSize", size);
         model.addAttribute("totalSearchPages", totalSearchPages);
 
-        log.info("/forum/search - 토론 목록 검색 실행");
+        log.info("/forum/search - 토론 목록 {} '{}'에 대한 검색 실행 page{}",searchKey,searchWord,page);
+        log.info("검색 결과 총 {}건",totalSearchList);
         return "forum/list";
     }
 //    목록 끝

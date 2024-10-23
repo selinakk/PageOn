@@ -12,7 +12,10 @@ public class BookshelfVO {
     private int work_num;
     private Date date_added;
 
-    private String name; //빼도 될듯?
-    private String work_title;
-    private String img_name;
+    //member 테이블 참조
+    private String userName;
+
+    //work 테이블 참조
+    private String workTitle;
+    private String workImgName;
 }
