@@ -25,18 +25,22 @@ public class AdminController {
     public String listMembers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "ASC") String sortOrder,
             Model model) {
 
         int offset = page * size;
-        List<UserVO> members = adminService.selectAllMembers(offset, size);
-        int totalMembers = adminService.countAllMembers();
+        List<UserVO> members = adminService.searchMembers(keyword, sortOrder, offset, size);
+        int totalMembers = adminService.countSearchMembers(keyword);
         int totalPages = (int) Math.ceil((double) totalMembers / size);
 
         model.addAttribute("members", members);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("keyword", keyword); // 검색 키워드 유지
+        model.addAttribute("sortOrder", sortOrder); // 정렬 기준 유지
 
-        return "admin/memberList";  // 뷰의 이름
+        return "admin/memberList"; // 뷰의 이름
     }
 
     @GetMapping("/members/new")
@@ -55,7 +59,7 @@ public class AdminController {
     public String editMemberForm(@RequestParam String id, Model model) {
         UserVO user = userService.findById(id);
         model.addAttribute("userVO", user);
-        return "admin/memberForm";  // 사용자 수정 폼
+        return "admin/memberForm";  // 수정 폼으로 이동
     }
 
     @PostMapping("/members/update")
