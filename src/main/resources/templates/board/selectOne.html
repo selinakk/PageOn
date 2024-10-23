@@ -75,8 +75,8 @@
             <h3>댓글</h3>
             <div class="replyForm">
                 <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
-                <input type="text" id="bnum" th:value="${vo2.num}">
-                <input type="text" id="type" value="board">
+                <input type="hidden" id="bnum" th:value="${vo2.num}">
+                <input type="hidden" id="type" value="board">
                 <img src="/img/comment_write.png" alt="대댓글 작성" onclick="submitComment()" class="comment-icon"/>
             </div>
 
