@@ -2,6 +2,8 @@ package com.tmtb.pageon.board.controller;
 
 import com.tmtb.pageon.board.service.BoardService;
 import com.tmtb.pageon.board.model.BoardVO;
+import com.tmtb.pageon.comment.controller.CommentController;
+import com.tmtb.pageon.comment.model.CommentVO;
 import jakarta.servlet.ServletContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -27,6 +30,9 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private CommentController commentController;
 
     @Autowired
     ServletContext context;
@@ -135,7 +141,8 @@ public class BoardController {
 
     //게시글 상세 보기
     @GetMapping("/b_selectOne")
-    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category) {
+    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category,@RequestParam(defaultValue = "1") int cpage,
+                              @RequestParam(defaultValue = "20") int pageBlock) {
         log.info("게시글 상세보기 페이지");
 
         boardService.updateBoardHitCount(vo);
@@ -145,6 +152,26 @@ public class BoardController {
 
         model.addAttribute("vo2", vo2);
         model.addAttribute("category", category);
+
+
+
+        // 댓글 데이터 가져오기
+        Map<String, Object> commentsData = commentController.selectAll("board", vo.getNum(), null, null, 1, 20);
+        List<CommentVO> comments = (List<CommentVO>) commentsData.get("comments");
+        int totalPageCount = (int) commentsData.get("totalPageCount");
+        // 전체 댓글 수 가져오기
+        int totalRows = (int) commentsData.get("totalRows");
+
+
+
+        // 댓글 데이터를 모델에 추가
+        model.addAttribute("comments", comments);
+        // 총 페이지 수 계산 후 모델에 추가
+        model.addAttribute("totalPageCount", (int) Math.ceil((double) totalRows / pageBlock));
+        // cpage와 pageBlock을 모델에 추가
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("pageBlock", pageBlock);
+
 
         return "board/selectOne";
     }

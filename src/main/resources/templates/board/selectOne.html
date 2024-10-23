@@ -71,10 +71,76 @@
             </form>
         </div>
 
-        <!--댓글-->
+        <section id="comment" class="position-relative padding-small">
+            <h3>댓글</h3>
+            <div class="replyForm">
+                <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
+                <input type="text" id="bnum" th:value="${vo2.num}">
+                <input type="text" id="type" value="board">
+                <img src="/img/comment_write.png" alt="대댓글 작성" onclick="submitComment()" class="comment-icon"/>
+            </div>
+
+            <div id="commentList">
+                <div th:each="comment : ${comments}" class="comment" th:id="'comment-' + ${comment.num}">
+                    <p>
+                        <strong th:text="${comment.user_id}"></strong>:
+                        <span th:text="${comment.content}" class="comment-content"></span>
+                    </p>
+                    <p>작성일: <span th:text="${comment.wdate}"></span></p>
+                    <div class="actionButtons">
+                        <img src="/img/comment_child.png" alt="대댓글 더보기" th:onclick="'fetchChildComments(' + ${comment.num} + ')'" class="comment-icon"/>
+                        <img src="/img/comment_childup.png" alt="대댓글 줄이기" th:onclick="'hideComment(' + ${comment.num} + ')'" class="comment-icon"/>
+                        <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'showReplyForm(' + ${comment.num} + ')'" class="comment-icon"/>
+                        <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'" class="comment-icon"/>
+                        <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'" class="comment-icon"/>
+                        <img src="/img/comment_report.png" alt="신고" th:onclick="'reportComment(' + ${comment.num} + ')'" class="comment-icon"/>
+                    </div>
+
+                    <!-- 대댓글 입력 폼 -->
+                    <div class="replyForm" th:id="'replyForm-' + ${comment.num}" style="display:none;">
+                        <textarea th:id="'replyText-' + ${comment.num}" rows="2" placeholder="대댓글을 입력하세요..."></textarea>
+                        <img src="/img/comment_write.png" alt="작성" th:onclick="'submitReply(' + ${comment.num} + ')'" class="comment-icon"/>
+                        <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelReply(' + ${comment.num} + ')'" class="comment-icon"/>
+                    </div>
+
+                    <div class="editForm" th:id="'editForm-' + ${comment.num}" style="display:none;">
+                        <textarea th:id="'editText-' + ${comment.num}" rows="2" th:text="${comment.content}"></textarea>
+                        <img src="/img/comment_update.png" alt="수정" th:onclick="'submitEdit(' + ${comment.num} + ')'" class="comment-icon"/>
+                        <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelEdit(' + ${comment.num} + ')'" class="comment-icon"/>
+                    </div>
+
+                    <div class="childComments" th:id="'childComments-' + ${comment.num}">
+                        <!-- 대댓글을 가져올 공간 -->
+                    </div>
+
+                    <div th:id="'paging-' + ${comment.num}" style="display:none;">
+                        <!-- 페이징을 위한 div 추가 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="paging">
+                <ul>
+                    <li th:if="${cpage > 1}">
+                        <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
+                        <a th:href="@{/test(cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
+                    </li>
+                    <li th:if="${cpage < totalPageCount}">
+                        <a th:href="@{/test(cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+
 
 
     </div>
 </div>
+
+
+
 </body>
 </html>
