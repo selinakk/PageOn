@@ -1,5 +1,7 @@
 package com.tmtb.pageon.notice.controller;
 
+import com.tmtb.pageon.forum.model.ForumVO;
+import com.tmtb.pageon.forum.service.ForumService;
 import com.tmtb.pageon.notice.model.NoticeVO;
 import com.tmtb.pageon.notice.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,19 +28,24 @@ public class NoticeController {
     @Autowired
     NoticeService service;
 
+    @Autowired
+    ForumService forumService;
+
     // application.properties 에서 설정한 변수(file.dir)를 DI
     @Value("${file.dir}")
     private String realPath;
 
     @GetMapping("/notice/n_selectAll.do")
     public String selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
-                            @RequestParam(defaultValue = "10") int pageBlock) {
+                            @RequestParam(defaultValue = "15") int pageBlock) {
         log.info("/notice/n_selectAll.do");
         log.info("cpage:{}", cpage);
         log.info("pageBlock:{}", pageBlock);
 
         List<NoticeVO> list = service.selectAllPageBlock(cpage, pageBlock);
         log.info("list.size():{}", list.size());
+
+
 
         model.addAttribute("list", list);
 
@@ -64,10 +71,10 @@ public class NoticeController {
         return "notice/selectAll";
     }
 
-
+    //오래된순
     @GetMapping("/notice/n_selectAllNew.do")
     public String selectAllNew(Model model, @RequestParam(defaultValue = "1") int cpage,
-                            @RequestParam(defaultValue = "10") int pageBlock) {
+                            @RequestParam(defaultValue = "15") int pageBlock) {
         log.info("/notice/n_selectAllNew.do");
         log.info("cpage:{}", cpage);
         log.info("pageBlock:{}", pageBlock);
@@ -100,22 +107,42 @@ public class NoticeController {
     }
 
 
+    //오래된순
+    @GetMapping("/notice/n_selectAllHitcount.do")
+    public String selectAllHitcount(Model model, @RequestParam(defaultValue = "1") int cpage,
+                               @RequestParam(defaultValue = "15") int pageBlock) {
+        log.info("/notice/n_selectAllHitcount.do");
+        log.info("cpage:{}", cpage);
+        log.info("pageBlock:{}", pageBlock);
 
-//    @GetMapping("/notice/n_searchList.do")
-//    public String searchList(Model model, @RequestParam(defaultValue = "id") String searchKey,
-//                             @RequestParam(defaultValue = "ad") String searchWord) {
-//        log.info("/notice/n_searchList.do");
-//        log.info("searchKey:{}", searchKey);
-//        log.info("searchWord:{}", searchWord);
-//
-//
-//		List<NoticeVO> list = service.searchList(searchKey, searchWord);
-//
-//        model.addAttribute("list", list);
-//
-//
-//        return "notice/selectAll";
-//    }
+        List<NoticeVO> list = service.selectAllHitcountPageBlock(cpage, pageBlock);
+        log.info("list.size():{}", list.size());
+
+        model.addAttribute("list", list);
+
+        // 디비로부터 얻은 검색결과의 모든 행수
+        int total_rows = service.getTotalRows();// select count(*) total_rows from member;
+        log.info("total_rows:{}", total_rows);
+        // int pageBlock = 5;//1개페이지에서 보여질 행수,파라메터로 받으면 됨.
+        int totalPageCount = 0;
+
+        // 총행카운트와 페이지블럭을 나눌때의 알고리즘을 추가하기.
+        if (total_rows / pageBlock == 0) {
+            totalPageCount = 1;
+        } else if (total_rows % pageBlock == 0) {
+            totalPageCount = total_rows / pageBlock;
+        } else {
+            totalPageCount = total_rows / pageBlock + 1;
+            ;
+        }
+        log.info("totalPageCount:{}", totalPageCount);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+
+        return "notice/selectAll";
+    }
+
+
 
     @GetMapping("/notice/n_insert.do")
     public String insert() {
@@ -181,10 +208,9 @@ public class NoticeController {
         log.info("vo:{}", vo);
 
         NoticeVO vo2 = service.selectOne(vo);
+
         log.info("vo2:{}", vo2);
 
-        int hitCount = getHitCount(vo2);
-        vo2.setHitcount(hitCount);
 
         model.addAttribute("vo2", vo2);
 
@@ -282,7 +308,7 @@ public class NoticeController {
     public String searchList(Model model, @RequestParam(defaultValue = "id") String searchKey,
                              @RequestParam(defaultValue = "ad") String searchWord,
                              @RequestParam(defaultValue = "1") int cpage,
-                             @RequestParam(defaultValue = "10") int pageBlock) {
+                             @RequestParam(defaultValue = "15") int pageBlock) {
         log.info("/notice/n_searchList.do");
         log.info("searchKey:{}", searchKey);
         log.info("searchWord:{}", searchWord);
@@ -312,9 +338,6 @@ public class NoticeController {
 
         return "notice/selectAll";
     }
-
-
-
 
 
 }
