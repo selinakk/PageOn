@@ -26,17 +26,25 @@ public interface NoticeMapper {
 
     public List<NoticeVO> selectAllPageBlock(int startRow, int pageBlock);
 
-    public  int getTotalRows();
+    public int getTotalRows();
 
     public List<NoticeVO> selectAllNew();
 
     public List<NoticeVO> selectAllNewPageBlock(int startRow, int pageBlock);
 
+    public List<NoticeVO> selectAllHitcountPageBlock(int startRow, int pageBlock);
+
     public List<NoticeVO> searchListPageBlockTitle(String searchWord, int startRow, int pageBlock);
+
     public List<NoticeVO> searchListPageBlockContent(String searchWord, int startRow, int pageBlock);
 
     public int getSearchTotalRowsTitle(String searchWord);
+
     public int getSearchTotalRowsContent(String searchWord);
+
+    public void hitcountUpdate(NoticeVO vo);
+
+
 }
 
 
