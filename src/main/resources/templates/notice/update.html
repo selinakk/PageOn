@@ -6,8 +6,8 @@
 
   <style>
     table {
-      margin-left: auto;
-      margin-right: auto;
+      margin: auto;
+      border: 2px solid black; /* 바깥 테두리를 진하게 */
     }
 
     tbody {
@@ -22,43 +22,39 @@
       box-sizing: border-box;
     }
 
-    #btn1 {
-      width: 10%;
-      background-color: #7DB7DFFF;
-      color: white;
-      padding: 8px 5px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      margin-left: 600px;
+    textarea {
+      color: blue;
     }
 
     input[type=submit]:hover {
       background-color: #b7e5b9;
     }
 
-    #btn1:hover {
-      background-color: #b7e5b9;
-    }
-
-
     #insertTable {
       border-collapse: collapse;
-      width: 100%;
-    }
-
-    #insertTable td {
-      /*border: 1px solid #ddd;*/
-    }
-
-    #insertTable tr:nth-child(even) {
-      background-color: #ebebeb;
+      width: 95%;
     }
 
     #insertTable tr:hover {
-      background-color: #7db7df;
+      background-color: #E15C5CFF;
     }
+
+    #submit1 {
+      padding: 10px 30px;
+      font-style: initial;
+      font-size: 20px;
+      background-color: #E15C5CFF;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      margin-left: 90%;
+    }
+
+    #submit1:hover {
+      background-color: #152315;
+    }
+
   </style>
 
 
@@ -84,7 +80,7 @@
       </tr>
       <tr>
         <td><label for="content">내용</label></td>
-        <td><textarea name="content" id="content" cols="30" rows="10">[[${vo2.content}]]</textarea></td>
+        <td><textarea name="content" id="content" cols="55" rows="25">[[${vo2.content}]]</textarea></td>
       </tr>
       <tr>
         <td><label for="user_id">작성자</label></td>
@@ -96,10 +92,10 @@
         <td><input type="file" id="file" name="file">
           <input type="hidden" id="img_name" name="img_name" th:value="${vo2.img_name}"></td>
       </tr>
-      <tr>
-        <td colspan="2"><input type="submit" value="수정완료"></td>
-      </tr>
     </table>
+    <br>
+    <input id="submit1" type="submit" value="수정완료"></td>
+
   </form>
 </div>
 

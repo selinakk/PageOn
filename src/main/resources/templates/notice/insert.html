@@ -7,8 +7,8 @@
   <style>
 
     table {
-      margin-left: auto;
-      margin-right: auto;
+      margin: auto;
+      border: 2px solid black; /* 바깥 테두리를 진하게 */
     }
 
     tbody {
@@ -24,64 +24,68 @@
     }
 
     #btn1 {
-      width: 10%;
-      background-color: #7DB7DFFF;
-      color: white;
-      padding: 8px 5px;
+      background-color: #E15C5CFF;
       margin: 8px 0;
+      padding: 10px 30px;
+      font-style: initial;
+      font-size: 20px;
+      background-color: #E15C5CFF;
+      color: white;
       border: none;
       border-radius: 14px;
       cursor: pointer;
-      margin-left: 600px;
+      margin-left: 90%;
     }
 
     input[type=submit]:hover {
-      background-color: #b7e5b9;
+      background-color: #152315;
     }
 
     #btn1:hover {
-      background-color: #b7e5b9;
+      background-color: #152315;
     }
-
 
     #insertTable {
       border-collapse: collapse;
-      width: 100%;
+      width: 95%;
     }
 
     #insertTable td {
       /*border: 1px solid #ddd;*/
     }
 
-    #insertTable tr:nth-child(even) {
-      background-color: #ebebeb;
+    #insertTable tr:hover {
+      background-color: #E15C5CFF;
     }
 
-    #insertTable tr:hover {
-      background-color: #7db7df;
+    #user_id {
+      text-align: center;
     }
+
+    textarea {
+      color: blue;
+    }
+
   </style>
 </head>
 
 <body>
 <h1>공지사항 작성 페이지</h1>
 
-<br>
-<br>
 <nav th:replace="~{top_menu::top_menu}"></nav>
-<br>
 
 <form action="/notice/n_insertOK.do" method="post" enctype="multipart/form-data">
   <table id="insertTable" border="1">
     <tr>
       <td><label for="title">제목</label></td>
-      <td><input type="text" id="title" name="title" value="서버 안정화" placeholder="제목을 입력하세요"></td>
+      <td><input type="text" id="title" name="title" value="홈페이지 업데이트" placeholder="제목을 입력하세요"></td>
     </tr>
     <tr>
       <td><label for="content">내용</label></td>
-      <td><textarea name="content" id="content" cols="30" rows="10">시스템 업데이트</textarea></td>
+      <td><textarea name="content" id="content" cols="40" rows="25">시스템 업데이트</textarea></td>
     </tr>
     <tr>
+      <!--관리자 로그인 세션 있을 때, <td>바로 뒤에 넣으면 됨-->
       <td><label for="user_id">작성자</label></td>
       <td><input type="text" id="user_id" name="user_id" value="관리자"></td>
     </tr>
@@ -89,10 +93,9 @@
       <td><label for="file">이미지</label></td>
       <td><input type="file" id="file" name="file" ></td>
     </tr>
-    <tr>
-      <td colspan="2"><input id="btn1" type="submit" value="등록하기"></td>
-    </tr>
+
   </table>
+  <input id="btn1" type="submit" value="등록하기">
 </form>
 </body>
 

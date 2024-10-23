@@ -6,13 +6,11 @@
 
   <style>
     #write {
-      background-color: #135e98;
-      color: white;
       font-style: initial;
       font-size: 20px;
-      margin-left: 650px;
+      margin-left: 85%;
       width: 10%;
-      background-color: #7DB7DFFF;
+      background-color: #E15C5CFF;
       color: white;
       padding: 8px 5px;
       border: none;
@@ -20,8 +18,17 @@
       cursor: pointer;
     }
 
+    th, td {
+      text-decoration: none; /* 밑줄 제거 */
+    }
+
+    #button-container {
+      display: flex; /* 버튼들을 한 줄에 정렬 */
+      gap: 10px; /* 버튼 사이의 간격 설정 */
+    }
+
     #write:hover {
-      background-color: #aee4ae;
+      background-color: #152315;
     }
 
     table{
@@ -29,6 +36,10 @@
       height: 80%;
       margin-left: auto;
       margin-right: auto;
+      border: 2px solid black; /* 바깥 테두리를 진하게 */
+      border-bottom: white;
+      border-left: white;
+      border-right: white;
     }
 
     tbody {
@@ -47,115 +58,176 @@
       background-color: #b7e5b9;
     }
 
-    #insertTable tr:nth-child(even) {
-      background-color: #ebebeb;
-    }
+    /*#insertTable tr:nth-child(even) {*/
+    /*  background-color: #ebebeb;*/
+    /*}*/
 
     #insertTable tr:hover {
-      background-color: #7db7df;
+      background-color: #e15c5c;
     }
 
     #form1 {
-      margin-left: 90%;
+      margin-left: 85%;
     }
 
     #form2 {
-      margin-left: 90%;
+    }
+
+    #form3 {
+    }
+
+    #btn1, #btn2, #btn3 {
+      border-radius: 25px;
+      background-color: #E15C5CFF;
+      color: white;
+    }
+
+    #btn1:hover {
+      background-color: #152315;
+    }
+
+    #btn2:hover {
+      background-color: #152315;
+    }
+
+    #btn3:hover {
+      background-color: #152315;
+    }
+
+    #search {
+      border-radius: 25px;
+      background-color: #E15C5CFF;
+      color: white;
+    }
+
+    #search:hover {
+      background-color: #152315;
+    }
+
+    thead {
+      border-right: white;
+      border-right: none;
     }
 
     tbody {
       text-align: center;
+      border-right: none;
+      border-right: white;
     }
 
     tfoot {
       text-align: center;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+      border-left: white;
+      border-right: white;
+      border-bottom: white;
+
+    }
+
+    #insertTable {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      font-size: 20px;
     }
 
 
+    input[type=submit], a {
 
+      color: black;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    #border1,#border2 {
+      border-left: 2px solid black; /* 바깥 테두리를 진하게 */;
+    }
+
+    #border3,#border4 {
+      border-right: 2px solid black; /* 바깥 테두리를 진하게 */;
+    }
+
+    #border5 {
+      border: 2px solid black; /* 바깥 테두리를 진하게 */;
+      border-left: white;
+      border-right: white;
+      border-bottom: white;
+    }
 
   </style>
 
 </head>
 
 
-
 <body>
-<h1>공지사항 페이지</h1>
-<br>
+<h1>공지사항 페이지<a href="/community"><img src="/community_image.png" width="30px"></a></h1>
 
 <nav th:replace="~{top_menu::top_menu}"></nav>
+
+
 <form action="/notice/n_searchList.do">
   <select id="input2" name="searchKey">
     <option value="title">제목</option>
     <option value="content">내용</option>
   </select>
   <input id="input1" type="text" name="searchWord" value="서버">
-  <input type="submit" value="검색">
+  <input id="search" type="submit" value="검색">
 </form>
 
 <br>
 
+
+<div  id="button-container">
 <!--최신순-->
 <form id="form1" action="/notice/n_selectAll.do">
-  <input type="submit" value="최신순">
+  <input id="btn1" type="submit" value="최신순">
 </form>
 
 <!--오래된순-->
 <form id="form2" action="/notice/n_selectAllNew.do">
-  <input type="submit" value="오래된순">
+  <input id="btn2" type="submit" value="오래된순">
 </form>
 
 <!--조회순-->
+<form id="form3" action="/notice/n_selectAllHitcount.do">
+  <input id="btn3" type="submit" value="조회순">
+</form>
+</div>
 
 <br><br>
-
-
-<!--<%&#45;&#45;<li class="nav-item dropdown">&#45;&#45;%>-->
-<!--  <%&#45;&#45;  <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"&#45;&#45;%>-->
-<!--    <%&#45;&#45;     aria-expanded="false">검색</a>&#45;&#45;%>-->
-<!--  <%&#45;&#45;  <ul class="dropdown-menu animate slide border">&#45;&#45;%>-->
-<!--    <%&#45;&#45;    <li>&#45;&#45;%>-->
-<!--      <%&#45;&#45;      <a href="notice/n_selectAll.do" class="dropdown-item fw-light">공지사항</a>&#45;&#45;%>-->
-<!--      <%&#45;&#45;    </li>&#45;&#45;%>-->
-<!--    <%&#45;&#45;    <li>&#45;&#45;%>-->
-<!--      <%&#45;&#45;      <a href="#" class="dropdown-item fw-light">자유게시판</a>&#45;&#45;%>-->
-<!--      <%&#45;&#45;    </li>&#45;&#45;%>-->
-<!--    <%&#45;&#45;    <li>&#45;&#45;%>-->
-<!--      <%&#45;&#45;      <a href="#" class="dropdown-item fw-light">토론</a>&#45;&#45;%>-->
-<!--      <%&#45;&#45;    </li>&#45;&#45;%>-->
-<!--    <%&#45;&#45;  </ul>&#45;&#45;%>-->
-<!--  <%&#45;&#45;</li>&#45;&#45;%>-->
 
 
 
 <table id="insertTable" border="1">
   <thead>
   <tr>
-    <th>글번호</th>
+    <th id="border1">글번호</th>
     <th>제목</th>
     <th>작성자</th>
     <th>조회수</th>
-    <th>작성일자</th>
+    <th id="border4">작성일자</th>
   </tr>
   </thead>
-  <tbody>
 
   <tbody>
+<div>
   <th:block th:each="vo : ${list}">
     <tr>
-      <td><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.num}]]</a></td>
+      <td id="border2"><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.num}]]</a></td>
       <td><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
       <td>[[${vo.user_id}]]</td>
       <td>[[${vo.hitcount}]]</td>
-      <td>[[${vo.wdate}]]</td>
+      <td id="border3">[[${vo.wdate}]]</td>
     </tr>
   </th:block>
+</div>
   </tbody>
 
 
   <tfoot>
-  <tr>
+  <tr id="border5">
     <td colspan="6">
       <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
         <th:block th:if="${param.searchKey == null}">
@@ -178,6 +250,11 @@
 <form action="/notice/n_insert.do">
   <input id="write" type="submit" value="글쓰기">
 </form>
+
+
+
+
+
 
 </body>
 </html>

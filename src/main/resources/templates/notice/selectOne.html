@@ -6,6 +6,7 @@
 
     <style>
 
+
         tbody {
             text-align: center;
         }
@@ -13,16 +14,41 @@
         table {
             margin-left: auto;
             margin-right: auto;
+            border-collapse: collapse;
+            border: 2px solid black; /* 바깥 테두리를 진하게 */
         }
 
         #btn1 {
-            margin-left: 500px;
+            margin-left: 1430px;
             padding: 10px 30px;
+            font-style: initial;
+            font-size: 20px;
+            background-color: #E15C5CFF;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
         }
 
-        #btn2 {
-            padding: 10px 30px;
+        #btn1:hover {
+            background-color: #152315;
         }
+
+        #submit1 {
+            padding: 10px 30px;
+            font-style: initial;
+            font-size: 20px;
+            background-color: #E15C5CFF;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+
+        #submit1:hover {
+            background-color: #152315;
+        }
+
 
         input[type=button]:hover {
             background-color: #b7e5b9;
@@ -33,8 +59,21 @@
         }
 
         #submit1 {
-            margin-left: 500px;
             padding: 10px 30px;
+            margin-right: 150%;
+        }
+
+        #button-container {
+            display: flex; /* 버튼들을 한 줄에 정렬 */
+            gap: 10px; /* 버튼 사이의 간격 설정 */
+        }
+
+        thead tr:hover {
+            background-color: #E15C5CFF;
+        }
+
+        #td1:hover {
+            background-color: #E15C5CFF;
         }
 
     </style>
@@ -43,7 +82,7 @@
 <body>
 
 <h1>공지사항 상세 페이지</h1>
-<br/>
+
 <nav th:replace="~{top_menu::top_menu}"></nav>
 
 <br><br>
@@ -70,8 +109,8 @@
     </tr>
 
     <tr>
-        <td>내 <br> 용</td>
-        <td colspan="4"><textarea cols="185" rows="25">[[${vo2.content}]]</textarea></td>
+        <td id="td1">내 <br> 용</td>
+        <td colspan="4"><textarea cols="185" rows="35">[[${vo2.content}]]</textarea></td>
         <td colspan="6"><img th:src="|/uploadimgPath/${vo2.img_name}|" width="200" height="200"></td>
     </tr>
 
@@ -82,11 +121,12 @@
 <br>
 
 </form>
-<a th:href="|/notice/n_update.do?num=${vo2.num}|"><input id="btn1" type="button" value="수정하기"></a>
-<form action="/notice/n_deleteOK.do" method="post">
-    <td><input type="hidden" name="num" th:value="${param.num}"></td>
-    <input id="submit1" type="submit" value="삭제하기">
-</form>
-
+<div  id="button-container">
+    <a th:href="|/notice/n_update.do?num=${vo2.num}|"><input id="btn1" type="button" value="수정하기"></a>
+    <form action="/notice/n_deleteOK.do" method="post">
+        <td><input type="hidden" name="num" th:value="${param.num}"></td>
+        <input id="submit1" type="submit" value="삭제하기">
+    </form>
+</div>
 </body>
 </html>
