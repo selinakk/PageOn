@@ -33,6 +33,9 @@ public class NoticeService {
     }
 
     public NoticeVO selectOne(NoticeVO vo) {
+
+        mapper.hitcountUpdate(vo);
+
         return mapper.selectOne(vo);
     }
 
@@ -62,6 +65,12 @@ public class NoticeService {
         int startRow = (cpage - 1) * pageBlock ;
 
         return mapper.selectAllNewPageBlock(startRow, pageBlock);
+    }
+
+    public List<NoticeVO> selectAllHitcountPageBlock(int cpage, int pageBlock) {
+        int startRow = (cpage - 1) * pageBlock ;
+
+        return mapper.selectAllHitcountPageBlock(startRow, pageBlock);
     }
 
 
