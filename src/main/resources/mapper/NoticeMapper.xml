@@ -16,8 +16,8 @@
     </select>
 
     <insert id="insertOK">
-        insert into notice(title,content,user_id)
-        values(#{title},#{content},#{user_id})
+        insert into notice(title,content,user_id,img_name)
+        values(#{title},#{content},#{user_id},#{img_name})
     </insert>
 
     <select id="selectOne" resultType="com.tmtb.pageon.notice.model.NoticeVO">
@@ -26,6 +26,11 @@
 
     <update id="updateOK">
         update notice set title=#{title},content=#{content},user_id=#{user_id},img_name=#{img_name}
+        where num=#{num}
+    </update>
+
+    <update id="hitcountUpdate">
+        update notice set hitcount=hitcount+1
         where num=#{num}
     </update>
 
@@ -39,6 +44,10 @@
 
     <select id="selectAllNewPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice order by num asc limit #{startRow},#{pageBlock}
+    </select>
+
+    <select id="selectAllHitcountPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select * from notice order by hitcount desc limit #{startRow},#{pageBlock}
     </select>
 
     <select id="getTotalRows" resultType="int">
@@ -72,6 +81,10 @@
     <select id="getSearchTotalRowsContent" resultType="int">
         select count(*) total_rows
         from notice where content like #{searchWord}
+    </select>
+
+    <select id="noticeCommunity" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select title from notice order by num desc limit 3;
     </select>
 
 </mapper>
