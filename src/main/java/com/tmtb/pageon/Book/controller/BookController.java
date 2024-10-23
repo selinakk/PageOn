@@ -23,7 +23,7 @@ public class BookController {
     public String selectAllBooks(Model model,
                                  @RequestParam(required = false) String category,
                                  @RequestParam(required = false, defaultValue = "1") int cpage,
-                                 @RequestParam(required = false, defaultValue = "5") int pageBlock,
+                                 @RequestParam(required = false, defaultValue = "20") int pageBlock,
                                  @RequestParam(required = false) String searchKey,
                                  @RequestParam(required = false) String searchWord) {
         log.info("selectAllBooks() category: {}, cpage: {}, pageBlock: {}, searchKey: {}, searchWord: {}",
@@ -70,10 +70,15 @@ public class BookController {
         log.info("/book/detail");
         log.info("vo:{}", vo);
 
+        // 현재 책 정보 조회
         BookVO vo2 = service.selectOne(vo);
         log.info("vo2:{}", vo2);
 
         model.addAttribute("vo2", vo2);
+
+        // 동일한 카테고리의 유사한 책 5개만 조회
+        List<BookVO> list = service.getLimitedBooksByCategory(vo2.getCategories(), 5, vo2.getItem_id());
+        model.addAttribute("list", list);
 
         return "book/detail";
     }

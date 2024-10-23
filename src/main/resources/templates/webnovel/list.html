@@ -2,73 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::body})}">
 <head>
     <title>Webnovel List</title>
-    <style>
-        /* 기본 카테고리 색상 */
-        .category {
-            color: black;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-
-        /* 선택된 카테고리 색상 */
-        .selected-category {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
-<h1>Webnovel List</h1>
 
-<!-- 카테고리 선택 링크 -->
-<div>
-    <a th:href="@{/webnovels}" th:classappend="${category == null || category == '전체'} ? 'selected-category' : 'category'">#전체</a>
-    <a th:href="@{/webnovels(category='로맨틱판타지')}" th:classappend="${category == '로맨틱판타지'} ? 'selected-category' : 'category'">#로맨틱판타지</a>
-    <a th:href="@{/webnovels(category='게임판타지')}" th:classappend="${category == '게임판타지'} ? 'selected-category' : 'category'">#게임판타지</a>
-    <a th:href="@{/webnovels(category='대체역사물')}" th:classappend="${category == '대체역사물'} ? 'selected-category' : 'category'">#대체역사물</a>
-    <a th:href="@{/webnovels(category='스포츠물')}" th:classappend="${category == '스포츠물'} ? 'selected-category' : 'category'">#스포츠물</a>
-    <a th:href="@{/webnovels(category='정통판타지')}" th:classappend="${category == '정통판타지'} ? 'selected-category' : 'category'">#정통판타지</a>
-    <a th:href="@{/webnovels(category='현대판타지')}" th:classappend="${category == '현대판타지'} ? 'selected-category' : 'category'">#현대판타지</a>
-</div>
+<section id="webnovel-list" class="position-relative padding-small">
 
-<!-- 검색 폼 -->
-<form th:action="@{/webnovels}" method="get">
-    <input type="hidden" name="category" th:value="${category}"/> <!-- 선택된 카테고리 유지 -->
-    <select name="searchKey">
-        <option value="title" th:selected="${searchKey == 'title'}">Title</option>
-        <option value="writer" th:selected="${searchKey == 'writer'}">Author</option>
-    </select>
-    <input type="text" name="searchWord" placeholder="Search..." th:value="${searchWord}"/>
-    <button type="submit">Search</button>
-</form>
+    <!-- '전체', '인기', '사용자 추천', '선호' 선택 -->
+    <div id="filter-options">
+        <a href="#" class="filter-option selected-option" onclick="selectOption(this); return false;">전체</a>
+        <a href="#" class="filter-option" onclick="selectOption(this); return false;">인기</a>
+        <a href="#" class="filter-option" onclick="selectOption(this); return false;">사용자 추천</a>
+        <a href="#" class="filter-option" onclick="selectOption(this); return false;">선호</a>
+    </div>
 
-<!-- 웹소설 목록 -->
-<table>
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Category</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="vo : ${list}">
-        <!-- Title에 상세보기 링크를 추가 -->
-        <td><a th:href="@{/webnovel/detail(item_id=${vo.item_id})}" th:text="${vo.title}"></a></td>
-        <td th:text="${vo.writer}"></td>
-        <td th:text="${vo.categories}"></td>
-    </tr>
-    </tbody>
-</table>
+    <!-- 카테고리 선택 링크 -->
+    <div>
+        <!-- 전체 카테고리 링크: 처음 페이지 로드시 '전체'가 선택된 상태 -->
+        <a th:href="@{/webnovels}" th:classappend="${category == null || category == '전체'} ? 'selected-category' : 'category'">#전체</a>
+        <a th:href="@{/webnovels(category='로맨틱판타지')}" th:classappend="${category == '판타지'} ? 'selected-category' : 'category'">#로맨틱판타지</a>
+        <a th:href="@{/webnovels(category='게임판타지')}" th:classappend="${category == '무협'} ? 'selected-category' : 'category'">#게임판타지</a>
+        <a th:href="@{/webnovels(category='대체역사물')}" th:classappend="${category == '액션/스릴러'} ? 'selected-category' : 'category'">#대체역사물</a>
+        <a th:href="@{/webnovels(category='스포츠물')}" th:classappend="${category == '추리/미스터리'} ? 'selected-category' : 'category'">#스포츠물</a>
+        <a th:href="@{/webnovels(category='정통판타지')}" th:classappend="${category == '로맨스'} ? 'selected-category' : 'category'">#정통판타지</a>
+        <a th:href="@{/webnovels(category='현대판타지')}" th:classappend="${category == '호러/공포'} ? 'selected-category' : 'category'">#현대판타지</a>
+    </div>
 
-<!-- 페이지네이션 -->
-<div>
-    <span th:if="${totalPageCount > 1}">
+    <!-- 검색 폼 -->
+    <form class="webnovel-search" th:action="@{/webnovels}" method="get">
+        <input type="hidden" name="category" th:value="${category}"/> <!-- 선택된 카테고리 유지 -->
+        <select name="searchKey">
+            <option value="title" th:selected="${searchKey == 'title'}">제목</option>
+            <option value="writer" th:selected="${searchKey == 'writer'}">작가</option>
+        </select>
+        <input type="text" name="searchWord" placeholder="Search..." th:value="${searchWord}"/>
+        <input type="image" src="/img/book_webnovel_search.png" alt="Search" class="search-icon"/>
+    </form>
+
+    <!-- Webnovel grid -->
+    <div class="webnovel-grid">
+        <div class="webnovel-item" th:each="vo : ${list}">
+            <a th:href="@{/webnovel/detail(item_id=${vo.item_id})}">
+                <img th:src="@{${vo.img_name}}" class="webnovel-img" alt="Webnovel Cover">
+            </a>
+            <a th:href="@{/webnovel/detail(item_id=${vo.item_id})}" class="webnovel-title" th:text="${vo.title}"></a>
+        </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination" th:if="${totalPageCount > 1}">
         <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
            th:href="@{/webnovels(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord})}"
            th:text="${i}"></a>
-    </span>
-</div>
-
+    </div>
+</section>
 </body>
 </html>

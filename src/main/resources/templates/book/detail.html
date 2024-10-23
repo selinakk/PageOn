@@ -4,18 +4,137 @@
     <title>Book Detail</title>
 </head>
 <body>
-<h1>Book Detail</h1>
 
-<div>
-    <h2 th:text="${vo2.title}"></h2>
-    <p><strong>Author:</strong> <span th:text="${vo2.writer}"></span></p>
-    <p><strong>Publisher:</strong> <span th:text="${vo2.provider}"></span></p>
-    <p><strong>Category:</strong> <span th:text="${vo2.categories}"></span></p>
-    <p><strong>Description:</strong> <span th:text="${vo2.desc}"></span></p>
-    <img th:src="@{${vo2.img_name}}" alt="Book Cover" />
-</div>
+<section id="book-detail" class="position-relative padding-small">
+    <div class="book-detail-container">
+        <!-- 1. 작품 정보 -->
+        <div class="book-info">
+            <img th:src="@{${vo2.img_name}}" alt="Book Cover" class="book-cover"/>
+            <div>
+                <p><strong>작품명:</strong> <span th:text="${vo2.title}"></span></p>
+                <p><strong>작가명:</strong> <span th:text="${vo2.writer}"></span></p>
+                <p><strong>플랫폼명:</strong> <span th:text="${vo2.provider}"></span></p>
+                <p><strong>줄거리:</strong> <span th:text="${vo2.desc}"></span></p>
+                <p><strong>카테고리:</strong> <span th:text="${vo2.categories}"></span></p>
+            </div>
+        </div>
 
-<a href="/books">Back to List</a>
+        <!-- 1. 내 서재에 추가 (드롭다운) -->
+        <div class="add-to-library">
+            <button class="dropdown-button">내 서재에 추가</button>
+            <div class="dropdown-content">
+                <a href="#">읽은 작품</a>
+                <a href="#">읽고 있는 작품</a>
+                <a href="#">읽고 싶은 작품</a>
+            </div>
+        </div>
+
+        <!-- 2. 감상/구매 버튼 -->
+        <a class="action-button" th:href="@{${vo2.link}}">감상 / 구매</a>
+
+        <!-- 3. 토론 열기 -->
+        <a class="action-button" href="#">토론 열기</a>
+
+        <!-- 4. 리뷰 작성 -->
+        <a class="action-button" href="#">리뷰 작성</a>
+
+        <!-- 리뷰 섹션 -->
+        <div class="review-section">
+            <!-- 제목과 더보기 버튼을 나란히 배치 -->
+            <div class="review-header">
+                <h3>리뷰</h3>
+                <div class="more-button">
+                    <a href="#" class="action-button">더보기</a> <!-- 나중에 리뷰 전체 페이지로 연결 -->
+                </div>
+            </div>
+
+            <!-- 리뷰 리스트 -->
+            <!--<div class="review-list">
+                <div class="review" th:each="review : ${reviewList}">
+                    <p><strong th:text="${review.userName}">사용자 이름</strong></p>
+                    <p th:text="${review.content}">리뷰 내용</p>
+                    <a href="#">더보기</a>
+                </div>
+            </div>-->
+
+            <!-- 리뷰 리스트 (더미 데이터) -->
+            <div class="review-list">
+                <div class="review">
+                    <p><strong>사용자01</strong></p>
+                    <p>리뷰 내용 예시 1. 이 작품은 아주 흥미로웠습니다!</p>
+                    <a href="#">더보기</a>
+                </div>
+                <div class="review">
+                    <p><strong>사용자02</strong></p>
+                    <p>리뷰 내용 예시 2. 추천할만한 책입니다.</p>
+                    <a href="#">더보기</a>
+                </div>
+                <div class="review">
+                    <p><strong>사용자03</strong></p>
+                    <p>리뷰 내용 예시 3. 좀 더 개선될 부분이 있긴 하지만 좋았습니다.</p>
+                    <a href="#">더보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 유사한 작품 섹션 -->
+        <div class="similar-books-section">
+            <!-- 제목과 더보기 버튼을 나란히 배치 -->
+            <div class="similar-books-header">
+                <h3>유사한 카테고리 작품</h3>
+                <div class="more-button">
+                    <a th:href="@{/books(category=${vo2.categories})}" class="action-button">더보기</a>
+                </div>
+            </div>
+
+            <!-- 유사한 작품 리스트 -->
+            <div class="similar-books">
+                <!-- 5개의 유사한 작품 표시 -->
+                <div class="book-item" th:each="vo : ${list}">
+                    <a th:href="@{/book/detail(item_id=${vo.item_id})}">
+                        <img th:src="@{${vo.img_name}}" alt="Similar Book Cover">
+                        <p th:text="${vo.title}">작품 제목</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 토론 섹션 -->
+        <div class="discussion-section">
+            <!-- 제목과 더보기 버튼을 나란히 배치 -->
+            <div class="discussion-header">
+                <h3>토론</h3>
+                <div class="more-button">
+                    <a href="#" class="action-button">더보기</a> <!-- 나중에 토론 전체 페이지로 연결 -->
+                </div>
+            </div>
+
+            <!-- 토론 글 리스트 -->
+            <!--<div class="discussion-list">
+                <div class="discussion-item" th:each="discussion : ${discussionList}">
+                    <p th:text="${discussion.title}">토론 제목</p>
+                    <p>참여자 수: <span th:text="${discussion.participants}">참여자 수</span></p>
+                </div>
+            </div>-->
+
+            <!-- 토론 글 리스트 (더미 데이터) -->
+            <div class="discussion-list">
+                <div class="discussion-item">
+                    <p>토론 제목 예시 1: 이 작품의 결말에 대해</p>
+                    <p>참여자 수: 10</p>
+                </div>
+                <div class="discussion-item">
+                    <p>토론 제목 예시 2: 등장인물에 대한 토론</p>
+                    <p>참여자 수: 15</p>
+                </div>
+                <div class="discussion-item">
+                    <p>토론 제목 예시 3: 스토리의 흐름</p>
+                    <p>참여자 수: 8</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>

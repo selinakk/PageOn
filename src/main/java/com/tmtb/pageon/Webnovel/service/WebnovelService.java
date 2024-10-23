@@ -1,12 +1,14 @@
 package com.tmtb.pageon.Webnovel.service;
 
-import com.tmtb.pageon.Webnovel.mapper.WebnovelMapper;
 import com.tmtb.pageon.Webnovel.model.WebnovelVO;
+import com.tmtb.pageon.Webnovel.mapper.WebnovelMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -75,6 +77,15 @@ public class WebnovelService {
 
     public WebnovelVO selectOne(WebnovelVO vo) {
         return mapper.selectOne(vo);
+    }
+
+    // 카테고리로 5개의 유사한 책을 조회하는 메서드
+    public List<WebnovelVO> getLimitedWebnovelsByCategory(String category, int limit, int item_id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("limit", limit);
+        params.put("item_id", item_id);
+        return mapper.selectLimitedWebnovelsByCategory(params);
     }
 
 }

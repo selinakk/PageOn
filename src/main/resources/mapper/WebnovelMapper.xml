@@ -6,8 +6,8 @@
 
     <!-- 데이터베이스에 알라딘 API 작품 정보 추가 -->
     <insert id="insertWebnovel" parameterType="com.tmtb.pageon.Webnovel.model.WebnovelVO">
-        INSERT INTO pageon.work (type, title, `desc`, writer, provider, categories, img_name)
-        VALUES (#{type}, #{title}, #{desc}, #{writer}, #{provider}, #{categories}, #{img_name})
+        INSERT INTO pageon.work (type, title, `desc`, writer, provider, categories, img_name, link)
+        VALUES (#{type}, #{title}, #{desc}, #{writer}, #{provider}, #{categories}, #{img_name}, #{link})
     </insert>
 
     <select id="checkDuplicateTitle" resultType="int">
@@ -70,8 +70,7 @@
 
     <!-- 카테고리 내에서 제목이나 작가로 검색 -->
     <select id="searchWebnovelsInCategory" resultType="com.tmtb.pageon.Webnovel.model.WebnovelVO">
-        SELECT * FROM pageon.work
-        WHERE type = 'webnovel'
+        SELECT * FROM pageon.work WHERE type = 'webnovel'
         AND categories = #{category}
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
@@ -85,8 +84,7 @@
 
     <!-- 카테고리 내 검색된 총 행 개수 -->
     <select id="getSearchTotalRowsInCategory" resultType="int">
-        SELECT COUNT(*) FROM pageon.work
-        WHERE type = 'webnovel'
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'webnovel'
         AND categories = #{category}
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
@@ -98,8 +96,7 @@
 
     <!-- 전체 검색 (제목 또는 작가) -->
     <select id="searchWebnovels" resultType="com.tmtb.pageon.Webnovel.model.WebnovelVO">
-        SELECT * FROM pageon.work
-        WHERE type = 'webnovel'
+        SELECT * FROM pageon.work WHERE type = 'webnovel'
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
         </if>
@@ -112,14 +109,22 @@
 
     <!-- 전체 검색 결과 총 행 개수 -->
     <select id="getSearchTotalRows" resultType="int">
-        SELECT COUNT(*) FROM pageon.work
-        WHERE type = 'webnovel'
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'webnovel'
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
         </if>
         <if test="searchKey == 'writer'">
             AND writer LIKE CONCAT('%', #{searchWord}, '%')
         </if>
+    </select>
+
+    <!-- 현재 작품 ID를 제외하고 동일 카테고리의 5개의 유사한 책을 가져오기 -->
+    <select id="selectLimitedWebnovelsByCategory" parameterType="map" resultType="com.tmtb.pageon.Webnovel.model.WebnovelVO">
+        SELECT item_id, title, `desc`, writer, img_name, categories
+        FROM pageon.work WHERE categories = #{category}
+        AND item_id != #{item_id}
+        AND type = 'webnovel'
+            LIMIT #{limit}
     </select>
 
 </mapper>

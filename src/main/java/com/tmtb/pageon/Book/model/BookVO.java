@@ -12,4 +12,5 @@ public class BookVO {
     private String provider;   // 테이블의 provider 컬럼과 매칭
     private String categories;
     private String img_name;
+    private String link;  // 상품 링크 추가
 }

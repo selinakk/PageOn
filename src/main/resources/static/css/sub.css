@@ -61,14 +61,14 @@ a.text-danger .svg-icon {
     background-color: #f9f9f9; /* 배경색을 추가합니다 (선택 사항) */
 }
 
-.comment {
+#comment .comment {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
 }
 
-.childComment {
+#comment .childComment {
     border: 1px solid #ddd;
     padding: 10px;
     margin-bottom: 10px;
@@ -77,7 +77,7 @@ a.text-danger .svg-icon {
     background-color: #f9f9f9; /* 배경색을 약간 변경해서 시각적 구분 */
 }
 
-.replyForm {
+#comment .replyForm {
     margin-top: 10px;
     padding: 10px; /* 내부 여백 추가 */
     border: 1px solid #ccc; /* 테두리 추가 */
@@ -87,7 +87,7 @@ a.text-danger .svg-icon {
     width: 100%; /* 전체 폭을 사용 */
 }
 
-.editForm {
+#comment .editForm {
     margin-top: 10px;
     display: none; /* 기본적으로 숨김 */
     padding: 10px; /* 내부 여백 추가 */
@@ -99,7 +99,7 @@ a.text-danger .svg-icon {
 }
 
 /* 댓글 텍스트 영역 스타일 */
-#commentText {
+#comment #commentText {
     width: calc(100% - 100px); /* 버튼 폭을 제외한 폭 설정 */
     margin-top: 10px; /* 텍스트 영역 간격 설정 */
     padding: 8px; /* 텍스트 영역 내부 여백 */
@@ -109,7 +109,7 @@ a.text-danger .svg-icon {
 }
 
 /* 댓글 작성 버튼 스타일 */
-#submitCommentButton {
+#comment #submitCommentButton {
     margin-top: 10px; /* 버튼과 텍스트 간격 설정 */
     padding: 10px 15px; /* 버튼 내부 여백 */
     border: none; /* 버튼 경계선 제거 */
@@ -122,12 +122,12 @@ a.text-danger .svg-icon {
     box-sizing: border-box; /* 패딩과 테두리를 포함한 폭 계산 */
 }
 
-#submitCommentButton:hover {
+#comment #submitCommentButton:hover {
     background-color: #0056b3; /* 버튼 hover 색상 */
 }
 
 /* 대댓글 버튼 스타일 */
-.replyButton, .editButton, .deleteButton, .reportButton {
+#comment .replyButton, .editButton, .deleteButton, .reportButton {
     margin-top: 5px; /* 버튼 간격 설정 */
     padding: 8px 12px; /* 버튼 내부 여백 */
     border: none; /* 버튼 경계선 제거 */
@@ -137,12 +137,12 @@ a.text-danger .svg-icon {
     cursor: pointer; /* 마우스 포인터 변경 */
 }
 
-.replyButton:hover, .editButton:hover, .deleteButton:hover, .reportButton:hover {
+#comment .replyButton:hover, .editButton:hover, .deleteButton:hover, .reportButton:hover {
     background-color: #218838; /* hover 색상 */
 }
 
 /* 대댓글 입력 버튼 스타일 */
-.replySubmitButton {
+#comment .replySubmitButton {
     margin-top: 5px; /* 버튼과 텍스트 간격 설정 */
     padding: 8px 12px; /* 버튼 내부 여백 */
     border: none; /* 버튼 경계선 제거 */
@@ -152,50 +152,50 @@ a.text-danger .svg-icon {
     cursor: pointer; /* 마우스 포인터 변경 */
 }
 
-.replySubmitButton:hover {
+#comment .replySubmitButton:hover {
     background-color: #0056b3; /* 버튼 hover 색상 */
 }
 
-.comment-actions {
+#comment .comment-actions {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     gap: 10px; /* 버튼 간격 */
 }
 
-#paging {
+#comment #paging {
     display: flex;
     justify-content: center; /* 중앙 정렬 */
     margin: 20px 0; /* 상하 여백 */
 }
 
-#paging ul {
+#comment #paging ul {
     list-style: none; /* 기본 리스트 스타일 제거 */
     padding: 0; /* 기본 패딩 제거 */
     margin: 0; /* 기본 마진 제거 */
     display: flex; /* 가로 방향으로 나열 */
 }
 
-#paging li {
+#comment #paging li {
     margin: 0 5px; /* 각 페이지 간의 간격 */
 }
 
-#paging a {
+#comment #paging a {
     text-decoration: none; /* 밑줄 제거 */
     color: #007bff; /* 링크 색상 */
     font-size: 16px; /* 글자 크기 */
 }
 
-#paging a:hover {
+#comment #paging a:hover {
     text-decoration: underline; /* 호버 시 밑줄 추가 */
 }
 
-#paging .active {
+#comment #paging .active {
     font-weight: bold; /* 현재 페이지 강조 */
     color: #333; /* 강조 색상 */
 }
 
-.page-link {
+#comment .page-link {
     cursor: pointer; /* 포인터 커서로 변경 */
     color: #007bff; /* 링크 색상 */
     margin: 0 5px; /* 각 페이지 간의 간격 */
@@ -204,17 +204,17 @@ a.text-danger .svg-icon {
     display: inline-block; /* 수평 정렬을 위해 inline-block 사용 */
 }
 
-.page-link:hover {
+#comment .page-link:hover {
     text-decoration: underline; /* 호버 시 밑줄 추가 */
 }
 
-.page-link.active {
+#comment .page-link.active {
     font-weight: bold; /* 현재 페이지 강조 */
     color: #333; /* 강조 색상 */
     cursor: default; /* 기본 커서로 변경 */
 }
 
-.comment-icon {
+#comment .comment-icon {
     cursor: pointer; /* 포인터 커서로 변경 */
     width: 30px; /* 이미지 너비 */
     height: 30px; /* 이미지 높이 */
@@ -222,11 +222,629 @@ a.text-danger .svg-icon {
 }
 
 /* 이미지 호버 효과 (원하는 경우 추가) */
-.comment-icon:hover {
+#comment .comment-icon:hover {
     opacity: 0.8; /* 호버 시 투명도 변경 */
     transition: opacity 0.3s; /* 부드러운 전환 효과 */
 }
-
 /* 댓글 끝 */
+
+/* 도서 */
+#book-list {
+    max-width: 1600px; /* 최대 폭을 설정합니다 */
+    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
+    padding: 20px; /* 내부 여백을 추가합니다 */
+}
+
+#book-list div {
+    text-align: center;
+    margin-bottom: 20px; /* 검색과 카테고리 간 간격 추가 */
+}
+
+/* 검색 폼과 그리드 사이 간격 추가 */
+#book-list .book-search {
+    margin-bottom: 20px;
+}
+
+#book-list .book-search select,
+#book-list .book-search input[type="text"] {
+    height: 40px; /* 동일한 높이 설정 */
+    vertical-align: middle; /* 동일 높이로 정렬 */
+    padding: 0 10px; /* 텍스트와 필드 경계 간의 여백 설정 */
+    line-height: 40px; /* 높이에 맞춰 텍스트의 세로 정렬을 맞춤 */
+    box-sizing: border-box; /* 패딩과 경계도 높이에 포함 */
+}
+
+#book-list .book-search input[type="image"] {
+    width: 40px; /* 텍스트 필드와 동일한 크기 */
+    height: 40px; /* 텍스트 필드와 동일한 크기 */
+    object-fit: contain; /* 비율을 유지하면서 이미지가 안에 맞춰짐 */
+    margin-left: 5px; /* 이미지와 텍스트 필드 사이 여백 */
+    vertical-align: middle; /* 세로로 중앙에 배치 */
+}
+
+#book-list .search-icon {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle; /* 아이콘을 검색창과 같은 높이로 정렬 */
+    margin-left: 5px; /* 검색창과 아이콘 사이에 약간의 여백 추가 */
+}
+
+/* 기본 카테고리 색상 */
+#book-list .category {
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+/* 선택된 카테고리 색상 */
+#book-list .selected-category {
+    color: red;
+    font-weight: bold;
+}
+
+/* 선택 필터 스타일 */
+#book-list #filter-options {
+    text-align: center;  /* 중앙 정렬 */
+    margin-bottom: 20px; /* 그리드와의 간격 */
+}
+
+#book-list .filter-option {
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+#book-list .selected-option {
+    color: red;
+    font-weight: bold;
+}
+
+
+#book-list .book-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 5px; /* 패딩을 줄여서 아이템 내부 여백을 줄임 */
+    width: 180px;  /* book-item의 너비를 유지 */
+    transition: transform 0.2s;
+}
+
+#book-list .book-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns 유지 */
+    gap: 10px; /* 간격을 좁게 조정 */
+    padding: 10px; /* 전체 그리드의 여백을 줄임 */
+    margin-bottom: 30px;
+}
+
+#book-list .book-item:hover {
+    transform: scale(1.05);
+}
+
+/* 이미지 기본 사이즈 고정 */
+#book-list .book-img {
+    width: 150px;  /* 고정된 너비 */
+    height: 200px; /* 고정된 높이 */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+#book-list .book-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* 페이징을 중앙에 배치 */
+#book-list .pagination {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px; /* 그리드와의 간격 */
+}
+
+#book-list .pagination a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+#book-list .pagination a:hover {
+    text-decoration: underline;
+}
+
+/* book-detail 섹션 전체 */
+#book-detail .book-detail-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 책 정보 섹션 */
+#book-detail .book-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+#book-detail .book-cover {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+/* 내 서재에 추가 버튼 및 드롭다운 */
+#book-detail .add-to-library {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+#book-detail .dropdown-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#book-detail .dropdown-button:hover {
+    background-color: #0056b3;
+}
+
+#book-detail .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+#book-detail .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+#book-detail .dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+#book-detail .add-to-library:hover .dropdown-content {
+    display: block;
+}
+
+/* 감상/구매, 토론 열기, 리뷰 작성 버튼 */
+#book-detail .action-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#book-detail .action-button:hover {
+    background-color: #218838;
+}
+
+/* 리뷰 섹션 스타일 */
+#book-detail .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+#book-detail .review-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 각 리뷰 간의 간격 */
+}
+
+#book-detail .review {
+    flex: 1 1 30%; /* 각 리뷰가 30%의 너비를 차지 */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* 유사한 작품 섹션 */
+#book-detail .similar-books-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+/* 제목과 더보기 버튼 */
+#book-detail .similar-books-header h3 {
+    margin: 0;
+}
+
+#book-detail .similar-books-header .more-button {
+    margin-left: 20px; /* 제목과 버튼 간의 여백 */
+}
+
+#book-detail .similar-books-header .action-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#book-detail .similar-books-header .action-button:hover {
+    background-color: #0056b3;
+}
+
+/* 유사한 작품 리스트 */
+#book-detail .similar-books {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 각 책 항목 사이의 간격 */
+    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+}
+
+#book-detail .similar-books .book-item {
+    text-align: center;
+    width: 150px; /* 각 책 항목의 너비 */
+}
+
+#book-detail .similar-books .book-item img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+#book-detail .similar-books .book-item p {
+    font-size: 14px;
+}
+
+
+/* 토론 섹션 스타일 */
+#book-detail .discussion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+#book-detail .discussion-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 각 토론 글 간의 간격 */
+}
+
+#book-detail .discussion-item {
+    flex: 1 1 30%; /* 각 토론 글이 30%의 너비를 차지 */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+}
+/* 도서끝 */
+
+/* 웹소설 */
+#webnovel-list {
+    max-width: 1600px; /* 최대 폭을 설정합니다 */
+    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
+    padding: 20px; /* 내부 여백을 추가합니다 */
+}
+
+#webnovel-list div {
+    text-align: center;
+    margin-bottom: 20px; /* 검색과 카테고리 간 간격 추가 */
+}
+
+/* 검색 폼과 그리드 사이 간격 추가 */
+#webnovel-list .webnovel-search {
+    margin-bottom: 20px;
+}
+
+#webnovel-list .webnovel-search select,
+#webnovel-list .webnovel-search input[type="text"] {
+    height: 40px; /* 동일한 높이 설정 */
+    vertical-align: middle; /* 동일 높이로 정렬 */
+    padding: 0 10px; /* 텍스트와 필드 경계 간의 여백 설정 */
+    line-height: 40px; /* 높이에 맞춰 텍스트의 세로 정렬을 맞춤 */
+    box-sizing: border-box; /* 패딩과 경계도 높이에 포함 */
+}
+
+#webnovel-list .webnovel-search input[type="image"] {
+    width: 40px; /* 텍스트 필드와 동일한 크기 */
+    height: 40px; /* 텍스트 필드와 동일한 크기 */
+    object-fit: contain; /* 비율을 유지하면서 이미지가 안에 맞춰짐 */
+    margin-left: 5px; /* 이미지와 텍스트 필드 사이 여백 */
+    vertical-align: middle; /* 세로로 중앙에 배치 */
+}
+
+#webnovel-list .search-icon {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle; /* 아이콘을 검색창과 같은 높이로 정렬 */
+    margin-left: 5px; /* 검색창과 아이콘 사이에 약간의 여백 추가 */
+}
+
+/* 기본 카테고리 색상 */
+#webnovel-list .category {
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+/* 선택된 카테고리 색상 */
+#webnovel-list .selected-category {
+    color: red;
+    font-weight: bold;
+}
+
+/* 선택 필터 스타일 */
+#webnovel-list #filter-options {
+    text-align: center;  /* 중앙 정렬 */
+    margin-bottom: 20px; /* 그리드와의 간격 */
+}
+
+#webnovel-list .filter-option {
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+#webnovel-list .selected-option {
+    color: red;
+    font-weight: bold;
+}
+
+#webnovel-list .webnovel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 5px; /* 패딩을 줄여서 아이템 내부 여백을 줄임 */
+    width: 180px;  /* webnovel-item의 너비를 유지 */
+    transition: transform 0.2s;
+}
+
+#webnovel-list .webnovel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns 유지 */
+    gap: 10px; /* 간격을 좁게 조정 */
+    padding: 10px; /* 전체 그리드의 여백을 줄임 */
+    margin-bottom: 30px;
+}
+
+#webnovel-list .webnovel-item:hover {
+    transform: scale(1.05);
+}
+
+/* 이미지 기본 사이즈 고정 */
+#webnovel-list .webnovel-img {
+    width: 150px;  /* 고정된 너비 */
+    height: 200px; /* 고정된 높이 */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+#webnovel-list .webnovel-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    text-align: center;
+}
+/* 페이징을 중앙에 배치 */
+#webnovel-list .pagination {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px; /* 그리드와의 간격 */
+}
+
+#webnovel-list .pagination a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+#webnovel-list .pagination a:hover {
+    text-decoration: underline;
+}
+/* webnovel-detail 섹션 전체 */
+#webnovel-detail .webnovel-detail-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 책 정보 섹션 */
+#webnovel-detail .webnovel-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+#webnovel-detail .webnovel-cover {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+/* 내 서재에 추가 버튼 및 드롭다운 */
+#webnovel-detail .add-to-library {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+#webnovel-detail .dropdown-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#webnovel-detail .dropdown-button:hover {
+    background-color: #0056b3;
+}
+
+#webnovel-detail .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+#webnovel-detail .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+#webnovel-detail .dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+#webnovel-detail .add-to-library:hover .dropdown-content {
+    display: block;
+}
+
+/* 감상/구매, 토론 열기, 리뷰 작성 버튼 */
+#webnovel-detail .action-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#webnovel-detail .action-button:hover {
+    background-color: #218838;
+}
+
+/* 리뷰 섹션 스타일 */
+#webnovel-detail .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+#webnovel-detail .review-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 각 리뷰 간의 간격 */
+}
+
+#webnovel-detail .review {
+    flex: 1 1 30%; /* 각 리뷰가 30%의 너비를 차지 */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* 유사한 작품 섹션 */
+#webnovel-detail .similar-webnovels-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+/* 제목과 더보기 버튼 */
+#webnovel-detail .similar-webnovels-header h3 {
+    margin: 0;
+}
+
+#webnovel-detail .similar-webnovels-header .more-button {
+    margin-left: 20px; /* 제목과 버튼 간의 여백 */
+}
+
+#webnovel-detail .similar-webnovels-header .action-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#webnovel-detail .similar-webnovels-header .action-button:hover {
+    background-color: #0056b3;
+}
+
+/* 유사한 작품 리스트 */
+#webnovel-detail .similar-webnovels {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 각 책 항목 사이의 간격 */
+    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+}
+
+#webnovel-detail .similar-webnovels .webnovel-item {
+    text-align: center;
+    width: 150px; /* 각 책 항목의 너비 */
+}
+
+#webnovel-detail .similar-webnovels .webnovel-item img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+#webnovel-detail .similar-webnovels .webnovel-item p {
+    font-size: 14px;
+}
+
+/* 토론 섹션 스타일 */
+#webnovel-detail .discussion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+#webnovel-detail .discussion-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 각 토론 글 간의 간격 */
+}
+
+#webnovel-detail .discussion-item {
+    flex: 1 1 30%; /* 각 토론 글이 30%의 너비를 차지 */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+}
+/* 웹소설 끝 */
+
+/* 작품 메인 */
+/* 작품 메인 끝 */
 
 /***** //custom sub style 끝 *****/

@@ -39,12 +39,13 @@ public class WebnovelApiTestController {
 
             String url = UriComponentsBuilder.fromHttpUrl(API_URL)
                     .queryParam("ttbkey", TTBKey)
-                    .queryParam("QueryType", "ItemNewSpecial")
+                    .queryParam("QueryType", "Bestseller")
                     .queryParam("Query", categoryName)
-                    .queryParam("SearchTarget", "eBook")
+                    .queryParam("SearchTarget", "Webnovel")
                     .queryParam("CategoryId", categoryId)
                     .queryParam("MaxResults", "50")
                     .queryParam("output", "js")
+                    .queryParam("Version", "20131101")  // 최신 버전 추가
                     .build().toString();
 
             log.info("API 요청 URL: {}", url);
@@ -91,7 +92,9 @@ public class WebnovelApiTestController {
                     vo.setType("webnovel");
                     vo.setTitle(itemNode.path("title").asText());
                     vo.setDesc(itemNode.path("description").asText());
-                    vo.setWriter(itemNode.path("author").asText());
+                    vo.setWriter(itemNode.path("author").asText().length() > 100
+                            ? itemNode.path("author").asText().substring(0, 100)
+                            : itemNode.path("author").asText());
                     vo.setProvider(itemNode.path("publisher").asText().length() > 100
                             ? itemNode.path("publisher").asText().substring(0, 100)
                             : itemNode.path("publisher").asText());
@@ -99,7 +102,10 @@ public class WebnovelApiTestController {
                     vo.setCategories(categoryName);
                     vo.setImg_name(itemNode.path("cover").asText());
 
-                    log.info("웹소설 파싱 완료 - 제목: {}", vo.getTitle());
+                    // 상품 링크 추가
+                    vo.setLink(itemNode.path("link").asText());
+
+                    log.info("웹소설 파싱 완료 - 제목: {}, 링크: {}", vo.getTitle(), vo.getLink());
 
                     webnovels.add(vo);
                 }

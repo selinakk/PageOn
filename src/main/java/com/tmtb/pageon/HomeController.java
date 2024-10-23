@@ -12,4 +12,10 @@ public class HomeController {
         log.info("인덱스 페이지");
         return "index";
     }
+
+    @GetMapping("/work_index")
+    public String workPage() {
+        log.info("작품 메인 페이지");
+        return "work/work_index";
+    }
 }

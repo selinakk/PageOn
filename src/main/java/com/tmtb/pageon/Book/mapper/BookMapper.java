@@ -4,6 +4,7 @@ import com.tmtb.pageon.Book.model.BookVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BookMapper {
@@ -27,5 +28,7 @@ public interface BookMapper {
     int getSearchTotalRows(String searchKey, String searchWord);
 
     public BookVO selectOne(BookVO vo);
+
+    List<BookVO> selectLimitedBooksByCategory(Map<String, Object> params);
 }
 
