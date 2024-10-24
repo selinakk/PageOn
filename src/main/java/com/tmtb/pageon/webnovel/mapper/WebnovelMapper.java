@@ -1,6 +1,6 @@
-package com.tmtb.pageon.Webnovel.mapper;
+package com.tmtb.pageon.webnovel.mapper;
 
-import com.tmtb.pageon.Webnovel.model.WebnovelVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

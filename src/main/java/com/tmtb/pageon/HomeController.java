@@ -1,9 +1,9 @@
 package com.tmtb.pageon;
 
-import com.tmtb.pageon.Book.model.BookVO;
-import com.tmtb.pageon.Book.service.BookService;
-import com.tmtb.pageon.Webnovel.model.WebnovelVO;
-import com.tmtb.pageon.Webnovel.service.WebnovelService;
+import com.tmtb.pageon.book.model.BookVO;
+import com.tmtb.pageon.book.service.BookService;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
+import com.tmtb.pageon.webnovel.service.WebnovelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

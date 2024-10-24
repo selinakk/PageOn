@@ -1,10 +1,10 @@
-package com.tmtb.pageon.Webnovel.controller;
+package com.tmtb.pageon.book.controller;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tmtb.pageon.Webnovel.model.WebnovelVO;
-import com.tmtb.pageon.Webnovel.mapper.WebnovelMapper;
+import com.tmtb.pageon.book.model.BookVO;
+import com.tmtb.pageon.book.mapper.BookMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,20 +18,20 @@ import java.util.List;
 
 @Slf4j
 @Controller
-public class WebnovelApiTestController { // 알라딘 api에서 데이터 받아오기 위한 컨트롤러 http://localhost:8081/books/store 링크 접속하면 DB 받아옵니다.
+public class BookApiTestController { // 알라딘 api에서 데이터 받아오기 위한 컨트롤러 http://localhost:8081/books/store 링크 접속하면 DB 받아옵니다.
 
     private final String TTBKey = ""; // 알라딘 API Key
     private final String API_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx";
 
     @Autowired
-    private WebnovelMapper webnovelMapper;
+    private BookMapper bookMapper;
 
-    private final List<String> categories = Arrays.asList("139443", "170371", "170373", "170372", "170368", "170369");
-    private final List<String> categoryNames = Arrays.asList("로맨틱판타지", "대체역사물", "스포츠물", "정통판타지", "현대판타지", "게임판타지");
+    private final List<String> categories = Arrays.asList("50930", "50935", "50932", "50933", "50926", "50928", "50931");
+    private final List<String> categoryNames = Arrays.asList("과학(SF)", "로맨스", "무협", "액션/스릴러", "추리/미스터리", "판타지", "호러/공포");
 
-    @GetMapping("/webnovels/store")
-    public String storeWebnovels() {
-        log.info("storeWebnovels() 시작...");
+    @GetMapping("/books/store")
+    public String storeBooks() {
+        log.info("storeBooks() 시작...");
 
         for (int i = 0; i < categories.size(); i++) {
             String categoryId = categories.get(i);
@@ -41,7 +41,7 @@ public class WebnovelApiTestController { // 알라딘 api에서 데이터 받아
                     .queryParam("ttbkey", TTBKey)
                     .queryParam("QueryType", "Bestseller")
                     .queryParam("Query", categoryName)
-                    .queryParam("SearchTarget", "eBook")
+                    .queryParam("SearchTarget", "Book")
                     .queryParam("CategoryId", categoryId)
                     .queryParam("MaxResults", "50")
                     .queryParam("output", "js")
@@ -56,26 +56,26 @@ public class WebnovelApiTestController { // 알라딘 api에서 데이터 받아
             // 응답에서 단일 인용부호를 이스케이프 처리
             response = response.replace("'", "\\'");
 
-            List<WebnovelVO> webnovels = parseWebnovels(response, categoryName);
+            List<BookVO> books = parseBooks(response, categoryName);
 
-            for (WebnovelVO webnovel : webnovels) {
-                int count = webnovelMapper.checkDuplicateTitle(webnovel.getTitle());
+            for (BookVO book : books) {
+                int count = bookMapper.checkDuplicateTitle(book.getTitle());
                 if (count == 0) {
-                    log.info("중복되지 않은 웹소설 저장 중: {}", webnovel.getTitle());
-                    webnovelMapper.insertWebnovel(webnovel);
+                    log.info("중복되지 않은 도서 저장 중: {}", book.getTitle());
+                    bookMapper.insertBook(book);
                 } else {
-                    log.info("중복된 웹소설: {}", webnovel.getTitle());
+                    log.info("중복된 도서: {}", book.getTitle());
                 }
             }
         }
 
-        return "webnovel/success";
+        return "book/success";
     }
 
-    private List<WebnovelVO> parseWebnovels(String jsonResponse, String categoryName) {
+    private List<BookVO> parseBooks(String jsonResponse, String categoryName) {
         log.info("응답 파싱 시작...");
 
-        List<WebnovelVO> webnovels = new ArrayList<>();
+        List<BookVO> books = new ArrayList<>();
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -87,9 +87,9 @@ public class WebnovelApiTestController { // 알라딘 api에서 데이터 받아
             JsonNode itemsNode = rootNode.path("item");
             if (itemsNode.isArray()) {
                 for (JsonNode itemNode : itemsNode) {
-                    WebnovelVO vo = new WebnovelVO();
+                    BookVO vo = new BookVO();
 
-                    vo.setType("webnovel");
+                    vo.setType("book");
                     vo.setTitle(itemNode.path("title").asText());
                     vo.setDesc(itemNode.path("description").asText());
                     vo.setWriter(itemNode.path("author").asText().length() > 100
@@ -105,9 +105,9 @@ public class WebnovelApiTestController { // 알라딘 api에서 데이터 받아
                     // 상품 링크 추가
                     vo.setLink(itemNode.path("link").asText());
 
-                    log.info("웹소설 파싱 완료 - 제목: {}, 링크: {}", vo.getTitle(), vo.getLink());
+                    log.info("도서 파싱 완료 - 제목: {}, 링크: {}", vo.getTitle(), vo.getLink());
 
-                    webnovels.add(vo);
+                    books.add(vo);
                 }
             } else {
                 log.warn("item 배열이 비어 있음.");
@@ -117,6 +117,6 @@ public class WebnovelApiTestController { // 알라딘 api에서 데이터 받아
         }
 
         log.info("응답 파싱 완료.");
-        return webnovels;
+        return books;
     }
 }

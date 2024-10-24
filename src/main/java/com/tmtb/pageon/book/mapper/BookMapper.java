@@ -1,6 +1,6 @@
-package com.tmtb.pageon.Book.mapper;
+package com.tmtb.pageon.book.mapper;
 
-import com.tmtb.pageon.Book.model.BookVO;
+import com.tmtb.pageon.book.model.BookVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

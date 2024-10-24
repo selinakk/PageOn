@@ -1,7 +1,7 @@
-package com.tmtb.pageon.Book.service;
+package com.tmtb.pageon.book.service;
 
-import com.tmtb.pageon.Book.mapper.BookMapper;
-import com.tmtb.pageon.Book.model.BookVO;
+import com.tmtb.pageon.book.mapper.BookMapper;
+import com.tmtb.pageon.book.model.BookVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

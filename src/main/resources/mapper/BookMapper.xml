@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tmtb.pageon.Book.mapper.BookMapper">
+<mapper namespace="com.tmtb.pageon.book.mapper.BookMapper">
 
     <!-- 데이터베이스에 알라딘 API 작품 정보 추가 -->
-    <insert id="insertBook" parameterType="com.tmtb.pageon.Book.model.BookVO">
+    <insert id="insertBook" parameterType="com.tmtb.pageon.book.model.BookVO">
         INSERT INTO pageon.work (type, title, `desc`, writer, provider, categories, img_name, link)
         VALUES (#{type}, #{title}, #{desc}, #{writer}, #{provider}, #{categories}, #{img_name}, #{link})
     </insert>
@@ -16,13 +16,13 @@
 
     <!-- Book 기능 -->
     <!-- 상세 조회 -->
-    <select id="selectOne" resultType="com.tmtb.pageon.Book.model.BookVO">
+    <select id="selectOne" resultType="com.tmtb.pageon.book.model.BookVO">
         SELECT * FROM pageon.work WHERE item_id = #{item_id}
     </select>
 
     <!-- 페이징 목록 조회 -->
     <!-- 페이징 목록 조회 -->
-    <select id="selectAllBooks" resultType="com.tmtb.pageon.Book.model.BookVO">
+    <select id="selectAllBooks" resultType="com.tmtb.pageon.book.model.BookVO">
         SELECT * FROM pageon.work WHERE type = 'book'
         <choose>
             <when test="sortOrder == 'latest'">
@@ -41,7 +41,7 @@
     </select>
 
     <!-- 카테고리별 조회 기능 -->
-    <select id="selectBooksByCategory" resultType="com.tmtb.pageon.Book.model.BookVO">
+    <select id="selectBooksByCategory" resultType="com.tmtb.pageon.book.model.BookVO">
         SELECT * FROM pageon.work WHERE categories = #{category} AND type = 'book'
         <choose>
             <when test="sortOrder == 'latest'">
@@ -60,7 +60,7 @@
     </select>
 
     <!-- 카테고리 내에서 제목이나 작가로 검색 -->
-    <select id="searchBooksInCategory" resultType="com.tmtb.pageon.Book.model.BookVO">
+    <select id="searchBooksInCategory" resultType="com.tmtb.pageon.book.model.BookVO">
         SELECT * FROM pageon.work WHERE type = 'book'
         AND categories = #{category}
         <if test="searchKey == 'title'">
@@ -93,7 +93,7 @@
     </select>
 
     <!-- 전체 검색 (제목 또는 작가) -->
-    <select id="searchBooks" resultType="com.tmtb.pageon.Book.model.BookVO">
+    <select id="searchBooks" resultType="com.tmtb.pageon.book.model.BookVO">
         SELECT * FROM pageon.work WHERE type = 'book'
         <if test="searchKey == 'title'">
             AND title LIKE #{searchWord}
@@ -124,7 +124,7 @@
     </select>
 
     <!-- 현재 작품 ID를 제외하고 동일 카테고리의 5개의 유사한 책을 가져오기 -->
-    <select id="selectLimitedBooksByCategory" parameterType="map" resultType="com.tmtb.pageon.Book.model.BookVO">
+    <select id="selectLimitedBooksByCategory" parameterType="map" resultType="com.tmtb.pageon.book.model.BookVO">
         SELECT item_id, title, `desc`, writer, img_name, categories
         FROM pageon.work WHERE categories = #{category}
         AND item_id != #{item_id}

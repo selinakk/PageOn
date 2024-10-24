@@ -1,9 +1,9 @@
-package com.tmtb.pageon.Webnovel.model;
+package com.tmtb.pageon.book.model;
 
 import lombok.Data;
 
 @Data
-public class WebnovelVO {
+public class BookVO {
     private int item_id;
     private String type;
     private String title;
