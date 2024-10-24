@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>PageOn 닉네임님의 서재</title>
+</head>
+<body>
+<main th:fragment="bookshelf-write">
+
+            <form action="/bookshelf/insertOK" method="post">
+              <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+              <input type="hidden" name="work_num"  value="123" />
+              <label for="read"><input type="radio" name="sort" id="read"> 읽은 작품</label>
+              <label for="to-read"><input type="radio" name="sort" id="to-read"> 읽고 싶은 작품</label>
+              <label for="ing"><input type="radio" name="sort" id="ing"> 읽고 있는 작품</label>
+                <input type="submit" value="추가">
+            </form>
+</main>
+</body>
+</html>

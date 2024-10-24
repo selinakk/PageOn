@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title th:text="'PageOn 토론 ' + ${vo2.title} + ' 상세보기'"></title>
+</head>
+<body>
+<main th:fragment="forum-view">
+  <div class="position-relative padding-medium">
+    <div class="container">
+      <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+        <h3 class="d-flex align-items-center">토론 상세보기</h3>
+      </div>
+      <div class="d-flex flex-wrap justify-content-md-between justify-content-center border-bottom pb-5">
+        <div class="col-md-3 col-4 mb-2">
+          <img class="img-fluid shadow-sm" th:src="@{/img/{workImgName}(workImgName=${vo2.workImgName})}" th:alt="|${vo2.workTitle} 작품 이미지|"/>
+        </div>
+        <div class="col-md-8 col-12">
+          <div class="d-flex justify-content-between mb-4 text-black-50">
+            <div>
+              <small th:text="'조회수 '+${vo2.hitcount} "></small>
+              <small th:text="' 게시일 '+${vo2.wdate}"></small>
+            </div>
+            <div>
+
+              <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">신고🚫</a>
+<!--              <span th:if="${vo2.user_id == user_id}">로그인id-->
+                  |&nbsp;<a th:href="@{/forum/update(num=${vo2.num})}">수정</a>
+              | <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
+<!--              </span>-->
+            </div>
+
+          </div>
+          <a th:href="@{/bookshelf/list(userId=${vo2.user_id})}" class="d-inline-flex align-items-center">
+                      <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
+                        <img class="w-100 h-100" th:src="@{/img/{userImgName}(userImgName=${vo2.userImgName})}" th:alt="|${vo2.userName}님 프로필 이미지|">
+                      </span>
+            <strong th:text="${vo2.userName}"></strong>
+          </a>
+          <span class="align-super" th:text="'님이 게시한 '+${vo2.workTitle} + '에 대한 토론'"></span>
+          <h6 class="mt-2 mb-3 py-2 fw-bold fs-3" th:text="'Q. '+${vo2.title}"></h6>
+          <textarea th:text="${vo2.content}" rows="12" readonly disabled class="forum__textarea w-100 border-0"></textarea>
+        </div>
+      </div>
+      <!-- 여기가 댓글 관련 내용입니다. 이부분을 부모글의 상세보기와 추가해주시면 됩니다. -->
+      <section id="comment" class="position-relative my-5">
+        <h3>댓글<small th:text="'('+${vo2.commentCnt}+')'"></small></h3>
+        <div class="replyForm">
+          <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
+          <img src="/img/comment_write.png" alt="대댓글 작성" onclick="submitComment()" class="comment-icon"/>
+        </div>
+
+        <div id="commentList">
+          <div th:each="comment : ${comments}" class="comment" th:id="'comment-' + ${comment.num}">
+            <p>
+              <strong th:text="${comment.user_id}"></strong>:
+              <span th:text="${comment.content}" class="comment-content"></span>
+            </p>
+            <p>작성일: <span th:text="${comment.wdate}"></span></p>
+            <div class="actionButtons">
+              <img src="/img/comment_child.png" alt="대댓글 더보기" th:onclick="'fetchChildComments(' + ${comment.num} + ')'" class="comment-icon"/>
+              <img src="/img/comment_childup.png" alt="대댓글 줄이기" th:onclick="'hideComment(' + ${comment.num} + ')'" class="comment-icon"/>
+              <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'showReplyForm(' + ${comment.num} + ')'" class="comment-icon"/>
+              <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'" class="comment-icon"/>
+              <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'" class="comment-icon"/>
+              <img src="/img/comment_report.png" alt="신고" th:onclick="'reportComment(' + ${comment.num} + ')'" class="comment-icon"/>
+            </div>
+
+            <!-- 대댓글 입력 폼 -->
+            <div class="replyForm" th:id="'replyForm-' + ${comment.num}" style="display:none;">
+              <textarea th:id="'replyText-' + ${comment.num}" rows="2" placeholder="대댓글을 입력하세요..."></textarea>
+              <img src="/img/comment_write.png" alt="작성" th:onclick="'submitReply(' + ${comment.num} + ')'" class="comment-icon"/>
+              <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelReply(' + ${comment.num} + ')'" class="comment-icon"/>
+            </div>
+
+            <div class="editForm" th:id="'editForm-' + ${comment.num}" style="display:none;">
+              <textarea th:id="'editText-' + ${comment.num}" rows="2" th:text="${comment.content}"></textarea>
+              <img src="/img/comment_update.png" alt="수정" th:onclick="'submitEdit(' + ${comment.num} + ')'" class="comment-icon"/>
+              <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelEdit(' + ${comment.num} + ')'" class="comment-icon"/>
+            </div>
+
+            <div class="childComments" th:id="'childComments-' + ${comment.num}">
+              <!-- 대댓글을 가져올 공간 -->
+            </div>
+
+            <div th:id="'paging-' + ${comment.num}" style="display:none;">
+              <!-- 페이징을 위한 div 추가 -->
+            </div>
+          </div>
+        </div>
+
+        <div id="paging">
+          <ul>
+            <li th:if="${cpage > 1}">
+              <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
+              <a th:href="@{/test(cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
+            </li>
+            <li th:if="${cpage < totalPageCount}">
+              <a th:href="@{/test(cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
+            </li>
+          </ul>
+        </div>
+        <script type="text/javascript">
+          var fnum = [[${vo2.num}]]; // vo2.num 값을 정수로 저장
+          console.log("fnum:", fnum);
+
+          function fetchChildComments(commentId, page = 1) {
+            const childCommentsDiv = $('#childComments-' + commentId);
+            const pagingDiv = $('#paging-' + commentId);
+
+            // AJAX 요청
+            $.ajax({
+              type: "GET",
+              url: "/comments/child/" + commentId + "?cpage=" + page,
+              success: function(response) {
+                const childComments = response.childComments;
+                const totalPageCount = response.totalPageCount;
+
+                // 대댓글을 추가
+                childCommentsDiv.empty();
+                if (childComments.length > 0) {
+                  childComments.forEach(function(childComment) {
+                    const childCommentElem = `
+                    <div class="childComment" id="childComment-${childComment.num}">
+                        <p><strong>${childComment.user_id}:</strong> ${childComment.content}</p>
+                        <p>작성일: ${childComment.wdate}</p>
+                        <p>
+                            <img src="/img/comment_child.png" alt="대댓글 더보기" onclick="fetchChildComments(${childComment.num})" class="comment-icon"/>
+                            <img src="/img/comment_childup.png" alt="대댓글 줄이기" onclick="hideComment(${childComment.num})" class="comment-icon"/>
+                            <img src="/img/comment_write.png" alt="대댓글 작성" onclick="showReplyForm(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_update.png" alt="수정" onclick="editComment(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_delete.png" alt="삭제" onclick="deleteComment(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_report.png" alt="신고" onclick="reportComment(${childComment.num}, true)" class="comment-icon"/>
+                        </p>
+
+                        <div class="replyForm" id="childReplyForm-${childComment.num}" style="display:none;">
+                            <textarea id="replyText-${childComment.num}" rows="2" placeholder="대댓글을 입력하세요..."></textarea>
+                            <img src="/img/comment_write.png" alt="작성" onclick="submitReply(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_delete.png" alt="취소" onclick="cancelReply(${childComment.num}, true)" class="comment-icon"/>
+                        </div>
+
+                        <div class="editForm" id="childEditForm-${childComment.num}" style="display:none;">
+                            <textarea id="editText-${childComment.num}" rows="2" text="${childComment.content}"></textarea>
+                            <img src="/img/comment_update.png" alt="수정" onclick="submitEdit(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_delete.png" alt="취소" onclick="cancelEdit(${childComment.num}, true)" class="comment-icon"/>
+                        </div>
+
+                        <div class="childComments" id="childComments-${childComment.num}">
+                            <!-- 대댓글의 대댓글을 가져올 공간 -->
+                        </div>
+
+                        <div id="paging-${childComment.num}" style="display:none;">
+                            <!-- 페이징을 위한 div 추가 -->
+                        </div>
+                    </div>
+                    `;
+                    childCommentsDiv.append(childCommentElem);
+                  });
+                }
+
+                // 페이징 정보 추가
+                updatePaging(pagingDiv, totalPageCount, page, commentId);
+                childCommentsDiv.show();
+                pagingDiv.show();
+              },
+              error: function() {
+                alert("대댓글을 가져오는 데 오류가 발생했습니다.");
+              }
+            });
+          }
+
+          // 페이징 버튼 생성 함수
+          function updatePaging(pagingDiv, totalPageCount, currentPage, commentId) {
+            pagingDiv.empty(); // 기존 페이징 내용을 지우기
+
+            // 페이지 수가 1 이하일 경우 페이징 div를 숨김
+            if (totalPageCount <= 1) {
+              pagingDiv.hide();
+              return;
+            }
+
+            // 페이지 링크 생성
+            for (let i = 1; i <= totalPageCount; i++) {
+              const pageLink = $(`<span class="page-link" onclick="fetchChildComments(${commentId}, ${i})">${i}</span>`);
+              if (i === currentPage) {
+                pageLink.addClass('active'); // 현재 페이지 강조
+              }
+              pagingDiv.append(pageLink);
+            }
+
+            // 페이징 div를 보여줌
+            pagingDiv.show();
+          }
+
+          function hideComment(commentId) {
+            const childCommentsDiv = $('#childComments-' + commentId); // 대댓글 div
+            const toggleButton = childCommentsDiv.siblings('img[alt="대댓글 줄이기"]'); // 줄이기 버튼
+            const showMoreButton = childCommentsDiv.siblings('img[alt="대댓글 더보기"]'); // 더보기 버튼
+            const pagingDiv = $('#paging-' + commentId); // 페이징 div
+
+            // 대댓글 목록 숨기기
+            childCommentsDiv.hide(); // 대댓글 목록 숨기기
+            toggleButton.hide(); // 줄이기 버튼 숨기기
+            showMoreButton.show(); // 더보기 버튼 보이기
+            pagingDiv.hide(); // 페이징 숨기기
+          }
+
+          function submitComment() {
+            const commentText = $('#commentText').val().trim();
+            if (!commentText) {
+              alert("댓글 내용을 입력하세요.");
+              return;
+            }
+
+            $.ajax({
+              type: "POST",
+              url: "/comments",
+              contentType: "application/json",
+              data: JSON.stringify({
+                content: commentText,
+                type: "forum", // 부모글 타입
+                fnum: fnum, // 부모글id
+                user_id: "tester2" // 로그인id
+              }),
+              success: function() {
+                location.reload();
+              },
+              error: function() {
+                alert("댓글 작성에 실패했습니다.");
+              }
+            });
+          }
+
+          function submitReply(parentId) {
+            const replyText = $(`#replyText-${parentId}`).val().trim();
+            if (!replyText) {
+              alert("대댓글 내용을 입력하세요.");
+              return;
+            }
+
+            $.ajax({
+              type: "POST",
+              url: "/comments",
+              contentType: "application/json",
+              data: JSON.stringify({
+                content: replyText,
+                type: "forum", // 부모글 타입
+                fnum: fnum, // 부모글id
+                cnum: parentId,
+                user_id: "tester2" // 로그인id
+              }),
+              success: function() {
+                location.reload();
+              },
+              error: function() {
+                alert("대댓글 작성에 실패했습니다.");
+              }
+            });
+          }
+
+          function showReplyForm(commentId, isChild = false) {
+            // 대댓글의 ID에 맞춰 폼 ID를 다르게 설정
+            const formId = isChild ? 'childReplyForm-' + commentId : 'replyForm-' + commentId;
+            document.getElementById(formId).style.display = 'block'; // 해당 폼을 보이게 함
+          }
+
+          function cancelReply(commentId, isChild = false) {
+            const formId = isChild ? 'childReplyForm-' + commentId : 'replyForm-' + commentId;
+            document.getElementById(formId).style.display = 'none'; // 해당 폼 숨기기
+          }
+
+          function editComment(commentId, isChild = false) {
+            // 대댓글의 ID에 맞춰 수정 폼 ID 설정
+            const editFormId = isChild ? `#childEditForm-${commentId}` : `#editForm-${commentId}`;
+            const commentElemId = isChild ? `#childComment-${commentId}` : `#comment-${commentId}`;
+
+            // 대댓글 또는 일반 댓글에서 콘텐츠를 가져옴
+            const commentContentElem = $(commentElemId).find('p').first();
+
+            // 작성자의 이름과 내용을 분리하여 내용만 가져옴
+            const fullCommentText = commentContentElem.length > 0 ? commentContentElem.text().trim() : '';
+
+            // 작성자 이름과 내용 분리 (작성자: 내용 형태)
+            const contentStartIndex = fullCommentText.indexOf(':') + 2; // ': ' 다음 인덱스부터 시작
+            const commentText = fullCommentText.substring(contentStartIndex).trim(); // 내용만 추출
+
+            // 기존 내용으로 텍스트 에어리어를 업데이트
+            $(editFormId).find('textarea').val(commentText);
+            $(editFormId).show(); // 수정 폼을 보이게 함
+          }
+
+          function submitEdit(commentId) {
+            const newCommentText = $(`#editText-${commentId}`).val().trim();
+
+            $.ajax({
+              type: "PUT",
+              url: "/comments/" + commentId,
+              contentType: "application/json",
+              data: JSON.stringify({
+                content: newCommentText,
+                user_id: "tester2" // 로그인id
+              }),
+              success: function() {
+                location.reload();
+              },
+              error: function() {
+                alert("댓글 수정에 실패했습니다.");
+              }
+            });
+          }
+
+          function cancelEdit(commentId, isChild = false) {
+            const editFormId = isChild ? '#childEditForm-' + commentId : '#editForm-' + commentId;
+            $(editFormId).hide(); // 해당 수정 폼 숨기기
+          }
+
+          function deleteComment(commentId, isChild = false) {
+            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+              $.ajax({
+                type: "DELETE",
+                url: "/comments/" + commentId,
+                success: function() {
+                  const commentSelector = isChild ? `#childComment-${commentId}` : `#comment-${commentId}`;
+                  $(commentSelector).remove();
+                },
+                error: function() {
+                  alert("댓글 삭제에 실패했습니다.");
+                }
+              });
+            }
+          }
+
+          function reportComment(commentId) {
+            // 신고 요청을 보내는 AJAX 호출
+            $.ajax({
+              type: "PUT",
+              url: "/comments/report/" + commentId, // 신고를 처리할 경로
+              success: function() {
+                alert("댓글이 신고되었습니다.");
+              },
+              error: function() {
+                alert("댓글 신고에 실패했습니다.");
+              }
+            });
+          }
+        </script>
+      </section>
+      <div class="d-flex justify-content-center py-3">
+        <a href="/forum/list" class="btn btn-dark">목록으로</a>
+      </div>
+    </div>
+  </div>
+  <div class="modal modal-md fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-center" th:text="${vo2.title}+' 토론을 정말 삭제하시겠습니까?'"></p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-dark">닫기</button>
+        <a th:href="@{/forum/deleteOK(num=${vo2.num})}" class="btn btn-danger">삭제</a>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="modal modal-md fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>게시글에 욕설, 비방, 비하 등 부적절한 내용이 포함된 경우<br/>신고 바랍니다.</p>
+        <p>관리자가 확인 후 게시글 삭제 처리할 예정입니다.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-dark">닫기</button>
+        <a th:href="@{/forum/report(num=${vo2.num})}" class="btn btn-danger">신고</a>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+</body>
+</html>
