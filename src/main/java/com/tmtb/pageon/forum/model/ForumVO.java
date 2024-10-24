@@ -23,9 +23,4 @@ public class ForumVO {
     //work 테이블 참조
     private String workTitle;
     private String workImgName;
-
-    //네이밍 규칙
-    //외부 테이블의 중복 필드명은 카멜케이스로 변경
-    //외부 테이블의 포괄적인 또는 불특정 필드명은 컨트롤러에서 변수명 카멜케이스로 받기
-    //기타 매개변수 카멜케이스로 변경
 }

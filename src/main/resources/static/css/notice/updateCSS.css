@@ -1,0 +1,49 @@
+table {
+    margin: auto;
+    border: 2px solid black; /* 바깥 테두리를 진하게 */
+}
+
+tbody {
+    text-align: center;
+}
+
+input[type=text],textarea {
+    width: 100%;
+    padding: 8px 8px;
+    margin: 8px 0;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+textarea {
+    color: blue;
+}
+
+input[type=submit]:hover {
+    background-color: #b7e5b9;
+}
+
+#insertTable {
+    border-collapse: collapse;
+    width: 95%;
+}
+
+#insertTable tr:hover {
+    background-color: #E15C5CFF;
+}
+
+#submit1 {
+    padding: 10px 30px;
+    font-style: initial;
+    font-size: 20px;
+    background-color: #E15C5CFF;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-left: 90%;
+}
+
+#submit1:hover {
+    background-color: #152315;
+}
