@@ -7,7 +7,6 @@
         select title from notice order by num desc limit 3;
     </select>
 
-
     <select id="forumCommunity" resultType="com.tmtb.pageon.forum.model.ForumVO">
         select title from forum order by num desc limit 3;
     </select>

@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>delete.html</title>
-
+    <link rel="stylesheet" href="/css/notice/deleteCSS.css"> <!-- CSS 파일 링크 -->
     <style>
-
-
+        /* /notice/deleteCSS.css */
     </style>
 
 </head>
 
-
 <body>
 <h1>공지사항 삭제 페이지</h1>
-<br/>
 
 <nav th:replace="~{top_menu::top_menu}"></nav>
+
 <form action="/notice/n_deleteOK.do" method="post">
     <table border="1">
         <tbody>
@@ -26,13 +24,9 @@
         </tr>
         </tbody>
         <tfoot>
-        <tr>
-            <td colspan="6">
-                <input type="submit" value="삭제완료">
-            </td>
-        </tr>
         </tfoot>
     </table>
 </form>
+
 </body>
 </html>

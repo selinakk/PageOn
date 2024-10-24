@@ -3,80 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>selectOne.html</title>
-
+    <link rel="stylesheet" href="/css/notice/selectOneCSS.css"> <!-- CSS 파일 링크 -->
     <style>
-
-
-        tbody {
-            text-align: center;
-        }
-
-        table {
-            margin-left: auto;
-            margin-right: auto;
-            border-collapse: collapse;
-            border: 2px solid black; /* 바깥 테두리를 진하게 */
-        }
-
-        #btn1 {
-            margin-left: 1430px;
-            padding: 10px 30px;
-            font-style: initial;
-            font-size: 20px;
-            background-color: #E15C5CFF;
-            color: white;
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-        }
-
-        #btn1:hover {
-            background-color: #152315;
-        }
-
-        #submit1 {
-            padding: 10px 30px;
-            font-style: initial;
-            font-size: 20px;
-            background-color: #E15C5CFF;
-            color: white;
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-        }
-
-        #submit1:hover {
-            background-color: #152315;
-        }
-
-
-        input[type=button]:hover {
-            background-color: #b7e5b9;
-        }
-
-        input[type=submit]:hover {
-            background-color: #b7e5b9;
-        }
-
-        #submit1 {
-            padding: 10px 30px;
-            margin-right: 150%;
-        }
-
-        #button-container {
-            display: flex; /* 버튼들을 한 줄에 정렬 */
-            gap: 10px; /* 버튼 사이의 간격 설정 */
-        }
-
-        thead tr:hover {
-            background-color: #E15C5CFF;
-        }
-
-        #td1:hover {
-            background-color: #E15C5CFF;
-        }
-
+        /* /notice/selectOneCSS.css */
     </style>
+
+    <script>
+        function confirmDelete() {
+            var result = confirm("정말로 삭제하시겠습니까?");
+            if (result) {
+                document.querySelector('form').submit();
+                alert("항목이 삭제되었습니다.");
+            } else {
+                alert("삭제가 취소되었습니다.");
+            }
+        }
+    </script>
 
 </head>
 <body>
@@ -88,6 +30,7 @@
 <br><br>
 
 <table border="1">
+
     <thead>
     <tr>
         <th>글번호</th>
@@ -98,6 +41,7 @@
         <th>첨부파일</th>
     </tr>
     </thead>
+
     <tbody>
     <tr>
         <td>[[${vo2.num}]]</td>
@@ -107,26 +51,24 @@
         <td>[[${vo2.hitcount}]]</td>
         <td></td>
     </tr>
-
     <tr>
         <td id="td1">내 <br> 용</td>
         <td colspan="4"><textarea cols="185" rows="35">[[${vo2.content}]]</textarea></td>
         <td colspan="6"><img th:src="|/uploadimgPath/${vo2.img_name}|" width="200" height="200"></td>
     </tr>
-
-
     </tbody>
 </table>
 
 <br>
 
-</form>
-<div  id="button-container">
+<div id="button-container">
     <a th:href="|/notice/n_update.do?num=${vo2.num}|"><input id="btn1" type="button" value="수정하기"></a>
+
     <form action="/notice/n_deleteOK.do" method="post">
         <td><input type="hidden" name="num" th:value="${param.num}"></td>
-        <input id="submit1" type="submit" value="삭제하기">
+        <button type="button" onclick="confirmDelete()">삭제하기</button>
     </form>
 </div>
+
 </body>
 </html>

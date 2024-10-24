@@ -3,161 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>selectAll.html</title>
-
+  <link rel="stylesheet" href="/css/notice/selectAllCSS.css"> <!-- CSS 파일 링크 -->
   <style>
-    #write {
-      font-style: initial;
-      font-size: 20px;
-      margin-left: 85%;
-      width: 10%;
-      background-color: #E15C5CFF;
-      color: white;
-      padding: 8px 5px;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-    }
-
-    th, td {
-      text-decoration: none; /* 밑줄 제거 */
-    }
-
-    #button-container {
-      display: flex; /* 버튼들을 한 줄에 정렬 */
-      gap: 10px; /* 버튼 사이의 간격 설정 */
-    }
-
-    #write:hover {
-      background-color: #152315;
-    }
-
-    table{
-      width: 90%;
-      height: 80%;
-      margin-left: auto;
-      margin-right: auto;
-      border: 2px solid black; /* 바깥 테두리를 진하게 */
-      border-bottom: white;
-      border-left: white;
-      border-right: white;
-    }
-
-    tbody {
-      text-align: center;
-    }
-
-    #input1 {
-      width: 35%;
-    }
-
-    #input2 {
-      margin-left: 50%;
-    }
-
-    input[type=submit]:hover {
-      background-color: #b7e5b9;
-    }
-
-    /*#insertTable tr:nth-child(even) {*/
-    /*  background-color: #ebebeb;*/
-    /*}*/
-
-    #insertTable tr:hover {
-      background-color: #e15c5c;
-    }
-
-    #form1 {
-      margin-left: 85%;
-    }
-
-    #form2 {
-    }
-
-    #form3 {
-    }
-
-    #btn1, #btn2, #btn3 {
-      border-radius: 25px;
-      background-color: #E15C5CFF;
-      color: white;
-    }
-
-    #btn1:hover {
-      background-color: #152315;
-    }
-
-    #btn2:hover {
-      background-color: #152315;
-    }
-
-    #btn3:hover {
-      background-color: #152315;
-    }
-
-    #search {
-      border-radius: 25px;
-      background-color: #E15C5CFF;
-      color: white;
-    }
-
-    #search:hover {
-      background-color: #152315;
-    }
-
-    thead {
-      border-right: white;
-      border-right: none;
-    }
-
-    tbody {
-      text-align: center;
-      border-right: none;
-      border-right: white;
-    }
-
-    tfoot {
-      text-align: center;
-      border-left: none;
-      border-right: none;
-      border-bottom: none;
-      border-left: white;
-      border-right: white;
-      border-bottom: white;
-
-    }
-
-    #insertTable {
-      font-family: Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      font-size: 20px;
-    }
-
-
-    input[type=submit], a {
-
-      color: black;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-    }
-
-    #border1,#border2 {
-      border-left: 2px solid black; /* 바깥 테두리를 진하게 */;
-    }
-
-    #border3,#border4 {
-      border-right: 2px solid black; /* 바깥 테두리를 진하게 */;
-    }
-
-    #border5 {
-      border: 2px solid black; /* 바깥 테두리를 진하게 */;
-      border-left: white;
-      border-right: white;
-      border-bottom: white;
-    }
-
+    /* /notice/selectAllCSS.css */
   </style>
-
 </head>
 
 
@@ -165,7 +14,6 @@
 <h1>공지사항 페이지<a href="/community"><img src="/community_image.png" width="30px"></a></h1>
 
 <nav th:replace="~{top_menu::top_menu}"></nav>
-
 
 <form action="/notice/n_searchList.do">
   <select id="input2" name="searchKey">
@@ -178,27 +26,24 @@
 
 <br>
 
-
 <div  id="button-container">
-<!--최신순-->
-<form id="form1" action="/notice/n_selectAll.do">
-  <input id="btn1" type="submit" value="최신순">
-</form>
+  <!--최신순-->
+  <form id="form1" action="/notice/n_selectAll.do">
+    <input id="btn1" type="submit" value="최신순">
+  </form>
 
-<!--오래된순-->
-<form id="form2" action="/notice/n_selectAllNew.do">
-  <input id="btn2" type="submit" value="오래된순">
-</form>
+  <!--오래된순-->
+  <form id="form2" action="/notice/n_selectAllNew.do">
+    <input id="btn2" type="submit" value="오래된순">
+  </form>
 
-<!--조회순-->
-<form id="form3" action="/notice/n_selectAllHitcount.do">
-  <input id="btn3" type="submit" value="조회순">
-</form>
+  <!--조회순-->
+  <form id="form3" action="/notice/n_selectAllHitcount.do">
+    <input id="btn3" type="submit" value="조회순">
+  </form>
 </div>
 
 <br><br>
-
-
 
 <table id="insertTable" border="1">
   <thead>
@@ -210,8 +55,8 @@
     <th id="border4">작성일자</th>
   </tr>
   </thead>
-
   <tbody>
+
 <div>
   <th:block th:each="vo : ${list}">
     <tr>
@@ -224,7 +69,6 @@
   </th:block>
 </div>
   </tbody>
-
 
   <tfoot>
   <tr id="border5">
@@ -239,7 +83,6 @@
           </th:block>
         </th:block>
       </th:block>
-
     </td>
   </tr>
   </tfoot>
@@ -247,14 +90,10 @@
 </table>
 
 <br>
+
 <form action="/notice/n_insert.do">
   <input id="write" type="submit" value="글쓰기">
 </form>
-
-
-
-
-
 
 </body>
 </html>

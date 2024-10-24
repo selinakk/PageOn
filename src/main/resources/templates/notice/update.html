@@ -3,67 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>update.html</title>
-
+  <link rel="stylesheet" href="/css/notice/updateCSS.css"> <!-- CSS 파일 링크 -->
   <style>
-    table {
-      margin: auto;
-      border: 2px solid black; /* 바깥 테두리를 진하게 */
-    }
-
-    tbody {
-      text-align: center;
-    }
-
-    input[type=text],textarea {
-      width: 100%;
-      padding: 8px 8px;
-      margin: 8px 0;
-      display: inline-block;
-      box-sizing: border-box;
-    }
-
-    textarea {
-      color: blue;
-    }
-
-    input[type=submit]:hover {
-      background-color: #b7e5b9;
-    }
-
-    #insertTable {
-      border-collapse: collapse;
-      width: 95%;
-    }
-
-    #insertTable tr:hover {
-      background-color: #E15C5CFF;
-    }
-
-    #submit1 {
-      padding: 10px 30px;
-      font-style: initial;
-      font-size: 20px;
-      background-color: #E15C5CFF;
-      color: white;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      margin-left: 90%;
-    }
-
-    #submit1:hover {
-      background-color: #152315;
-    }
-
+    /* /notice/updateCSS.css */
   </style>
-
-
 </head>
 
 <body>
 <h1>공지사항 수정 페이지</h1>
 
-<br>
 <nav th:replace="~{top_menu::top_menu}"></nav>
 <br>
 
@@ -93,12 +41,11 @@
           <input type="hidden" id="img_name" name="img_name" th:value="${vo2.img_name}"></td>
       </tr>
     </table>
+
     <br>
     <input id="submit1" type="submit" value="수정완료"></td>
-
   </form>
 </div>
-
 
 </body>
 </html>

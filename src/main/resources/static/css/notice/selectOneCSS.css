@@ -1,0 +1,67 @@
+tbody {
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border: 2px solid black; /* 바깥 테두리를 진하게 */
+}
+
+#btn1 {
+    margin-left: 1430px;
+    padding: 10px 30px;
+    font-style: initial;
+    font-size: 20px;
+    background-color: #E15C5CFF;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+#btn1:hover {
+    background-color: #152315;
+}
+
+button {
+    padding: 10px 30px;
+    font-style: initial;
+    font-size: 20px;
+    background-color: #E15C5CFF;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+#submit1:hover {
+    background-color: #152315;
+}
+
+input[type=button]:hover {
+    background-color: #b7e5b9;
+}
+
+input[type=submit]:hover {
+    background-color: #b7e5b9;
+}
+
+#submit1 {
+    padding: 10px 30px;
+    margin-right: 150%;
+}
+
+#button-container {
+    display: flex; /* 버튼들을 한 줄에 정렬 */
+    gap: 10px; /* 버튼 사이의 간격 설정 */
+}
+
+thead tr:hover {
+    background-color: #E15C5CFF;
+}
+
+#td1:hover {
+    background-color: #E15C5CFF;
+}

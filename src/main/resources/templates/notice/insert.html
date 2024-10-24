@@ -3,69 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>insert.html</title>
-
+  <link rel="stylesheet" href="/css/notice/insertCSS.css"> <!-- CSS 파일 링크 -->
   <style>
-
-    table {
-      margin: auto;
-      border: 2px solid black; /* 바깥 테두리를 진하게 */
-    }
-
-    tbody {
-      text-align: center;
-    }
-
-    input[type=text],textarea {
-      width: 100%;
-      padding: 8px 8px;
-      margin: 8px 0;
-      display: inline-block;
-      box-sizing: border-box;
-    }
-
-    #btn1 {
-      background-color: #E15C5CFF;
-      margin: 8px 0;
-      padding: 10px 30px;
-      font-style: initial;
-      font-size: 20px;
-      background-color: #E15C5CFF;
-      color: white;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      margin-left: 90%;
-    }
-
-    input[type=submit]:hover {
-      background-color: #152315;
-    }
-
-    #btn1:hover {
-      background-color: #152315;
-    }
-
-    #insertTable {
-      border-collapse: collapse;
-      width: 95%;
-    }
-
-    #insertTable td {
-      /*border: 1px solid #ddd;*/
-    }
-
-    #insertTable tr:hover {
-      background-color: #E15C5CFF;
-    }
-
-    #user_id {
-      text-align: center;
-    }
-
-    textarea {
-      color: blue;
-    }
-
+    /* /notice/insertCSS.css */
   </style>
 </head>
 
@@ -93,10 +33,10 @@
       <td><label for="file">이미지</label></td>
       <td><input type="file" id="file" name="file" ></td>
     </tr>
-
   </table>
+
   <input id="btn1" type="submit" value="등록하기">
 </form>
-</body>
 
+</body>
 </html>
