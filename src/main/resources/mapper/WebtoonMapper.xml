@@ -79,9 +79,9 @@
         AND type = 'webtoon'
     </select>
 
-    <insert id="saveWebtoon" parameterType="com.tmtb.pageon.webtoon.model.WebtoonApiTest">
-        INSERT INTO test (id, title, provider, url, thumbnail, isend, isfree, isUpdated, ageGrade, freeWaitHour, authors, type)
-        VALUES (#{id}, #{title}, #{provider}, #{url}, #{thumbnail, typeHandler=com.tmtb.pageon.webtoon.handler.JsonTypeHandler}, #{isend}, #{isfree}, #{isUpdated}, #{ageGrade}, #{freeWaitHour}, #{authors, typeHandler=com.tmtb.pageon.webtoon.handler.JsonTypeHandler}, 'webtoon')
-    </insert>
+<!--    <insert id="saveWebtoon" parameterType="com.tmtb.pageon.webtoon.model.WebtoonApiTest">-->
+<!--        INSERT INTO test (id, title, provider, url, thumbnail, isend, isfree, isUpdated, ageGrade, freeWaitHour, authors, type)-->
+<!--        VALUES (#{id}, #{title}, #{provider}, #{url}, #{thumbnail, typeHandler=com.tmtb.pageon.webtoon.handler.JsonTypeHandler}, #{isend}, #{isfree}, #{isUpdated}, #{ageGrade}, #{freeWaitHour}, #{authors, typeHandler=com.tmtb.pageon.webtoon.handler.JsonTypeHandler}, 'webtoon')-->
+<!--    </insert>-->
 
 </mapper>

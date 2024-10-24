@@ -35,7 +35,7 @@ public interface WebtoonMapper {
 
     int getTotalCountByCategories(@Param("categories") List<String> categories);
 
-    void saveWebtoon(WebtoonApiTest webtoonApiTest);
+//    void saveWebtoon(WebtoonApiTest webtoonApiTest);
 
 }
 

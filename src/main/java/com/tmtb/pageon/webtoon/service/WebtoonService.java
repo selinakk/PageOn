@@ -74,27 +74,16 @@ public class WebtoonService {
         this.objectMapper = objectMapper;
     }
 
-    //웹툰 목록 가져오기
-    public List<WebtoonApiTest> getWebtoons() {
-        String url = "https://korea-webtoon-api-cc7dda2f0d77.herokuapp.com/webtoons";
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+    public JsonNode getWebtoons() {
+        String apiUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=9d4d0a15eb8ffd1447ba90994ca4617b&pageNo=0&viewItemCnt=100&pltfomCdNm=웹툰";
+        String result = restTemplate.getForObject(apiUrl, String.class);
         try {
-            JsonNode root = objectMapper.readTree(response.getBody());
-            return objectMapper.convertValue(root.get("webtoons"), objectMapper.getTypeFactory().constructCollectionType(List.class, WebtoonApiTest.class));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
-
-    }
-
-    //웹툰 db에 저장
-    public void saveWebtoonsToDB(List<WebtoonApiTest> webtoons) {
-        for (WebtoonApiTest webtoonApiTest : webtoons) {
-            webtoonMapper.saveWebtoon(webtoonApiTest);
+            return objectMapper.readTree(result);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse JSON", e);
         }
     }
-
 
 
 }
