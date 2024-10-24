@@ -240,7 +240,36 @@ a.text-danger .svg-icon {
     margin-bottom: 20px; /* 검색과 카테고리 간 간격 추가 */
 }
 
-/* 검색 폼과 그리드 사이 간격 추가 */
+/* 검색 폼과 정렬 옵션을 동일한 라인에 배치하고, 정렬 옵션을 오른쪽 끝으로 이동 */
+#book-list #filter-container {
+    display: flex;
+    justify-content: space-between; /* 검색 폼과 정렬 옵션을 양 끝에 배치 */
+    align-items: center; /* 검색 폼과 정렬 옵션의 수직 정렬을 맞춤 */
+    margin-bottom: 20px; /* 아래 여백 */
+}
+
+/* 정렬 옵션 스타일 */
+#book-list #sort-options {
+    margin-left: auto; /* 우측 끝으로 이동 */
+}
+
+#book-list .selected-sort {
+    font-weight: bold;
+    color: #007bff; /* 강조된 색상 */
+}
+
+#book-list .sort-option {
+    color: #333;
+    margin-left: 10px; /* 각 정렬 옵션 간의 간격 */
+    text-decoration: none;
+}
+
+#book-list .sort-option:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* 기존 검색 폼 스타일 */
 #book-list .book-search {
     margin-bottom: 20px;
 }
@@ -269,7 +298,28 @@ a.text-danger .svg-icon {
     margin-left: 5px; /* 검색창과 아이콘 사이에 약간의 여백 추가 */
 }
 
-/* 기본 카테고리 색상 */
+/* 선택 필터 스타일 */
+#book-list #filter-options {
+    text-align: center;  /* 필터 옵션 중앙 정렬 */
+    margin-bottom: 20px; /* 그리드와의 간격 */
+}
+
+#book-list .filter-option,
+#book-list .category { /* 필터 옵션과 카테고리의 기본 스타일 */
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+/* 선택된 필터 옵션과 카테고리 스타일 */
+#book-list .selected-option,
+#book-list .selected-category {
+    color: red;
+    font-weight: bold;
+}
+
+/* 카테고리 영역의 기본 스타일 */
 #book-list .category {
     color: black;
     text-decoration: none;
@@ -281,25 +331,6 @@ a.text-danger .svg-icon {
     color: red;
     font-weight: bold;
 }
-
-/* 선택 필터 스타일 */
-#book-list #filter-options {
-    text-align: center;  /* 중앙 정렬 */
-    margin-bottom: 20px; /* 그리드와의 간격 */
-}
-
-#book-list .filter-option {
-    color: black;
-    text-decoration: none;
-    margin-right: 10px;
-    font-weight: normal;
-}
-
-#book-list .selected-option {
-    color: red;
-    font-weight: bold;
-}
-
 
 #book-list .book-item {
     display: flex;
@@ -536,6 +567,32 @@ a.text-danger .svg-icon {
     padding: 10px;
     border-radius: 4px;
 }
+
+#book-detail .card h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    white-space: nowrap; /* 텍스트가 한 줄로 나오도록 설정 */
+    overflow: hidden;    /* 넘치는 텍스트를 숨김 */
+    text-overflow: ellipsis; /* 넘치는 부분에 "..." 표시 */
+}
+
+#book-detail .card p {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#book-detail .img-fluid {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    display: block; /* 블록 요소로 변경 */
+    margin: 0 auto; /* 좌우 중앙 정렬 */
+    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+}
 /* 도서끝 */
 
 /* 웹소설 */
@@ -550,7 +607,36 @@ a.text-danger .svg-icon {
     margin-bottom: 20px; /* 검색과 카테고리 간 간격 추가 */
 }
 
-/* 검색 폼과 그리드 사이 간격 추가 */
+/* 검색 폼과 정렬 옵션을 동일한 라인에 배치하고, 정렬 옵션을 오른쪽 끝으로 이동 */
+#webnovel-list #filter-container {
+    display: flex;
+    justify-content: space-between; /* 검색 폼과 정렬 옵션을 양 끝에 배치 */
+    align-items: center; /* 검색 폼과 정렬 옵션의 수직 정렬을 맞춤 */
+    margin-bottom: 20px; /* 아래 여백 */
+}
+
+/* 정렬 옵션 스타일 */
+#webnovel-list #sort-options {
+    margin-left: auto; /* 우측 끝으로 이동 */
+}
+
+#webnovel-list .selected-sort {
+    font-weight: bold;
+    color: #007bff; /* 강조된 색상 */
+}
+
+#webnovel-list .sort-option {
+    color: #333;
+    margin-left: 10px; /* 각 정렬 옵션 간의 간격 */
+    text-decoration: none;
+}
+
+#webnovel-list .sort-option:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* 기존 검색 폼 스타일 */
 #webnovel-list .webnovel-search {
     margin-bottom: 20px;
 }
@@ -579,7 +665,28 @@ a.text-danger .svg-icon {
     margin-left: 5px; /* 검색창과 아이콘 사이에 약간의 여백 추가 */
 }
 
-/* 기본 카테고리 색상 */
+/* 선택 필터 스타일 */
+#webnovel-list #filter-options {
+    text-align: center;  /* 필터 옵션 중앙 정렬 */
+    margin-bottom: 20px; /* 그리드와의 간격 */
+}
+
+#webnovel-list .filter-option,
+#webnovel-list .category { /* 필터 옵션과 카테고리의 기본 스타일 */
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+/* 선택된 필터 옵션과 카테고리 스타일 */
+#webnovel-list .selected-option,
+#webnovel-list .selected-category {
+    color: red;
+    font-weight: bold;
+}
+
+/* 카테고리 영역의 기본 스타일 */
 #webnovel-list .category {
     color: black;
     text-decoration: none;
@@ -588,24 +695,6 @@ a.text-danger .svg-icon {
 
 /* 선택된 카테고리 색상 */
 #webnovel-list .selected-category {
-    color: red;
-    font-weight: bold;
-}
-
-/* 선택 필터 스타일 */
-#webnovel-list #filter-options {
-    text-align: center;  /* 중앙 정렬 */
-    margin-bottom: 20px; /* 그리드와의 간격 */
-}
-
-#webnovel-list .filter-option {
-    color: black;
-    text-decoration: none;
-    margin-right: 10px;
-    font-weight: normal;
-}
-
-#webnovel-list .selected-option {
     color: red;
     font-weight: bold;
 }
@@ -647,6 +736,7 @@ a.text-danger .svg-icon {
     margin-top: 10px;
     text-align: center;
 }
+
 /* 페이징을 중앙에 배치 */
 #webnovel-list .pagination {
     display: flex;
@@ -663,6 +753,7 @@ a.text-danger .svg-icon {
 #webnovel-list .pagination a:hover {
     text-decoration: underline;
 }
+
 /* webnovel-detail 섹션 전체 */
 #webnovel-detail .webnovel-detail-container {
     max-width: 1600px;
@@ -673,7 +764,7 @@ a.text-danger .svg-icon {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 책 정보 섹션 */
+/* 웹소설 정보 섹션 */
 #webnovel-detail .webnovel-info {
     display: flex;
     align-items: flex-start;
@@ -802,13 +893,13 @@ a.text-danger .svg-icon {
 #webnovel-detail .similar-webnovels {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* 각 책 항목 사이의 간격 */
+    gap: 20px; /* 각 웹소설 항목 사이의 간격 */
     flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
 }
 
 #webnovel-detail .similar-webnovels .webnovel-item {
     text-align: center;
-    width: 150px; /* 각 책 항목의 너비 */
+    width: 150px; /* 각 웹소설 항목의 너비 */
 }
 
 #webnovel-detail .similar-webnovels .webnovel-item img {
@@ -821,6 +912,7 @@ a.text-danger .svg-icon {
 #webnovel-detail .similar-webnovels .webnovel-item p {
     font-size: 14px;
 }
+
 
 /* 토론 섹션 스타일 */
 #webnovel-detail .discussion-header {
@@ -842,9 +934,104 @@ a.text-danger .svg-icon {
     padding: 10px;
     border-radius: 4px;
 }
+
+#webnovel-detail .card h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    white-space: nowrap; /* 텍스트가 한 줄로 나오도록 설정 */
+    overflow: hidden;    /* 넘치는 텍스트를 숨김 */
+    text-overflow: ellipsis; /* 넘치는 부분에 "..." 표시 */
+}
+
+#webnovel-detail .card p {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#webnovel-detail .img-fluid {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    display: block; /* 블록 요소로 변경 */
+    margin: 0 auto; /* 좌우 중앙 정렬 */
+    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+}
 /* 웹소설 끝 */
 
 /* 작품 메인 */
+#work-index {
+    max-width: 2000px;
+    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
+    padding: 20px; /* 내부 여백을 추가합니다 */
+}
+#work-index #recommendation-container {
+    display: flex;
+    flex-wrap: wrap;  /* 화면 크기에 따라 자동 줄바꿈 */
+    justify-content: space-between;  /* 요소 간 간격 조정 */
+    overflow: hidden;  /* 화면을 벗어나는 요소를 숨김 */
+}
+#work-index #user-recommend, #categories-recommend {
+    flex: 1;  /* 두 요소가 같은 크기를 차지하도록 설정 */
+    max-width: 50%;  /* 화면의 50%까지만 차지하게 설정 */
+    box-sizing: border-box;
+    padding: 10px;  /* 각 요소 간 약간의 여백 추가 */
+}
+#work-index .card h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    white-space: nowrap; /* 텍스트가 한 줄로 나오도록 설정 */
+    overflow: hidden;    /* 넘치는 텍스트를 숨김 */
+    text-overflow: ellipsis; /* 넘치는 부분에 "..." 표시 */
+}
+
+#work-index .card p {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#work-index .img-fluid {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    display: block; /* 블록 요소로 변경 */
+    margin: 0 auto; /* 좌우 중앙 정렬 */
+    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+}
 /* 작품 메인 끝 */
 
+/* 메인화면 작품 스와이프 */
+#best-work .card h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    white-space: nowrap; /* 텍스트가 한 줄로 나오도록 설정 */
+    overflow: hidden;    /* 넘치는 텍스트를 숨김 */
+    text-overflow: ellipsis; /* 넘치는 부분에 "..." 표시 */
+}
+
+#best-work .card p {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#best-work .img-fluid {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    display: block; /* 블록 요소로 변경 */
+    margin: 0 auto; /* 좌우 중앙 정렬 */
+    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+}
+/* 메인화면 작품 스와이프 끝 */
 /***** //custom sub style 끝 *****/

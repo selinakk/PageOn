@@ -18,7 +18,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-public class WebnovelApiTestController {
+public class WebnovelApiTestController { // 알라딘 api에서 데이터 받아오기 위한 컨트롤러 http://localhost:8081/books/store 링크 접속하면 DB 받아옵니다.
 
     private final String TTBKey = ""; // 알라딘 API Key
     private final String API_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx";
@@ -41,7 +41,7 @@ public class WebnovelApiTestController {
                     .queryParam("ttbkey", TTBKey)
                     .queryParam("QueryType", "Bestseller")
                     .queryParam("Query", categoryName)
-                    .queryParam("SearchTarget", "Webnovel")
+                    .queryParam("SearchTarget", "eBook")
                     .queryParam("CategoryId", categoryId)
                     .queryParam("MaxResults", "50")
                     .queryParam("output", "js")

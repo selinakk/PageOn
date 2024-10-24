@@ -18,7 +18,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-public class BookApiTestController {
+public class BookApiTestController { // 알라딘 api에서 데이터 받아오기 위한 컨트롤러 http://localhost:8081/books/store 링크 접속하면 DB 받아옵니다.
 
     private final String TTBKey = ""; // 알라딘 API Key
     private final String API_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx";

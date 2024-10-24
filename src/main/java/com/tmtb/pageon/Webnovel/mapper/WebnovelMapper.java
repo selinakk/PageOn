@@ -14,19 +14,23 @@ public interface WebnovelMapper {
     int checkDuplicateTitle(String title);
 
     /* Webnovel 기능 */
-    List<WebnovelVO> selectAllWebnovels(int startRow, int pageBlock);
+    List<WebnovelVO> selectAllWebnovels(int startRow, int pageBlock, String sortOrder);
     int getTotalRows();
 
-    List<WebnovelVO> selectWebnovelsByCategory(String category, int startRow, int pageBlock);
+    List<WebnovelVO> selectWebnovelsByCategory(String category, int startRow, int pageBlock, String sortOrder);
     int getTotalRowsByCategory(String category);
 
-    List<WebnovelVO> searchWebnovelsInCategory(String category, String searchKey, String searchWord, int startRow, int pageBlock);
+    List<WebnovelVO> searchWebnovelsInCategory(String category, String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
     int getSearchTotalRowsInCategory(String category, String searchKey, String searchWord);
 
-    List<WebnovelVO> searchWebnovels(String searchKey, String searchWord, int startRow, int pageBlock);
+    List<WebnovelVO> searchWebnovels(String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
     int getSearchTotalRows(String searchKey, String searchWord);
 
     public WebnovelVO selectOne(WebnovelVO vo);
 
     List<WebnovelVO> selectLimitedWebnovelsByCategory(Map<String, Object> params);
+
+    // added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정
+    void updateAddedBs(int item_id);
+
 }

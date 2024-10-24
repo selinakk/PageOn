@@ -13,4 +13,5 @@ public class WebnovelVO {
     private String categories;
     private String img_name;
     private String link;  // 상품 링크 추가
+    private int added_bs;
 }
