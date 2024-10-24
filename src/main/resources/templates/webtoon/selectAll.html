@@ -12,6 +12,8 @@
 
         <!-- 필터링 태그-->
         <!--style="cursor:pointer;" 이 부분 따로 빼서 수정해야함-->
+<!--        db에서 값찾기 - > thymeleaf로 카테고리 값 넘기기 - > js에서 값 받아서 처리하도록 수정할것.-->
+<!--        필터링 적용시 이미지값 안나옴 -->
         <div class="hashtags mb-3" style="cursor:pointer;">
             <span class="badge bg-secondary me-1" data-category="스릴러" onclick="filterByCategory(this)">#스릴러</span>
             <span class="badge bg-secondary me-1" data-category="회귀물" onclick="filterByCategory(this)">#회귀물</span>
@@ -43,7 +45,7 @@
             <div class="col-md-3 col-sm-6 mb-4 content-item" th:each="webtoon : ${webtoonList}">
                 <div class="card" th:onclick="'location.href=\'/wt_selectOne?num=' + ${webtoon.num} + '\''"
                      style="cursor:pointer;">
-                    <img th:src="@{/img/{img_name}(img_name=${webtoon.img_name})}" class="img-thumbnail">
+                    <img th:src="${webtoon.img_name}" class="img-thumbnail">
                     <div class="card-body">
                         <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
                         <div class="card-title" th:text="${webtoon.title}"></div>

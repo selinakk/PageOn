@@ -35,7 +35,7 @@
         </tr>
         <tr>
             <th>이미지</th>
-            <td><img th:src="@{/img/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail"></td>
+            <img th:src="${vo2.img_name}" class="img-thumbnail">
         </tr>
     </table>
 

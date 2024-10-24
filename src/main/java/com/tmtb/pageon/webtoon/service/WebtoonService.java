@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
-import com.tmtb.pageon.webtoon.model.WebtoonApiTest;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -82,6 +82,21 @@ public class WebtoonService {
             return objectMapper.readTree(result);
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse JSON", e);
+        }
+    }
+
+    public void saveWebtoons(JsonNode webtoons) {
+        if (webtoons.has("itemList") && webtoons.get("itemList").isArray()) {
+            List<WebtoonVO> webtoonList = new ArrayList<>();
+            for (JsonNode node : webtoons.get("itemList")) {
+                WebtoonVO webtoon = objectMapper.convertValue(node, WebtoonVO.class);
+                webtoonList.add(webtoon);
+            }
+            for (WebtoonVO webtoon : webtoonList) {
+                webtoonMapper.saveWebtoon(webtoon);
+            }
+        } else {
+            throw new IllegalArgumentException("Expected an array of webtoons in 'itemList' field");
         }
     }
 

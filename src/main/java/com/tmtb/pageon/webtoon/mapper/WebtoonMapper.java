@@ -1,7 +1,6 @@
 package com.tmtb.pageon.webtoon.mapper;
 
 import com.tmtb.pageon.board.model.BoardVO;
-import com.tmtb.pageon.webtoon.model.WebtoonApiTest;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,7 +34,7 @@ public interface WebtoonMapper {
 
     int getTotalCountByCategories(@Param("categories") List<String> categories);
 
-//    void saveWebtoon(WebtoonApiTest webtoonApiTest);
+    void saveWebtoon(WebtoonVO vo);
 
 }
 
