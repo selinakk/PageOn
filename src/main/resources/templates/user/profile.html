@@ -35,6 +35,7 @@
 
     .user-info p {
         margin-bottom: 5px; /* 문단 간격 조정 */
+        color: black; /* 텍스트 색상 검정으로 변경 */
     }
 
     /* introduce 스타일 */
@@ -70,6 +71,7 @@
     /* 리스트와 버튼 스타일 */
     .list-group-item {
         transition: background-color 0.3s; /* 배경색 전환 효과 */
+        color: black; /* 텍스트 색상 검정으로 변경 */
     }
 
     .btn {
@@ -90,6 +92,11 @@
 
     .btn-secondary:hover {
         background-color: #5a6268; /* 호버 시 버튼 색상 변경 */
+    }
+
+    /* 카드 텍스트 색상 변경 */
+    .card-text {
+        color: black; /* 카드 내부 텍스트 색상 검정으로 변경 */
     }
 </style>
 
@@ -112,7 +119,7 @@
                         <p><strong>ID:</strong> <span th:text="${userVO.id}"></span></p>
                         <p><strong>Name:</strong> <span th:text="${userVO.name}"></span></p>
                         <p><strong>Tel:</strong> <span th:text="${userVO.tel}"></span></p>
-                        <a class="btn btn-primary mt-2" href="/user/updateProfile">수정하기</a>
+                        <a th:if="${session.id != 'admin'}" class="btn btn-primary mt-2" href="/user/updateProfile">수정하기</a>
                     </div>
                 </div>
 
@@ -135,7 +142,7 @@
                         </li>
                     </ul>
                 </div>
-                <a class="btn btn-secondary mt-2" href="/user/updateCategoriesPage">카테고리 수정하기</a>
+                <a th:if="${session.id != 'admin'}"class="btn btn-secondary mt-2" href="/user/updateCategoriesPage">카테고리 수정하기</a>
             </div>
         </div>
 
@@ -156,8 +163,8 @@
 
 
     <!-- 포럼 목록 섹션 -->
-    <h5>Forums <a class="more-link" th:href="@{/user/profile/all/pazing/forum(type='forum', page=0)}">더보기</a></h5>
-    <div class="row">
+    <h5 th:if="${session.id != 'admin'}" >Forums <a class="more-link" th:if="${session.id != 'admin'}" th:href="@{/user/profile/all/pazing/forum(type='forum', page=0)}">더보기</a></h5>
+    <div th:if="${session.id != 'admin'}" class="row">
         <div class="col-12">
             <div class="row">
                 <div class="col-md-3" th:each="forum, iterStat : ${forumList}">
@@ -165,10 +172,10 @@
                         <div class="card-body">
                             <h6 class="card-title" th:text="${forum.title}"></h6>
                             <p class="card-text" th:text="${forum.content}"></p>
-                            <p class="card-text"><small class="text-muted">작성자: <span th:text="${forum.user_id}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">날짜: <span th:text="${forum.wdate}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">신고: <span th:text="${forum.report}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">좋아요: <span th:text="${forum.likes}"></span></small></p>
+                            <p class="card-text"><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
+                            <p class="card-text"><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
+                            <p class="card-text"><small>신고: <span th:text="${forum.report}"></span></small></p>
+                            <p class="card-text"><small>좋아요: <span th:text="${forum.likes}"></span></small></p>
                         </div>
                     </div>
                 </div>
@@ -177,7 +184,7 @@
     </div>
 
     <!-- 리뷰 목록 섹션 -->
-    <h5>Reviews <a class="more-link" th:href="@{/user/profile/all/pazing/review(type='review', page=0)}">더보기</a></h5>
+    <h5 th:if="${session.id != 'admin'}">Reviews <a class="more-link" th:if="${session.id != 'admin'}" th:href="@{/user/profile/all/pazing/review(type='review', page=0)}">더보기</a></h5>
     <div class="row">
         <div class="col-12">
             <div class="row">
@@ -186,10 +193,10 @@
                         <div class="card-body">
                             <h6 class="card-title" th:text="${review.title}"></h6>
                             <p class="card-text" th:text="${review.content}"></p>
-                            <p class="card-text"><small class="text-muted">작성자: <span th:text="${review.user_id}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">평점: <span th:text="${review.rating}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">좋아요: <span th:text="${review.likes}"></span> / 싫어요: <span th:text="${review.hate}"></span></small></p>
+                            <p class="card-text"><small>작성자: <span th:text="${review.user_id}"></span></small></p>
+                            <p class="card-text"><small>날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                            <p class="card-text"><small>평점: <span th:text="${review.rating}"></span></small></p>
+                            <p class="card-text"><small>좋아요: <span th:text="${review.likes}"></span> / 싫어요: <span th:text="${review.hate}"></span></small></p>
                         </div>
                     </div>
                 </div>
@@ -198,7 +205,7 @@
     </div>
 
     <!-- 게시판 목록 섹션 -->
-    <h5>Boards <a class="more-link" th:href="@{/user/profile/all/pazing/board(type='board', page=0)}">더보기</a></h5>
+    <h5 th:if="${session.id != 'admin'}">Boards <a class="more-link"  th:if="${session.id != 'admin'}" th:href="@{/user/profile/all/pazing/board(type='board', page=0)}">더보기</a></h5>
     <div class="row">
         <div class="col-12">
             <div class="row">
@@ -207,10 +214,11 @@
                         <div class="card-body">
                             <h6 class="card-title" th:text="${board.title}"></h6>
                             <p class="card-text" th:text="${board.content}"></p>
-                            <p class="card-text"><small class="text-muted">작성자: <span th:text="${board.user_id}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">조회수: <span th:text="${board.hitcount}"></span></small></p>
-                            <img th:src="@{/images/{img_name}(img_name=${board.img_name})}" alt="Board Image" th:if="${board.img_name != null}" class="img-fluid"/>
+                            <p class="card-text"><small>작성자: <span th:text="${board.user_id}"></span></small></p>
+                            <p class="card-text"><small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                            <p class="card-text"><small>조회수: <span th:text="${board.hitcount}"></span></small></p>
+<!--                            <img th:src="@{/images/{img_name}(img_name=${board.img_name})}" alt="Board Image" th:if="${board.img_name != null}" class="img-fluid"/>-->
+                            <!--이미지 업로드 저장이 어디에있는지 따라 달라질 예정 -->
                         </div>
                     </div>
                 </div>
@@ -218,7 +226,7 @@
         </div>
     </div>
 
-    <h5>Comment <a class="more-link" th:href="@{/user/profile/all/pazing/comment(type='comment', page=0)}">더보기</a></h5>
+    <h5 th:if="${session.id != 'admin'}" >Comment <a class="more-link" th:if="${session.id != 'admin'}" th:href="@{/user/profile/all/pazing/comment(type='comment', page=0)}">더보기</a></h5>
     <div class="row">
         <div class="col-12">
             <div class="row">
@@ -226,10 +234,10 @@
                     <div class="card mb-3" th:if="${iterStat.index < 4}">
                         <div class="card-body">
                             <p class="card-text" th:text="${comment.content}"></p>
-                            <p class="card-text"><small class="text-muted">작성자: <span th:text="${comment.user_id}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">내용: <span th:text="${comment.content}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                            <p class="card-text"><small class="text-muted">내용: <span th:text="${comment.report}"></span></small></p>
+                            <p class="card-text"><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
+                            <p class="card-text"><small>내용: <span th:text="${comment.content}"></span></small></p>
+                            <p class="card-text"><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                            <p class="card-text"><small>내용: <span th:text="${comment.report}"></span></small></p>
                         </div>
                     </div>
                 </div>

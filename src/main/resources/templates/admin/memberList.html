@@ -17,23 +17,29 @@
         h1 {
             color: #343a40; /* 제목 색상 */
             text-align: center;
-            margin-bottom: 30px; /* 제목과 아래 요소 간격 */
+            margin-bottom: 10px; /* 제목과 아래 요소 간격 */
         }
         .input-group {
-            margin-bottom: 20px; /* 검색폼과 테이블 간격 */
+            margin-bottom: 5px; /* 검색폼과 테이블 간격을 줄임 */
             justify-content: center; /* 중앙 정렬 */
         }
-        .input-group input,
-        .input-group select {
-            width: 150px; /* 입력 필드와 선택 박스 너비 조정 */
+        .input-group input {
+            width: 150px; /* 입력 필드 너비 조정 */
+            height: 38px; /* 입력 필드 높이 조정 */
+            padding: 6px 12px; /* 여백 추가 */
+            font-size: 0.9rem; /* 글자 크기 */
+            box-sizing: border-box; /* 여백 포함 */
         }
         .input-group .btn {
             height: 38px; /* 버튼 높이 조정 */
+            padding: 6px 12px; /* 여백 추가 */
+            font-size: 0.9rem; /* 버튼 글자 크기 */
         }
         .table {
             border-radius: 0.5rem; /* 테이블 모서리 둥글게 */
             overflow: hidden; /* 모서리 둥글게 만들기 위해 필요 */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            margin-bottom: 40px; /* 테이블과 버튼 간격 추가 */
         }
         .table th {
             background-color: #343a40; /* 헤더 배경색 */
@@ -51,15 +57,20 @@
 <header th:replace="~{header :: header}"></header>
 <body class="container mt-5">
 
+<h1>회원 관리</h1> <!-- 제목 추가 -->
+
 <!-- 검색 및 정렬 폼 -->
-<form th:action="@{/members}" method="get" class="mb-4">
-    <div class="input-group">
-        <input type="text" name="keyword" th:value="${keyword}" class="form-control" placeholder="검색어 입력">
-        <select name="sortOrder" class="form-control">
-            <option value="ASC" th:selected="${sortOrder == 'ASC'}">오름차순</option>
-            <option value="DESC" th:selected="${sortOrder == 'DESC'}">내림차순</option>
-        </select>
-        <button type="submit" class="btn btn-outline-secondary">검색</button>
+<form th:action="@{/members}" method="get" class="mb-4 text-end">
+    <div class="input-group justify-content-end">
+        <input type="text" name="keyword" th:value="${keyword}" class="form-control mx-1" placeholder="검색어 입력" style="max-width: 200px;">
+
+        <!-- 정렬 버튼 -->
+        <button type="submit" class="btn btn-outline-secondary mx-1">
+            <span th:text="${sortOrder == 'ASC' ? '내림차순' : '오름차순'}"></span>
+            <input type="hidden" name="sortOrder" th:value="${sortOrder == 'ASC' ? 'DESC' : 'ASC'}"/>
+        </button>
+
+        <button type="submit" class="btn btn-outline-secondary mx-1">검색</button>
     </div>
 </form>
 
