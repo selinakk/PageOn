@@ -3,6 +3,10 @@ table {
     border: 2px solid black; /* 바깥 테두리를 진하게 */
 }
 
+th {
+    background-color: black;
+}
+
 tbody {
     text-align: center;
 }

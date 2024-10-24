@@ -7,10 +7,34 @@ table {
     margin-right: auto;
     border-collapse: collapse;
     border: 2px solid black; /* 바깥 테두리를 진하게 */
+    text-align: center;
 }
 
+body thead {
+    border-bottom: black !important;
+    border: black;
+    background-color: black;
+    color: white;
+}
+
+#th1 {
+    border: black !important;
+}
+
+
 #btn1 {
-    margin-left: 1430px;
+    margin-left: 1450px;
+    padding: 10px 30px;
+    font-style: initial;
+    font-size: 20px;
+    background-color: #E15C5CFF;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+#btn2 {
     padding: 10px 30px;
     font-style: initial;
     font-size: 20px;
@@ -65,3 +89,12 @@ thead tr:hover {
 #td1:hover {
     background-color: #E15C5CFF;
 }
+
+#td1 {
+    border-left: black !important;
+}
+
+th, th {
+    border: black !important;
+}
+

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>selectOne.html</title>
+
     <link rel="stylesheet" href="/css/notice/selectOneCSS.css"> <!-- CSS 파일 링크 -->
     <style>
         /* /notice/selectOneCSS.css */
@@ -23,9 +24,9 @@
 </head>
 <body>
 
-<h1>공지사항 상세 페이지</h1>
-
+<!--<h1>공지사항 상세 페이지</h1>-->
 <nav th:replace="~{top_menu::top_menu}"></nav>
+<!--<nav th:replace="~{top_menu::top_menu}"></nav>-->
 
 <br><br>
 
@@ -33,7 +34,7 @@
 
     <thead>
     <tr>
-        <th>글번호</th>
+        <th id="th1">글번호</th>
         <th>제목</th>
         <th>작성자</th>
         <th>작성일자</th>
@@ -53,7 +54,7 @@
     </tr>
     <tr>
         <td id="td1">내 <br> 용</td>
-        <td colspan="4"><textarea cols="185" rows="35">[[${vo2.content}]]</textarea></td>
+        <td colspan="4"><textarea cols="190" rows="40">[[${vo2.content}]]</textarea></td>
         <td colspan="6"><img th:src="|/uploadimgPath/${vo2.img_name}|" width="200" height="200"></td>
     </tr>
     </tbody>
@@ -66,9 +67,10 @@
 
     <form action="/notice/n_deleteOK.do" method="post">
         <td><input type="hidden" name="num" th:value="${param.num}"></td>
-        <button type="button" onclick="confirmDelete()">삭제하기</button>
+        <button id="btn2" type="button" onclick="confirmDelete()">삭제하기</button>
     </form>
 </div>
 
 </body>
+
 </html>
