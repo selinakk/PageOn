@@ -1,0 +1,151 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/sub.css" rel="stylesheet">
+    <link href="/review/styles.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body  th:fragment="content">
+<div class="position-relative padding-medium">
+    <div class="container">
+        <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+            <h3 class="d-flex align-items-center">리뷰 상세보기</h3>
+            <a href="/review/insert">write</a>
+            <a href="/review/list">목록</a>
+        </div>
+        <div th:class="dt-1" >
+            <p th:class="dt-2">제목: <span th:text="${vo2.title}"></span></p>
+            <p th:class="dt-2">작성일: <span th:text="${vo2.wdate}"></span></p>
+            <p th:class="dt-2">리뷰 내용: <span id="reviewContent" th:text="${vo2.content}"></span></p>
+            <p th:class="dt-2">별점: <span th:text="${vo2.rating}"></span></p>
+            <div id="review-detail" th:data-num="${vo2.num}" th:class="dt-2">
+                <button id="like-button"><img src="/img/like.png" th:class="like-btn"><span id="like-count" th:text="${vo2.like}"></span></button>
+                <button id="dislike-button"><img src="/img/dislike.png" th:class="like-btn"><span id="hate-count" th:text="${vo2.hate}"></span></button>
+            </div>
+            </p>
+                <span th:class="dt-2" >
+                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
+                        <span th:text="${vo2.report}"></span>
+                        <button th:class="btn-3" type="button" onclick="confirmReport()">report</button>
+                    </form>
+                </span>
+            <div th:if="${result}">
+                <h2>감정 분석 결과:</h2>
+                <p th:text="${result}"></p>
+            </div>
+            <div th:if="${error}">
+                <h2>오류:</h2>
+                <p th:text="${error}"></p>
+            </div>
+        </div>
+        <p id="sentimentResult">분석되지 않음</p>
+        <button id="analyzeButton">감정 분석하기</button>
+        <div >//로그인
+            <div>
+                <a th:href="@{/review/deleteOK(num=${vo2.num})}" th:text="삭제">삭제</a>
+                <a th:href="|/review/update?num=${vo2.num}|" th:text="수정"></a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!--                댓글                      -->
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script>
+function confirmReport() {
+    if (confirm("정말 신고 하시겠습니까?")){
+        console.log("report click..");
+        const form = document.getElementById("reportForm");
+
+        const formData = new FormData(form);
+
+
+
+        fetch(form.action, {
+            method: 'POST',
+            body : formData
+        })
+
+
+
+
+        console.log("report end..")
+    }
+
+}
+
+//좋아요 새로고침 없이 바로 view
+$(document).ready(function() {
+    $('#like-button').click(function() {
+        var reviewNum = $('#review-detail').data('num'); // 'vo2.num 값 가져오기
+
+        // AJAX 요청
+        $.ajax({
+            url: '/likeUpOK',
+            type: 'POST',
+            data: { num: reviewNum }, // 요청 데이터
+            success: function(response) {
+                // 서버로부터 받은 응답 처리
+                $('#like-count').text(response.likeCount); // 좋아요 수 업데이트
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+    });
+});
+
+
+$(document).ready(function() {
+    $('#dislike-button').click(function() {
+        var reviewNum = $('#review-detail').data('num');
+
+
+        $.ajax({
+            url: '/dislikeUpOK',
+            type: 'POST',
+            data: { num: reviewNum },
+            success: function(response) {
+
+                $('#hate-count').text(response.hateCount);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+    });
+});
+
+$(document).ready(function() {
+    $('#analyzeButton').click(function() {
+        var content = $('#reviewContent').text();  // 리뷰 내용을 가져옴
+
+        // AJAX로 감정 분석 API 호출
+        $.ajax({
+            url: '/analyzeOK',
+            type: 'POST',
+            data: { content: content },
+            success: function(result) {
+                $('#sentimentResult').text(result);  // 결과를 화면에 표시
+            },
+            error: function(err) {
+                $('#sentimentResult').text('감정 분석 실패: ' + err.responseText);
+            }
+        });
+    });
+});
+
+
+
+
+
+
+</script>
+</body>
+</html>

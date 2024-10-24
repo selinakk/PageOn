@@ -1,0 +1,90 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/sub.css" rel="stylesheet">
+    <link href="/review/styles.css" rel="stylesheet">
+
+
+</head>
+<body  th:fragment="content">
+<div class="position-relative padding-medium">
+    <div class="container">
+        <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+            <h3 class="d-flex align-items-center">리뷰 작성</h3>
+
+            <button th:class="write_box" onclick="location.href='/review/list'">목록</button>
+            </div>
+        </div>
+
+    <form action="/review/insertOK" method="POST" >
+        <div class="md-2">
+            <div>
+                <img src="">
+                <input type="text" id="work_num" name="work_num" value="2202">
+                <button th:class="write_box" onclick="location.href='/work/selectAll'">작품선택</button>
+            </div>
+            <p>
+            <div>
+                <label for="title"></label>
+                <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력" value="-- 리뷰">
+            </div>
+            </p>
+            <p>
+            <div class="star-rating space-x-4 mx-auto">
+                <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+                <label for="5-stars" class="star pr-4">★</label>
+                <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+                <label for="4-stars" class="star">★</label>
+                <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+                <label for="3-stars" class="star">★</label>
+                <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+                <label for="2-stars" class="star">★</label>
+                <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+                <label for="1-star" class="star">★</label>
+            </div>
+            <div>
+                <input class="review-sub_box" type="text" id="rating" name="rating" value="4.4">
+            </div>
+
+            </p>
+            <p>
+            <div>
+                <label for="content"></label>
+                <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요." ></textarea>
+            </div>
+            </p>
+            <p>
+            <div>
+                <label for="user_id" th:size="30px">작성자</label>
+                <input class="review-sub_box" type="text" id="user_id" name="user_id" value="admin10"> //로그인id
+            </div>
+            </p>
+            <p>
+                <button class="save-btn" type="submit">등록</button>
+            </p>
+        </div>
+    </form>
+    </div>
+</div>
+<script>
+
+    $(".star_rating span> .star").click(function (){
+         //star_rating 클래스 아네 있는 span 태그 지칭
+
+        $(this).addClass('on').prevAll('span').addClass('on');
+    })
+
+
+
+    var rating = $('.rating');
+
+    .rating.each(function (){
+
+    })
+</script>
+</body>
+</html>
