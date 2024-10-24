@@ -7,45 +7,26 @@
 <body>
 <div th:fragment="content">
 
-    <h1>웹툰 상세</h1>
-    <table>
-        <tr>
-            <th>웹툰 번호</th>
-            <td th:text="${vo2.num}"></td>
-        </tr>
-        <tr>
-            <th>웹툰 제목</th>
-            <td th:text="${vo2.title}"></td>
-        </tr>
-        <tr>
-            <th>작가</th>
-            <td th:text="${vo2.writer}"></td>
-        </tr>
-        <tr>
-            <th>설명</th>
-            <td th:text="${vo2.desc}"></td>
-        </tr>
-        <tr>
-            <th>평점</th>
-            <td th:text="${vo2.rank}"></td>
-        </tr>
-        <tr>
-            <th>종류</th>
-            <td th:text="${vo2.type}"></td>
-        </tr>
-        <tr>
-            <th>이미지</th>
+    <h3 class="mt-4">웹툰 상세</h3>
+    <div class="row">
+        <div class="col-md-4">
             <img th:src="${vo2.img_name}" class="img-thumbnail">
-        </tr>
-    </table>
+        </div>
+        <div class="col-md-8">
+            <h4 th:text="${vo2.title}"></h4>
+            <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
+            <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
+            <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
+            <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
+                                    th:text="${vo2.categories}"></a></p>
+        </div>
+    </div>
 
-    <a th:href="@{/wt_selectAll}">목록으로 돌아가기</a>
 
-
-
-
+    <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
 </div>
-
+</div>
+</div>
 
 </body>
 </html>

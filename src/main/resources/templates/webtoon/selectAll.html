@@ -9,29 +9,20 @@
     <div class="container mt-5">
         <h1 class="mb-4">웹툰 목록 게시판</h1>
 
-
-        <!-- 필터링 태그-->
-        <!--style="cursor:pointer;" 이 부분 따로 빼서 수정해야함-->
-<!--        db에서 값찾기 - > thymeleaf로 카테고리 값 넘기기 - > js에서 값 받아서 처리하도록 수정할것.-->
-<!--        필터링 적용시 이미지값 안나옴 -->
+        <!-- 필터링 태그 -->
         <div class="hashtags mb-3" style="cursor:pointer;">
-            <span class="badge bg-secondary me-1" data-category="스릴러" onclick="filterByCategory(this)">#스릴러</span>
-            <span class="badge bg-secondary me-1" data-category="회귀물" onclick="filterByCategory(this)">#회귀물</span>
-            <span class="badge bg-secondary me-1" data-category="로맨스" onclick="filterByCategory(this)">#로맨스</span>
-            <span class="badge bg-secondary me-1" data-category="판타지" onclick="filterByCategory(this)">#판타지</span>
-            <span class="badge bg-secondary me-1" data-category="공포" onclick="filterByCategory(this)">#공포</span>
-            <span class="badge bg-secondary me-1" data-category="잔잔한" onclick="filterByCategory(this)">#잔잔한</span>
-            <span class="badge bg-secondary me-1" data-category="힐링" onclick="filterByCategory(this)">#힐링</span>
+            <span class="badge bg-secondary me-1" th:each="category : ${categories}" th:text="'#' + ${category}" th:data-category="${category}" onclick="filterByCategory(this)"></span>
         </div>
 
 
-        <!--검색탭-->
+        <!-- 검색탭 -->
         <div class="mt-3">
             <form action="/wt_search" method="get" class="form-inline">
                 <input type="text" name="searchWord" class="form-control mr-2" placeholder="검색어를 입력하세요">
                 <select name="searchType" class="form-control mr-2">
                     <option value="title">제목</option>
                     <option value="writer">작가</option>
+                    <option value="categories">장르</option>
                 </select>
                 <button type="submit" class="btn btn-primary">검색</button>
             </form>
@@ -57,22 +48,18 @@
         <div class="pagination">
             <ul class="pagination">
                 <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${currentPage - 1})}">이전</a>
+                    <a class="page-link" th:href="@{/wt_selectAll(page=${currentPage - 1})}">이전</a>
                 </li>
-                <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
                     th:classappend="${pageNum == currentPage} ? 'active'">
-                    <a class="page-link"
-                       th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${pageNum})}"
-                       th:text="${pageNum}">1</a>
+                    <a class="page-link" th:href="@{/wt_selectAll(page=${pageNum})}" th:text="${pageNum}">1</a>
                 </li>
                 <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{/wt_search(searchWord=${searchWord}, searchType=${searchType}, page=${currentPage + 1})}">다음</a>
+                    <a class="page-link" th:href="@{/wt_selectAll(page=${currentPage + 1})}">다음</a>
                 </li>
             </ul>
         </div>
     </div>
 </div>
 </body>
-</html>
+</html></html>

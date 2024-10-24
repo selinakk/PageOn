@@ -30,22 +30,30 @@ public class WebtoonService {
     public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize);
     }
-
     public List<WebtoonVO> searchWebtoonWriter(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonWriter(searchWord, offset, pageSize);
     }
+    public List<WebtoonVO> searchWebtoonByCategories(String searchWord, int offset, int pageSize) {
+        return webtoonMapper.searchWebtoonByCategories(searchWord, offset, pageSize);
+    }
+    public List<WebtoonVO> getCategories() {
+        return webtoonMapper.getCategories();
+    }
+
 
     public int getTotalCountByTitle(String searchWord) {
         return webtoonMapper.getTotalCountByTitle(searchWord);
     }
-
     public int getTotalCountByContent(String searchWord) {
         return webtoonMapper.getTotalCountByContent(searchWord);
     }
-
+    public int getTotalCountByCategories(String searchWord) {
+        return webtoonMapper.getTotalCountByCategories(searchWord);
+    }
     public int getTotalCount() {
         return webtoonMapper.getTotalCount();
     }
+
 
     public WebtoonVO selectOne(WebtoonVO vo) {
         return webtoonMapper.selectOne(vo);
@@ -56,8 +64,8 @@ public class WebtoonService {
         return webtoonMapper.filterByCategories(categories, offset, pageSize);
     }
 
-    public int getTotalCountByCategories(List<String> categories) {
-        return webtoonMapper.getTotalCountByCategories(categories);
+    public int getTotalCountByFilteredCategories(List<String> categories) {
+        return webtoonMapper.getTotalCountByFilteredCategories(categories);
     }
 
 
@@ -73,20 +81,32 @@ public class WebtoonService {
 
 
     public JsonNode getWebtoons() {
+        // API URL
         String baseUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=eaa479a1691ab5f1d257cae310412971&viewItemCnt=100&pltfomCdNm=웹툰&pageNo=";
+
         List<JsonNode> allWebtoons = new ArrayList<>();
 
+        // 페이지 번호를 0부터 100까지 10씩 증가 + 반복
         for (int pageNo = 0; pageNo <= 100; pageNo += 10) {
+            // 현재 페이지 번호를 포함 API URL을 생성
             String apiUrl = baseUrl + pageNo;
+
+            // RestTemplate을 사용하여 API로부터 JSON 문자열 가져옴
             String result = restTemplate.getForObject(apiUrl, String.class);
+
             try {
+                // JSON 문자열을 JsonNode 객체로 변환
                 JsonNode webtoons = objectMapper.readTree(result);
+
+                // 변환된 JsonNode 객체를 리스트에 추가
                 allWebtoons.add(webtoons);
             } catch (JsonProcessingException e) {
+                // 실패한 경우 예외 발생
                 throw new RuntimeException("Failed to parse JSON", e);
             }
         }
 
+        //데이터를 JsonNode 객체로 반환
         return objectMapper.valueToTree(allWebtoons);
     }
 

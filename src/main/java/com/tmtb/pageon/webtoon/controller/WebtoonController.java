@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -36,15 +35,27 @@ public class WebtoonController {
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         List<WebtoonVO> webtoonList;
+        List<WebtoonVO> categories = webtoonService.getCategories();
 
         webtoonList = webtoonService.getWebtoonList(page, pageSize);
 
 
+        // 페이지 번호 그룹화
+        int pageGroupSize = 10;
+        int currentPageGroup = (page - 1) / pageGroupSize;
+        int startPage = currentPageGroup * pageGroupSize + 1;
+        int endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
+
         model.addAttribute("webtoonList", webtoonList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("categories", categories);
+        log.info("categories:{}", categories);
 
         return "webtoon/selectAll";
+
 
     }
 
@@ -60,13 +71,21 @@ public class WebtoonController {
         int offset = (page - 1) * pageSize;
 
         List<WebtoonVO> webtoonList;
+        List<WebtoonVO> categories = webtoonService.getCategories();
         int totalCount;
+        // 제목 검색
         if ("title".equals(searchType)) {
             webtoonList = webtoonService.searchWebtoonByTitle(searchWord, offset, pageSize);
             totalCount = webtoonService.getTotalCountByTitle(searchWord);
+
+            //작가 검색
         } else if ("writer".equals(searchType)) {
             webtoonList = webtoonService.searchWebtoonWriter(searchWord, offset, pageSize);
             totalCount = webtoonService.getTotalCountByContent(searchWord);
+            //장르 검색
+        } else if ("categories".equals(searchType)) {
+            webtoonList = webtoonService.searchWebtoonByCategories(searchWord, offset, pageSize);
+            totalCount = webtoonService.getTotalCountByCategories(searchWord);
         } else {
             // 기본 검색 타입이 없을 경우 제목으로 검색
             webtoonList = webtoonService.searchWebtoonByTitle(searchWord, offset, pageSize);
@@ -80,6 +99,9 @@ public class WebtoonController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("searchType", searchType);
+        model.addAttribute("startPage", (page - 1) / 10 * 10 + 1);
+        model.addAttribute("endPage", Math.min((page - 1) / 10 * 10 + 10, totalPages));
+        model.addAttribute("categories", categories);
 
         return "webtoon/selectAll";
     }
@@ -114,7 +136,7 @@ public class WebtoonController {
             totalCount = webtoonService.getTotalCount();
         } else {
             webtoons = webtoonService.filterByCategories(categories, offset, pageSize);
-            totalCount = webtoonService.getTotalCountByCategories(categories);
+            totalCount = webtoonService.getTotalCountByFilteredCategories(categories);
         }
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
@@ -124,5 +146,6 @@ public class WebtoonController {
 
         return response;
     }
+
 
 }

@@ -13,10 +13,10 @@ public class WebtoonVO {
     @JsonProperty("outline")
     private String desc;
 
-    @JsonProperty("pictrWritrNm")
+    @JsonProperty("sntncWritrNm")
     private String writer;
 
-    @JsonProperty("illustWritrNm")
+    @JsonProperty("pictrWritrNm")
     private String illustrator;
 
     @JsonProperty("pltfomCdNm")

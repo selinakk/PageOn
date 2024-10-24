@@ -19,9 +19,14 @@ public interface WebtoonMapper {
                                      @Param("offset") int offset, @Param("pageSize") int pageSize);
     List<WebtoonVO> searchWebtoonWriter(@Param("searchWord") String searchWord,
                                        @Param("offset") int offset, @Param("pageSize") int pageSize);
+    List<WebtoonVO> searchWebtoonByCategories(@Param("searchWord") String searchWord,
+                                              @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    List<WebtoonVO> getCategories();
 
     int getTotalCountByTitle(@Param("searchWord") String searchWord);
     int getTotalCountByContent(@Param("searchWord") String searchWord);
+    int getTotalCountByCategories(@Param("searchWord") String searchWord);
 
     int getTotalCount();
 
@@ -29,10 +34,9 @@ public interface WebtoonMapper {
 
 
     //필터링 관련
-
     List<WebtoonVO> filterByCategories(@Param("categories") List<String> categories, @Param("offset") int offset, @Param("pageSize") int pageSize);
-
-    int getTotalCountByCategories(@Param("categories") List<String> categories);
+    //필터된값 카운트
+    int getTotalCountByFilteredCategories(@Param("categories") List<String> categories);
 
     //API - DB 관련
     WebtoonVO findByTitle(String title);
