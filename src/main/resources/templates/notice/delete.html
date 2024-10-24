@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>PageOn 공지사항 삭제</title>
+</head>
+<body>
+<main th:fragment="notice-delete">
+    <link rel="stylesheet" href="/css/notice.css">
+<nav th:replace="~{top_menu::top_menu}"></nav>
+
+<form action="/notice/n_deleteOK.do" method="post">
+    <table border="1">
+        <tbody>
+        <tr>
+            <th>[[${param.num}]] 번 글을 삭제하시겠습니까?</th>
+            <td><input type="hidden" name="num" th:value="${param.num}"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</form>
+</main>
+</body>
+</html>

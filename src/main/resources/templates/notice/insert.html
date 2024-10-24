@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>PageOn 닉네임님의 서재</title>
+</head>
+<body>
+<main th:fragment="bookshelf-list">
+  <link rel="stylesheet" href="/css/notice.css">
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<br>
+<form action="/notice/n_insertOK.do" method="post" enctype="multipart/form-data">
+  <table id="insertTable" border="1">
+    <tr>
+      <td><label for="title">제목</label></td>
+      <td><input type="text" id="title" name="title" value="홈페이지 업데이트" placeholder="제목을 입력하세요"></td>
+    </tr>
+    <tr>
+      <td><label for="content">내용</label></td>
+      <td><textarea name="content" id="content" cols="100" rows="17">시스템 업데이트</textarea></td>
+    </tr>
+    <tr>
+      <!--관리자 로그인 세션 있을 때, <td>바로 뒤에 넣으면 됨-->
+      <td><label for="user_id">작성자</label></td>
+      <td><input type="text" id="user_id" name="user_id" value="관리자"></td>
+    </tr>
+    <tr>
+      <td><label for="file">이미지</label></td>
+      <td><input type="file" id="file" name="file" ></td>
+    </tr>
+  </table>
+
+  <input id="btn1" type="submit" value="등록하기">
+</form>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+</body>
+</html>

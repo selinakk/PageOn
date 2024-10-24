@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>PageOn 닉네임님의 서재</title>
+</head>
+<body>
+<main th:fragment="bookshelf-list">
+  <link rel="stylesheet" href="/css/notice.css">
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<br>
+
+<div>
+  <form action="/notice/n_updateOK.do" method="post" enctype="multipart/form-data">
+    <table id="insertTable" border="1">
+      <tr>
+        <td><label for="num">글번호</label></td>
+        <td>[[${param.num}]]<input type="hidden" id="num" name="num" th:value="${param.num}" ></td>
+      </tr>
+      <tr>
+        <td><label for="title">제목</label></td>
+        <td><input type="text" id="title" name="title" th:value="${vo2.title}" placeholder="제목을 입력하세요"></td>
+      </tr>
+      <tr>
+        <td><label for="content">내용</label></td>
+        <td><textarea name="content" id="content" cols="175" rows="17">[[${vo2.content}]]</textarea></td>
+      </tr>
+      <tr>
+        <td><label for="user_id">작성자</label></td>
+        <td>[[${vo2.user_id}]]<input type="hidden" id="user_id" name="user_id" th:value="${vo2.user_id}"></td>
+      </tr>
+      <tr>
+        <td><label for="file">이미지</label>
+          <img th:src="|/uploadimgPath/thumb_${vo2.img_name}|"></td>
+        <td><input type="file" id="file" name="file">
+          <input type="hidden" id="img_name" name="img_name" th:value="${vo2.img_name}"></td>
+      </tr>
+    </table>
+
+    <br>
+    <input id="submit1" type="submit" value="수정완료"></td>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+</main>
+
+</body>
+</html>

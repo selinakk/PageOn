@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>PageOn 닉네임님의 서재</title>
+</head>
+<body>
+<main th:fragment="bookshelf-list">
+    <link rel="stylesheet" href="/css/notice.css">
+    <script>
+        function confirmDelete() {
+            var result = confirm("정말로 삭제하시겠습니까?");
+            if (result) {
+                document.querySelector('form').submit();
+                alert("항목이 삭제되었습니다.");
+                return true;  // 확인을 누르면 폼이 제출됨
+            } else {
+                alert("삭제가 취소되었습니다.");
+                return false; // 취소를 누르면 폼 제출을 막음
+            }
+        }
+    </script>
+
+<!--<h1>공지사항 상세 페이지</h1>-->
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<!--<nav th:replace="~{top_menu::top_menu}"></nav>-->
+
+<br><br>
+
+<table border="1">
+
+    <thead>
+    <tr>
+        <th id="th1">글번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일자</th>
+        <th>조회수</th>
+        <th>첨부파일</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+        <td>[[${vo2.num}]]</td>
+        <td>[[${vo2.title}]]</td>
+        <td>[[${vo2.user_id}]]</td>
+        <td>[[${vo2.wdate}]]</td>
+        <td>[[${vo2.hitcount}]]</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td id="td1">내 <br> 용</td>
+        <td colspan="4"><textarea cols="190" rows="40">[[${vo2.content}]]</textarea></td>
+        <td colspan="4"><textarea cols="175" rows="23">[[${vo2.content}]]</textarea></td>
+        <td colspan="6"><img th:src="|/uploadimgPath/${vo2.img_name}|" width="200" height="200"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<div id="button-container">
+    <a th:href="|/notice/n_update.do?num=${vo2.num}|"><input id="btn1" type="button" value="수정하기"></a>
+
+    <form action="/notice/n_deleteOK.do" method="post">
+        <td><input type="hidden" name="num" th:value="${param.num}"></td>
+        <button id="btn2" type="submit" onclick="return confirmDelete()">삭제하기</button>
+    </form>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+</main>
+</body>
+</html>

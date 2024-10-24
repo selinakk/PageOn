@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>PageOn 커뮤니티 홈</title>
+</head>
+<body>
+<main th:fragment="community-main">
+    <link rel="stylesheet" href="/css/notice.css">
+
+<div  id="button-container">
+<table id="insertTable1" border="1">
+    <th id="z">최근 게시글</th>
+    <tbody>
+    <th:block th:each="vo : ${list1}">
+        <tr id="table1">
+            <td>[[${vo.title}]]</td>
+        </tr>
+    </th:block>
+    <td><a th:href="|/board/n_selectAll.do|">더보기...</a></td>
+    </tbody>
+</table>
+
+<br><br>
+
+<table id="insertTable2" border="1">
+    <th>최근 공지사항</th>
+    <tbody>
+    <th:block th:each="vo : ${list2}">
+        <tr id="table2">
+            <td>[[${vo.title}]]</td>
+        </tr>
+    </th:block>
+    <td><a th:href="|/notice/n_selectAll.do|">더보기...</a></td>
+    </tbody>
+</table>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<div  id="button-container2">
+<table id="insertTable3" border="1">
+    <th>최근 리뷰글</th>
+    <tbody>
+    <th:block th:each="vo : ${list3}">
+        <tr id="table3">
+            <td>[[${vo.title}]]</td>
+        </tr>
+    </th:block>
+    <td><a th:href="|/review/n_selectAll.do|">더보기...</a></td>
+    </tbody>
+</table>
+
+<br><br>
+
+<table id="insertTable4" border="1">
+    <th>최근 토론글</th>
+    <tbody>
+    <th:block th:each="vo : ${list4}">
+        <tr id="table4">
+            <td>[[${vo.title}]]</td>
+        </tr>
+    </th:block>
+    <td><a th:href="|/forum/list|">더보기...</a></td>
+    </tbody>
+</table>
+</div>
+
+<br><br>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+
+</main>
+</body>
+</html>

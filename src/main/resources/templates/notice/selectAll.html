@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>PageOn 닉네임님의 서재</title>
+</head>
+<body>
+<main th:fragment="bookshelf-list">
+  <link rel="stylesheet" href="/css/notice.css">
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<form action="/notice/n_searchList.do">
+  <select id="input2" name="searchKey">
+    <option value="title">제목</option>
+    <option value="content">내용</option>
+  </select>
+  <input id="input1" type="text" name="searchWord" value="서버">
+  <input id="search" type="submit" value="검색">
+</form>
+
+<br>
+
+<div  id="button-container">
+  <!--최신순-->
+  <form id="form1" action="/notice/n_selectAll.do">
+    <input id="btn1" type="submit" value="최신순">
+  </form>
+
+  <!--오래된순-->
+  <form id="form2" action="/notice/n_selectAllNew.do">
+    <input id="btn2" type="submit" value="오래된순">
+  </form>
+
+  <!--조회순-->
+  <form id="form3" action="/notice/n_selectAllHitcount.do">
+    <input id="btn3" type="submit" value="조회순">
+  </form>
+</div>
+
+<br><br>
+
+<table id="insertTable" border="1">
+  <thead>
+  <tr>
+    <th id="border1">글번호</th>
+    <th>제목</th>
+    <th>작성자</th>
+    <th>조회수</th>
+    <th id="border4">작성일자</th>
+  </tr>
+  </thead>
+  <tbody>
+
+<div>
+  <th:block th:each="vo : ${list}">
+    <tr>
+      <td id="border2"><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.num}]]</a></td>
+      <td><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+      <td>[[${vo.user_id}]]</td>
+      <td>[[${vo.hitcount}]]</td>
+      <td id="border3">[[${vo.wdate}]]</td>
+    </tr>
+  </th:block>
+</div>
+  </tbody>
+
+  <tfoot>
+  <tr id="border5">
+    <td colspan="6">
+      <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+        <th:block th:if="${param.searchKey == null}">
+          <a th:href="|/notice/n_selectAll.do?cpage=${i}|">[[${i}]]</a>
+        </th:block>
+        <th:block th:if="${param.searchKey != null}" >
+          <th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
+            <a th:href="|/notice/n_searchList.do?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|">[[${i}]]</a>
+          </th:block>
+        </th:block>
+      </th:block>
+    </td>
+  </tr>
+  </tfoot>
+
+</table>
+
+<br>
+
+<form action="/notice/n_insert.do">
+  <input id="write" type="submit" value="글쓰기">
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+</main>
+</body>
+</html>
