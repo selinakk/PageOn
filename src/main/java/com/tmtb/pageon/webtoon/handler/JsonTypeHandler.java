@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class JsonTypeHandler extends BaseTypeHandler<List<String>> {
@@ -35,14 +32,14 @@ public class JsonTypeHandler extends BaseTypeHandler<List<String>> {
     }
 
     @Override
-    public List<String> getNullableResult(java.sql.CallableStatement cs, int columnIndex) throws SQLException {
+    public List<String> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return toList(cs.getString(columnIndex));
     }
 
     private List<String> toList(String json) throws SQLException {
         try {
-            return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, String.class));
-        } catch (IOException e) {
+            return objectMapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
             throw new SQLException("Error converting JSON string to list", e);
         }
     }

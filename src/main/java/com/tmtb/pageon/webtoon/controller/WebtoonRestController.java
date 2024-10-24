@@ -3,6 +3,8 @@ package com.tmtb.pageon.webtoon.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tmtb.pageon.webtoon.service.WebtoonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,20 +18,32 @@ import java.util.List;
 @RequestMapping("/api")
 public class WebtoonRestController {
 
+    private static final Logger log = LoggerFactory.getLogger(WebtoonRestController.class);
     private final WebtoonService webtoonService;
 
     public WebtoonRestController(WebtoonService webtoonService) {
         this.webtoonService = webtoonService;
     }
 
-    private static final String API_URL = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=9d4d0a15eb8ffd1447ba90994ca4617b&pageNo=0&viewItemCnt=100&pltfomCdNm=웹툰";
-
-
-    //페이지 값 증가 시키면서 값찾기 + 중복값은 넘어가도록 수정할것.
-    @GetMapping("/webtoons")
-    public ResponseEntity<JsonNode> getWebtoons() {
-        JsonNode result = webtoonService.getWebtoons();
+    @GetMapping("/naverwebtoons")
+    public ResponseEntity<JsonNode> getWebtoonsNaver() {
+        JsonNode result = webtoonService.getWebtoonsNaver();
         webtoonService.saveWebtoons(result);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/kakaowebtoons")
+    public ResponseEntity<JsonNode> getWebtoonsKakao() {
+        JsonNode result = webtoonService.getWebtoonsKakao();
+        webtoonService.saveWebtoons(result);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/updateday")
+    public ResponseEntity<JsonNode> updateDay() {
+        JsonNode result = webtoonService.getUpdateDay();
+        webtoonService.updateWebtoonUpdateDays(result);
+        log.info("날짜 업데이트");
         return ResponseEntity.ok(result);
     }
 

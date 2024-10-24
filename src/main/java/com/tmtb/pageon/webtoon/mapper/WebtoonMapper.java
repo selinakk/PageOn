@@ -42,6 +42,7 @@ public interface WebtoonMapper {
     WebtoonVO findByTitle(String title);
     void updateWebtoon(WebtoonVO vo);
     void saveWebtoon(WebtoonVO vo);
+    void updateWebtoonUpdateDays(WebtoonVO vo);
 
 
 }

@@ -131,5 +131,15 @@
         WHERE type = 'webtoon'
     </select>
 
+    <update id="updateWebtoonUpdateDays" parameterType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        UPDATE work
+        SET update_day = #{update_day, typeHandler=com.tmtb.pageon.webtoon.handler.JsonTypeHandler}
+        WHERE title = #{title}
+          AND type = 'webtoon'
+    </update>
+
+
+
 
 </mapper>
+

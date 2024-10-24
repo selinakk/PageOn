@@ -3,6 +3,8 @@ package com.tmtb.pageon.webtoon.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class WebtoonVO {
 
@@ -22,7 +24,8 @@ public class WebtoonVO {
     @JsonProperty("pltfomCdNm")
     private String provider;
 
-    private String update_day;
+    @JsonProperty("updateDays")
+    private String update_day; // List<String>에서 String으로 변경
 
     private String rank;
 
