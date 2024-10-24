@@ -43,8 +43,6 @@ public interface NoticeMapper {
     public int getSearchTotalRowsContent(String searchWord);
 
     public void hitcountUpdate(NoticeVO vo);
-
-
 }
 
 

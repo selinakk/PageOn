@@ -30,7 +30,6 @@ public class CommunityController {
         List<ReviewVO> list3 = service.reviewCommunity();
         List<ForumVO> list4 = service.forumCommunity();
 
-
         log.info("list1.size():{}", list1.size());
         log.info("list2.size():{}", list2.size());
         log.info("list3.size():{}", list3.size());
@@ -41,11 +40,8 @@ public class CommunityController {
         model.addAttribute("list3", list3);
         model.addAttribute("list4", list4);
 
-
-        return "community_main";
+        return "community/community_main";
     }
-
-
 }
 
 

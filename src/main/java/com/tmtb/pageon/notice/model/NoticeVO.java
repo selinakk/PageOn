@@ -17,5 +17,4 @@ public class NoticeVO {
     private MultipartFile file;
     private int hitcount;
 
-
 }

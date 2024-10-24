@@ -16,6 +16,7 @@ public class NoticeService {
     @Autowired
     NoticeMapper mapper;
 
+
     public List<NoticeVO> selectAll() {
         return mapper.selectAll();
     }
@@ -91,5 +92,4 @@ public class NoticeService {
             return mapper.getSearchTotalRowsContent("%" + searchWord + "%");
         }
     }
-
 }
