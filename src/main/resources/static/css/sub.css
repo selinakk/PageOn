@@ -12,7 +12,7 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     font-weight: 500;
 }
 .align-super {vertical-align:super !important}
-    /* Global 끝 */
+/* Global 끝 */
 
 /* 토론 */
 .search-list--custom{

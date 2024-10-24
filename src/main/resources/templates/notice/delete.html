@@ -1,18 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
-    <meta charset="UTF-8">
-    <title>delete.html</title>
-    <link rel="stylesheet" href="/css/notice/deleteCSS.css"> <!-- CSS 파일 링크 -->
-    <style>
-        /* /notice/deleteCSS.css */
-    </style>
-
+    <title>PageOn 공지사항 삭제</title>
 </head>
-
 <body>
-<h1>공지사항 삭제 페이지</h1>
-
+<main th:fragment="notice-delete">
+    <link rel="stylesheet" href="/css/notice.css">
 <nav th:replace="~{top_menu::top_menu}"></nav>
 
 <form action="/notice/n_deleteOK.do" method="post">
@@ -27,6 +20,6 @@
         </tfoot>
     </table>
 </form>
-
+</main>
 </body>
 </html>

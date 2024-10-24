@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
-    <meta charset="UTF-8">
-    <title>selectOne.html</title>
-
-    <link rel="stylesheet" href="/css/notice/selectOneCSS.css"> <!-- CSS 파일 링크 -->
-    <style>
-        /* /notice/selectOneCSS.css */
-    </style>
-
+    <title>PageOn 닉네임님의 서재</title>
+</head>
+<body>
+<main th:fragment="bookshelf-list">
+    <link rel="stylesheet" href="/css/notice.css">
     <script>
         function confirmDelete() {
             var result = confirm("정말로 삭제하시겠습니까?");
@@ -20,9 +17,6 @@
             }
         }
     </script>
-
-</head>
-<body>
 
 <!--<h1>공지사항 상세 페이지</h1>-->
 <nav th:replace="~{top_menu::top_menu}"></nav>
@@ -70,7 +64,7 @@
         <button id="btn2" type="button" onclick="confirmDelete()">삭제하기</button>
     </form>
 </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+</main>
 </body>
-
 </html>
