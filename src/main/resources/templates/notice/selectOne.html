@@ -12,8 +12,10 @@
             if (result) {
                 document.querySelector('form').submit();
                 alert("항목이 삭제되었습니다.");
+                return true;  // 확인을 누르면 폼이 제출됨
             } else {
                 alert("삭제가 취소되었습니다.");
+                return false; // 취소를 누르면 폼 제출을 막음
             }
         }
     </script>
@@ -49,6 +51,7 @@
     <tr>
         <td id="td1">내 <br> 용</td>
         <td colspan="4"><textarea cols="190" rows="40">[[${vo2.content}]]</textarea></td>
+        <td colspan="4"><textarea cols="175" rows="23">[[${vo2.content}]]</textarea></td>
         <td colspan="6"><img th:src="|/uploadimgPath/${vo2.img_name}|" width="200" height="200"></td>
     </tr>
     </tbody>
@@ -61,7 +64,7 @@
 
     <form action="/notice/n_deleteOK.do" method="post">
         <td><input type="hidden" name="num" th:value="${param.num}"></td>
-        <button id="btn2" type="button" onclick="confirmDelete()">삭제하기</button>
+        <button id="btn2" type="submit" onclick="return confirmDelete()">삭제하기</button>
     </form>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
