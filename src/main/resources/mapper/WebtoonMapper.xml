@@ -79,8 +79,33 @@
         AND type = 'webtoon'
     </select>
 
+<!--    api - db 저장-->
     <insert id="saveWebtoon" parameterType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         INSERT INTO work (type, title, `desc`, writer, illustrator, provider, update_day, `rank`, categories, img_name)
         VALUES ('webtoon', #{title}, #{desc}, #{writer}, #{illustrator}, #{provider}, #{update_day}, #{rank}, #{categories}, #{img_name})
     </insert>
+
+<!--    api - db 중복값 찾기용-->
+    <select id="findByTitle" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE title = #{title}
+          AND type = 'webtoon'
+    </select>
+
+    <update id="updateWebtoon" parameterType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        UPDATE work
+        SET `desc` = #{desc},
+            writer = #{writer},
+            illustrator = #{illustrator},
+            provider = #{provider},
+            update_day = #{update_day},
+            `rank` = #{rank},
+            categories = #{categories},
+            img_name = #{img_name}
+        WHERE title = #{title}
+          AND type = 'webtoon'
+    </update>
+
+
 </mapper>

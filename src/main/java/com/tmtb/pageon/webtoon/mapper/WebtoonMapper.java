@@ -34,7 +34,11 @@ public interface WebtoonMapper {
 
     int getTotalCountByCategories(@Param("categories") List<String> categories);
 
+    //API - DB 관련
+    WebtoonVO findByTitle(String title);
+    void updateWebtoon(WebtoonVO vo);
     void saveWebtoon(WebtoonVO vo);
+
 
 }
 

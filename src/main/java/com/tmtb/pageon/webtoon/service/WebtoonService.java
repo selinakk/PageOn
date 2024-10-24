@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WebtoonService {
@@ -76,29 +73,50 @@ public class WebtoonService {
 
 
     public JsonNode getWebtoons() {
-        String apiUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=9d4d0a15eb8ffd1447ba90994ca4617b&pageNo=0&viewItemCnt=100&pltfomCdNm=웹툰";
-        String result = restTemplate.getForObject(apiUrl, String.class);
-        try {
-            return objectMapper.readTree(result);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to parse JSON", e);
+        String baseUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=eaa479a1691ab5f1d257cae310412971&viewItemCnt=100&pltfomCdNm=웹툰&pageNo=";
+        List<JsonNode> allWebtoons = new ArrayList<>();
+
+        for (int pageNo = 0; pageNo <= 100; pageNo += 10) {
+            String apiUrl = baseUrl + pageNo;
+            String result = restTemplate.getForObject(apiUrl, String.class);
+            try {
+                JsonNode webtoons = objectMapper.readTree(result);
+                allWebtoons.add(webtoons);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Failed to parse JSON", e);
+            }
         }
+
+        return objectMapper.valueToTree(allWebtoons);
     }
 
     public void saveWebtoons(JsonNode webtoons) {
-        if (webtoons.has("itemList") && webtoons.get("itemList").isArray()) {
-            List<WebtoonVO> webtoonList = new ArrayList<>();
-            for (JsonNode node : webtoons.get("itemList")) {
-                WebtoonVO webtoon = objectMapper.convertValue(node, WebtoonVO.class);
-                webtoonList.add(webtoon);
-            }
-            for (WebtoonVO webtoon : webtoonList) {
-                webtoonMapper.saveWebtoon(webtoon);
+        if (webtoons.isArray()) {
+            for (JsonNode webtoonNode : webtoons) {
+                if (webtoonNode.has("itemList") && webtoonNode.get("itemList").isArray()) {
+                    for (JsonNode node : webtoonNode.get("itemList")) {
+                        String webtoonTitle = node.get("title").asText(); // 웹툰 제목을 가져옴
+                        WebtoonVO existingWebtoon = webtoonMapper.findByTitle(webtoonTitle);
+                        WebtoonVO webtoon = objectMapper.convertValue(node, WebtoonVO.class);
+
+                        if (existingWebtoon != null) {
+                            // 기존 웹툰이 존재하면 업데이트
+                            webtoon.setNum(existingWebtoon.getNum());
+                            webtoonMapper.updateWebtoon(webtoon);
+                        } else {
+                            // 기존 웹툰이 없으면 새로 저장
+                            webtoonMapper.saveWebtoon(webtoon);
+                        }
+                    }
+                } else {
+                    // itemList 필드가 없거나 배열이 아닌 경우에 대한 처리
+                    System.err.println("Expected an array of webtoons in 'itemList' field for node: " + webtoonNode);
+                }
             }
         } else {
-            throw new IllegalArgumentException("Expected an array of webtoons in 'itemList' field");
+            // webtoons가 배열이 아닌 경우에 대한 처리
+            throw new IllegalArgumentException("Expected an array of webtoons");
         }
     }
-
 
 }
