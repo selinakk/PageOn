@@ -38,7 +38,7 @@
           </a>
           <span class="align-super" th:text="'님이 게시한 '+${vo2.workTitle} + '에 대한 토론'"></span>
           <h6 class="mt-2 mb-3 py-2 fw-bold fs-3" th:text="'Q. '+${vo2.title}"></h6>
-          <p th:text="${vo2.content}"></p>
+          <textarea th:text="${vo2.content}" rows="12" readonly disabled class="forum__textarea w-100 border-0"></textarea>
         </div>
       </div>
       <!-- 여기가 댓글 관련 내용입니다. 이부분을 부모글의 상세보기와 추가해주시면 됩니다. -->

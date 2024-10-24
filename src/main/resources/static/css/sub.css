@@ -64,7 +64,9 @@ a.text-danger .svg-icon {
     border-radius: 50%;
     overflow: hidden;
 }
-
+.forum__textarea {
+    min-height: 20rem;
+}
 /* 토론 끝 */
 /*서재 시작*/
 .work-cover--sm {max-width: 6rem;}
