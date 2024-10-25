@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 상세 페이지</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/sub.css">
+<!--    <link rel="stylesheet" href="/css/notice/selectOneCSS.css"> &lt;!&ndash; CSS 파일 링크 &ndash;&gt;-->
+    <style>
+        /* /notice/selectOneCSS.css */
+        #tablecss {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            border: 2px solid black; /* 바깥 테두리를 진하게 */
+            text-align: center;
+        }
+
+        #thead {
+            border-bottom: black !important;
+            border: black;
+            background-color: black;
+            color: white;
+        }
+
+        #th1 {
+            border: black !important;
+        }
+
+        #btn1 {
+            margin-left: 1530px;
+            padding: 10px 30px;
+            font-style: initial;
+            font-size: 20px;
+            background-color: #E15C5CFF;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+
+        #btn2 {
+            padding: 10px 30px;
+            font-style: initial;
+            font-size: 20px;
+            background-color: #E15C5CFF;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+
+        #btn1:hover {
+            background-color: #152315;
+        }
+
+        #btn2:hover {
+            background-color: #152315;
+        }
+
+        #submit1:hover {
+            background-color: #152315;
+        }
+
+        #submit1 {
+            padding: 10px 30px;
+            margin-right: 150%;
+        }
+
+        #button-container {
+            display: flex; /* 버튼들을 한 줄에 정렬 */
+            gap: 10px; /* 버튼 사이의 간격 설정 */
+        }
+
+        #td1:hover {
+            background-color: #E15C5CFF;
+        }
+
+        #td1 {
+            border-left: black !important;
+        }
+
+        #tr:hover {
+            background-color: #E15C5CFF;
+        }
+
+    </style>
+
+    <script>
+        function confirmDelete() {
+            var result = confirm("정말로 삭제하시겠습니까?");
+            if (result) {
+                return true;  // 확인을 누르면 폼이 제출됨
+            } else {
+                return false; // 취소를 누르면 폼 제출을 막음
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+<header th:replace="~{header :: header}"></header>
+<!--<h1>공지사항 상세 페이지</h1>-->
+<nav th:replace="~{top_menu::top_menu}"></nav>
+
+<br><br>
+
+<table border="1" id="tablecss">
+
+    <thead id="thead">
+    <tr>
+        <th id="th1">글번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일자</th>
+        <th>조회수</th>
+        <th>첨부파일</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr id="tr">
+        <td>[[${vo2.num}]]</td>
+        <td>[[${vo2.title}]]</td>
+        <td>[[${vo2.user_id}]]</td>
+        <td>[[${vo2.wdate}]]</td>
+        <td>[[${vo2.hitcount}]]</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td id="td1">내 <br> 용</td>
+        <td colspan="4"><textarea cols="175" rows="23">[[${vo2.content}]]</textarea></td>
+        <td colspan="6"><img th:src="|/uploadimgPath/${vo2.img_name}|" width="200" height="200"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<div id="button-container">
+    <a th:href="|/notice/n_update.do?num=${vo2.num}|"><input id="btn1" type="button" value="수정하기"></a>
+
+    <form action="/notice/n_deleteOK.do" method="post">
+        <td><input type="hidden" name="num" th:value="${param.num}"></td>
+        <button id="btn2" type="submit" onclick="return confirmDelete()">삭제하기</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<footer th:replace="~{footer :: footer}"></footer>
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+
+</body>
+
+</html>

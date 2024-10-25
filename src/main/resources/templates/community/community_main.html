@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>커뮤니티 메인 페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/sub.css">
+<!--    <link rel="stylesheet" href="/css/community/community_mainCSS.css"> &lt;!&ndash; CSS 파일 링크 &ndash;&gt;-->
+    <style>
+        /* /community/community_mainCSS.css */
+        .td {
+            border: 1px solid #ddd; /* 내부 셀 테두리는 얇게 */
+        }
+
+        .th {
+            border: 1px solid #ddd; /* 내부 셀 테두리는 얇게 */
+            background-color: #df7c7c;
+            color: black;
+            font-weight: bold;
+        }
+
+        #insertTable1,#insertTable2,#insertTable3,#insertTable4 {
+            width: 30%;
+            height: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            font-family: 'Roboto', sans-serif; /* 예쁜 글씨체 설정 */
+            font-size: 25px;
+            border-collapse: collapse; /* 중첩된 테두리 제거 */
+            border: 2px solid black; /* 바깥 테두리를 진하게 */
+            border-collapse: separate; /* 테두리 겹침을 방지 */
+            border-spacing: 0; /* 셀 간의 간격 없애기 */
+            border: 2px solid #333; /* 테이블 외곽 테두리 */
+            border-radius: 15px; /* 둥근 테두리 */
+        }
+
+        #insertTable1 {
+            /*border: 5px solid blue; !* 바깥 테두리를 진하게 *!*/
+            border: 5px solid black ; /* 바깥 테두리를 진하게 */
+        }
+
+        #insertTable2 {
+            /*border: 5px solid yellow; !* 바깥 테두리를 진하게 *!*/
+            border: 5px solid black; /* 바깥 테두리를 진하게 */
+        }
+
+        #insertTable3 {
+            /*border: 5px solid #f38b80; !* 바깥 테두리를 진하게 *!*/
+            border: 5px solid black /* 바깥 테두리를 진하게 */
+        }
+
+        #insertTable4 {
+            /*border: 5px solid green; !* 바깥 테두리를 진하게 *!*/
+            border: 5px solid black; /* 바깥 테두리를 진하게 */
+        }
+
+        #table1:hover {
+            background-color: #E15C5CFF;
+        }
+
+        #table2:hover {
+            background-color: #E15C5CFF;
+        }
+
+        #table3:hover {
+            background-color: #E15C5CFF;
+        }
+
+        #table4:hover {
+            background-color: #E15C5CFF;
+        }
+
+        #button-container {
+            display: flex; /* 버튼들을 한 줄에 정렬 */
+            gap: 10px; /* 버튼 사이의 간격 설정 */
+        }
+
+        #button-container2 {
+            display: flex; /* 버튼들을 한 줄에 정렬 */
+            gap: 10px; /* 버튼 사이의 간격 설정 */
+        }
+    </style>
+</head>
+
+<body>
+<!--<h1>커뮤니티 메인 페이지</h1>-->
+<header th:replace="~{header :: header}"></header>
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<br>
+
+<div id="button-container">
+<table id="insertTable1" border="1">
+    <th class="th">최근 게시글</th>
+    <tbody>
+    <th:block th:each="vo : ${list1}">
+        <tr id="table1">
+            <td class="td"><a th:href="|/board/b_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+        </tr>
+    </th:block>
+    <td class="td"><a th:href="|/board/b_selectAll.do|">더보기...</a></td>
+    </tbody>
+</table>
+
+<br><br>
+
+<table id="insertTable2" border="1">
+    <th class="th">최근 공지사항</th>
+    <tbody>
+    <th:block th:each="vo : ${list2}">
+        <tr id="table2">
+            <td class="td"><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+        </tr>
+    </th:block>
+    <td class="td"><a th:href="|/notice/n_selectAll.do|">더보기...</a></td>
+    </tbody>
+</table>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<div id="button-container2">
+<table id="insertTable3" border="1">
+    <th class="th">최근 리뷰글</th>
+    <tbody>
+    <th:block th:each="vo : ${list3}">
+        <tr id="table3">
+            <td class="td"><a th:href="|/review/r_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+        </tr>
+    </th:block>
+    <td class="td"><a th:href="|/review/r_selectAll.do|">더보기...</a></td>
+    </tbody>
+</table>
+
+<br><br>
+
+<table id="insertTable4" border="1">
+    <th class="th">최근 토론글</th>
+    <tbody>
+    <th:block th:each="vo : ${list4}">
+        <tr id="table4">
+            <td class="td"><a th:href="|/forum/view?num=${vo.num}|">[[${vo.title}]]</a></td>
+        </tr>
+    </th:block>
+    <td class="td"><a th:href="|/forum/f_selectAll.do|">더보기...</a></td>
+    </tbody>
+</table>
+</div>
+
+<br><br>
+
+<!-- Bootstrap JS, Popper.js, and jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<footer th:replace="~{footer :: footer}"></footer>
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+
+
+</body>
+</html>
+
+
