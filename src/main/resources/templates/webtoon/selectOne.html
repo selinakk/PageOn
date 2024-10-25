@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>웹툰 상세</title>
+</head>
+<body>
+<div th:fragment="content" class="text-center">
+
+<!--    <h4 class="mt-4">웹툰 상세</h4>-->
+
+    <div class="row justify-content-center g-0 mt-4" style="margin-top: 25px">
+
+        <div class="col-md-1">
+            <img th:src="${vo2.img_name}" class="img-thumbnail">
+        </div>
+
+        <div class="col-md-2">
+            <h4 th:text="${vo2.title}"></h4>
+            <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
+            <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
+            <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
+            <p><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
+            <p><strong>줄거리:</strong>
+                <span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
+                <button id="toggleButton" onclick="toggleText()" class="btn btn-link">더 보기</button>
+            </p>
+            <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
+                                    th:text="${vo2.categories}"></a></p>
+
+            <a th:href="${vo2.link}" class="btn btn-sm btn-outline-primary" role="button">보러가기</a>
+        </div>
+    </div>
+
+    <div>
+        <!--         이부분에 리뷰 추가-->
+    </div>
+
+    <!-- 유사 카테고리 추가 -->
+    <div>
+        <h4 style="margin-top: 100px">이런 작품은 어떠세요?</h4>
+        <div class="row justify-content-center">
+            <div class="col-md-3 col-sm-6 mb-4" th:each="webtoon : ${similarWebtoons}" th:if="${vo2.title} != ${webtoon.title}" style="width: 300px; height: 300px;">
+                <div class="card" th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''" style="cursor:pointer;">
+                    <img th:src="${webtoon.img_name}" class="img-thumbnail" style="width: 200px; height: 200px;">
+                    <div class="card-body">
+                        <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
+                        <div class="card-title" th:text="${webtoon.title}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <!--        이 작품에 대한 리뷰 최근순으로 정렬-->
+    </div>
+
+    <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>자유게시판</title>
+</head>
+<body>
+
+<div th:fragment="content">
+    <div class="container mt-5">
+        <h1 class="mb-4">게시글 작성 페이지</h1>
+        <div class="card p-4">
+            <form action="b_insertOK" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">사진첨부</label>
+                    <input type="file" class="form-control-file" id="file" name="file">
+                </div>
+                <div class="form-group">
+                    <label for="category">카테고리</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="category" value="free" checked>
+                        <label class="form-check-label" for="category">
+                            자유
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="qna" value="qna">
+                        <label class="form-check-label" for="qna">
+                            질문
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" id="title" name="title" value="제목" placeholder="제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea class="form-control" name="content" id="content" cols="30" rows="10" placeholder="내용을 입력하세요">내용쓰기</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="user_id">작성자</label>
+                    <input type="hidden" id="user_id" name="user_id" value="admin">
+                    <p>admin</p>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">글쓰기 완료</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
