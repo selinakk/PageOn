@@ -7,7 +7,7 @@
         SELECT *
         FROM work
         WHERE type = 'webtoon'
-        ORDER BY num DESC
+        ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -20,7 +20,7 @@
     <select id="selectOne" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
-        WHERE num = #{num}
+        WHERE item_id = #{item_id}
           AND type = 'webtoon';
     </select>
 
@@ -29,7 +29,7 @@
         FROM work
         WHERE title LIKE CONCAT('%', #{searchWord}, '%')
           AND type = 'webtoon'
-        ORDER BY num DESC
+        ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -38,7 +38,7 @@
         FROM work
         WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
           AND type = 'webtoon'
-        ORDER BY num DESC
+        ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -47,7 +47,7 @@
         FROM work
         WHERE categories LIKE CONCAT('%', #{searchWord}, '%')
           AND type = 'webtoon'
-        ORDER BY num DESC
+        ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -83,7 +83,7 @@
             #{category}
         </foreach>
         AND type = 'webtoon'
-        ORDER BY num DESC
+        ORDER BY item_id DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 

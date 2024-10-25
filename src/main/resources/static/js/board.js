@@ -61,10 +61,11 @@ function fetchFilteredData() {
 
             if (data.webtoons && data.webtoons.length > 0) {
                 data.webtoons.forEach(webtoon => {
+                    console.log('webtoon:', webtoon);
                     const webtoonItem = `
                         <div class="col-md-3 col-sm-6 mb-4 content-item">
-                            <div class="card" onclick="location.href='/wt_selectOne?num=${webtoon.num}'" style="cursor:pointer;">
-                                <img src="/img/${webtoon.img_name}" class="img-thumbnail">
+                            <div class="card" onclick="location.href='/wt_selectOne?item_id=${webtoon.item_id}'" style="cursor:pointer;">
+                                <img src="${webtoon.imageDownloadUrl}" class="img-thumbnail">
                                 <div class="card-body">
                                     <div class="rating">★ ${webtoon.rank}</div>
                                     <div class="card-title">${webtoon.title}</div>
@@ -84,7 +85,7 @@ function fetchFilteredData() {
                                 const webtoonItem = `
                                     <div class="col-md-3 col-sm-6 mb-4 content-item">
                                         <div class="card" onclick="location.href='/wt_selectOne?num=${webtoon.num}'" style="cursor:pointer;">
-                                            <img src="/img/${webtoon.img_name}" class="img-thumbnail">
+                                            <img src="${webtoon.imageDownloadUrl}" class="img-thumbnail">
                                             <div class="card-body">
                                                 <div class="rating">★ ${webtoon.rank}</div>
                                                 <div class="card-title">${webtoon.title}</div>
@@ -102,17 +103,21 @@ function fetchFilteredData() {
             }
 
             // 페이지네이션 업데이트
-            updatePagination(data.totalPages);
+            updatePagination(data.totalPages, data.startPage, data.endPage);
         })
         .catch(error => console.error('Error:', error));
 }
 
 // 페이지네이션을 업데이트하는 함수
-function updatePagination(totalPages) {
+function updatePagination(totalPages, startPage, endPage) {
     const pagination = document.querySelector('.pagination');
     pagination.innerHTML = '';
 
-    for (let i = 1; i <= totalPages; i++) {
+    if (currentPage > 1) {
+        pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="goToPage(${currentPage - 1})">이전</a></li>`;
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
         const pageItem = document.createElement('li');
         pageItem.classList.add('page-item');
         if (i === currentPage) {
@@ -120,6 +125,10 @@ function updatePagination(totalPages) {
         }
         pageItem.innerHTML = `<a class="page-link" href="#" onclick="goToPage(${i})">${i}</a>`;
         pagination.appendChild(pageItem);
+    }
+
+    if (currentPage < totalPages) {
+        pagination.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="goToPage(${currentPage + 1})">다음</a></li>`;
     }
 }
 

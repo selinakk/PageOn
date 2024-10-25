@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class WebtoonVO {
 
-    private Integer num;
+    private Integer item_id;
     private String type;
     private String title;
 
@@ -25,7 +25,7 @@ public class WebtoonVO {
     private String provider;
 
     @JsonProperty("updateDays")
-    private String update_day; // List<String>에서 String으로 변경
+    private String update_day;
 
     private String rank;
 
@@ -34,5 +34,13 @@ public class WebtoonVO {
 
     @JsonProperty("imageDownloadUrl")
     private String img_name;
+
+
+
+
+    //해석 부분 줄바꿈 적용
+    public String getFormattedDesc() {
+        return this.desc != null ? this.desc.replace("\r\n", "<br>").replace("\n", "<br>") : null;
+    }
 
 }

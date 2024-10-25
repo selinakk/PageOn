@@ -162,7 +162,7 @@ public class WebtoonService {
 
                         if (existingWebtoon != null) {
                             // 기존 웹툰이 존재하면 업데이트
-                            webtoon.setNum(existingWebtoon.getNum());
+                            webtoon.setItem_id(existingWebtoon.getItem_id());
                             webtoonMapper.updateWebtoon(webtoon);
                         } else {
                             // 기존 웹툰이 없으면 새로 저장
@@ -181,7 +181,7 @@ public class WebtoonService {
     }
 
 
-//   웹툰 업데이트 날짜 추가 - 다해줬는데 안댐
+//   웹툰 업데이트 날짜 추가
 
     public JsonNode getUpdateDay() {
         // API URL
@@ -221,32 +221,10 @@ public class WebtoonService {
         return objectMapper.valueToTree(allWebtoons);
     }
 
-
+// 날짜 저장 - 기능 작동 안함 (수정 필요)
     public void updateWebtoonUpdateDays(JsonNode webtoons) {
-        if (webtoons.isArray()) {
-            for (JsonNode webtoonNode : webtoons) {
-                if (webtoonNode.has("title") && webtoonNode.has("updateDays")) {
-                    String title = webtoonNode.get("title").asText();
-                    List<String> updateDays = objectMapper.convertValue(webtoonNode.get("updateDays"), List.class);
+        
 
-                    WebtoonVO existingWebtoon = webtoonMapper.findByTitle(title);
-                    if (existingWebtoon != null) {
-                        try {
-                            String updateDaysJson = objectMapper.writeValueAsString(updateDays);
-                            log.info("날짜 추가: {} 추가함: {}", title, updateDaysJson);
-                            existingWebtoon.setUpdate_day(updateDaysJson); // update_day 필드 업데이트
-                            webtoonMapper.updateWebtoonUpdateDays(existingWebtoon); // DB 업데이트
-                        } catch (JsonProcessingException e) {
-                            log.error("Error converting updateDays to JSON string", e);
-                        }
-                    } else {
-                        log.warn("제목: {} 못찾음", title);
-                    }
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("Expected an array of webtoons");
-        }
     }
 }
 

@@ -17,6 +17,7 @@
             <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
             <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
             <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
+            <p><strong>줄거리:</strong> <span th:utext="${vo2.formattedDesc}"></span></p>
             <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
                                     th:text="${vo2.categories}"></a></p>
         </div>

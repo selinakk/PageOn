@@ -35,9 +35,14 @@ public class WebtoonController {
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         List<WebtoonVO> webtoonList;
+
+
+
         List<WebtoonVO> categories = webtoonService.getCategories();
 
         webtoonList = webtoonService.getWebtoonList(page, pageSize);
+
+
 
 
         // 페이지 번호 그룹화
@@ -129,8 +134,11 @@ public class WebtoonController {
         int pageSize = 12;
         int offset = (page - 1) * pageSize;
 
+
         List<WebtoonVO> webtoons;
         int totalCount;
+
+
         if (categories == null || categories.isEmpty()) {
             webtoons = webtoonService.getWebtoonList(page, pageSize);
             totalCount = webtoonService.getTotalCount();
@@ -140,9 +148,17 @@ public class WebtoonController {
         }
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
+        // 페이지 번호 그룹화
+        int pageGroupSize = 10;
+        int currentPageGroup = (page - 1) / pageGroupSize;
+        int startPage = currentPageGroup * pageGroupSize + 1;
+        int endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
+
         Map<String, Object> response = new HashMap<>();
         response.put("webtoons", webtoons);
         response.put("totalPages", totalPages);
+        response.put("startPage", startPage);
+        response.put("endPage", endPage);
 
         return response;
     }

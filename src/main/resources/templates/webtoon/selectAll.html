@@ -34,7 +34,7 @@
 
         <div class="row content-grid">
             <div class="col-md-3 col-sm-6 mb-4 content-item" th:each="webtoon : ${webtoonList}">
-                <div class="card" th:onclick="'location.href=\'/wt_selectOne?num=' + ${webtoon.num} + '\''"
+                <div class="card" th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''"
                      style="cursor:pointer;">
                     <img th:src="${webtoon.img_name}" class="img-thumbnail">
                     <div class="card-body">
@@ -62,4 +62,4 @@
     </div>
 </div>
 </body>
-</html></html>
+</html>
