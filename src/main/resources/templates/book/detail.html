@@ -25,17 +25,24 @@
             <button class="dropdown-button">내 서재에 추가</button>
             <div class="dropdown-content">
                 <!-- 각 상태를 파라미터로 보내는 링크들 -->
-                <a href="#" onclick="addToLibrary('read')">읽은 작품</a>
-                <a href="#" onclick="addToLibrary('reading')">읽고 있는 작품</a>
-                <a href="#" onclick="addToLibrary('wantToRead')">읽고 싶은 작품</a>
+                <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                    <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+                    <input type="hidden" name="work_num" th:value="${vo2.item_id}" />
+                    <label for="read"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="positionabsolute"> 읽은 작품</label>
+                    <label for="to-read"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="positionabsolute"> 읽고 싶은 작품</label>
+                    <label for="ing"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="positionabsolute"> 읽고 있는 작품</label>
+                </form>
+<!--                <a href="#" onclick="addToLibrary('read')">읽은 작품</a>-->
+<!--                <a href="#" onclick="addToLibrary('reading')">읽고 있는 작품</a>-->
+<!--                <a href="#" onclick="addToLibrary('wantToRead')">읽고 싶은 작품</a>-->
             </div>
         </div>
 
         <!-- 숨겨진 폼: 선택한 작품의 상태를 전송 -->
-        <form id="addToLibraryForm" th:action="@{/book/addToLibrary}" method="post">
-            <input type="hidden" name="item_id" th:value="${vo2.item_id}"/> <!-- 현재 작품의 ID -->
-            <input type="hidden" name="status" id="statusField"/> <!-- 상태 값 (읽은, 읽고 있는, 읽고 싶은) -->
-        </form>
+<!--        <form id="addToLibraryForm" th:action="@{/book/addToLibrary}" method="post">-->
+<!--            <input type="hidden" name="item_id" th:value="${vo2.item_id}"/> &lt;!&ndash; 현재 작품의 ID &ndash;&gt;-->
+<!--            <input type="hidden" name="status" id="statusField"/> &lt;!&ndash; 상태 값 (읽은, 읽고 있는, 읽고 싶은) &ndash;&gt;-->
+<!--        </form>-->
 
         <script>
             function addToLibrary(status) {

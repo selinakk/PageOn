@@ -52,11 +52,20 @@
 
     <!-- Book grid -->
     <div class="book-grid">
-        <div class="book-item" th:each="vo : ${list}">
+        <div class="book-item position-relative" th:each="vo : ${list}">
             <a th:href="@{/book/detail(item_id=${vo.item_id})}">
                 <img th:src="@{${vo.img_name}}" class="book-img" alt="Book Cover">
             </a>
             <a th:href="@{/book/detail(item_id=${vo.item_id})}" class="book-title" th:text="${vo.title}"></a>
+            <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
+                    <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+                    <input type="hidden" name="work_num" th:value="${vo.item_id}" />
+                    <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                </div>
+            </form>
         </div>
     </div>
 

@@ -36,9 +36,15 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     z-index: -1;
 }
 .card-concern.vstack .btn{
+    min-width: 9rem;
     margin: 0 2rem;
     padding: 0.5rem;
 }
+.card-concern.vstack input[type="radio"]{
+    -webkit-appearance: none;
+    text-indent: -9999px;
+}
+.book-item:hover .card-concern{bottom:160px;opacity:1;z-index: 2}
 .card.fs-6:hover .card-concern{
     bottom: unset;
     z-index: 2;
@@ -471,14 +477,19 @@ a.text-danger .svg-icon {
     z-index: 1;
 }
 
-#book-detail .dropdown-content a {
+#book-detail .dropdown-content a,
+#book-detail .dropdown-content label{
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
-
-#book-detail .dropdown-content a:hover {
+#book-detail .dropdown-content label input{
+    appearance: none;
+    text-indent: -9999px;
+}
+#book-detail .dropdown-content a:hover,
+#book-detail .dropdown-content label:hover{
     background-color: #f1f1f1;
 }
 
