@@ -11,7 +11,8 @@
 
         <!-- 필터링 태그 -->
         <div class="hashtags mb-3" style="cursor:pointer;">
-            <span class="badge bg-secondary me-1" th:each="category : ${categories}" th:text="'#' + ${category}" th:data-category="${category}" onclick="filterByCategory(this)"></span>
+            <span class="badge bg-secondary me-1" th:each="category : ${categories}" th:text="'#' + ${category}"
+                  th:data-category="${category}" onclick="filterByCategory(this)"></span>
         </div>
 
 
@@ -27,9 +28,11 @@
                 <button type="submit" class="btn btn-primary">검색</button>
             </form>
         </div>
+
+        <!--기능 구현 안해둠-->
         <div class="sort-options mb-3 d-flex justify-content-end">
-            <button class="btn btn-outline-secondary me-2">최신순</button>
-            <button class="btn btn-outline-secondary">인기순</button>
+            <button class="btn btn-outline-secondary me-2">최신순(전체보기?)</button>
+            <button class="btn btn-outline-secondary">인기순(별점순?)</button>
         </div>
 
         <div class="row content-grid">
@@ -44,6 +47,10 @@
                 </div>
             </div>
         </div>
+
+        <div></div>
+
+
         <!-- 페이징 기능 추가 -->
         <div class="pagination">
             <ul class="pagination">

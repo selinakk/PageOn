@@ -133,7 +133,8 @@
 
     <update id="updateWebtoonUpdateDays" parameterType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         UPDATE work
-        SET update_day = #{update_day, typeHandler=com.tmtb.pageon.webtoon.handler.JsonTypeHandler}
+        SET update_day = #{update_day},
+            link = #{link}
         WHERE title = #{title}
           AND type = 'webtoon'
     </update>

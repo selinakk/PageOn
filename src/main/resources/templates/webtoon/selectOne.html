@@ -5,10 +5,10 @@
     <title>웹툰 상세</title>
 </head>
 <body>
-<div th:fragment="content">
+<div th:fragment="content" class="text-center">
 
     <h3 class="mt-4">웹툰 상세</h3>
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-4">
             <img th:src="${vo2.img_name}" class="img-thumbnail">
         </div>
@@ -23,11 +23,31 @@
         </div>
     </div>
 
+    <div>
+        <!--         이부분에 리뷰 추가-->
+    </div>
+
+    <!-- 유사 카테고리 추가 -->
+    <div>
+        <h4>이런 작품은 어떠세요?</h4>
+        <div class="row justify-content-center">
+            <div class="col-md-3 col-sm-6 mb-4" th:each="webtoon : ${similarWebtoons}" th:if="${vo2.title} != ${webtoon.title}" style="width: 300px; height: 300px;">
+                <div class="card" th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''" style="cursor:pointer;">
+                    <img th:src="${webtoon.img_name}" class="img-thumbnail" style="width: 200px; height: 200px;">
+                    <div class="card-body">
+                        <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
+                        <div class="card-title" th:text="${webtoon.title}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <!--        이 작품에 대한 리뷰 최근순으로 정렬-->
+    </div>
 
     <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
 </div>
-</div>
-</div>
-
 </body>
 </html>

@@ -8,32 +8,37 @@ import java.util.List;
 @Data
 public class WebtoonVO {
 
-    private Integer item_id;
-    private String type;
-    private String title;
+    private Integer item_id; // 웹툰 고유번호
+    private String type; // 웹툰, 소설, 웹소설
+    private String title; // 제목
 
     @JsonProperty("outline")
-    private String desc;
+    private String desc; // 줄거리
 
     @JsonProperty("sntncWritrNm")
-    private String writer;
+    private String writer; // 작가
 
     @JsonProperty("pictrWritrNm")
-    private String illustrator;
+    private String illustrator; // 그림작가
 
     @JsonProperty("pltfomCdNm")
-    private String provider;
+    private String provider; // 제공자
 
     @JsonProperty("updateDays")
-    private String update_day;
+    private String update_day; //올라오는 요일
 
-    private String rank;
+    private String rank; //별점
 
     @JsonProperty("mainGenreCdNm")
-    private String categories;
+    private String categories; //장르
 
     @JsonProperty("imageDownloadUrl")
-    private String img_name;
+    private String img_name; //이미지
+
+    @JsonProperty("url")
+    private String link; //링크
+
+    private Integer added_bs; //등록일
 
 
 

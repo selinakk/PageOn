@@ -150,7 +150,6 @@ public class WebtoonService {
     }
 
 
-
     public void saveWebtoons(JsonNode webtoons) {
         if (webtoons.isArray()) {
             for (JsonNode webtoonNode : webtoons) {
@@ -221,10 +220,53 @@ public class WebtoonService {
         return objectMapper.valueToTree(allWebtoons);
     }
 
-// 날짜 저장 - 기능 작동 안함 (수정 필요)
+    // 날짜 저장 - 기능 작동 안함 (수정 필요)
     public void updateWebtoonUpdateDays(JsonNode webtoons) {
-        
+        if (!webtoons.isArray()) {
+            throw new IllegalArgumentException("Expected an array of webtoons");
+        }
 
+        for (JsonNode webtoonNode : webtoons) {
+            if (!webtoonNode.has("webtoons") || !webtoonNode.get("webtoons").isArray()) {
+                log.error("Expected an array of webtoons in 'webtoons' field for node: {}", webtoonNode);
+                continue;
+            }
+
+            for (JsonNode node : webtoonNode.get("webtoons")) {
+                String webtoonTitle = node.has("title") ? node.get("title").asText() : null;
+                if (webtoonTitle == null) {
+                    log.error("Title is missing for webtoon node: {}", node);
+                    continue;
+                }
+
+                WebtoonVO existingWebtoon = webtoonMapper.findByTitle(webtoonTitle);
+                if (existingWebtoon != null) {
+                    JsonNode updateDaysNode = node.get("updateDays");
+                    String updateDays;
+
+                    if (updateDaysNode != null && updateDaysNode.isArray()) {
+                        List<String> updateDaysList = new ArrayList<>();
+                        for (JsonNode dayNode : updateDaysNode) {
+                            updateDaysList.add(dayNode.asText());
+                        }
+                        updateDays = String.join(",", updateDaysList);
+                    } else if (updateDaysNode != null) {
+                        updateDays = updateDaysNode.asText();
+                    } else {
+                        updateDays = "";
+                    }
+
+                    existingWebtoon.setUpdate_day(updateDays);
+                    existingWebtoon.setLink(node.has("url") ? node.get("url").asText() : null);
+                    webtoonMapper.updateWebtoonUpdateDays(existingWebtoon);
+                }
+            }
+        }
     }
 }
+
+
+
+
+
 

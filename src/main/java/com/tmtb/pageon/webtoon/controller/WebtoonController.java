@@ -118,9 +118,15 @@ public class WebtoonController {
 
 
         WebtoonVO vo2 = webtoonService.selectOne(vo);
+        List<WebtoonVO> similarWebtoons = webtoonService.searchWebtoonByCategories(vo2.getCategories(), 0, 5);
+
         log.info("vo2:{}", vo2);
+        log.info("similarWebtoons:{}", similarWebtoons);
+
 
         model.addAttribute("vo2", vo2);
+        model.addAttribute("similarWebtoons", similarWebtoons);
+
 
         return "webtoon/selectOne";
     }
@@ -162,6 +168,7 @@ public class WebtoonController {
 
         return response;
     }
+
 
 
 }
