@@ -220,7 +220,7 @@ public class WebtoonService {
         return objectMapper.valueToTree(allWebtoons);
     }
 
-    // 날짜 저장 - 기능 작동 안함 (수정 필요)
+    // 날짜 저장
     public void updateWebtoonUpdateDays(JsonNode webtoons) {
         if (!webtoons.isArray()) {
             throw new IllegalArgumentException("Expected an array of webtoons");

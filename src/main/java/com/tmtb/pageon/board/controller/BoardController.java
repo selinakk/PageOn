@@ -47,6 +47,7 @@ public class BoardController {
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         List<BoardVO> boardList;
+        //자유게시판,질문게시판 조회수 카운트
         if ("hitcount".equals(sort)) {
             boardList = boardService.getFreeBoardListByHitCount(page, pageSize);
         } else {
@@ -174,14 +175,6 @@ public class BoardController {
 
 
         return "board/selectOne";
-    }
-
-
-    //게시글 삭제 페이지
-    @GetMapping("/b_delete")
-    public String b_delete() {
-        log.info("삭제페이지입니다.");
-        return "board/delete";
     }
 
     //게시글 삭제 완료

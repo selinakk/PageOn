@@ -404,5 +404,40 @@ function reportComment(commentId) {
     });
 }
 
+function confirmDelete() {
+    if (confirm("삭제하시겠습니까?")) {
+        $.ajax({
+            type: "POST",
+            url: "/b_deleteOK",
+            data: {
+                num: $('input[name="num"]').val(),
+                category: $('input[name="category"]').val()
+            },
+            success: function() {
+                alert("삭제되었습니다.");
+                window.location.href = "/freeboard"; // 삭제 후 메인 페이지로 이동
+            },
+            error: function() {
+                alert("삭제에 실패했습니다.");
+            }
+        });
+    }
+}
+
+function toggleText() {
+    var desc = document.getElementById("desc");
+    var button = document.getElementById("toggleButton");
+    if (desc.classList.contains("short-text")) {
+        desc.classList.remove("short-text");
+        desc.classList.add("full-text");
+        button.textContent = "접기";
+    } else {
+        desc.classList.remove("full-text");
+        desc.classList.add("short-text");
+        button.textContent = "더 보기";
+    }
+
+}
+
 
 

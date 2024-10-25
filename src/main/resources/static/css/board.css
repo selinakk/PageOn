@@ -54,3 +54,27 @@ input[name="searchWord"] {
 .board-tap {
 
 }
+
+.short-text {
+    display: inline-block;
+    max-height: 3em; /* 3줄로 제한 */
+    overflow: hidden;
+    white-space: normal;
+}
+.full-text {
+    display: inline-block;
+    white-space: normal;
+}
+.btn-link {
+    background: none;
+    border: none;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+}
+.btn-link:hover {
+    color: #0056b3;
+    text-decoration: none;
+}

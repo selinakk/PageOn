@@ -3,7 +3,9 @@ package com.tmtb.pageon.webtoon.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class WebtoonVO {
@@ -46,6 +48,22 @@ public class WebtoonVO {
     //해석 부분 줄바꿈 적용
     public String getFormattedDesc() {
         return this.desc != null ? this.desc.replace("\r\n", "<br>").replace("\n", "<br>") : null;
+    }
+
+    //요일 변환용
+    private static final Map<String, String> dayMap = new HashMap<>();
+    static {
+        dayMap.put("MON", "월요일");
+        dayMap.put("TUE", "화요일");
+        dayMap.put("WED", "수요일");
+        dayMap.put("THU", "목요일");
+        dayMap.put("FRI", "금요일");
+        dayMap.put("SAT", "토요일");
+        dayMap.put("SUN", "일요일");
+    }
+    //요일 변환 함수
+    public String getFormattedUpdateDay() {
+        return dayMap.getOrDefault(this.update_day, this.update_day);
     }
 
 }

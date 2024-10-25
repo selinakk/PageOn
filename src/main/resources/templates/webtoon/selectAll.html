@@ -11,8 +11,8 @@
 
         <!-- 필터링 태그 -->
         <div class="hashtags mb-3" style="cursor:pointer;">
-            <span class="badge bg-secondary me-1" th:each="category : ${categories}" th:text="'#' + ${category}"
-                  th:data-category="${category}" onclick="filterByCategory(this)"></span>
+    <span class="badge bg-secondary me-1" th:each="category : ${categories}" th:if="${category != null}"
+          th:text="'#' + ${category}" th:data-category="${category}" onclick="filterByCategory(this)"></span>
         </div>
 
 
@@ -29,17 +29,17 @@
             </form>
         </div>
 
-        <!--기능 구현 안해둠-->
+
         <div class="sort-options mb-3 d-flex justify-content-end">
-            <button class="btn btn-outline-secondary me-2">최신순(전체보기?)</button>
+            <button class="btn btn-outline-secondary me-2" onclick="location.href='/wt_selectAll'">전체보기</button>
             <button class="btn btn-outline-secondary">인기순(별점순?)</button>
         </div>
 
         <div class="row content-grid">
             <div class="col-md-3 col-sm-6 mb-4 content-item" th:each="webtoon : ${webtoonList}">
                 <div class="card" th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''"
-                     style="cursor:pointer;">
-                    <img th:src="${webtoon.img_name}" class="img-thumbnail">
+                     style="cursor:pointer; width: 300px; height: 300px;">
+                    <img th:src="${webtoon.img_name}" class="img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;">
                     <div class="card-body">
                         <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
                         <div class="card-title" th:text="${webtoon.title}"></div>
