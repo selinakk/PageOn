@@ -21,7 +21,7 @@ public class CommentController {
 
     @PostMapping
     public void insertOK(@RequestBody CommentVO vo) {
-        if (vo.getCnum() != 0) { // 대댓글인 경우
+        if (vo.getCnum() != null) { // 대댓글인 경우
             service.insertOKChild(vo); // 대댓글 추가 메서드
             log.info("insertOKChild()... Parent comment ID: " + vo.getCnum());
         } else { // 댓글인 경우
@@ -79,7 +79,7 @@ public class CommentController {
 
     @GetMapping("/child/{cnum}")
     public ResponseEntity<Map<String, Object>> selectAllChild(
-            @PathVariable int cnum,
+            @PathVariable Integer cnum,
             @RequestParam(defaultValue = "1") int cpage,
             @RequestParam(defaultValue = "20") int pageBlock) {
 

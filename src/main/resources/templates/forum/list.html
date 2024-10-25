@@ -49,7 +49,7 @@
           <li class="p-3" th:each="forum : ${list}">
             <div class="card position-relative p-4 border rounded-3 fs-6">
               <a th:href="@{/forum/view(num=${forum.num})}">
-                <img class="w-100 shadow-sm" th:src="@{/img/{workImgName}(workImgName=${forum.workImgName})}" th:alt="|${forum.workTitle} 작품 이미지|"/>
+                <img class="w-100 shadow-sm" th:src="@{${forum.workImgName}}" th:alt="|${forum.workTitle} 작품 이미지|"/>
 
                 <p class="mt-4 mb-0" th:text="${forum.workTitle}"></p>
                 <h6 class="my-3 fw-bold" th:text="${forum.title}"></h6>

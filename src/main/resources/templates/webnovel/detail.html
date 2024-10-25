@@ -49,7 +49,7 @@
         <a class="action-button" th:href="@{${vo2.link}}">감상 / 구매</a>
 
         <!-- 3. 토론 열기 -->
-        <a class="action-button" href="#">토론 열기</a>
+        <a class="action-button" th:href="@{/forum/write(work_num=${vo2.item_id})}">토론 열기</a>
 
         <!-- 4. 리뷰 작성 -->
         <a class="action-button" href="#">리뷰 작성</a>

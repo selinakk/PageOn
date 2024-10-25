@@ -113,8 +113,9 @@ public class ForumController {
 //    상세보기 끝
 //    DML 시작
     @GetMapping("/forum/write")
-    public String insertForum() {
+    public String insertForum(@RequestParam("work_num")int workNum, Model model) {
         log.info("/forum/write - 토론 게시하기");
+        model.addAttribute("work_num", workNum);
         return "forum/write";
 
     }

@@ -11,7 +11,7 @@ public class CommentVO {
     private Integer bnum;      // 게시글 번호
     private Integer fnum;      // 포럼 번호
     private Integer rnum;      // 리뷰 번호
-    private int cnum;      // 대댓글 번호
+    private Integer cnum;      // 대댓글 번호
     private String content;     // 댓글 내용
     private Date wdate;        // 작성일
     private String user_id;     // 작성자 ID
