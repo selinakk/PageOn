@@ -2,6 +2,8 @@ package com.tmtb.pageon.review.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ReviewVO {
     private int num;
@@ -9,11 +11,7 @@ public class ReviewVO {
     private String title;
     private String content;
     private String user_id;
-<<<<<<< HEAD
-    private String wdate;
-=======
-    private Data wdate;
->>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
+    private Date wdate;
     private double rating;
     private boolean report;
     private int like;
