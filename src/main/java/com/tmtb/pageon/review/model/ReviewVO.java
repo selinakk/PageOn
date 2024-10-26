@@ -9,7 +9,11 @@ public class ReviewVO {
     private String title;
     private String content;
     private String user_id;
+<<<<<<< HEAD
     private String wdate;
+=======
+    private Data wdate;
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
     private double rating;
     private boolean report;
     private int like;

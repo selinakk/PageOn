@@ -1,5 +1,6 @@
 package com.tmtb.pageon.review.Service;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmtb.pageon.review.mapper.ReviewMapper;
@@ -19,6 +20,15 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+=======
+import com.tmtb.pageon.review.mapper.ReviewMapper;
+import com.tmtb.pageon.review.model.ReviewVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
 
 @Service
 @Slf4j
@@ -28,24 +38,41 @@ public class ReviewService {
     ReviewMapper mapper;
 
 
+<<<<<<< HEAD
     public ReviewVO selectOne(ReviewVO vo) {
         log.info("review selectOne..");
         return mapper.review_selectOne(vo);
+=======
+
+
+    public ReviewVO selectOne(ReviewVO vo) {
+        log.info("review selectOne..");
+        return mapper.selectOne(vo);
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
     }
 
     public int insertOK(ReviewVO vo) {
         log.info("review insertOK..");
+<<<<<<< HEAD
         return mapper.review_insertOK(vo);
     }
 
     public int updateOK(ReviewVO vo) {
         log.info("review updateOK..");
         return mapper.review_updateOK(vo);
+=======
+        return mapper.insertOK(vo);
+    }
+    public int updateOK(ReviewVO vo) {
+        log.info("review updateOK..");
+        return mapper.updateOK(vo);
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
     }
 
 
     public int deleteOK(ReviewVO vo) {
         log.info("review deleteOK..");
+<<<<<<< HEAD
         return mapper.review_deleteOK(vo);
     }
 
@@ -70,10 +97,25 @@ public class ReviewService {
 
 
         return mapper.review_selectAllPageBlock(startRow, pageBlock, sortType, sort);
+=======
+        return mapper.updateOK(vo);
+    }
+
+
+    public int getsearchTotalRow(String searchKey, String searchWord) {
+        log.info("review searList");
+        return mapper.getsearchTotalRow(searchKey,searchWord);
+    }
+
+    public List<ReviewVO> selectAllPageBlock(int cpage, int pageBlock) {
+        log.info("review selectAllPageBlock");
+        return mapper.selectAllPageBlock(cpage, pageBlock);
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
     }
 
     public int getTotalRow() {
         log.info("review getTotalRow");
+<<<<<<< HEAD
         return mapper.review_getTotalRow();
     }
 //
@@ -127,3 +169,13 @@ public class ReviewService {
 //    }
 }
 
+=======
+        return mapper.getTotalRow();
+    }
+
+    public List<ReviewVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
+        log.info("review getTotalRow");
+        return mapper.searchListPageBlock(searchKey,searchWord,cpage,pageBlock);
+    }
+}
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570

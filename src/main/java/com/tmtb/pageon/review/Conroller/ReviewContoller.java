@@ -1,6 +1,7 @@
 package com.tmtb.pageon.review.Conroller;
 
 
+<<<<<<< HEAD
 import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
 import com.tmtb.pageon.review.Service.ReviewService;
@@ -16,6 +17,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+=======
+import com.tmtb.pageon.review.Service.ReviewService;
+import com.tmtb.pageon.review.model.ReviewVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
 
 @Controller
 @Slf4j
@@ -24,6 +38,7 @@ public class ReviewContoller {
     @Autowired
     ReviewService service;
 
+<<<<<<< HEAD
     @Autowired
     CommentController controller;
 
@@ -43,6 +58,16 @@ public class ReviewContoller {
         List<ReviewVO> list = service.selectAllPageBlock(cpage, pageBlock, sortType, sort );
         model.addAttribute("list", list);
         log.info("list:{}", list);
+=======
+    @GetMapping("/review_list")
+    public String getUsers(Model model, @RequestParam(defaultValue = "0")int cpage,
+                           @RequestParam(defaultValue ="10" )int pageBlock) {
+        log.info("리뷰 목록");
+        //List<ReviewVO> list = service.selectAll(cpage);
+        List<ReviewVO> list = service.selectAllPageBlock(cpage, pageBlock);
+        model.addAttribute("list", list);
+        log.info("list.size:{}", list.size());
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
 
         int total_Row =service.getTotalRow();
         int totalPageCount =0;
@@ -54,6 +79,7 @@ public class ReviewContoller {
             totalPageCount = total_Row / pageBlock +1;
         }
 
+<<<<<<< HEAD
         //총 리뷰 갯수
         model.addAttribute("total_Row", total_Row);
         log.info("totalRow:{}", total_Row);
@@ -119,6 +145,25 @@ public class ReviewContoller {
                              @RequestParam(defaultValue = "book")String searchWord,
                              @RequestParam(defaultValue = "1")int cpage,
                              @RequestParam(defaultValue = "4")int pageBlock){
+=======
+        model.addAttribute("totalPageCount:", totalPageCount);
+        log.info("totalPageCount:{}", totalPageCount);
+
+        return "review/list";
+    }@GetMapping("/review_listOne")
+    public String selectOne(Model model, ReviewVO vo){
+        log.info("리뷰 상세");
+        ReviewVO vo2 = service.selectOne(vo);
+        model.addAttribute("vo2:", vo2);
+        log.info("vo2:{}", vo2);
+        return "review/listOne";
+    }
+    @GetMapping("/review_searchList")
+    public String searchList(Model model, ReviewVO vo, @RequestParam(defaultValue = "title")String searchKey,
+                             @RequestParam(defaultValue = "book")String searchWord,
+                             @RequestParam(defaultValue = "1")int cpage,
+                             @RequestParam(defaultValue = "10")int pageBlock){
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
         log.info("리뷰 상세");
         log.info("searchKey:{}", searchKey);
         log.info("searchWord:{}", searchWord);
@@ -145,13 +190,19 @@ public class ReviewContoller {
 
         return "review/list";
     }
+<<<<<<< HEAD
 //
     //리뷰 입력
     @GetMapping("/review/insert")
+=======
+
+    @GetMapping("/review_insert")
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
     public String insert() {
         log.info("리뷰 입력");
         return "review/insert";
 
+<<<<<<< HEAD
     }
     //리뷰 수정
     @GetMapping("/review/update")
@@ -168,11 +219,23 @@ public class ReviewContoller {
     }
     //리뷰 삭제
     @GetMapping("/review/delete")
+=======
+    } @GetMapping("/review_update")
+    public String update(ReviewVO vo, Model model) {
+        log.info("리뷰 수정");
+        ReviewVO vo2 = service.selectOne(vo);
+        model.addAttribute("vo2: ", vo2);
+
+        return "review/update";
+
+    } @GetMapping("/review/delete")
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
     public String delete() {
         log.info("리뷰 삭제");
         return "review/delete";
 
     }
+<<<<<<< HEAD
     @PostMapping("/review/insertOK")
     public String insertOK(ReviewVO vo) {
         log.info("리뷰 입력");
@@ -287,4 +350,32 @@ public class ReviewContoller {
 //    }
 
 
+=======
+    @PostMapping("/review_insertOK")
+    public String inserOK(ReviewVO vo) {
+        log.info("리뷰 입력");
+        int result  = service.insertOK(vo);
+        if (result==1){
+            return "redirect:/review_list";
+        } return "review/insert";
+
+    }
+    @PostMapping("/review/updateOK")
+    public String updateOK(Model model, ReviewVO vo) {
+        log.info("리뷰 수정");
+        int result =  service.updateOK(vo);
+        if (result ==1){
+            return "redirect/:review/selectOne";
+        }return "redirect/:review/update";
+    }@PostMapping("/review/deleteOK")
+    public String deleteOK(ReviewVO vo){
+        log.info("리뷰 삭제");
+        int result = service.deleteOK(vo);
+
+        if (result==1){
+            return "redirect/:selectAll";
+        }return "redirect/:delete0";
+    }
+
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
 }

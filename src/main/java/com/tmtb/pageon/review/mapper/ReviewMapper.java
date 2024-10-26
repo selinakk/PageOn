@@ -2,12 +2,16 @@ package com.tmtb.pageon.review.mapper;
 
 import com.tmtb.pageon.review.model.ReviewVO;
 import org.apache.ibatis.annotations.Mapper;
+<<<<<<< HEAD
 import org.apache.ibatis.annotations.Param;
+=======
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
 
 import java.util.List;
 
 @Mapper
 public interface ReviewMapper {
+<<<<<<< HEAD
 
     public ReviewVO review_selectOne(ReviewVO vo);
 
@@ -47,4 +51,22 @@ public interface ReviewMapper {
 
 
 //    List<Work> writeFindWorkByCategory(@Param("titleId") int titleId);
+=======
+    // public List<ReviewVO> selectAll();
+
+    public ReviewVO selectOne(ReviewVO vo);
+
+    public int updateOK(ReviewVO vo);
+
+    public int insertOK(ReviewVO vo);
+
+
+    public int getsearchTotalRow(String searchKey, String searchWord);
+
+    public List<ReviewVO> selectAllPageBlock(int cpage, int pageBlock);
+
+    public int getTotalRow();
+
+    public List<ReviewVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock);
+>>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
 }
