@@ -228,6 +228,7 @@
                 location.reload();
               },
               error: function() {
+                console.log(JSON.stringify({ content: commentText, type: "forum", fnum: fnum, user_id: "tester2" }));
                 alert("댓글 작성에 실패했습니다.");
               }
             });

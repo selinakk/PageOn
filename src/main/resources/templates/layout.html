@@ -20,6 +20,15 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
-<script type="text/javascript" src="/js/board.js"></script>
+<script>
+    // 현재 페이지 URL 확인
+    const path = window.location.pathname;
+    // URL에 특정 문자열이 포함된 경우에만 board.js를 동적으로 로드
+    if (path.includes("b_") || path.includes("wt_") || path.includes("board") || path.includes("webtoon") || path.includes("updateday")) {
+        const script = document.createElement("script");
+        script.src = "/js/board.js";
+        document.head.appendChild(script);
+    }
+</script>
 </body>
 </html>

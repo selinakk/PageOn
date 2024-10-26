@@ -127,16 +127,16 @@
                 </div>
             </div>
 
-            <div id="paging">
+            <div id="paging" th:if="${totalPageCount > 1}">
                 <ul>
                     <li th:if="${cpage > 1}">
-                        <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
+                        <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
-                        <a th:href="@{/test(cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
+                        <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
                     </li>
                     <li th:if="${cpage < totalPageCount}">
-                        <a th:href="@{/test(cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
+                        <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
                     </li>
                 </ul>
             </div>

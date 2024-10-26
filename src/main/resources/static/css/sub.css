@@ -12,6 +12,9 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     font-weight: 500;
 }
 .align-super {vertical-align:super !important}
+.logo {
+    width: 100px;
+}
 /* Global 끝 */
 
 /* 토론 */
@@ -384,6 +387,7 @@ a.text-danger .svg-icon {
     gap: 10px; /* 간격을 좁게 조정 */
     padding: 10px; /* 전체 그리드의 여백을 줄임 */
     margin-bottom: 30px;
+    place-items: center; /* 그리드 셀 내부 아이템 중앙 정렬 */
 }
 
 #book-list .book-item:hover {
@@ -756,6 +760,7 @@ a.text-danger .svg-icon {
     gap: 10px; /* 간격을 좁게 조정 */
     padding: 10px; /* 전체 그리드의 여백을 줄임 */
     margin-bottom: 30px;
+    place-items: center; /* 그리드 셀 내부 아이템 중앙 정렬 */
 }
 
 #webnovel-list .webnovel-item:hover {

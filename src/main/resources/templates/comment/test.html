@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
 <head>
-    <title>포럼글 댓글 테스트 페이지</title>
+    <title>댓글 테스트 페이지</title>
 </head>
 <body>
-<section id="forum" class="position-relative padding-small " style="width: 1200px; margin: 0 auto;">
-    <h1>포럼글 제목</h1>
-    <p>포럼글 내용입니다. 이곳에 포럼글의 본문 내용이 들어갑니다.</p>
+<section id="board" class="position-relative padding-small " style="width: 1200px; margin: 0 auto;">
+    <h1>테스트글 제목</h1>
+    <p>테스트글 내용입니다..</p>
     <p>작성자: user123 | 작성일: 2024-10-16</p>
 </section>
 
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div id="paging">
+    <div id="paging" th:if="${totalPageCount > 1}">
         <ul>
             <li th:if="${cpage > 1}">
                 <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
@@ -186,8 +186,8 @@
                 contentType: "application/json",
                 data: JSON.stringify({
                     content: commentText,
-                    type: "forum", // 부모글 타입
-                    fnum: 1, // 부모글id
+                    type: "board", // 부모글 타입
+                    bnum: 1, // 부모글id
                     user_id: "user123" // 로그인id
                 }),
                 success: function() {
@@ -212,8 +212,8 @@
                 contentType: "application/json",
                 data: JSON.stringify({
                     content: replyText,
-                    type: "forum", // 부모글 타입
-                    fnum: 1, // 부모글id
+                    type: "board", // 부모글 타입
+                    bnum: 1, // 부모글id
                     cnum: parentId,
                     user_id: "user123" // 로그인id
                 }),

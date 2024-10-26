@@ -16,7 +16,7 @@ public class CommentService {
     private CommentMapper mapper;
 
     public void insertOK(CommentVO vo) {
-        log.info("addComment()...");
+        log.info("insertOK()...");
         mapper.insertOK(vo);
     }
 
