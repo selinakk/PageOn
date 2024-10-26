@@ -46,5 +46,5 @@ public interface ReviewMapper {
     int getHateCount(int num);
 
 
-
+//    List<Work> writeFindWorkByCategory(@Param("titleId") int titleId);
 }

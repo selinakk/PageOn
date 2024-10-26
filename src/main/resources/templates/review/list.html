@@ -6,46 +6,6 @@
     <title>Document</title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/sub.css" rel="stylesheet">
-    <link href="/review/styles.css" rel="stylesheet" >
-    <style>
-        /*table {
-            position: relative;
-            padding-bottom: 0;
-            border: none;
-            box-shadow: 0 0 10px rgba(0,0,0,.2);
-        }
-
-        thead {
-            float: left;
-            white-space: nowrap;
-        }
-
-        tbody {
-            overflow-x: auto;
-            overflow-y: hidden;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        tr {
-            display: inline-block;
-            vertical-align: top;
-        }
-
-        th {
-            border-bottom: 1px solid #a39485;
-        }
-
-        td {
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        th,td {
-            padding: 15px;
-        }
-
-*/
-    </style>
 </head>
 <body  th:fragment="content">
 <div class="position-relative padding-medium">
@@ -66,66 +26,51 @@
             <button th:id="write-btn" onclick="location.href='/review/insert'">write</button>
         </div>
         <div>
-
-            <div>
+            <div style="margin: 10px">
+<!--                <a th:href="@{/review/list}" th:param="||"></a>-->
                 <strong>정렬</strong>
-                <a th:href="|@{/review/list(page=${cpage},total_Row=${total_Row},sortType='wdate',sort='desc')}|">최신순</a>
-                <a th:href="|@{/review/list(page=${cpage},total_Row=${total_Row},sortType='wdate',sort='asc')}|">오래된 순</a>
-                <a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='commentCount',sort='desc')}">댓글 많은 순</a>
+                <small><a th:href="|@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='wdate',sort='desc')}|">최신순</a></small>
+                <small><a th:href="|@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='wdate',sort='asc')}|">오래된 순</a></small>
+                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='like',sort='desc')}">인기순</a></small>
+                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='rating',sort='desc')}">별점순</a></small>
+                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='commentCount',sort='desc')}">댓글 많은순</a></small>
             </div>
         </div>
-        <table>
-            <thead>
-            <tr>
-                <th></th>
-                <th></th>
-                <th>제목</th>
-                <th></th>
-                <th></th>
-                <th>작성일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="review :${list}" >
-                <tr>
-                    <td><a th:href="|/review/detail?num=${review.num}|"th:text="${review.num}" ></a></td>
-                    <td th:text="${review.work_num}"></td>
-                    <td th:text="${review.title}"></td>
-                    <td><img src="/img/like.png" th:class="like-btn" th:text="${review.like}"></td>
-                    <td ><img src="/img/dislike.png" th:class="like-btn" th:text="${review.hate}"></td>
-                    <td th:text="${review.wdate}"></td>
-                </tr>
-
-            </th:block>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="6" >
-                    <div><
-                        <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
-                            <th:block th:if="${param.searchKey == null}">
-                                <a th:href="|/review/list?cpage=${i}|" th:text="${i}"></a>
-                            </th:block>
-                            <th:block th:if="${param.searchKey != null}" >
-                                <th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
-                                    <a th:href="|/review/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|"
-                                       th:text="${i}"></a>
-                                </th:block>
-                            </th:block>
-                        </th:block>>
-                    </div>
-
-
-                </td>
-            </tr>
-            </tfoot>
-        </table>
         </div>
     </div>
 </div>
-<script>
-
-</script>
-
+<div th:each="review : ${list}" style="display: inline-block">
+    <a th:href="|/review/detail?num=${review.num}|">
+        <div style="width: 300px; margin: 20px;">
+            <div class="card position-relative">
+                <img src="image.prodect-item1.png" class="img-fluid" alt="work img">
+                <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
+                <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
+                    <div class="rating text=wrning d-flex align-item-center">
+                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                    </div>
+                </div>
+                <small th:text="${review.wdate}"></small>
+            </div>
+        </div>
+    </a>
+</div>
+<div style="text-align: center"><
+    <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+        <th:block th:if="${param.searchKey == null}">
+            <a th:href="|/review/list?cpage=${i}|" th:text="${i}"></a>
+        </th:block>
+        <th:block th:if="${param.searchKey != null}" >
+            <th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
+                <a th:href="|/review/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|"
+                   th:text="${i}"></a>
+            </th:block>
+        </th:block>
+    </th:block>>
+</div>
 </body>
 </html>

@@ -19,7 +19,6 @@
             <button th:class="write_box" onclick="location.href='/review/list'">목록</button>
             </div>
         </div>
-
     <form action="/review/insertOK" method="POST" >
         <div class="md-2">
             <div>
@@ -33,29 +32,22 @@
                 <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력" value="-- 리뷰">
             </div>
             </p>
-            <p>
-            <div class="star-rating space-x-4 mx-auto">
-                <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
-                <label for="5-stars" class="star pr-4">★</label>
-                <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
-                <label for="4-stars" class="star">★</label>
-                <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
-                <label for="3-stars" class="star">★</label>
-                <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
-                <label for="2-stars" class="star">★</label>
-                <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
-                <label for="1-star" class="star">★</label>
-            </div>
-            <div>
-                <input class="review-sub_box" type="text" id="rating" name="rating" value="4.4">
-            </div>
 
-            </p>
             <p>
             <div>
                 <label for="content"></label>
-                <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요." ></textarea>
+                <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.,,,500자 내" ></textarea>
             </div>
+            </p>
+            <p>
+            <div class="stars">
+                <span class="star" data-value="1">★</span>
+                <span class="star" data-value="2">★</span>
+                <span class="star" data-value="3">★</span>
+                <span class="star" data-value="4">★</span>
+                <span class="star" data-value="5">★</span>
+            </div>
+            <p id="rating" >Rating: 0.0</p>
             </p>
             <p>
             <div>
@@ -72,19 +64,61 @@
 </div>
 <script>
 
-    $(".star_rating span> .star").click(function (){
-         //star_rating 클래스 아네 있는 span 태그 지칭
+    const stars = document.querySelectorAll('.star');
+    const ratingDisplay = document.getElementById('rating');
+    let rating = 0;
 
-        $(this).addClass('on').prevAll('span').addClass('on');
-    })
+    // 별에 마우스를 올리면 별이 채워지는 기능과 소수점 점수 계산
+    stars.forEach((star, index) => {
+        star.addEventListener('mousemove', (event) => {
+            const rect = star.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
 
+            // 별의 좌측(소수점 .5)과 우측을 구분
+            let hoverRating = index + 1;
+            if (mouseX < rect.width / 2) {
+                hoverRating -= 0.5;
+            }
 
+            // 마우스 위치에 따른 별 채우기 효과
+            fillStars(hoverRating);
+            ratingDisplay.textContent = `Rating: ${hoverRating.toFixed(1)}`;
+        });
 
-    var rating = $('.rating');
+        star.addEventListener('click', (event) => {
+            const rect = star.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
 
-    .rating.each(function (){
+            // 클릭 위치에 따라 점수 결정
+            rating = index + 1;
+            if (mouseX < rect.width / 2) {
+                rating -= 0.5;
+            }
 
-    })
+            // 클릭한 점수를 적용
+            fillStars(rating);
+            ratingDisplay.textContent = `Rating: ${rating.toFixed(1)}`;
+        });
+
+        // 마우스를 별에서 뗐을 때 원래 점수로 복원
+        star.addEventListener('mouseleave', () => {
+            fillStars(rating);
+            ratingDisplay.textContent = `Rating: ${rating.toFixed(1)}`;
+        });
+    });
+
+    // 별을 채우는 함수
+    function fillStars(rating) {
+        stars.forEach((star, index) => {
+            if (index + 1 <= rating) {
+                star.classList.add('active');
+            } else if (index + 0.5 === rating) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
 </script>
 </body>
 </html>

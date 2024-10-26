@@ -49,24 +49,24 @@ public class ReviewService {
         return mapper.review_deleteOK(vo);
     }
 
+    public int getsearchTotalRow(String searchKey, String searchWord) {
+        log.info("review getsearchTotalRow");
 
+        if (searchKey.equals("title")) {
+            return mapper.review_getsearchTotalRowTitle("%" + searchWord + "%");
+        } else {
+            return mapper.review_getsearchTotalRowWork_id("%" + searchWord + "%");
+        }
+    }
 
-//    public int getsearchTotalRow(String searchKey, String searchWord) {
-//        log.info("review getsearchTotalRow");
-//
-//        if (searchKey.equals("title")) {
-//            return mapper.review_getsearchTotalRowTitle("%" + searchWord + "%");
-//        } else {
-//            return mapper.review_getsearchTotalRowWork_id("%" + searchWord + "%");
-//        }
-//    }
-//
     public List<ReviewVO> selectAllPageBlock(int cpage, int pageBlock, String sortType, String sort) {
         log.info("review selectAllPageBlock");
 
         int startRow = (cpage - 1) * pageBlock;
         log.info("startRow:{}", startRow);
         log.info("pageBlock:{}", pageBlock);
+        log.info("sortType:{}", sortType);
+        log.info("sort:{}", sort);
 
 
         return mapper.review_selectAllPageBlock(startRow, pageBlock, sortType, sort);
@@ -77,20 +77,20 @@ public class ReviewService {
         return mapper.review_getTotalRow();
     }
 //
-//    public List<ReviewVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
-//        log.info("review getTotalRow");
-//
-//        int startRow = (cpage - 1) * pageBlock;
-//        log.info("startRow:{}", startRow);
-//        log.info("pageBlock:{}", pageBlock);
-//
-//        if (searchKey.equals("title")) {
-//            return mapper.review_searchListPageBlockTitle("%" + searchWord + "%", startRow, pageBlock);
-//        } else {
-//            return mapper.review_searchListPageWork_id("%" + searchWord + "%", startRow, pageBlock);
-//        }
-//
-//    }
+    public List<ReviewVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
+        log.info("review getTotalRow");
+
+        int startRow = (cpage - 1) * pageBlock;
+        log.info("startRow:{}", startRow);
+        log.info("pageBlock:{}", pageBlock);
+
+        if (searchKey.equals("title")) {
+            return mapper.review_searchListPageBlockTitle("%" + searchWord + "%", startRow, pageBlock);
+        } else {
+            return mapper.review_searchListPageWork_id("%" + searchWord + "%", startRow, pageBlock);
+        }
+
+    }
 
 
 
@@ -118,11 +118,12 @@ public class ReviewService {
         return mapper.getHateCount(num);
     }
 
+    public void getUserProfile(String userId) {
+    }
 
 
-
-
-
-
+//    public List<Work> getrecommendation(int titleId) {
+//        return mapper.writeFindWorkByCategory(titleId);
+//    }
 }
 
