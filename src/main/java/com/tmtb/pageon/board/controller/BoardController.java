@@ -1,5 +1,6 @@
 package com.tmtb.pageon.board.controller;
 
+import com.tmtb.pageon.S3.Service.S3Service;
 import com.tmtb.pageon.board.service.BoardService;
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.comment.controller.CommentController;
@@ -33,6 +34,9 @@ public class BoardController {
 
     @Autowired
     private CommentController commentController;
+
+    @Autowired
+    S3Service s3Service;
 
     @Autowired
     ServletContext context;
@@ -97,16 +101,14 @@ public class BoardController {
     //게시판 글 작성 완료
     @PostMapping("/b_insertOK")
     public String b_insertOK(BoardVO vo) throws IOException {
-        log.info("게시글 작성 완료");
+        log.info("게시글 작성");
 
+        //S3에 파일 업로드 및 URL 생성
+        // 위에서     @Autowired
+        //           S3Service s3Service; 꼭 추가해주세요!
 
-        String realPath = context.getRealPath("resources/upload_img");
-        log.info(realPath);
-
-        File uploadDir = new File(realPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
+        // 파일 크기 제한 (예: 3MB)
+        long maxFileSize = 3 * 1024 * 1024;
 
         String originName = vo.getFile().getOriginalFilename();
         log.info("originName:{}", originName);
@@ -114,23 +116,20 @@ public class BoardController {
         if (originName.length() == 0) {
             vo.setImg_name("default.png");
         } else {
-            String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
-            log.info("save_name:{}", save_name);
-            vo.setImg_name(save_name);
+            // 파일 크기 확인
+            if (vo.getFile().getSize() > maxFileSize) {
+                throw new IOException("최대 파일 크기 3mb");
+            }
 
-            File f = new File(realPath, save_name);
-            vo.getFile().transferTo(f);
-
-            BufferedImage original_buffer_img = ImageIO.read(f);
-            BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
-            Graphics2D graphic = thumb_buffer_img.createGraphics();
-            graphic.drawImage(original_buffer_img, 0, 0, 50, 50, null);
-
-            File thumb_file = new File(realPath, "thumb_" + save_name);
-
-            ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
+            // S3에 파일 업로드 및 URL 생성
+            String fileUrl = s3Service.createPresignedUrl("img/" + originName);
+            String cleanUrl = fileUrl.split("\\?")[0];
+            vo.setImg_name(cleanUrl);
         }
+        // 여기까지가 S3 이미지 업로드 코드 입니다.
 
+
+        log.info("vo:{}", vo);
         boardService.insertOK(vo);
 
         if ("qna".equals(vo.getCategory())) {
@@ -142,7 +141,7 @@ public class BoardController {
 
     //게시글 상세 보기
     @GetMapping("/b_selectOne")
-    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category,@RequestParam(defaultValue = "1") int cpage,
+    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category, @RequestParam(defaultValue = "1") int cpage,
                               @RequestParam(defaultValue = "20") int pageBlock) {
         log.info("게시글 상세보기 페이지");
 
@@ -155,14 +154,12 @@ public class BoardController {
         model.addAttribute("category", category);
 
 
-
         // 댓글 데이터 가져오기
         Map<String, Object> commentsData = commentController.selectAll("board", vo.getNum(), null, null, 1, 20);
         List<CommentVO> comments = (List<CommentVO>) commentsData.get("comments");
         int totalPageCount = (int) commentsData.get("totalPageCount");
         // 전체 댓글 수 가져오기
         int totalRows = (int) commentsData.get("totalRows");
-
 
 
         // 댓글 데이터를 모델에 추가
@@ -254,7 +251,6 @@ public class BoardController {
     }
 
 
-
     //게시판 신고 기능
     @PostMapping("/b_reportOK")
     @ResponseBody
@@ -302,7 +298,6 @@ public class BoardController {
             return "board/freeboard";
         }
     }
-
 
 
 }
