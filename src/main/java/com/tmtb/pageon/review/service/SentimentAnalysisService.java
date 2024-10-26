@@ -1,4 +1,4 @@
-package com.tmtb.pageon.review.Service;
+package com.tmtb.pageon.review.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

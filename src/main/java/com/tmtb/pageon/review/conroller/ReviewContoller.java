@@ -1,10 +1,10 @@
-package com.tmtb.pageon.review.Conroller;
+package com.tmtb.pageon.review.conroller;
 
 
 import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
-import com.tmtb.pageon.review.Service.ReviewService;
-import com.tmtb.pageon.review.Service.SentimentAnalysisService;
+import com.tmtb.pageon.review.service.ReviewService;
+import com.tmtb.pageon.review.service.SentimentAnalysisService;
 import com.tmtb.pageon.review.model.ReviewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
