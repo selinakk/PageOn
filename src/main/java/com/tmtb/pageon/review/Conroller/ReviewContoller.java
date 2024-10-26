@@ -39,7 +39,7 @@ public class ReviewContoller {
                            //@RequestParam String userId
     ) {
         log.info("리뷰 목록");
-//        //List<ReviewVO> list = service.selectAll(cpage);
+       //List<ReviewVO> list = service.selectAll(cpage);
         List<ReviewVO> list = service.selectAllPageBlock(cpage, pageBlock, sortType, sort );
         model.addAttribute("list", list);
         log.info("list:{}", list);
@@ -71,7 +71,6 @@ public class ReviewContoller {
         log.info("pageBlock:{}", pageBlock);
         model.addAttribute("cpage", cpage);
 
-        //service.getUserProfile(userId);
 
 
         return "review/list";

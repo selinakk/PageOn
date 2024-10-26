@@ -36,7 +36,8 @@
         DELETE FROM review WHERE num=#{num}
     </delete>
     <select id="review_selectOne" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM review WHERE num=#{num}
+        SELECT r.* , w.title AS work_title, w.img_name
+        FROM review r JOIN work w ON r.work_num = w.item_id WHERE num=#{num}
     </select>
     <update id="review_increamentLikes" >
         UPDATE review set `like` =`like` +1 WHERE num=#{num}
