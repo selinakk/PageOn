@@ -2,7 +2,7 @@ package com.tmtb.pageon.community.service;
 
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.notice.model.NoticeVO;
-import com.tmtb.pageon.review.model.ReviewVO;
+
 import com.tmtb.pageon.community.mapper.CommunityMapper;
 import com.tmtb.pageon.community.model.CommunityVO;
 import com.tmtb.pageon.forum.model.ForumVO;
@@ -29,9 +29,9 @@ public class CommunityService {
         return mapper.forumCommunity();
     }
 
-    public List<ReviewVO> reviewCommunity() {
-        return mapper.reviewCommunity();
-    }
+//    public List<ReviewVO> reviewCommunity() {
+//        return mapper.reviewCommunity();
+//    }
 
     public List<BoardVO> boardCommunity() {
         return mapper.boardCommunity();
@@ -41,9 +41,9 @@ public class CommunityService {
         return mapper.boardSelectOne(vo);
     }
 
-    public ReviewVO reviewSelectOne(ReviewVO vo) {
-        return mapper.reviewSelectOne(vo);
-    }
+//    public ReviewVO reviewSelectOne(ReviewVO vo) {
+//        return mapper.reviewSelectOne(vo);
+//    }
 
     public ForumVO forumSelectOne(ForumVO vo) {
         return mapper.forumSelectOne(vo);
