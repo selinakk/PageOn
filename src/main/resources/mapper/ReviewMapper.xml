@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tmtb.pageon.review.mapper.ReviewMapper">
 
-<<<<<<< HEAD
     <select id="review_selectAllPageBlock" resultType="com.tmtb.pageon.review.model.ReviewVO">
         SELECT r.* , w.title AS work_title, w.img_name
         FROM review r JOIN work w ON r.work_num = w.item_id ORDER BY #{sortType} #{sort} limit #{startRow},#{pageBlock}
@@ -37,8 +36,7 @@
         DELETE FROM review WHERE num=#{num}
     </delete>
     <select id="review_selectOne" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT r.* , w.title AS work_title, w.img_name
-        FROM review r JOIN work w ON r.work_num = w.item_id  WHERE num=#{num}
+        SELECT * FROM review WHERE num=#{num}
     </select>
     <update id="review_increamentLikes" >
         UPDATE review set `like` =`like` +1 WHERE num=#{num}
@@ -61,30 +59,5 @@
 <!--        AND w.title !=#{titleId} LIMIT 20;-->
 
 <!--    </select>-->
-=======
-    <select id="selectAllPageBlock" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM review
-    </select>
-    <select id="searchListPageBlock" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM review
-    </select>
-    <select id="selectAll" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM review
-    </select>
-    <insert id="insertOK">
-        INSERT INTO review(work_num, title, content, user_id, rating)
-        values(#{work_num}, #{title}, #{content}, #{user_id}, #{rating})
-    </insert>
-    <update id="updateOK">
-        UPDATE REVIEW SET work_num=#{work_num}, title=#{title}, content=#{content}, user_id=#{user_id}, rsting=#{rating}, wdate=sysdate
-        where num=#{num}
-    </update>
-    <delete id="deleteOK">
-        DELETE FROM REVIEW where num=#{num}
-    </delete>
-    <select id="selectOne" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM REVIEW where num=#{num}
-    </select>
->>>>>>> 371fe0bb7fda96b1a331213598a11c8555315570
 
 </mapper>
