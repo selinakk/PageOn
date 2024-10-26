@@ -45,7 +45,7 @@ public class CommentService {
         return mapper.getTotalRows(type, bnum, fnum, rnum);
     }
 
-    public List<CommentVO> selectAllChildPageBlock(int cnum, int cpage, int pageBlock) {
+    public List<CommentVO> selectAllChildPageBlock(Integer cnum, int cpage, int pageBlock) {
         int startRow = (cpage - 1) * pageBlock;
         return mapper.selectAllChild(cnum, startRow, pageBlock);
     }

@@ -79,7 +79,7 @@ public class CommentController {
 
     @GetMapping("/child/{cnum}")
     public ResponseEntity<Map<String, Object>> selectAllChild(
-            @PathVariable int cnum,
+            @PathVariable Integer cnum,
             @RequestParam(defaultValue = "1") int cpage,
             @RequestParam(defaultValue = "20") int pageBlock) {
 
