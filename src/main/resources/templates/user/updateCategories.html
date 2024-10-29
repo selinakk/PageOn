@@ -12,20 +12,76 @@
     <form action="/user/updateCategories" method="post">
         <div id="category-checkboxes">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="likeCategories" value="category1" id="category1" th:checked="${#lists.contains(likeCategories, 'category1')}">
-                <label class="form-check-label" for="category1">Category 1</label>
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="판타지" id="fantasy" th:checked="${#lists.contains(likeCategories, '판타지')}">
+                <label class="form-check-label" for="fantasy">판타지</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="likeCategories" value="category2" id="category2" th:checked="${#lists.contains(likeCategories, 'category2')}">
-                <label class="form-check-label" for="category2">Category 2</label>
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="현대판타지" id="modernFantasy" th:checked="${#lists.contains(likeCategories, '현대판타지')}">
+                <label class="form-check-label" for="modernFantasy">현대판타지</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="likeCategories" value="category3" id="category3" th:checked="${#lists.contains(likeCategories, 'category3')}">
-                <label class="form-check-label" for="category3">Category 3</label>
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="무협" id="martialArts" th:checked="${#lists.contains(likeCategories, '무협')}">
+                <label class="form-check-label" for="martialArts">무협</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="likeCategories" value="category4" id="category4" th:checked="${#lists.contains(likeCategories, 'category4')}">
-                <label class="form-check-label" for="category4">Category 4</label>
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="드라마" id="drama" th:checked="${#lists.contains(likeCategories, '드라마')}">
+                <label class="form-check-label" for="drama">드라마</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="액션" id="action" th:checked="${#lists.contains(likeCategories, '액션')}">
+                <label class="form-check-label" for="action">액션</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="추리" id="mystery" th:checked="${#lists.contains(likeCategories, '추리')}">
+                <label class="form-check-label" for="mystery">추리</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="미스터리" id="suspense" th:checked="${#lists.contains(likeCategories, '미스터리')}">
+                <label class="form-check-label" for="suspense">미스터리</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="로맨스" id="romance" th:checked="${#lists.contains(likeCategories, '로맨스')}">
+                <label class="form-check-label" for="romance">로맨스</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="로맨스판타지" id="romanceFantasy" th:checked="${#lists.contains(likeCategories, '로맨스판타지')}">
+                <label class="form-check-label" for="romanceFantasy">로맨스판타지</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="순정" id="pureLove" th:checked="${#lists.contains(likeCategories, '순정')}">
+                <label class="form-check-label" for="pureLove">순정</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="BL" id="bl" th:checked="${#lists.contains(likeCategories, 'BL')}">
+                <label class="form-check-label" for="bl">BL</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="공포" id="horror" th:checked="${#lists.contains(likeCategories, '공포')}">
+                <label class="form-check-label" for="horror">공포</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="공상과학" id="sciFi" th:checked="${#lists.contains(likeCategories, '공상과학')}">
+                <label class="form-check-label" for="sciFi">공상과학</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="코믹" id="comic" th:checked="${#lists.contains(likeCategories, '코믹')}">
+                <label class="form-check-label" for="comic">코믹</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="일상" id="sliceOfLife" th:checked="${#lists.contains(likeCategories, '일상')}">
+                <label class="form-check-label" for="sliceOfLife">일상</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="학원" id="academy" th:checked="${#lists.contains(likeCategories, '학원')}">
+                <label class="form-check-label" for="academy">학원</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="스포츠" id="sports" th:checked="${#lists.contains(likeCategories, '스포츠')}">
+                <label class="form-check-label" for="sports">스포츠</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="likeCategories" value="소년" id="boy" th:checked="${#lists.contains(likeCategories, '소년')}">
+                <label class="form-check-label" for="boy">소년</label>
             </div>
         </div>
         <button type="submit" class="btn btn-primary mt-2">저장하기</button>

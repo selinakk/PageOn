@@ -131,24 +131,26 @@
             </div>
         </div>
 
-
-        <!-- 오른쪽 박스: 카테고리 데이터 출력 -->
-        <div class="col-md-4">
-            <div class="card border-custom p-4">
+        <div class="col-md-5">
+            <div class="card border-custom p-1">
                 <h5>Categories</h5>
                 <div class="border p-3 mb-3">
-                    <ul class="list-group">
-                        <li class="list-group-item" th:each="category : ${categories}">
-                            <span th:text="${category}"></span>
-                        </li>
-                    </ul>
+                    <div class="row">
+                        <div class="col-md-3" th:each="category : ${categories}">
+                            <div class="card mb-3" style="height: 50px;"> <!-- 카드 높이 고정 -->
+                                <div class="card-body" style="font-size: 0.7rem;"> <!-- 텍스트 사이즈 줄임 -->
+                                  <text>#</text>  <span th:text="${category}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a th:if="${session.id != 'admin'}" class="btn btn-secondary mt-2" href="/user/updateCategoriesPage">카테고리 수정하기</a>
                 </div>
-                <a th:if="${session.id != 'admin'}"class="btn btn-secondary mt-2" href="/user/updateCategoriesPage">카테고리 수정하기</a>
             </div>
         </div>
 
         <!-- 오른쪽 박스: 세로로 나열되는 리스트 추가 -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card border-custom p-4">
                 <h5>Vertical List</h5>
                 <ul class="list-group">
