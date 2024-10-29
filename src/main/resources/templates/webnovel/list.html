@@ -18,12 +18,11 @@
     <div>
         <!-- 전체 카테고리 링크: 처음 페이지 로드시 '전체'가 선택된 상태 -->
         <a th:href="@{/webnovels}" th:classappend="${category == null || category == '전체'} ? 'selected-category' : 'category'">#전체</a>
-        <a th:href="@{/webnovels(category='로맨틱판타지')}" th:classappend="${category == '로맨틱판타지'} ? 'selected-category' : 'category'">#로맨틱판타지</a>
-        <a th:href="@{/webnovels(category='게임판타지')}" th:classappend="${category == '게임판타지'} ? 'selected-category' : 'category'">#게임판타지</a>
-        <a th:href="@{/webnovels(category='대체역사물')}" th:classappend="${category == '대체역사물'} ? 'selected-category' : 'category'">#대체역사물</a>
-        <a th:href="@{/webnovels(category='스포츠물')}" th:classappend="${category == '스포츠물'} ? 'selected-category' : 'category'">#스포츠물</a>
-        <a th:href="@{/webnovels(category='정통판타지')}" th:classappend="${category == '정통판타지'} ? 'selected-category' : 'category'">#정통판타지</a>
+        <a th:href="@{/webnovels(category='판타지')}" th:classappend="${category == '판타지'} ? 'selected-category' : 'category'">#판타지</a>
         <a th:href="@{/webnovels(category='현대판타지')}" th:classappend="${category == '현대판타지'} ? 'selected-category' : 'category'">#현대판타지</a>
+        <a th:href="@{/webnovels(category='무협')}" th:classappend="${category == '무협'} ? 'selected-category' : 'category'">#무협</a>
+        <a th:href="@{/webnovels(category='드라마')}" th:classappend="${category == '드라마'} ? 'selected-category' : 'category'">#드라마</a>
+        <a th:href="@{/webnovels(category='로판')}" th:classappend="${category == '로판'} ? 'selected-category' : 'category'">#로판</a>
     </div>
 
     <div id="filter-container">
