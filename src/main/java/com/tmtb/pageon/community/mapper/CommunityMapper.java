@@ -5,6 +5,7 @@ import com.tmtb.pageon.notice.model.NoticeVO;
 //import com.tmtb.pageon.review.model.ReviewVO;
 import com.tmtb.pageon.community.model.CommunityVO;
 import com.tmtb.pageon.forum.model.ForumVO;
+import com.tmtb.pageon.user.model.ReviewVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,15 +19,23 @@ public interface CommunityMapper {
 
     public List<ForumVO> forumCommunity();
 
-    //public List<ReviewVO> reviewCommunity();
+    public List<ReviewVO> reviewCommunity();
 
     public List<BoardVO> boardCommunity();
 
-    //public ReviewVO reviewSelectOne(ReviewVO vo);
+    public ReviewVO reviewSelectOne(ReviewVO vo);
 
     public ForumVO forumSelectOne(ForumVO vo);
 
     public BoardVO boardSelectOne(BoardVO vo);
+
+    public List<BoardVO> boardSelectList();
+
+    public List<NoticeVO> noticeSelectList();
+
+    public List<ReviewVO> reviewSelectList();
+
+    public List<ForumVO> forumSelectList();
 }
 
 
