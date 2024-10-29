@@ -16,16 +16,56 @@
 
     <!-- 카테고리 선택 링크 -->
     <div>
-        <!-- 전체 카테고리 링크: 처음 페이지 로드시 '전체'가 선택된 상태 -->
-        <a th:href="@{/books}" th:classappend="${category == null || category == '전체'} ? 'selected-category' : 'category'">#전체</a>
-        <a th:href="@{/books(category='판타지')}" th:classappend="${category == '판타지'} ? 'selected-category' : 'category'">#판타지</a>
-        <a th:href="@{/books(category='무협')}" th:classappend="${category == '무협'} ? 'selected-category' : 'category'">#무협</a>
-        <a th:href="@{/books(category='액션/스릴러')}" th:classappend="${category == '액션/스릴러'} ? 'selected-category' : 'category'">#액션/스릴러</a>
-        <a th:href="@{/books(category='추리/미스터리')}" th:classappend="${category == '추리/미스터리'} ? 'selected-category' : 'category'">#추리/미스터리</a>
-        <a th:href="@{/books(category='로맨스')}" th:classappend="${category == '로맨스'} ? 'selected-category' : 'category'">#로맨스</a>
-        <a th:href="@{/books(category='호러/공포')}" th:classappend="${category == '호러/공포'} ? 'selected-category' : 'category'">#호러/공포</a>
-        <a th:href="@{/books(category='과학(SF)')}" th:classappend="${category == '과학(SF)'} ? 'selected-category' : 'category'">#과학(SF)</a>
+        <a href="javascript:void(0);" onclick="selectAll()" id="전체" class="category">#전체</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('판타지')" id="판타지" class="category">#판타지</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('무협')" id="무협" class="category">#무협</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('액션')" id="액션" class="category">#액션</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('추리미스터리')" id="추리미스터리" class="category">#추리미스터리</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('로맨스')" id="로맨스" class="category">#로맨스</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('공포')" id="공포" class="category">#공포</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('공상과학')" id="공상과학" class="category">#공상과학</a>
     </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        let selectedCategories = params.getAll('category');
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (selectedCategories.length === 0) {
+                document.getElementById("전체").classList.add('selected-category');
+            } else {
+                selectedCategories.forEach(category => {
+                    const categoryElement = document.getElementById(category);
+                    if (categoryElement) {
+                        categoryElement.classList.add('selected-category');
+                    }
+                });
+            }
+        });
+
+        function toggleCategory(category) {
+            const index = selectedCategories.indexOf(category);
+
+            if (index > -1) {
+                selectedCategories.splice(index, 1);
+            } else {
+                selectedCategories.push(category);
+            }
+
+            updateURL();
+        }
+
+        function selectAll() {
+            selectedCategories = [];
+            updateURL();
+        }
+
+        function updateURL() {
+            const newParams = new URLSearchParams();
+            selectedCategories.forEach(cat => newParams.append('category', cat));
+            window.location.href = '/books?' + newParams.toString();
+        }
+    </script>
 
     <div id="filter-container">
         <!-- 검색 폼 -->
