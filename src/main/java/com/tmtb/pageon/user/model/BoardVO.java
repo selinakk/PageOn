@@ -15,5 +15,5 @@ public class BoardVO {
     private String img_name;
     private int report;
     private String category;
-    private int hitcount;
+    private int boardhitcount;
 }

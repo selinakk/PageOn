@@ -42,6 +42,7 @@
                 <p th:text="${forum.content}"></p>
                 <p><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
                 <p><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
+                <p><small>조회수: <span th:text="${forum.hitcount}"></span></small></p>
             </li>
         </ul>
         <nav aria-label="Page navigation">
@@ -68,6 +69,7 @@
                 <p th:text="${board.content}"></p>
                 <p><small>작성자: <span th:text="${board.user_id}"></span></small></p>
                 <p><small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                <p><small>작성자: <span th:text="${board.boardhitcount}"></span></small></p>
             </li>
         </ul>
         <nav aria-label="Page navigation">
