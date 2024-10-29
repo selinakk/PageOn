@@ -40,9 +40,12 @@
         SELECT COUNT(*) FROM pageon.work WHERE type = 'book'
     </select>
 
-    <!-- 카테고리별 조회 기능 -->
-    <select id="selectBooksByCategory" resultType="com.tmtb.pageon.book.model.BookVO">
-        SELECT * FROM pageon.work WHERE categories = #{category} AND type = 'book'
+    <!-- 다중 카테고리 조회 기능 -->
+    <select id="selectBooksByCategories" resultType="com.tmtb.pageon.book.model.BookVO">
+        SELECT * FROM pageon.work WHERE type = 'book' AND
+        <foreach item="category" collection="categories" open="(" separator=" OR " close=")">
+            categories = #{category}
+        </foreach>
         <choose>
             <when test="sortOrder == 'latest'">
                 ORDER BY item_id DESC
@@ -54,15 +57,20 @@
         LIMIT #{startRow}, #{pageBlock}
     </select>
 
-    <!-- 카테고리별 조회 결과 총 행 개수 -->
-    <select id="getTotalRowsByCategory" resultType="int">
-        SELECT COUNT(*) FROM pageon.work WHERE categories = #{category} AND type = 'book'
+    <!-- 다중 카테고리 조회 결과 총 행 개수 -->
+    <select id="getTotalRowsByCategories" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'book' AND
+        <foreach item="category" collection="categories" open="(" separator=" OR " close=")">
+            categories = #{category}
+        </foreach>
     </select>
 
-    <!-- 카테고리 내에서 제목이나 작가로 검색 -->
-    <select id="searchBooksInCategory" resultType="com.tmtb.pageon.book.model.BookVO">
+    <!-- 다중 카테고리 검색 -->
+    <select id="searchBooksInCategories" resultType="com.tmtb.pageon.book.model.BookVO">
         SELECT * FROM pageon.work WHERE type = 'book'
-        AND categories = #{category}
+        AND <foreach item="category" collection="categories" open="(" separator=" OR " close=")">
+        categories = #{category}
+    </foreach>
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
         </if>
@@ -80,10 +88,12 @@
         LIMIT #{startRow}, #{pageBlock}
     </select>
 
-    <!-- 카테고리 내 검색된 총 행 개수 -->
-    <select id="getSearchTotalRowsInCategory" resultType="int">
-        SELECT COUNT(*) FROM pageon.work WHERE type = 'book'
-        AND categories = #{category}
+    <!-- 다중 카테고리 내 검색된 총 행 개수 -->
+    <select id="getSearchTotalRowsInCategories" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'book' AND
+        <foreach item="category" collection="categories" open="(" separator=" OR " close=")">
+            categories = #{category}
+        </foreach>
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
         </if>

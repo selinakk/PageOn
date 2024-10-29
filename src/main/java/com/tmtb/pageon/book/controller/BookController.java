@@ -22,30 +22,29 @@ public class BookController {
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/books")
     public String selectAllBooks(Model model,
-                                 @RequestParam(required = false) String category,
+                                 @RequestParam(required = false) List<String> category, // 변경
                                  @RequestParam(required = false, defaultValue = "1") int cpage,
                                  @RequestParam(required = false, defaultValue = "20") int pageBlock,
                                  @RequestParam(required = false) String searchKey,
                                  @RequestParam(required = false) String searchWord,
-                                 @RequestParam(required = false, defaultValue = "latest") String sortOrder) { // 정렬 추가
+                                 @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
         log.info("selectAllBooks() category: {}, cpage: {}, pageBlock: {}, searchKey: {}, searchWord: {}, sortOrder: {}",
                 category, cpage, pageBlock, searchKey, searchWord, sortOrder);
 
         List<BookVO> list;
         int totalRows;
 
-        // 검색어가 있을 때 (전체 조회 또는 카테고리 내 검색)
         if (searchWord != null && !searchWord.isEmpty()) {
-            if (category != null && !category.equals("전체") && !category.isEmpty()) {
-                list = service.searchBooksInCategory(category, searchKey, searchWord, cpage, pageBlock, sortOrder);
-                totalRows = service.getSearchTotalRowsInCategory(category, searchKey, searchWord);
+            if (category != null && !category.isEmpty()) {
+                list = service.searchBooksInCategories(category, searchKey, searchWord, cpage, pageBlock, sortOrder);
+                totalRows = service.getSearchTotalRowsInCategories(category, searchKey, searchWord);
             } else {
                 list = service.searchBooks(searchKey, searchWord, cpage, pageBlock, sortOrder);
                 totalRows = service.getSearchTotalRows(searchKey, searchWord);
             }
-        } else if (category != null && !category.equals("전체") && !category.isEmpty()) {
-            list = service.selectBooksByCategory(category, cpage, pageBlock, sortOrder);
-            totalRows = service.getTotalRowsByCategory(category);
+        } else if (category != null && !category.isEmpty()) {
+            list = service.selectBooksByCategories(category, cpage, pageBlock, sortOrder);
+            totalRows = service.getTotalRowsByCategories(category);
         } else {
             list = service.selectAllBooks(cpage, pageBlock, sortOrder);
             totalRows = service.getTotalRows();
