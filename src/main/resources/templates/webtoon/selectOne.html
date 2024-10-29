@@ -1,62 +1,97 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
     <title>웹툰 상세</title>
 </head>
+
 <body>
-<div th:fragment="content" class="text-center">
 
-<!--    <h4 class="mt-4">웹툰 상세</h4>-->
 
-    <div class="row justify-content-center g-0 mt-4" style="margin-top: 25px">
-
-        <div class="col-md-1">
-            <img th:src="${vo2.img_name}" class="img-thumbnail">
-        </div>
-
-        <div class="col-md-2">
+<section id="book-detail" class="position-relative padding-small">
+    <div class="book-detail-container">
+        <div class="webtoon-info">
+            <img th:src="${vo2.img_name}" class="book-cover">
             <h4 th:text="${vo2.title}"></h4>
             <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
             <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
             <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
             <p><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
+
             <p><strong>줄거리:</strong>
-                <span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
+            </p>
+            <p><span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
                 <button id="toggleButton" onclick="toggleText()" class="btn btn-link">더 보기</button>
             </p>
             <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
                                     th:text="${vo2.categories}"></a></p>
-
-            <a th:href="${vo2.link}" class="btn btn-sm btn-outline-primary" role="button">보러가기</a>
         </div>
-    </div>
 
-    <div>
-        <!--         이부분에 리뷰 추가-->
-    </div>
 
-    <!-- 유사 카테고리 추가 -->
-    <div>
-        <h4 style="margin-top: 100px">이런 작품은 어떠세요?</h4>
-        <div class="row justify-content-center">
-            <div class="col-md-3 col-sm-6 mb-4" th:each="webtoon : ${similarWebtoons}" th:if="${vo2.title} != ${webtoon.title}" style="width: 300px; height: 300px;">
-                <div class="card" th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''" style="cursor:pointer;">
-                    <img th:src="${webtoon.img_name}" class="img-thumbnail" style="width: 200px; height: 200px;">
-                    <div class="card-body">
-                        <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
-                        <div class="card-title" th:text="${webtoon.title}"></div>
-                    </div>
-                </div>
+        <div class="add-to-library">
+            <button class="dropdown-button">내 서재에 추가</button>
+            <div class="dropdown-content">
+                <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                    <input type="hidden" name="user_id" value="tester2"/> <!--로그인id-->
+                    <input type="hidden" name="work_num" th:value="${vo2.item_id}"/>
+                    <label for="read"><input type="radio" name="sort" id="read" value="read"
+                                             onchange="this.form.submit()" class="positionabsolute"> 읽은 작품</label>
+                    <label for="to-read"><input type="radio" name="sort" id="to-read" value="to-read"
+                                                onchange="this.form.submit()" class="positionabsolute"> 읽고 싶은 작품</label>
+                    <label for="ing"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()"
+                                            class="positionabsolute"> 읽고 있는 작품</label>
+                </form>
             </div>
         </div>
-    </div>
 
-    <div>
-        <!--        이 작품에 대한 리뷰 최근순으로 정렬-->
-    </div>
+        <!-- 2. 감상/구매 버튼 -->
+        <a class="action-button" th:href="@{${vo2.link}}">감상 / 구매</a>
 
-    <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
-</div>
+        <!-- 3. 토론 열기 -->
+        <a class="action-button" th:href="@{/forum/write(work_num=${vo2.item_id})}">토론 열기</a>
+
+        <!-- 4. 리뷰 작성 -->
+        <a class="action-button" href="#">리뷰 작성</a>
+
+
+        <div class="review-section">
+            <!-- 제목과 더보기 버튼을 나란히 배치 -->
+            <div class="review-header">
+                <h3>리뷰</h3>
+                <div class="more-button">
+                    <a href="#" class="btn">더보기</a> <!-- 나중에 리뷰 전체 페이지로 연결 -->
+                </div>
+            </div>
+
+            <!-- 유사 카테고리 추가 -->
+            <section>
+                <div>
+                    <h4>이런 작품은 어떠세요?</h4>
+                    <div class="row justify-content-center">
+                        <div class="col-md-3 col-sm-6 mb-4" th:each="webtoon : ${similarWebtoons}"
+                             th:if="${vo2.title} != ${webtoon.title}" style="width: 300px; height: 300px;">
+                            <div class="card"
+                                 th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''"
+                                 style="cursor:pointer;">
+                                <img th:src="${webtoon.img_name}" class="img-thumbnail"
+                                     style="width: 200px; height: 200px;">
+                                <div class="card-body">
+                                    <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
+                                    <div class="card-title" th:text="${webtoon.title}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div>
+                <!--        이 작품에 대한 토른 최근순으로 정렬-->
+            </div>
+
+            <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
+        </div>
+    </div>
+</section>
 </body>
 </html>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmtb.pageon.board.model.BoardVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
@@ -24,20 +25,25 @@ public class WebtoonService {
 
     @Autowired
     private WebtoonMapper webtoonMapper;
-
+    //웹툰 리스트
     public List<WebtoonVO> getWebtoonList(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        return webtoonMapper.getWebtoonList(offset, pageSize);
+        return webtoonMapper.getWebtoonList(offset, pageSize , "popular");
     }
-
+    //인기 웹툰 리스트
+    public List<WebtoonVO> selectPopularWebtoons(int cpage, int pageBlock) {
+        int startRow = (cpage - 1) * pageBlock;
+        return webtoonMapper.getWebtoonList(startRow, pageBlock, "popular");
+    }
+    //제목 검색
     public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize);
     }
-
+    //작가 검색
     public List<WebtoonVO> searchWebtoonWriter(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonWriter(searchWord, offset, pageSize);
     }
-
+    //장르 검색
     public List<WebtoonVO> searchWebtoonByCategories(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonByCategories(searchWord, offset, pageSize);
     }
@@ -76,6 +82,8 @@ public class WebtoonService {
     public int getTotalCountByFilteredCategories(List<String> categories) {
         return webtoonMapper.getTotalCountByFilteredCategories(categories);
     }
+
+
 
 
     //웹툰 api 연동

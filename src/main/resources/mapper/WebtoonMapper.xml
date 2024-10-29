@@ -3,12 +3,27 @@
 
 <mapper namespace="com.tmtb.pageon.webtoon.mapper.WebtoonMapper">
 
+<!--    <select id="getWebtoonList" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">-->
+<!--        SELECT *-->
+<!--        FROM work-->
+<!--        WHERE type = 'webtoon'-->
+<!--        ORDER BY title ASC-->
+<!--            LIMIT #{pageSize} OFFSET #{offset}-->
+<!--    </select>-->
+
     <select id="getWebtoonList" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
         WHERE type = 'webtoon'
-        ORDER BY title ASC
-            LIMIT #{pageSize} OFFSET #{offset}
+        <choose>
+            <when test="sortOrder == 'popular'">
+                ORDER BY added_bs DESC
+            </when>
+            <otherwise>
+                ORDER BY title ASC
+            </otherwise>
+        </choose>
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
     <select id="getTotalCount" resultType="java.lang.Integer">
@@ -23,6 +38,7 @@
         WHERE item_id = #{item_id}
           AND type = 'webtoon';
     </select>
+    
 
     <select id="searchWebtoonByTitle" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *

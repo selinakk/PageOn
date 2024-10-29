@@ -70,7 +70,7 @@
                 </thead>
             </table>
             <div>
-                <img th:src="@{/resources/upload_img/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail">
+                <img th:src="${vo2.img_name}" class="img-thumbnail">
                 <p th:utext="${vo2.formattedContent}"></p> <!-- th:utext를 사용하여 HTML 태그를 해석 -->
             </div>
 

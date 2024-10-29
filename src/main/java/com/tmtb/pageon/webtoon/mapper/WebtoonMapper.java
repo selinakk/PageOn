@@ -12,7 +12,7 @@ public interface WebtoonMapper {
 
 
     //페이징 관련
-    List<WebtoonVO> getWebtoonList(@Param("offset") int offset, @Param("pageSize") int pageSize);
+    List<WebtoonVO> getWebtoonList(@Param("offset") int offset, @Param("pageSize") int pageSize, String sortOrder);
 
     //검색 관련 + 페이징
     List<WebtoonVO> searchWebtoonByTitle(@Param("searchWord") String searchWord,

@@ -424,6 +424,8 @@ function confirmDelete() {
     }
 }
 
+
+//줄거리 더보기 입니다.
 function toggleText() {
     var desc = document.getElementById("desc");
     var button = document.getElementById("toggleButton");

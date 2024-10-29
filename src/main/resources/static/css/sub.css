@@ -1259,4 +1259,10 @@ a.text-danger .svg-icon {
 
 /* 댓글 끝 */
 
+.webtoon-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 /***** //custom sub style 끝 *****/

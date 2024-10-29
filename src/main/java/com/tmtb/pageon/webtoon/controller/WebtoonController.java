@@ -27,7 +27,7 @@ public class WebtoonController {
     ServletContext context;
 
     @GetMapping("/wt_selectAll")
-    public String wt_selectAll(@RequestParam(defaultValue = "1") int page, Model model) {
+    public String wt_selectAll(@RequestParam(defaultValue = "1") int page, Model model, String sortOrder) {
         log.info("웹툰 전체 목록");
 
         int pageSize = 12;
@@ -57,6 +57,7 @@ public class WebtoonController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("categories", categories);
+        model.addAttribute("sortOrder", sortOrder);
         log.info("categories:{}", categories);
 
         return "webtoon/selectAll";
