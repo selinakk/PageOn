@@ -39,8 +39,8 @@ public class WebtoonService {
         return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize);
     }
     //작가 검색
-    public List<WebtoonVO> searchWebtoonWriter(String searchWord, int offset, int pageSize) {
-        return webtoonMapper.searchWebtoonWriter(searchWord, offset, pageSize);
+    public List<WebtoonVO> searchWebtoonByWriter(String searchWord, int offset, int pageSize) {
+        return webtoonMapper.searchWebtoonByWriter(searchWord, offset, pageSize);
     }
     //장르 검색
     public List<WebtoonVO> searchWebtoonByCategories(String searchWord, int offset, int pageSize) {
@@ -60,7 +60,7 @@ public class WebtoonService {
     }
 
     public int getTotalCountByContent(String searchWord) {
-        return webtoonMapper.getTotalCountByContent(searchWord);
+        return webtoonMapper.getTotalCountByWriter(searchWord);
     }
 
     public int getTotalCountByCategories(String searchWord) {
