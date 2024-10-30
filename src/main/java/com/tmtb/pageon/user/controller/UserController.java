@@ -4,6 +4,7 @@ import com.tmtb.pageon.user.model.*;
 import com.tmtb.pageon.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +69,29 @@ public class UserController {
         return "user/profile";
     }
 
+    // 사용자 프로필 조회
+    @GetMapping("/user/userprofile")
+    public String userfindById(@RequestParam("id") String id, Model model) {
+        if (id != null) {
+            UserVO userVO = userService.findById(id);
+            List<ForumVO> forumList = userService.findByForum(id);
+            List<BoardVO> boardList = userService.findByBoard(id);
+            List<ReviewVO> reviewList = userService.findByReviews(id);
+            List<CommentVO> commentList = userService.findByComment(id);
+
+            // 사용자 선호 카테고리와 다른 데이터 추가
+            String[] categories = userVO.getLike_categories().split(",");
+            model.addAttribute("categories", categories);
+            model.addAttribute("userVO", userVO);
+            model.addAttribute("forumList", forumList);
+            model.addAttribute("boardList", boardList);
+            model.addAttribute("reviewList", reviewList);
+            model.addAttribute("commentList", commentList);
+        } else {
+            return "redirect:/";
+        }
+        return "user/profile";
+    }
 
     @GetMapping("/user/profile/all/pazing/{type}")
     public String viewAllPazing(@PathVariable String type, HttpSession session, Model model,
@@ -154,4 +179,6 @@ public class UserController {
             return "redirect:/";
         }
     }
+
+
 }

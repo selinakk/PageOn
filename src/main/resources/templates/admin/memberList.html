@@ -11,11 +11,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/sub.css">
     <style>
-        body {
-            background-color: #f8f9fa; /* 부드러운 배경색 */
-        }
         h1 {
-            color: #343a40; /* 제목 색상 */
             text-align: center;
             margin-bottom: 10px; /* 제목과 아래 요소 간격 */
         }
@@ -23,31 +19,26 @@
             margin-bottom: 5px; /* 검색폼과 테이블 간격을 줄임 */
             justify-content: center; /* 중앙 정렬 */
         }
-        .input-group input {
-            width: 150px; /* 입력 필드 너비 조정 */
-            height: 38px; /* 입력 필드 높이 조정 */
-            padding: 6px 12px; /* 여백 추가 */
-            font-size: 0.9rem; /* 글자 크기 */
-            box-sizing: border-box; /* 여백 포함 */
-        }
+
         .input-group .btn {
-            height: 38px; /* 버튼 높이 조정 */
+            height: 46px; /* 버튼 높이 조정 */
             padding: 6px 12px; /* 여백 추가 */
             font-size: 0.9rem; /* 버튼 글자 크기 */
         }
+
+        /* 프로필, 수정, 삭제 버튼 크기 조정 */
+        .action-btn {
+            padding: 6px 12px; /* 버튼의 여백 조정 (이전보다 약간 크게) */
+            font-size: 0.9rem; /* 버튼 글자 크기 조정 (이전보다 약간 크게) */
+        }
+
         .table {
             border-radius: 0.5rem; /* 테이블 모서리 둥글게 */
             overflow: hidden; /* 모서리 둥글게 만들기 위해 필요 */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
             margin-bottom: 40px; /* 테이블과 버튼 간격 추가 */
         }
-        .table th {
-            background-color: #343a40; /* 헤더 배경색 */
-            color: white; /* 헤더 글자 색상 */
-        }
-        .table img {
-            border-radius: 0.25rem; /* 이미지 모서리 둥글게 */
-        }
+
         .pagination {
             justify-content: center; /* 페이지네이션 중앙 정렬 */
         }
@@ -55,69 +46,72 @@
 </head>
 
 <header th:replace="~{header :: header}"></header>
-<body class="container mt-5">
+<body>
+<div class="container my-4">
+    <h1>회원 관리</h1> <!-- 제목 추가 -->
 
-<h1>회원 관리</h1> <!-- 제목 추가 -->
+    <!-- 검색 및 정렬 폼 -->
+    <form th:action="@{/members}" method="get" class="mb-4 text-end">
+        <div class="input-group justify-content-end">
+            <input type="text" name="keyword" th:value="${keyword}" class="form-control mx-1" placeholder="검색어 입력" style="max-width: 200px;">
 
-<!-- 검색 및 정렬 폼 -->
-<form th:action="@{/members}" method="get" class="mb-4 text-end">
-    <div class="input-group justify-content-end">
-        <input type="text" name="keyword" th:value="${keyword}" class="form-control mx-1" placeholder="검색어 입력" style="max-width: 200px;">
+            <!-- 정렬 버튼 -->
+            <button type="submit" class="btn btn-outline-secondary mx-1">
+                <span th:text="${sortOrder == 'ASC' ? '내림차순' : '오름차순'}"></span>
+                <input type="hidden" name="sortOrder" th:value="${sortOrder == 'ASC' ? 'DESC' : 'ASC'}"/>
+            </button>
 
-        <!-- 정렬 버튼 -->
-        <button type="submit" class="btn btn-outline-secondary mx-1">
-            <span th:text="${sortOrder == 'ASC' ? '내림차순' : '오름차순'}"></span>
-            <input type="hidden" name="sortOrder" th:value="${sortOrder == 'ASC' ? 'DESC' : 'ASC'}"/>
-        </button>
+            <button type="submit" class="btn btn-outline-secondary mx-1">검색</button>
+        </div>
+    </form>
 
-        <button type="submit" class="btn btn-outline-secondary mx-1">검색</button>
-    </div>
-</form>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>이미지</th>
+            <th>카테고리</th>
+            <th>소개</th>
+            <th>프로필</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.name}"></td>
+            <td th:text="${member.tel}"></td>
+            <td><img th:src="${member.imgDataAsBase64}" alt="User Image" width="100" height="100"/></td>
+            <td th:text="${member.like_categories}"></td>
+            <td th:text="${member.introduce}"></td>
+            <!-- 프로필 페이지로 이동하는 링크 추가 -->
+            <td><a th:href="@{/user/userprofile(id=${member.id})}" class="btn btn-info btn-sm action-btn">프로필</a></td>
+            <td><a th:href="@{/members/edit(id=${member.id})}" class="btn btn-warning btn-sm action-btn">수정</a></td>
+            <td><a th:href="@{/members/delete(id=${member.id})}" class="btn btn-danger btn-sm action-btn">삭제</a></td>
+        </tr>
+        </tbody>
+    </table>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>아이디</th>
-        <th>이름</th>
-        <th>전화번호</th>
-        <th>이미지</th>
-        <th>카테고리</th>
-        <th>소개</th>
-        <th>프로필</th>
-        <th>수정</th>
-        <th>삭제</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="member : ${members}">
-        <td th:text="${member.id}"></td>
-        <td th:text="${member.name}"></td>
-        <td th:text="${member.tel}"></td>
-        <td><img th:src="${member.imgDataAsBase64}" alt="User Image" width="100" height="100"/></td>
-        <td th:text="${member.like_categories}"></td>
-        <td th:text="${member.introduce}"></td>
-        <!-- 프로필 페이지로 이동하는 링크 추가 -->
-        <td><a th:href="@{/user/userprofile(id=${member.id})}" class="btn btn-info btn-sm">프로필</a></td>
-        <td><a th:href="@{/members/edit(id=${member.id})}" class="btn btn-warning btn-sm">수정</a></td>
-        <td><a th:href="@{/members/delete(id=${member.id})}" class="btn btn-danger btn-sm">삭제</a></td>
-    </tr>
-    </tbody>
-</table>
-
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-            <a class="page-link" th:href="@{/members(page=${i}, keyword=${keyword}, sortOrder=${sortOrder})}" th:text="${i + 1}"></a>
-        </li>
-    </ul>
-</nav>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a class="page-link" th:href="@{/members(page=${i}, keyword=${keyword}, sortOrder=${sortOrder})}" th:text="${i + 1}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <footer th:replace="~{footer :: footer}"></footer>
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-<script src="/js/common.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+</body>
 </html>

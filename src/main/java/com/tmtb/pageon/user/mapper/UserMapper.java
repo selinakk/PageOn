@@ -3,6 +3,7 @@ package com.tmtb.pageon.user.mapper;
 import com.tmtb.pageon.user.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ public interface UserMapper {
     UserVO findById(String id);
 
 
-
     List<ForumVO> findByforumPazing(String id, int offset, int size);
 
     List<BoardVO> findBoardsByUserPazing(String id, int offset, int size);
@@ -37,5 +37,7 @@ public interface UserMapper {
     void updateCategories(String id, String likeCategories);
 
     void updateUserInfo(UserVO user);
+
+
 
 }

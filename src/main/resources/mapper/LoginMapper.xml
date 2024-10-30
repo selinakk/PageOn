@@ -3,7 +3,7 @@
 <mapper namespace="com.tmtb.pageon.login.mapper.LoginMapper">
 
     <select id="login" resultType="com.tmtb.pageon.login.model.LoginVO">
-        SELECT *
+        SELECT id , pw
         FROM pageon.member
         WHERE id = #{id} and pw = #{pw}
     </select>
