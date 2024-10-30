@@ -21,58 +21,20 @@ public class NoticeService {
         return mapper.selectAll();
     }
 
-    public List<NoticeVO>  searchList(String searchKey, String searchWord) {
-        if (searchKey.equals("title")) {
-            return mapper.searchListTitle("%" + searchWord + "%");
-        } else {
-            return mapper.searchListContent("%" + searchWord + "%");
-        }
+
+
+    public List<NoticeVO> selectAllSortedPageBlock(int cpage, int pageBlock, String sort) {
+        int startRow = (cpage - 1) * pageBlock;
+        return mapper.selectAllSortedPageBlock(startRow, pageBlock, sort);
     }
 
-    public int insertOK(NoticeVO vo) {
-        return mapper.insertOK(vo);
-    }
 
-    public NoticeVO selectOne(NoticeVO vo) {
 
-        mapper.hitcountUpdate(vo);
-
-        return mapper.selectOne(vo);
-    }
-
-    public int updateOK(NoticeVO vo) {
-        return mapper.updateOK(vo);
-    }
-
-    public int deleteOK(NoticeVO vo) {
-        return mapper.deleteOK(vo);
-    }
-
-    public List<NoticeVO> selectAllPageBlock(int cpage, int pageBlock) {
-        int startRow = (cpage - 1) * pageBlock ;
-
-        return mapper.selectAllPageBlock(startRow, pageBlock);
-    }
 
     public int getTotalRows() {
         return mapper.getTotalRows();
     }
 
-    public List<NoticeVO> selectAllNew() {
-        return mapper.selectAllNew();
-    }
-
-    public List<NoticeVO> selectAllNewPageBlock(int cpage, int pageBlock) {
-        int startRow = (cpage - 1) * pageBlock ;
-
-        return mapper.selectAllNewPageBlock(startRow, pageBlock);
-    }
-
-    public List<NoticeVO> selectAllHitcountPageBlock(int cpage, int pageBlock) {
-        int startRow = (cpage - 1) * pageBlock ;
-
-        return mapper.selectAllHitcountPageBlock(startRow, pageBlock);
-    }
 
 
     public List<NoticeVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
@@ -85,11 +47,40 @@ public class NoticeService {
         }
     }
 
+
+
     public int getSearchTotalRows(String searchKey, String searchWord) {
         if (searchKey.equals("title")) {
             return mapper.getSearchTotalRowsTitle("%" + searchWord + "%");
         } else {
             return mapper.getSearchTotalRowsContent("%" + searchWord + "%");
         }
+    }
+
+
+
+    public NoticeVO selectOne(NoticeVO vo) {
+
+        mapper.hitcountUpdate(vo);
+
+        return mapper.selectOne(vo);
+    }
+
+
+
+    public int insertOK(NoticeVO vo) {
+        return mapper.insertOK(vo);
+    }
+
+
+
+    public int updateOK(NoticeVO vo) {
+        return mapper.updateOK(vo);
+    }
+
+
+
+    public int deleteOK(NoticeVO vo) {
+        return mapper.deleteOK(vo);
     }
 }

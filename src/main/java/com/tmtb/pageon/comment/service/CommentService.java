@@ -16,7 +16,7 @@ public class CommentService {
     private CommentMapper mapper;
 
     public void insertOK(CommentVO vo) {
-        log.info("addComment()...");
+        log.info("insertOK()...");
         mapper.insertOK(vo);
     }
 
@@ -45,12 +45,12 @@ public class CommentService {
         return mapper.getTotalRows(type, bnum, fnum, rnum);
     }
 
-    public List<CommentVO> selectAllChildPageBlock(int cnum, int cpage, int pageBlock) {
+    public List<CommentVO> selectAllChildPageBlock(Integer cnum, int cpage, int pageBlock) {
         int startRow = (cpage - 1) * pageBlock;
         return mapper.selectAllChild(cnum, startRow, pageBlock);
     }
 
-    public int getTotalChildRows(int cnum) {
+    public int getTotalChildRows(Integer cnum) {
         return mapper.getTotalChildRows(cnum);
     }
 
