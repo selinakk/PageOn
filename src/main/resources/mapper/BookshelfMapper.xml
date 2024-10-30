@@ -5,7 +5,7 @@
     <select id="getList" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
         SELECT b.*, w.title AS workTitle, w.img_name AS workImgName
         FROM bookshelf b
-        JOIN work w ON b.work_num = w.num
+        JOIN work w ON b.work_num = w.item_id
         WHERE b.user_id = #{user_id}
         ORDER BY ${sortField} ${sortDir}
         LIMIT #{offset}, #{size}
@@ -13,7 +13,7 @@
     <select id="getListBySort" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
         SELECT b.*, w.title AS workTitle, w.img_name as workImgName
         FROM bookshelf b
-        JOIN work w ON b.work_num = w.num
+        JOIN work w ON b.work_num = w.item_id
         WHERE b.sort=#{sort} AND b.user_id = #{userId}
         ORDER BY ${sortField} ${sortDir}
         LIMIT #{offset}, #{size}

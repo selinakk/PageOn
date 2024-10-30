@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update User Information</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-4">
+    <h2>회원 정보 수정</h2>
+    <form action="/user/update" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" th:value="${userVO.id}"/>
+        <div class="form-group">
+            <label for="editName">이름</label>
+            <input type="text" class="form-control" id="editName" name="name" th:value="${userVO.name}" required>
+        </div>
+        <div class="form-group">
+            <label for="editPassword">비밀번호</label>
+            <input type="password" class="form-control" id="editPassword" name="pw" th:value="${userVO.pw}" required>
+        </div>
+        <div class="form-group">
+            <label for="editTel">전화번호</label>
+            <input type="tel" class="form-control" id="editTel" name="tel" th:value="${userVO.tel}" required>
+        </div>
+        <div class="form-group">
+            <label for="editIntroduce">자기소개</label>
+            <textarea class="form-control" id="editIntroduce" name="introduce" th:text="${userVO.introduce}" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="imgFile">이미지 파일 업로드 (새 이미지를 업로드하지 않으면 기존 이미지가 유지됩니다.)</label>
+            <input type="file" class="form-control-file" id="imgFile" name="imgFile">
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">저장하기</button>
+    </form>
+</div>
+</body>
+</html>

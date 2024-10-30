@@ -12,7 +12,7 @@
       </div>
       <div class="d-flex flex-wrap justify-content-md-between justify-content-center border-bottom pb-5">
         <div class="col-md-3 col-4 mb-2">
-          <img class="img-fluid shadow-sm" th:src="@{/img/{workImgName}(workImgName=${vo2.workImgName})}" th:alt="|${vo2.workTitle} 작품 이미지|"/>
+          <img class="img-fluid shadow-sm" th:src="@{${vo2.workImgName}}" th:alt="|${vo2.workTitle} 작품 이미지|"/>
         </div>
         <div class="col-md-8 col-12">
           <div class="d-flex justify-content-between mb-4 text-black-50">
@@ -88,19 +88,20 @@
           </div>
         </div>
 
-        <div id="paging">
+        <div id="paging" th:if="${totalPageCount > 1}">
           <ul>
             <li th:if="${cpage > 1}">
-              <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
+              <a th:href="@{/forum/view(num=${vo2.num},cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
             </li>
             <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
-              <a th:href="@{/test(cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
+              <a th:href="@{/forum/view(num=${vo2.num}, cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
             </li>
             <li th:if="${cpage < totalPageCount}">
-              <a th:href="@{/test(cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
+              <a th:href="@{/forum/view(num=${vo2.num},cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
             </li>
           </ul>
         </div>
+
         <script type="text/javascript">
           var fnum = [[${vo2.num}]]; // vo2.num 값을 정수로 저장
           console.log("fnum:", fnum);
@@ -227,6 +228,7 @@
                 location.reload();
               },
               error: function() {
+                console.log(JSON.stringify({ content: commentText, type: "forum", fnum: fnum, user_id: "tester2" }));
                 alert("댓글 작성에 실패했습니다.");
               }
             });

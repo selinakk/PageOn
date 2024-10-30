@@ -6,7 +6,7 @@
         SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
                m.name AS userName, m.img_name AS userImgName,
                (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
-        FROM forum f JOIN work w ON f.work_num = w.num JOIN member m ON f.user_id = m.id
+        FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id
         ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
     </select>
     <select id="getListCnt" resultType="int">
@@ -18,7 +18,7 @@
         SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
         m.name AS userName, m.img_name AS userImgName,
         (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
-        FROM forum f JOIN work w ON f.work_num = w.num JOIN member m ON f.user_id = m.id
+        FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id
         WHERE 1=1
         <if test="searchKey != null and searchWord != null and searchWord != '' and searchWord != ''">
             <choose>
@@ -41,7 +41,7 @@
     <select id="searchForumCnt" resultType="int">
         SELECT COUNT(*)
         FROM forum f
-        JOIN work w ON f.work_num = w.num
+        JOIN work w ON f.work_num = w.item_id
         JOIN member m ON f.user_id = m.id
         WHERE 1=1
         <if test="searchKey != null and searchWord != null and searchWord != '' and searchWord != ''">
@@ -66,7 +66,7 @@
     <select id="selectOne" resultType="com.tmtb.pageon.forum.model.ForumVO">
         select f.*, w.title AS workTitle, w.img_name AS workImgName, m.name AS userName, m.img_name AS userImgName,
                (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
-            FROM forum f JOIN work w ON f.work_num = w.num JOIN member m ON f.user_id = m.id where f.num=#{num}
+            FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id where f.num=#{num}
     </select>
     <select id="getCommentCnt" resultType="int">
         SELECT COUNT(*) AS commentCnt FROM comment WHERE fnum = #{fnum}

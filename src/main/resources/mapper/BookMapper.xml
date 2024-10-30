@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tmtb.pageon.book.mapper.BookMapper">
+
+    <!-- 데이터베이스에 알라딘 API 작품 정보 추가 -->
+    <insert id="insertBook" parameterType="com.tmtb.pageon.book.model.BookVO">
+        INSERT INTO pageon.work (type, title, `desc`, writer, provider, categories, img_name, link)
+        VALUES (#{type}, #{title}, #{desc}, #{writer}, #{provider}, #{categories}, #{img_name}, #{link})
+    </insert>
+
+    <select id="checkDuplicateTitle" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE title = #{title}
+    </select>
+
+    <!-- Book 기능 -->
+    <!-- 상세 조회 -->
+    <select id="selectOne" resultType="com.tmtb.pageon.book.model.BookVO">
+        SELECT * FROM pageon.work WHERE item_id = #{item_id}
+    </select>
+
+    <!-- 페이징 목록 조회 -->
+    <!-- 페이징 목록 조회 -->
+    <select id="selectAllBooks" resultType="com.tmtb.pageon.book.model.BookVO">
+        SELECT * FROM pageon.work WHERE type = 'book'
+        <choose>
+            <when test="sortOrder == 'latest'">
+                ORDER BY item_id DESC
+            </when>
+            <when test="sortOrder == 'popular'">
+                ORDER BY added_bs DESC
+            </when>
+        </choose>
+        LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 전체 행 개수 조회 -->
+    <select id="getTotalRows" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'book'
+    </select>
+
+    <!-- 카테고리별 조회 기능 -->
+    <select id="selectBooksByCategory" resultType="com.tmtb.pageon.book.model.BookVO">
+        SELECT * FROM pageon.work WHERE categories = #{category} AND type = 'book'
+        <choose>
+            <when test="sortOrder == 'latest'">
+                ORDER BY item_id DESC
+            </when>
+            <when test="sortOrder == 'popular'">
+                ORDER BY added_bs DESC
+            </when>
+        </choose>
+        LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 카테고리별 조회 결과 총 행 개수 -->
+    <select id="getTotalRowsByCategory" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE categories = #{category} AND type = 'book'
+    </select>
+
+    <!-- 카테고리 내에서 제목이나 작가로 검색 -->
+    <select id="searchBooksInCategory" resultType="com.tmtb.pageon.book.model.BookVO">
+        SELECT * FROM pageon.work WHERE type = 'book'
+        AND categories = #{category}
+        <if test="searchKey == 'title'">
+            AND title LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <choose>
+            <when test="sortOrder == 'latest'">
+                ORDER BY item_id DESC
+            </when>
+            <when test="sortOrder == 'popular'">
+                ORDER BY added_bs DESC
+            </when>
+        </choose>
+        LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 카테고리 내 검색된 총 행 개수 -->
+    <select id="getSearchTotalRowsInCategory" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'book'
+        AND categories = #{category}
+        <if test="searchKey == 'title'">
+            AND title LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+    </select>
+
+    <!-- 전체 검색 (제목 또는 작가) -->
+    <select id="searchBooks" resultType="com.tmtb.pageon.book.model.BookVO">
+        SELECT * FROM pageon.work WHERE type = 'book'
+        <if test="searchKey == 'title'">
+            AND title LIKE #{searchWord}
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE #{searchWord}
+        </if>
+        <choose>
+            <when test="sortOrder == 'latest'">
+                ORDER BY item_id DESC
+            </when>
+            <when test="sortOrder == 'popular'">
+                ORDER BY added_bs DESC
+            </when>
+        </choose>
+        LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+    <!-- 전체 검색 결과 총 행 개수 -->
+    <select id="getSearchTotalRows" resultType="int">
+        SELECT COUNT(*) FROM pageon.work WHERE type = 'book'
+        <if test="searchKey == 'title'">
+            AND title LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchKey == 'writer'">
+            AND writer LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+    </select>
+
+    <!-- 현재 작품 ID를 제외하고 동일 카테고리의 5개의 유사한 책을 가져오기 -->
+    <select id="selectLimitedBooksByCategory" parameterType="map" resultType="com.tmtb.pageon.book.model.BookVO">
+        SELECT item_id, title, `desc`, writer, img_name, categories
+        FROM pageon.work WHERE categories = #{category}
+        AND item_id != #{item_id}
+        AND type = 'book'
+            LIMIT #{limit}
+    </select>
+
+    <!-- added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정 -->
+    <!-- added_bs 컬럼 값을 증가시키는 쿼리 -->
+    <update id="updateAddedBs">
+        UPDATE pageon.work
+        SET added_bs = added_bs + 1
+        WHERE item_id = #{item_id}
+    </update>
+
+</mapper>
