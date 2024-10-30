@@ -21,6 +21,7 @@ public interface WebtoonMapper {
                                        @Param("offset") int offset, @Param("pageSize") int pageSize);
     List<WebtoonVO> searchWebtoonByCategories(@Param("searchWord") String searchWord,
                                               @Param("offset") int offset, @Param("pageSize") int pageSize);
+    List<WebtoonVO> selectPopularWebtoons (@Param("offset") int offset, @Param("pageSize") int pageSize);
 
     List<WebtoonVO> getCategories();
 
@@ -28,6 +29,7 @@ public interface WebtoonMapper {
     int getTotalCountByContent(@Param("searchWord") String searchWord);
     int getTotalCountByCategories(@Param("searchWord") String searchWord);
 
+    int getTotalCountByPopular();
     int getTotalCount();
 
     WebtoonVO selectOne(WebtoonVO vo);

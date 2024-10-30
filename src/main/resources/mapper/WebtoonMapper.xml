@@ -3,33 +3,36 @@
 
 <mapper namespace="com.tmtb.pageon.webtoon.mapper.WebtoonMapper">
 
-<!--    <select id="getWebtoonList" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">-->
-<!--        SELECT *-->
-<!--        FROM work-->
-<!--        WHERE type = 'webtoon'-->
-<!--        ORDER BY title ASC-->
-<!--            LIMIT #{pageSize} OFFSET #{offset}-->
-<!--    </select>-->
-
     <select id="getWebtoonList" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
         WHERE type = 'webtoon'
-        <choose>
-            <when test="sortOrder == 'popular'">
-                ORDER BY added_bs DESC
-            </when>
-            <otherwise>
-                ORDER BY title ASC
-            </otherwise>
-        </choose>
-        LIMIT #{pageSize} OFFSET #{offset}
+        ORDER BY title ASC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+
+
+<!--    인기 웹툰 임시-->
+    <select id="selectPopularWebtoons" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE type = 'webtoon'
+        ORDER BY added_bs DESC
+            LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
     <select id="getTotalCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM work
         WHERE type = 'webtoon'
+    </select>
+
+    <select id="getTotalCountByPopular" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM work
+        WHERE type = 'webtoon'
+        ORDER BY added_bs DESC
     </select>
 
     <select id="selectOne" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">

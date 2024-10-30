@@ -31,9 +31,8 @@ public class WebtoonService {
         return webtoonMapper.getWebtoonList(offset, pageSize , "popular");
     }
     //인기 웹툰 리스트
-    public List<WebtoonVO> selectPopularWebtoons(int cpage, int pageBlock) {
-        int startRow = (cpage - 1) * pageBlock;
-        return webtoonMapper.getWebtoonList(startRow, pageBlock, "popular");
+    public List<WebtoonVO> selectPopularWebtoons(int offset, int pageSize) {
+        return webtoonMapper.selectPopularWebtoons(offset, pageSize);
     }
     //제목 검색
     public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize) {
@@ -52,6 +51,9 @@ public class WebtoonService {
         return webtoonMapper.getCategories();
     }
 
+    public int getTotalCountByPopular() {
+        return webtoonMapper.getTotalCountByPopular();
+    }
 
     public int getTotalCountByTitle(String searchWord) {
         return webtoonMapper.getTotalCountByTitle(searchWord);

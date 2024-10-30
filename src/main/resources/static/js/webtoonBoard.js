@@ -22,7 +22,9 @@ function confirmReport() {
     }
 }
 
-//아래로 필터링 관련입니다.
+// 웹툰 관련
+
+//웹툰 필터링 관련
 let selectedCategories = [];
 let currentPage = 1;
 
@@ -56,50 +58,24 @@ function fetchFilteredData() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const contentGrid = document.querySelector('.content-grid');
+            const contentGrid = document.querySelector('.webtoon-grid');
             contentGrid.innerHTML = '';
 
             if (data.webtoons && data.webtoons.length > 0) {
                 data.webtoons.forEach(webtoon => {
                     console.log('webtoon:', webtoon);
                     const webtoonItem = `
-                        <div class="col-md-3 col-sm-6 mb-4 content-item">
-                            <div class="card" onclick="location.href='/wt_selectOne?item_id=${webtoon.item_id}'" style="cursor:pointer;">
-                                <img src="${webtoon.imageDownloadUrl}" class="img-thumbnail">
-                                <div class="card-body">
-                                    <div class="rating">★ ${webtoon.rank}</div>
-                                    <div class="card-title">${webtoon.title}</div>
-                                </div>
-                            </div>
+                        <div class="webtoon-item">
+                            <a href="/wt_selectOne?item_id=${webtoon.item_id}">
+                                <img src="${webtoon.imageDownloadUrl}" class="webtoon-img" alt="Webtoon Cover">
+                            </a>
+                            <a href="/wt_selectOne?item_id=${webtoon.item_id}" class="webtoon-title">${webtoon.title}</a>
                         </div>
                     `;
                     contentGrid.innerHTML += webtoonItem;
                 });
             } else {
-                // 선택된 카테고리가 없을 때 모든 웹툰을 표시
-                if (selectedCategories.length === 0) {
-                    fetch('/wt_filter?page=1')
-                        .then(response => response.json())
-                        .then(allData => {
-                            allData.webtoons.forEach(webtoon => {
-                                const webtoonItem = `
-                                    <div class="col-md-3 col-sm-6 mb-4 content-item">
-                                        <div class="card" onclick="location.href='/wt_selectOne?num=${webtoon.num}'" style="cursor:pointer;">
-                                            <img src="${webtoon.imageDownloadUrl}" class="img-thumbnail">
-                                            <div class="card-body">
-                                                <div class="rating">★ ${webtoon.rank}</div>
-                                                <div class="card-title">${webtoon.title}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                                contentGrid.innerHTML += webtoonItem;
-                            });
-                        })
-                        .catch(error => console.error('Error:', error));
-                } else {
-                    contentGrid.innerHTML = '<p>표시할 웹툰이 없습니다.</p>';
-                }
+                contentGrid.innerHTML = '<p>표시할 웹툰이 없습니다.</p>';
             }
 
             // 페이지네이션 업데이트
@@ -107,6 +83,23 @@ function fetchFilteredData() {
         })
         .catch(error => console.error('Error:', error));
 }
+
+//웹툰 상세 - 줄거리 더보기 입니다.
+function toggleText() {
+    var desc = document.getElementById("desc");
+    var button = document.getElementById("toggleButton");
+    if (desc.classList.contains("short-text")) {
+        desc.classList.remove("short-text");
+        desc.classList.add("full-text");
+        button.textContent = "접기";
+    } else {
+        desc.classList.remove("full-text");
+        desc.classList.add("short-text");
+        button.textContent = "더 보기";
+    }
+
+}
+
 
 // 페이지네이션을 업데이트하는 함수
 function updatePagination(totalPages, startPage, endPage) {
@@ -425,21 +418,6 @@ function confirmDelete() {
 }
 
 
-//줄거리 더보기 입니다.
-function toggleText() {
-    var desc = document.getElementById("desc");
-    var button = document.getElementById("toggleButton");
-    if (desc.classList.contains("short-text")) {
-        desc.classList.remove("short-text");
-        desc.classList.add("full-text");
-        button.textContent = "접기";
-    } else {
-        desc.classList.remove("full-text");
-        desc.classList.add("short-text");
-        button.textContent = "더 보기";
-    }
-
-}
 
 
 

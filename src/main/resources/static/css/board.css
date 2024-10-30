@@ -79,14 +79,3 @@ input[name="searchWord"] {
     text-decoration: none;
 }
 
-/*줄거리 더보기 관련 내용입니다. */
-.short-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 1; /* 줄 수 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.full-text {
-    display: block;
-}

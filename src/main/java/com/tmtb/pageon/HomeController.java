@@ -38,7 +38,7 @@ public class HomeController {
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
 
-        //인기순으로 20개의 웹툰을 조히
+        //인기순으로 20개의 웹툰을 조회
         List<WebtoonVO> popularWebtoons = webtoonService.selectPopularWebtoons(1, 20);
         model.addAttribute("popularWebtoons", popularWebtoons);
 
