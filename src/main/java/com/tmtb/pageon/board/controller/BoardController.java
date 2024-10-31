@@ -28,6 +28,7 @@ import java.util.Map;
 @Controller
 public class BoardController {
 
+
     @Autowired
     private BoardService boardService;
 
