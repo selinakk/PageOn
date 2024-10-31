@@ -454,9 +454,9 @@ a.text-danger .svg-icon {
 
 #book-detail #desc.short {
     display: -webkit-box;
-        -webkit-line-clamp: 3; /* 표시할 줄 수 */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+    -webkit-line-clamp: 3; /* 표시할 줄 수 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* 내 서재에 추가 버튼 및 드롭다운 */
@@ -932,9 +932,9 @@ a.text-danger .svg-icon {
 
 #webnovel-detail #desc.short {
     display: -webkit-box;
-        -webkit-line-clamp: 3; /* 표시할 줄 수 */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+    -webkit-line-clamp: 3; /* 표시할 줄 수 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* 내 서재에 추가 버튼 및 드롭다운 */
