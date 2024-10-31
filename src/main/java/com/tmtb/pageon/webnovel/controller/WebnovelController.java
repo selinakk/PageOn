@@ -81,25 +81,4 @@ public class WebnovelController {
         return "webnovel/detail";
     }
 
-    // 내 서재에 추가 (읽은 작품, 읽고 있는 작품, 읽고 싶은 작품)
-    // added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정
-    @PostMapping("/webnovel/addToLibrary")
-    public String addToLibrary(@RequestParam int item_id, @RequestParam String status) {
-        log.info("addToLibrary() item_id: {}, status: {}", item_id, status);
-
-        // 해당 작품의 added_bs 값을 증가시킴
-        service.updateAddedBs(item_id);
-
-        // 상태에 따라 추가 로직을 처리할 수 있음 (필요에 따라 확장 가능)
-        if ("read".equals(status)) {
-            log.info("읽은 작품에 추가");
-        } else if ("reading".equals(status)) {
-            log.info("읽고 있는 작품에 추가");
-        } else if ("wantToRead".equals(status)) {
-            log.info("읽고 싶은 작품에 추가");
-        }
-
-        return "redirect:/webnovel/detail?item_id=" + item_id; // 상세 페이지로 리다이렉트
-    }
-
 }

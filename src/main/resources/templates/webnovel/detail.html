@@ -47,35 +47,24 @@
                     });
                 </script>
 
-                <p><strong>카테고리:</strong> <span th:text="${vo2.categories}"></span></p>
+                <p><strong>카테고리:</strong> <span th:text="'#' + ${vo2.categories}"></span></p>
             </div>
         </div>
 
-        <!-- added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정 -->
         <!-- 1. 내 서재에 추가 (드롭다운) -->
         <div class="add-to-library">
             <button class="dropdown-button">내 서재에 추가</button>
             <div class="dropdown-content">
                 <!-- 각 상태를 파라미터로 보내는 링크들 -->
-                <a href="#" onclick="addToLibrary('read')">읽은 작품</a>
-                <a href="#" onclick="addToLibrary('reading')">읽고 있는 작품</a>
-                <a href="#" onclick="addToLibrary('wantToRead')">읽고 싶은 작품</a>
+                <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                    <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+                    <input type="hidden" name="work_num" th:value="${vo2.item_id}" />
+                    <label for="read"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="positionabsolute"> 읽은 작품</label>
+                    <label for="to-read"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="positionabsolute"> 읽고 싶은 작품</label>
+                    <label for="ing"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="positionabsolute"> 읽고 있는 작품</label>
+                </form>
             </div>
         </div>
-
-        <!-- 숨겨진 폼: 선택한 작품의 상태를 전송 -->
-        <form id="addToLibraryForm" th:action="@{/webnovel/addToLibrary}" method="post">
-            <input type="hidden" name="item_id" th:value="${vo2.item_id}"/> <!-- 현재 작품의 ID -->
-            <input type="hidden" name="status" id="statusField"/> <!-- 상태 값 (읽은, 읽고 있는, 읽고 싶은) -->
-        </form>
-
-        <script>
-            function addToLibrary(status) {
-                // 선택된 상태를 폼의 hidden 필드에 설정하고 폼을 전송
-                document.getElementById('statusField').value = status;
-                document.getElementById('addToLibraryForm').submit();
-            }
-        </script>
 
         <!-- 2. 감상/구매 버튼 -->
         <a class="action-button" th:href="@{${vo2.link}}">감상 / 구매</a>

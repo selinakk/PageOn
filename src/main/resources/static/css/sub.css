@@ -48,6 +48,7 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     text-indent: -9999px;
 }
 .book-item:hover .card-concern{bottom:160px;opacity:1;z-index: 2}
+.webnovel-item:hover .card-concern{bottom:160px;opacity:1;z-index: 2}
 .card.fs-6:hover .card-concern{
     bottom: unset;
     z-index: 2;
@@ -868,14 +869,19 @@ a.text-danger .svg-icon {
     z-index: 1;
 }
 
-#webnovel-detail .dropdown-content a {
+#webnovel-detail .dropdown-content a,
+#webnovel-detail .dropdown-content label{
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
-
-#webnovel-detail .dropdown-content a:hover {
+#webnovel-detail .dropdown-content label input{
+    appearance: none;
+    text-indent: -9999px;
+}
+#webnovel-detail .dropdown-content a:hover,
+#webnovel-detail .dropdown-content label:hover{
     background-color: #f1f1f1;
 }
 

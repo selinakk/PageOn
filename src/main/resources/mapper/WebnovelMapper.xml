@@ -22,16 +22,18 @@
 
     <!-- 페이징 목록 조회 -->
     <select id="selectAllWebnovels" resultType="com.tmtb.pageon.webnovel.model.WebnovelVO">
-        SELECT * FROM pageon.work WHERE type = 'webnovel'
+        SELECT w.*,
+        (SELECT COUNT(*) FROM pageon.bookshelf bs WHERE bs.work_num = w.item_id) AS added_bs
+        FROM pageon.work w WHERE w.type = 'webnovel'
         <choose>
             <when test="sortOrder == 'latest'">
-                ORDER BY item_id DESC
+                ORDER BY w.item_id DESC
             </when>
             <when test="sortOrder == 'popular'">
                 ORDER BY added_bs DESC
             </when>
         </choose>
-            LIMIT #{startRow}, #{pageBlock}
+        LIMIT #{startRow}, #{pageBlock}
     </select>
 
     <!-- 전체 행 개수 조회 -->
@@ -41,7 +43,9 @@
 
     <!-- 다중 카테고리 조회 기능 -->
     <select id="selectWebnovelsByCategories" resultType="com.tmtb.pageon.webnovel.model.WebnovelVO">
-        SELECT * FROM pageon.work WHERE type = 'webnovel' AND
+        SELECT w.*,
+        (SELECT COUNT(*) FROM pageon.bookshelf bs WHERE bs.work_num = w.item_id) AS added_bs
+        FROM pageon.work w WHERE w.type = 'webnovel' AND
         <foreach item="category" collection="categories" open="(" separator=" OR " close=")">
             categories = #{category}
         </foreach>
@@ -66,10 +70,12 @@
 
     <!-- 다중 카테고리 검색 -->
     <select id="searchWebnovelsInCategories" resultType="com.tmtb.pageon.webnovel.model.WebnovelVO">
-        SELECT * FROM pageon.work WHERE type = 'webnovel'
-        AND <foreach item="category" collection="categories" open="(" separator=" OR " close=")">
-        categories = #{category}
-    </foreach>
+        SELECT w.*,
+        (SELECT COUNT(*) FROM pageon.bookshelf bs WHERE bs.work_num = w.item_id) AS added_bs
+        FROM pageon.work w WHERE w.type = 'webnovel' AND
+        <foreach item="category" collection="categories" open="(" separator=" OR " close=")">
+            categories = #{category}
+        </foreach>
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
         </if>
@@ -103,7 +109,9 @@
 
     <!-- 전체 검색 (제목 또는 작가) -->
     <select id="searchWebnovels" resultType="com.tmtb.pageon.webnovel.model.WebnovelVO">
-        SELECT * FROM pageon.work WHERE type = 'webnovel'
+        SELECT w.*,
+        (SELECT COUNT(*) FROM pageon.bookshelf bs WHERE bs.work_num = w.item_id) AS added_bs
+        FROM pageon.work w WHERE w.type = 'webnovel'
         <if test="searchKey == 'title'">
             AND title LIKE CONCAT('%', #{searchWord}, '%')
         </if>
