@@ -2,6 +2,8 @@ package com.tmtb.pageon;
 
 import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
+import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,9 @@ public class HomeController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private ReviewService reviewService;
+
     @GetMapping("/")
     public String home(Model model) {
         log.info("인덱스 페이지");
@@ -33,6 +38,9 @@ public class HomeController {
         // 인기순으로 20개의 도서를 조회
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
+
+        List<ReviewVO> recentReviews = reviewService.getRecentReview(1,4);
+        model.addAttribute("recentReviews", recentReviews);
 
         return "index";
     }

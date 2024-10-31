@@ -1,13 +1,8 @@
 package com.tmtb.pageon.review.service;
 
-import com.tmtb.pageon.book.mapper.BookMapper;
-import com.tmtb.pageon.book.model.BookVO;
+
 import com.tmtb.pageon.review.mapper.ReviewMapper;
 import com.tmtb.pageon.review.model.ReviewVO;
-import com.tmtb.pageon.webnovel.mapper.WebnovelMapper;
-import com.tmtb.pageon.webnovel.model.WebnovelVO;
-import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
-import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

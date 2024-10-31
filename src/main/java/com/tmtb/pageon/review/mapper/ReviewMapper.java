@@ -1,9 +1,7 @@
 package com.tmtb.pageon.review.mapper;
 
-import com.tmtb.pageon.book.model.BookVO;
+
 import com.tmtb.pageon.review.model.ReviewVO;
-import com.tmtb.pageon.webnovel.model.WebnovelVO;
-import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
