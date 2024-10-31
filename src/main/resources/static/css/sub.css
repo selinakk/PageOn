@@ -48,7 +48,8 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     text-indent: -9999px;
 }
 .book-item:hover .card-concern,
-.webnovel-item:hover .card-concern {bottom:160px;opacity:1;z-index: 2}
+.webnovel-item:hover .card-concern,
+.content-item:hover .card-concern{bottom:160px;opacity:1;z-index: 2}
 .card.fs-6:hover .card-concern{
     bottom: unset;
     z-index: 2;
