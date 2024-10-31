@@ -141,14 +141,22 @@
             <a href="/notice/n_selectAll.do" class="btn">더보기</a>
         </div>
         <div class="row">
-            <div class="col-md-3 posts mb-4" th:each="vo : ${noticeVO}">
-                <p href="blog.html" class="fs-6 text-primary" th:text="${#dates.format(vo.wdate, 'yyyy-MM-dd')}"></p>
-                <h4 class="card-title mb-2 text-capitalize text-dark"><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></h4>
-                <p class="mb-2 lh-base"><span th:text="${vo.content.length() > 100 ? vo.content.substring(0, 100) + '...' : vo.content}"></span> <span><a class="text-decoration-underline text-black-50" th:href="|/notice/n_selectOne.do?num=${vo.num}|">Read More</a></span>
-                </p>
+            <!-- Bootstrap 카드 스타일을 위해 'card' 및 관련 클래스 추가 -->
+            <div class="col-md-3 mb-4" th:each="vo : ${noticeVO}">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <p class="fs-6 text-primary" th:text="${#dates.format(vo.wdate, 'yyyy-MM-dd')}"></p>
+                        <h4 class="card-title mb-2 text-capitalize text-dark">
+                            <a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a>
+                        </h4>
+                        <p class="mb-2 lh-base">
+                            <span th:text="${vo.content.length() > 100 ? vo.content.substring(0, 100) + '...' : vo.content}"></span>
+                            <a th:href="|/notice/n_selectOne.do?num=${vo.num}|" style="color: blue; text-decoration: underline;">자세히 보기...</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-
-
+        </div>
     </div>
 </section>
 
