@@ -14,7 +14,39 @@
                 <p><strong>작품명:</strong> <span th:text="${vo2.title}"></span></p>
                 <p><strong>작가명:</strong> <span th:text="${vo2.writer}"></span></p>
                 <p><strong>플랫폼명:</strong> <span th:text="${vo2.provider}"></span></p>
-                <p><strong>줄거리:</strong> <span th:text="${vo2.desc}"></span></p>
+                <p><strong>줄거리:</strong> <span id="desc" th:text="${vo2.desc}"></span></p>
+                <p id="toggleText" onclick="toggleDescription()" style="color: blue; cursor: pointer; display: none;">더보기</p>
+
+                <script>
+                    function toggleDescription() {
+                        const descElement = document.getElementById("desc");
+                        const toggleText = document.getElementById("toggleText");
+
+                        if (descElement.classList.contains("short")) {
+                            descElement.classList.remove("short");
+                            toggleText.innerText = "접기";
+                        } else {
+                            descElement.classList.add("short");
+                            toggleText.innerText = "더보기";
+                        }
+                    }
+
+                    document.addEventListener("DOMContentLoaded", function() {
+                        const descElement = document.getElementById("desc");
+                        const toggleText = document.getElementById("toggleText");
+
+                        // 일단 'short' 클래스를 추가하여 최대 높이로 줄 수 제한
+                        descElement.classList.add("short");
+
+                        // 실제로 줄 수 제한으로 내용이 잘렸는지 확인
+                        if (descElement.scrollHeight > descElement.clientHeight) {
+                            toggleText.style.display = "block"; // 잘렸으면 '더보기' 표시
+                        } else {
+                            descElement.classList.remove("short"); // 잘리지 않았으면 '더보기' 제거
+                        }
+                    });
+                </script>
+
                 <p><strong>카테고리:</strong> <span th:text="${vo2.categories}"></span></p>
             </div>
         </div>
