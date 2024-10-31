@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmtb.pageon.forum.mapper.ForumMapper">
+<!--    목록 보기-->
+    <select id="getList" resultType="com.tmtb.pageon.forum.model.ForumVO">
+        SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
+               m.name AS userName, m.img_name AS userImgName,
+               (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
+        FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id
+        ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
+    </select>
+    <select id="getListCnt" resultType="int">
+        SELECT count(*) FROM forum
+    </select>
+<!--    목록 보기 끝-->
+<!--    목록 검색-->
+    <select id="searchForum" resultType="com.tmtb.pageon.forum.model.ForumVO">
+        SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
+        m.name AS userName, m.img_name AS userImgName,
+        (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
+        FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id
+        WHERE 1=1
+        <if test="searchKey != null and searchWord != null and searchWord != '' and searchWord != ''">
+            <choose>
+                <when test="searchKey == 'title'">
+                    AND f.title LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test="searchKey == 'workTitle'">
+                    AND w.title LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test="searchKey == 'content'">
+                    AND f.content LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test="searchKey == 'userName'">
+                    AND m.name LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+            </choose>
+        </if>
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="searchForumCnt" resultType="int">
+        SELECT COUNT(*)
+        FROM forum f
+        JOIN work w ON f.work_num = w.item_id
+        JOIN member m ON f.user_id = m.id
+        WHERE 1=1
+        <if test="searchKey != null and searchWord != null and searchWord != '' and searchWord != ''">
+            <choose>
+                <when test="searchKey == 'title'">
+                    AND f.title LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test="searchKey == 'workTitle'">
+                    AND w.title LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test="searchKey == 'content'">
+                    AND f.content LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test="searchKey == 'userName'">
+                    AND m.name LIKE CONCAT('%', #{searchWord}, '%')
+                </when>
+            </choose>
+        </if>
+    </select>
+    <!-- 목록 검색 끝-->
+<!--    상세 보기 -->
+    <select id="selectOne" resultType="com.tmtb.pageon.forum.model.ForumVO">
+        select f.*, w.title AS workTitle, w.img_name AS workImgName, m.name AS userName, m.img_name AS userImgName,
+               (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
+            FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id where f.num=#{num}
+    </select>
+    <select id="getCommentCnt" resultType="int">
+        SELECT COUNT(*) AS commentCnt FROM comment WHERE fnum = #{fnum}
+    </select>
+<!--    상세 보기 끝-->
+<!--    DML -->
+    <insert id="insertForumOK">
+        insert into forum(work_num,title,content,user_id) values(#{work_num},#{title},#{content},#{user_id})
+    </insert>
+    <update id="updateForumOK">
+        update forum set title=#{title},content=#{content} where num=#{num}
+    </update>
+    <update id="increaseForumHit">
+        update forum set hitcount=hitcount+1 where num=#{num}
+    </update>
+    <update id="reportForumOK">
+        update forum set report="1" where num=#{num}
+    </update>
+    <delete id="deleteForumOK">
+        delete from forum where num=#{num}
+    </delete>
+<!--    DML-->
+</mapper>

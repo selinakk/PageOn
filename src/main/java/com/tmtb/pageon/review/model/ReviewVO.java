@@ -1,19 +1,16 @@
 package com.tmtb.pageon.review.model;
-
 import lombok.Data;
-
-import java.util.Date;
-
+import java.sql.Date;
 @Data
 public class ReviewVO {
     private int num;
-    private int work_num;
+    private int inum;
     private String title;
     private String content;
     private String user_id;
     private Date wdate;
-    private double rating;
+    private Double rating;
     private boolean report;
-    private int like;
     private int hate;
+    private int like;
 }

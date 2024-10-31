@@ -2,10 +2,9 @@ package com.tmtb.pageon.community.mapper;
 
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.notice.model.NoticeVO;
-//import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.review.model.ReviewVO;
 import com.tmtb.pageon.community.model.CommunityVO;
 import com.tmtb.pageon.forum.model.ForumVO;
-import com.tmtb.pageon.user.model.ReviewVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -28,14 +27,6 @@ public interface CommunityMapper {
     public ForumVO forumSelectOne(ForumVO vo);
 
     public BoardVO boardSelectOne(BoardVO vo);
-
-    public List<BoardVO> boardSelectList();
-
-    public List<NoticeVO> noticeSelectList();
-
-    public List<ReviewVO> reviewSelectList();
-
-    public List<ForumVO> forumSelectList();
 }
 
 
