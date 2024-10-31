@@ -7,6 +7,7 @@ import com.tmtb.pageon.comment.model.CommentVO;
 import jakarta.servlet.ServletContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +36,11 @@ public class BoardController {
     @Autowired
     private CommentController commentController;
 
-
     @Autowired
     ServletContext context;
+
+    @Value("${file.dir}")
+    private String uploadDir;
 
     //자유게시판 목록
     @GetMapping("/freeboard")
@@ -100,7 +104,9 @@ public class BoardController {
     public String b_insertOK(BoardVO vo) throws IOException {
         log.info("게시글 작성");
 
-        String realPath = context.getRealPath("resources/upload_img");
+
+        // 상대 경로를 절대 경로로 변환
+        String realPath = Paths.get(uploadDir).toAbsolutePath().toString();
 
         File uploadDir = new File(realPath);
         if (!uploadDir.exists()) {
@@ -208,7 +214,8 @@ public class BoardController {
     public String b_updateOK(BoardVO vo) throws IOException {
         log.info("수정완료 페이지");
 
-        String realPath = context.getRealPath("resources/upload_img");
+        // 상대 경로를 절대 경로로 변환
+        String realPath = Paths.get(uploadDir).toAbsolutePath().toString();
         log.info(realPath);
 
         File uploadDir = new File(realPath);
