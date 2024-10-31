@@ -1,6 +1,7 @@
 package com.tmtb.pageon.user.controller;
 
 import com.tmtb.pageon.user.model.*;
+import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    ProductService productService;
 
     // 사용자 등록
     @PostMapping("/insertUserForm")
@@ -43,6 +46,7 @@ public class UserController {
     }
 
     // 사용자 프로필 조회
+    // 사용자 프로필 조회
     @GetMapping("/user/profile")
     public String findById(HttpSession session, Model model) {
         String id = (String) session.getAttribute("id");
@@ -55,6 +59,10 @@ public class UserController {
             List<ReviewVO> reviewList = userService.findByReviews(id);
             List<CommentVO> commentList = userService.findByComment(id);
 
+
+            // 최근 본 항목 조회
+            List<Object> recentItems = productService.getRecentItems(id); // ID에 따른 최근 본 항목 가져오기
+
             // 사용자 선호 카테고리와 다른 데이터 추가
             String[] categories = userVO.getLike_categories().split(",");
             model.addAttribute("categories", categories);
@@ -63,6 +71,7 @@ public class UserController {
             model.addAttribute("boardList", boardList);
             model.addAttribute("reviewList", reviewList);
             model.addAttribute("commentList", commentList);
+            model.addAttribute("recentItems", recentItems); // 최근 본 항목 추가
         } else {
             return "redirect:/";
         }
