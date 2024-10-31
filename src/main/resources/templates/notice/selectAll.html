@@ -152,14 +152,36 @@
 
 <header th:replace="~{header :: header}"></header>
 <nav th:replace="~{top_menu::top_menu}"></nav>
-<form action="/notice/n_searchList.do">
+<form onsubmit="return validateForm()" action="/notice/n_searchList.do">
   <select id="input2" name="searchKey">
     <option value="title">제목</option>
     <option value="content">내용</option>
   </select>
-  <input id="input1" type="text" name="searchWord" value="서버">
+  <input id="input1" type="text" name="searchWord" placeholder="검색어를 입력하세요">
   <input class="btncss" id="search" type="submit" value="검색">
 </form>
+
+<script>
+  function getByteLength(text) {
+    let byteSize = 0;
+    for (let i = 0; i < text.length; i++) {
+      const charCode = text.charCodeAt(i);
+      byteSize += charCode <= 0x007F ? 1 : charCode <= 0x07FF ? 2 : 3; // ASCII는 1바이트, 나머지 유니코드는 2~3바이트
+    }
+    return byteSize;
+  }
+
+  function validateForm() {
+    const searchWord = document.getElementById("input1").value;
+
+    if (getByteLength(searchWord) > 100) {
+      alert("검색어가 100바이트를 초과하였습니다.");
+      return false;
+    }
+
+    return true; // 모든 조건을 만족하면 폼을 제출
+  }
+</script>
 
 <br>
 
