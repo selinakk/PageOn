@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -41,6 +43,14 @@ public class WebnovelController {
                                  @RequestParam(required = false) String searchKey,
                                  @RequestParam(required = false) String searchWord,
                                  @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
+        // 중첩된 대괄호 제거 및 리스트 변환
+        if (category != null && !category.isEmpty()) {
+            category = category.stream()
+                    .flatMap(cat -> Arrays.stream(cat.replaceAll("\\[|\\]", "").split(",\\s*")))
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+
         log.info("selectAllWebnovels() category: {}, cpage: {}, pageBlock: {}, searchKey: {}, searchWord: {}, sortOrder: {}",
                 category, cpage, pageBlock, searchKey, searchWord, sortOrder);
 
@@ -67,6 +77,7 @@ public class WebnovelController {
 
         model.addAttribute("list", list);
         model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("cpage", cpage);  // 현재 페이지 추가
         model.addAttribute("category", category);
         model.addAttribute("searchKey", searchKey);
         model.addAttribute("searchWord", searchWord);

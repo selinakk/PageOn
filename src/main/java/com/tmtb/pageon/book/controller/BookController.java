@@ -4,7 +4,6 @@ import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
-import com.tmtb.pageon.review.model.ReviewVO;
 import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.user.service.ProductService;
 import jakarta.servlet.http.HttpSession;
@@ -15,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -36,12 +37,20 @@ public class BookController {
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/books")
     public String selectAllBooks(Model model,
-                                 @RequestParam(required = false) List<String> category, // 변경
+                                 @RequestParam(required = false) List<String> category,
                                  @RequestParam(required = false, defaultValue = "1") int cpage,
                                  @RequestParam(required = false, defaultValue = "20") int pageBlock,
                                  @RequestParam(required = false) String searchKey,
                                  @RequestParam(required = false) String searchWord,
                                  @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
+        // 중첩된 대괄호 제거 및 리스트 변환
+        if (category != null && !category.isEmpty()) {
+            category = category.stream()
+                    .flatMap(cat -> Arrays.stream(cat.replaceAll("\\[|\\]", "").split(",\\s*")))
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+
         log.info("selectAllBooks() category: {}, cpage: {}, pageBlock: {}, searchKey: {}, searchWord: {}, sortOrder: {}",
                 category, cpage, pageBlock, searchKey, searchWord, sortOrder);
 
@@ -68,6 +77,7 @@ public class BookController {
 
         model.addAttribute("list", list);
         model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("cpage", cpage);
         model.addAttribute("category", category);
         model.addAttribute("searchKey", searchKey);
         model.addAttribute("searchWord", searchWord);
