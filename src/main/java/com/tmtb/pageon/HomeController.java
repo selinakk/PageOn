@@ -42,16 +42,19 @@ public class HomeController {
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
 
-
+        // 홈화면에 최근 4개의 게시글 조회
         List<BoardVO> boardVO = service.boardSelectList();
         log.info("boardVO:{}", boardVO);
 
+        // 홈화면에 최근 4개의 공지사항글 조회
         List<NoticeVO> noticeVO = service.noticeSelectList();
         log.info("noticeVO:{}", noticeVO);
 
+        // 홈화면에 최근 4개의 리뷰글 조회
         List<ReviewVO> reviewVO = service.reviewSelectList();
         log.info("reviewVO:{}", reviewVO);
 
+        // 홈화면에 최근 4개의 토론글 조회
         List<ForumVO> forumVO = service.forumSelectList();
         log.info("forumVO:{}", forumVO);
 
@@ -62,6 +65,7 @@ public class HomeController {
 
         return "index";
     }
+
 
     @GetMapping("/work_index")
     public String workPage(Model model) {

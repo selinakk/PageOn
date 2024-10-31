@@ -22,19 +22,15 @@ public class NoticeService {
     }
 
 
-
     public List<NoticeVO> selectAllSortedPageBlock(int cpage, int pageBlock, String sort) {
         int startRow = (cpage - 1) * pageBlock;
         return mapper.selectAllSortedPageBlock(startRow, pageBlock, sort);
     }
 
 
-
-
     public int getTotalRows() {
         return mapper.getTotalRows();
     }
-
 
 
     public List<NoticeVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
@@ -48,7 +44,6 @@ public class NoticeService {
     }
 
 
-
     public int getSearchTotalRows(String searchKey, String searchWord) {
         if (searchKey.equals("title")) {
             return mapper.getSearchTotalRowsTitle("%" + searchWord + "%");
@@ -58,14 +53,11 @@ public class NoticeService {
     }
 
 
-
     public NoticeVO selectOne(NoticeVO vo) {
-
         mapper.hitcountUpdate(vo);
 
         return mapper.selectOne(vo);
     }
-
 
 
     public int insertOK(NoticeVO vo) {
@@ -73,11 +65,9 @@ public class NoticeService {
     }
 
 
-
     public int updateOK(NoticeVO vo) {
         return mapper.updateOK(vo);
     }
-
 
 
     public int deleteOK(NoticeVO vo) {

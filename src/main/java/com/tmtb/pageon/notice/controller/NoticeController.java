@@ -1,7 +1,5 @@
 package com.tmtb.pageon.notice.controller;
 
-import com.tmtb.pageon.forum.model.ForumVO;
-import com.tmtb.pageon.forum.service.ForumService;
 import com.tmtb.pageon.notice.model.NoticeVO;
 import com.tmtb.pageon.notice.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
@@ -120,6 +118,15 @@ public class NoticeController {
         log.info("/notice/n_insertOK.do");
         log.info("vo:{}", vo);
 
+        // 설정된 업로드 디렉터리 경로 가져오기
+        String uploadPath = realPath;
+        File uploadDir = new File(uploadPath);
+
+        // 디렉터리가 존재하지 않으면 생성
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
         log.info(realPath);
 
         String originName = vo.getFile().getOriginalFilename();
@@ -226,7 +233,7 @@ public class NoticeController {
 
 
 
-    //공지사항 삭제 폼
+    //공지사항 삭제
     @PostMapping("/notice/n_deleteOK.do")
     public String deleteOK(NoticeVO vo) {
         log.info("/notice/n_deleteOK.do");
@@ -244,4 +251,5 @@ public class NoticeController {
 
 
 }
+
 

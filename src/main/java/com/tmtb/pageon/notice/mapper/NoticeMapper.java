@@ -2,7 +2,6 @@ package com.tmtb.pageon.notice.mapper;
 
 import com.tmtb.pageon.notice.model.NoticeVO;
 import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 
 
@@ -34,4 +33,5 @@ public interface NoticeMapper {
 
     public void hitcountUpdate(NoticeVO vo);
 }
+
 
