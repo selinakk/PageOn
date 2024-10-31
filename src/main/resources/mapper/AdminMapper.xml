@@ -13,13 +13,13 @@
     </select>
 
     <insert id="insertMember" parameterType="com.tmtb.pageon.user.model.UserVO">
-        INSERT INTO member (id, pw, name, tel, imgname, like_categories, introduce, imgPath)
-        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{imgname}, #{like_categories}, #{introduce}, #{imgPath})
+        INSERT INTO member (id, pw, name, tel, img_name, like_categories, introduce, imgPath)
+        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, #{like_categories}, #{introduce}, #{imgPath})
     </insert>
 
     <update id="updateMember" parameterType="com.tmtb.pageon.user.model.UserVO">
-        UPDATE member
-        SET pw = #{pw}, name = #{name}, tel = #{tel}, imgname = #{imgname}, like_categories = #{like_categories}, introduce = #{introduce}, imgPath = #{imgPath}
+        UPDATE pageon.member
+        SET pw = #{pw}, name = #{name}, tel = #{tel}, img_name = #{img_name}, introduce = #{introduce}, img_data = #{img_data}
         WHERE id = #{id}
     </update>
 

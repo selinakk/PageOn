@@ -2,6 +2,8 @@ package com.tmtb.pageon.book.controller;
 
 import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
+import com.tmtb.pageon.user.service.ProductService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,9 @@ public class BookController {
 
     @Autowired
     private BookService service;
+
+    @Autowired
+    private ProductService productService; // 캐싱을위한 product service생성
 
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/books")
@@ -65,13 +70,21 @@ public class BookController {
 
     // 상세 조회
     @GetMapping("/book/detail")
-    public String selectOne(BookVO vo, Model model) {
+    public String selectOne(BookVO vo, Model model, HttpSession session) {
         log.info("/book/detail");
-        log.info("vo:{}", vo);
+        log.info("vo: {}", vo);
 
         // 현재 책 정보 조회
         BookVO vo2 = service.selectOne(vo);
-        log.info("vo2:{}", vo2);
+        log.info("vo2: {}", vo2);
+
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
+
+        // 최근 본 항목 추가
+        List<Object> recentItems = productService.addRecentItem(id,vo2); // 캐싱을 위한 product service 생성 작성자:김규년
+        log.info("최근 본 항목 리스트: {}", recentItems);
 
         model.addAttribute("vo2", vo2);
 
@@ -79,8 +92,19 @@ public class BookController {
         List<BookVO> list = service.getLimitedBooksByCategory(vo2.getCategories(), 20, vo2.getItem_id());
         model.addAttribute("list", list);
 
+        log.info("동일한 카테고리의 유사한 책 리스트: {}", list);
+
         return "book/detail";
     }
+    //  // 세션에서 사용자 ID 가져오기
+    //        String id = (String) session.getAttribute("id");
+    //        log.info("세션에서 가져온 사용자 ID: {}", id);
+    //
+    //        List<Object> recentItems = productService.addRecentItem(id,vo2); // 캐싱을 위한 product service 생성
+    //        log.info("최근 본 항목 리스트: {}", recentItems);
+    //이 내용은 사용자 최근 조회 목록을 위해 싱세조회api가 호출할때 발생하는 vo데이터들을 캐싱하기 위해서 짠 로직입니다
+    //여러번 테스트를 해본결과 해당 기능에 문제가 없고 최근조회목록 조회기능에도 문제가 없는거 같습니다 만약 문제가 생긴다면 연락부탁드립니다.
+
 
     // 내 서재에 추가 (읽은 작품, 읽고 있는 작품, 읽고 싶은 작품)
     // added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정
