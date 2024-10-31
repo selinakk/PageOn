@@ -113,17 +113,17 @@ public class ReviewContoller {
                              @RequestParam(defaultValue = "book")String searchWord,
                              @RequestParam(defaultValue = "1")int cpage,
                              @RequestParam(defaultValue = "4")int pageBlock){
-        log.info("리뷰 상세");
+        log.info("리뷰 검색");
         log.info("searchKey:{}", searchKey);
         log.info("searchWord:{}", searchWord);
         log.info("cpage:{}", cpage);
         log.info("pageBlock:{}", pageBlock);
         List<ReviewVO> list= service.searchListPageBlock(searchKey,searchWord,cpage,pageBlock);
-        model.addAttribute("list:", list);
+
         log.info("list:{}", list);
 
-
-        int total_rows= service.getsearchTotalRow(searchKey, searchWord);
+        int total_rows= service.getsearchTotalRow(searchKey, searchWord, pageBlock, cpage);
+        log.info("total_rows:{}", total_rows);
 
         int totalPageCount =0;
         if (total_rows/ pageBlock ==0){
@@ -136,15 +136,20 @@ public class ReviewContoller {
         log.info("totalPageCount:{}", totalPageCount);
 
         model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("list:", list);
+        model.addAttribute("searchKey", searchKey);
+        model.addAttribute("searchWord", searchWord);
 
         return "review/list";
     }
 //
     //리뷰 입력
     @GetMapping("/review/insert")
-    public String insert(Model model) {
+    public String insert(Model model,
+                         @RequestParam(defaultValue = "work_num") int work_num) {
         log.info("리뷰 입력");
 
+        model.addAttribute("work_num", work_num);
         return "review/insert";
 
     }
