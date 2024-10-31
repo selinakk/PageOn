@@ -28,14 +28,10 @@ public interface ReviewMapper {
                                              @Param("pageBlock") int pageBlock,
                                              @Param("sortType") String sortType);
 
-    public List<ReviewVO> review_searchListPageBlockTitle(String searchWord, int startRow, int pageBlock);
+    List<ReviewVO> review_searchListPage(int startRow, int pageBlock, String searchWord, String searchKey);
 
-    public List<ReviewVO> review_searchListPageWork_id(String searchWord, int startRow, int pageBlock);
+    int review_getSearchTotalRows( String searchKey, String searchWord, int startRow, int pageBlock);
 
-
-    public int review_getsearchTotalRowTitle(String searchWord);
-
-    public int review_getsearchTotalRowWork_id(String searchWord);
 
     int review_updateReport(ReviewVO vo);
 
@@ -50,6 +46,16 @@ public interface ReviewMapper {
     List<ReviewVO> reviewfindByUserId(String userId);
 
     List<ReviewVO> findByUserId(String userId);
+
+    List<Object> getReviewRecommended(String userId);
+
+//    List<ReviewVO> review_searchListPageTitle(int startRow, int pageBlock, String searchWord);
+//
+//    List<ReviewVO> review_searchListPageContent(int startRow, int pageBlock, String searchWord);
+//
+//    int getsearchListPageTitle(int startRow, int pageBlock, String searchWord);
+//
+//    int getsearchListPageContent(int startRow, int pageBlock, String searchWord);
 
 
 //   Map<String, Object> getCategoryByWorkId(@Param("workNum")int workNum);

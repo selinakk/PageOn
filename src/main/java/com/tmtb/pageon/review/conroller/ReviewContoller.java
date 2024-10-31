@@ -136,7 +136,7 @@ public class ReviewContoller {
         log.info("totalPageCount:{}", totalPageCount);
 
         model.addAttribute("totalPageCount", totalPageCount);
-        model.addAttribute("list:", list);
+        model.addAttribute("list", list);
         model.addAttribute("searchKey", searchKey);
         model.addAttribute("searchWord", searchWord);
 
@@ -280,17 +280,16 @@ public class ReviewContoller {
     }
 
 
-//    @GetMapping("/recommemdation")
-//    public String recommendation(@PathVariable String userId, Model model){
-//        List<ReviewVO> userReview = service.getUserReview(userId);
-//        List<Object> RecommendedWorks = service.getRecommendedWorks(userId);
-//
-//        model.addAttribute("userReview", userReview);
-//        model.addAttribute("recommendationWork", RecommendedWorks);
-//
-//
-//        return "recommendation";
-//    }
+    @GetMapping("/recommemdation")
+    public String recommendation(@RequestParam(defaultValue = "admin1") String user_Id, Model model){
+        //List<Object> RecommendedWorks = service.getReviewRecommended(user_Id);
+        //model.addAttribute("recommendationWork", RecommendedWorks);
+
+        
+
+
+        return "recommendation";
+    }
 
 
 }

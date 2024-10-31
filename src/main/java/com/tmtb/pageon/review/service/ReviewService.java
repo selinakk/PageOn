@@ -44,15 +44,6 @@ public class ReviewService {
         return mapper.review_deleteOK(vo);
     }
 
-    public int getsearchTotalRow(String searchKey, String searchWord) {
-        log.info("review getsearchTotalRow");
-
-        if (searchKey.equals("title")) {
-            return mapper.review_getsearchTotalRowTitle("%" + searchWord + "%");
-        } else {
-            return mapper.review_getsearchTotalRowWork_id("%" + searchWord + "%");
-        }
-    }
 
     public List<ReviewVO> selectAllPageBlock(int cpage, int pageBlock, String sortType) {
         log.info("review selectAllPageBlock");
@@ -78,13 +69,27 @@ public class ReviewService {
         int startRow = (cpage - 1) * pageBlock;
         log.info("startRow:{}", startRow);
         log.info("pageBlock:{}", pageBlock);
+        return mapper.review_searchListPage(startRow, pageBlock,"%" + searchWord + "%", searchKey);
+//        if(searchKey.equals("title")){
+//
+//            return mapper.review_searchListPageTitle(startRow, pageBlock,"%" + searchWord + "%");
+//        }else{
+//            return mapper.review_searchListPageContent(startRow, pageBlock,"%" + searchWord + "%");
+//        }
 
-        if (searchKey.equals("title")) {
-            return mapper.review_searchListPageBlockTitle("%" + searchWord + "%", startRow, pageBlock);
-        } else {
-            return mapper.review_searchListPageWork_id("%" + searchWord + "%", startRow, pageBlock);
-        }
 
+    }
+    public int getsearchTotalRow(String searchKey, String searchWord, int pageBlock, int cpage) {
+        log.info("review getsearchTotalRow");
+        int startRow = (cpage - 1) * pageBlock;
+
+//        if(searchKey.equals("title")){
+//
+//            return mapper.getsearchListPageTitle(startRow, pageBlock,"%" + searchWord + "%");
+//        }else{
+//            return mapper.getsearchListPageContent(startRow, pageBlock,"%" + searchWord + "%");
+//        }
+        return mapper.review_getSearchTotalRows( searchKey,  "%"+searchWord+"%", startRow ,pageBlock);
     }
 
 
@@ -112,13 +117,14 @@ public class ReviewService {
     }
 
 
-    public List<ReviewVO> getUserReview(String userId) {
-        return mapper.reviewfindByUserId(userId); //유저 리뷰조회
-    }
-
 
     public List<ReviewVO> getRecentReview(int cpage, int pageBlock) {
         int start_Row = (cpage -1) * pageBlock;
         return mapper.review_selectAllPageBlock(start_Row,pageBlock,"recent");
+    }
+
+    public List<Object> getReviewRecommended(String userId) {
+
+        return mapper.getReviewRecommended(userId);
     }
 }
