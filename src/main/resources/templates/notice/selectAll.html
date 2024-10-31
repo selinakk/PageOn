@@ -31,11 +31,6 @@
       color: white;
     }
 
-    #button-container {
-      display: flex; /* 버튼들을 한 줄에 정렬 */
-      gap: 10px; /* 버튼 사이의 간격 설정 */
-    }
-
     #write:hover {
       background-color: #152315;
     }
@@ -56,28 +51,6 @@
 
     #insertTable tr:hover {
       background-color: #e15c5c;
-    }
-
-    #form1 {
-      margin-left: 82%;
-    }
-
-    #btn1, #btn2, #btn3 {
-      border-radius: 25px;
-      background-color: #E15C5CFF;
-      color: white;
-    }
-
-    #btn1:hover {
-      background-color: #152315;
-    }
-
-    #btn2:hover {
-      background-color: #152315;
-    }
-
-    #btn3:hover {
-      background-color: #152315;
     }
 
     #search {
@@ -146,12 +119,11 @@
 </head>
 
 <body>
-<!--<h1>공지사항 페이지-->
 <!--&lt;!&ndash;  <a href="/community"><img src="/community_image.png" width="30px"></a>&ndash;&gt;-->
-<!--</h1>-->
 
 <header th:replace="~{header :: header}"></header>
 <nav th:replace="~{top_menu::top_menu}"></nav>
+<h3 style="margin-left: 4.7%">공지사항 페이지</h3>
 <form onsubmit="return validateForm()" action="/notice/n_searchList.do">
   <select id="input2" name="searchKey">
     <option value="title">제목</option>
@@ -178,6 +150,10 @@
       alert("검색어가 100바이트를 초과하였습니다.");
       return false;
     }
+    if (getByteLength(searchWord) <= 0) {
+      alert("검색어를 입력하세요.");
+      return false;
+    }
 
     return true; // 모든 조건을 만족하면 폼을 제출
   }
@@ -185,23 +161,14 @@
 
 <br>
 
-<div id="button-container">
-  <!--최신순-->
-  <form id="form1" action="/notice/n_selectAll.do">
-    <input class="btncss" id="btn1" type="submit" value="최신순">
-  </form>
-
-  <!--오래된순-->
-  <form id="form2" action="/notice/n_selectAllNew.do">
-    <input class="btncss" id="btn2" type="submit" value="오래된순">
-  </form>
-
-  <!--조회순-->
-  <form id="form3" action="/notice/n_selectAllHitcount.do">
-    <input class="btncss" id="btn3" type="submit" value="조회순">
-  </form>
-</div>
-
+<form style="margin-left: 90%" action="/notice/n_selectAll.do" method="get">
+  <select name="sort" onchange="this.form.submit()">
+    <option value="newest" th:selected="${currentSort == 'newest'}">최신순</option>
+    <option value="oldest" th:selected="${currentSort == 'oldest'}">오래된순</option>
+    <option value="mostViewed" th:selected="${currentSort == 'mostViewed'}">조회순</option>
+  </select>
+  <input type="hidden" name="cpage" value="1"/>
+</form>
 <br><br>
 
 <table id="insertTable" border="1">
@@ -216,7 +183,6 @@
   </thead>
 
   <tbody id="tbody">
-
   <div>
     <th:block th:each="vo : ${list}">
       <tr>
@@ -233,15 +199,8 @@
   <tfoot id="tfootcss">
   <tr id="border5">
     <td colspan="6">
-      <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
-        <th:block th:if="${param.searchKey == null}">
-          <a th:href="|/notice/n_selectAll.do?cpage=${i}|">[[${i}]]</a>
-        </th:block>
-        <th:block th:if="${param.searchKey != null}" >
-          <th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
-            <a th:href="|/notice/n_searchList.do?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|">[[${i}]]</a>
-          </th:block>
-        </th:block>
+      <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
+        <a th:href="|/notice/n_selectAll.do?cpage=${i}&sort=${currentSort}|">[[${i}]]</a>
       </th:block>
     </td>
   </tr>
