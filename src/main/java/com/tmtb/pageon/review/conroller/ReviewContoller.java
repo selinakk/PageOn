@@ -1,4 +1,4 @@
-package com.tmtb.pageon.review.controller;
+package com.tmtb.pageon.review.conroller;
 
 
 import com.tmtb.pageon.comment.controller.CommentController;

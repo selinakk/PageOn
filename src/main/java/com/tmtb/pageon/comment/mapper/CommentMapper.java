@@ -18,9 +18,9 @@ public interface CommentMapper {
 
     int getTotalRows(String type, Integer bnum, Integer fnum, Integer rnum);
 
-    List<CommentVO> selectAllChild(int cnum, int startRow, int pageBlock);
+    List<CommentVO> selectAllChild(Integer cnum, int startRow, int pageBlock);
 
-    int getTotalChildRows(int cnum);
+    int getTotalChildRows(Integer cnum);
 
     // 신고 상태 확인 메서드 추가
     int checkReport(int num);
