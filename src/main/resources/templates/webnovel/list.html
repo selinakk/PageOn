@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::body})}">
+<head>
+    <title>Webnovel List</title>
+</head>
+<body>
+
+<section id="webnovel-list" class="position-relative padding-small">
+
+    <!-- '전체', '인기', '사용자 추천', '선호' 선택 -->
+    <div id="filter-options">
+        <a th:href="@{/webnovels(filter='all')}" class="filter-option" th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
+        <a th:href="@{/webnovels(filter='recommend')}" class="filter-option" th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
+        <a th:href="@{/webnovels(filter='prefer')}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
+    </div>
+
+    <!-- 카테고리 선택 링크 -->
+    <div>
+        <a href="javascript:void(0);" onclick="selectAll()" id="전체" class="category">#전체</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('판타지')" id="판타지" class="category">#판타지</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('현대판타지')" id="현대판타지" class="category">#현대판타지</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('무협')" id="무협" class="category">#무협</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('드라마')" id="드라마" class="category">#드라마</a>
+        <a href="javascript:void(0);" onclick="toggleCategory('로맨스판타지')" id="로맨스판타지" class="category">#로맨스판타지</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        let selectedCategories = params.getAll('category');
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (selectedCategories.length === 0) {
+                document.getElementById("전체").classList.add('selected-category');
+            } else {
+                selectedCategories.forEach(category => {
+                    const categoryElement = document.getElementById(category);
+                    if (categoryElement) {
+                        categoryElement.classList.add('selected-category');
+                    }
+                });
+            }
+        });
+
+        function toggleCategory(category) {
+            const index = selectedCategories.indexOf(category);
+
+            if (index > -1) {
+                selectedCategories.splice(index, 1);
+            } else {
+                selectedCategories.push(category);
+            }
+
+            updateURL();
+        }
+
+        function selectAll() {
+            selectedCategories = [];
+            updateURL();
+        }
+
+        function updateURL() {
+            const newParams = new URLSearchParams();
+            selectedCategories.forEach(cat => newParams.append('category', cat));
+            window.location.href = '/webnovels?' + newParams.toString();
+        }
+    </script>
+
+    <div id="filter-container">
+        <!-- 검색 폼 -->
+        <form class="webnovel-search" th:action="@{/webnovels}" method="get">
+            <input type="hidden" name="category" th:value="${category}"/> <!-- 선택된 카테고리 유지 -->
+            <input type="hidden" name="sortOrder" th:value="${sortOrder}"/> <!-- 선택된 정렬 방식 유지 -->
+            <select name="searchKey">
+                <option value="title" th:selected="${searchKey == 'title'}">제목</option>
+                <option value="writer" th:selected="${searchKey == 'writer'}">작가</option>
+            </select>
+            <input type="text" name="searchWord" placeholder="Search..." th:value="${searchWord}"/>
+            <input type="image" src="/img/book_webnovel_search.png" alt="Search" class="search-icon"/>
+        </form>
+
+        <!-- 정렬 방식 선택 -->
+        <div id="sort-options">
+            <a th:href="@{/webnovels(sortOrder='latest', category=${category}, searchKey=${searchKey}, searchWord=${searchWord})}"
+               th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">최신순</a>
+
+            <a th:href="@{/webnovels(sortOrder='popular', category=${category}, searchKey=${searchKey}, searchWord=${searchWord})}"
+               th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">인기순</a>
+        </div>
+    </div>
+
+    <!-- Webnovel grid -->
+    <div class="webnovel-grid">
+        <div class="webnovel-item" th:each="vo : ${list}">
+            <a th:href="@{/webnovel/detail(item_id=${vo.item_id})}">
+                <img th:src="@{${vo.img_name}}" class="webnovel-img" alt="Webnovel Cover">
+            </a>
+            <a th:href="@{/webnovel/detail(item_id=${vo.item_id})}" class="webnovel-title" th:text="${vo.title}"></a>
+        </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination" th:if="${totalPageCount > 1}">
+        <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+           th:href="@{/webnovels(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord})}"
+           th:text="${i}"></a>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>공지사항 작성 페이지</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/sub.css">
+  <!--  <link rel="stylesheet" href="/css/notice/insertCSS.css"> &lt;!&ndash; CSS 파일 링크 &ndash;&gt;-->
+
+  <style>
+    /* /notice/insertCSS.css */
+    .center {
+      text-align: center;
+    }
+
+    .input {
+      width: 100%;
+      padding: 8px 8px;
+      margin: 8px 0;
+      display: inline-block;
+      box-sizing: border-box;
+    }
+
+    #btn1 {
+      background-color: #E15C5CFF;
+      margin: 8px 0;
+      padding: 10px 30px;
+      font-style: initial;
+      font-size: 20px;
+      background-color: #E15C5CFF;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      margin-left: 90%;
+    }
+
+    #btn1:hover {
+      background-color: #152315;
+    }
+
+    #insertTable {
+      border-collapse: collapse;
+      width: 95%;
+      margin: auto;
+      border: 2px solid black; /* 바깥 테두리를 진하게 */
+    }
+
+    #insertTable td {
+      /*border: 1px solid #ddd;*/
+    }
+
+    #insertTable tr:hover {
+      background-color: #E15C5CFF;
+    }
+
+    #user_id {
+      text-align: center;
+    }
+
+    #content {
+      color: blue;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<!--<h1>공지사항 작성 페이지</h1>-->
+<header th:replace="~{header :: header}"></header>
+<nav th:replace="~{top_menu::top_menu}"></nav>
+<br>
+<form onsubmit="return validateForm()" action="/notice/n_insertOK.do" method="post" enctype="multipart/form-data">
+  <table id="insertTable" border="1">
+    <tr>
+      <td class="center"><label for="title">제목</label></td>
+      <td><input class="input" type="text" id="title" name="title" placeholder="제목을 입력하세요"></td>
+    </tr>
+    <tr>
+      <td class="center"><label for="content">내용</label></td>
+      <td><textarea class="input" name="content" id="content" cols="100" rows="17" placeholder="내용을 입력하세요"></textarea></td>
+    </tr>
+    <tr>
+      <td class="center"><label for="user_id">작성자</label></td>
+      <td><input class="input" type="text" id="user_id" name="user_id" placeholder="작성자를 입력하세요"></td>
+    </tr>
+    <tr>
+      <td class="center"><label for="file">이미지</label></td>
+      <td class="center"><input type="file" id="file" name="file"></td>
+    </tr>
+  </table>
+
+  <input id="btn1" type="submit" value="등록하기">
+</form>
+
+<script>
+  function getByteLength(text) {
+    let byteSize = 0;
+    for (let i = 0; i < text.length; i++) {
+      const charCode = text.charCodeAt(i);
+      byteSize += charCode <= 0x007F ? 1 : charCode <= 0x07FF ? 2 : 3; // ASCII는 1바이트, 나머지 유니코드는 2~3바이트
+    }
+    return byteSize;
+  }
+
+  function validateForm() {
+    const title = document.getElementById("title").value;
+    const userId = document.getElementById("user_id").value;
+    const content = document.getElementById("content").value;
+    const fileInput = document.getElementById("file");
+
+    if (getByteLength(title) > 100) {
+      alert("제목이 100바이트를 초과하였습니다.");
+      return false;
+    }
+    if (getByteLength(userId) > 20) {
+      alert("작성자가 20바이트를 초과하였습니다.");
+      return false;
+    }
+    if (getByteLength(content) > 5000) {
+      alert("내용이 5000바이트를 초과하였습니다.");
+      return false;
+    }
+
+    if (fileInput.files.length > 0) {
+      const fileName = fileInput.files[0].name;
+      if (getByteLength(fileName) > 100) {
+        alert("이미지 파일 이름이 100바이트를 초과하였습니다.");
+        return false;
+      }
+    }
+
+    return true; // 모든 조건을 만족하면 폼을 제출
+  }
+</script>
+
+
+</body>
+
+<!-- Bootstrap JS, Popper.js, and jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<footer th:replace="~{footer :: footer}"></footer>
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+
+</html>
