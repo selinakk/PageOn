@@ -20,9 +20,9 @@
     <select id="selectAll" resultType="com.tmtb.pageon.comment.model.CommentVO">
         SELECT * FROM pageon.comment
         WHERE
-            (type = 'forum' AND fnum = #{fnum} AND cnum IS NULL) OR
-            (type = 'review' AND rnum = #{rnum} AND cnum IS NULL) OR
-            (type = 'board' AND bnum = #{bnum} AND cnum IS NULL)
+            (type = 'forum' AND fnum = #{fnum} AND cnum = 0) OR
+            (type = 'review' AND rnum = #{rnum} AND cnum = 0) OR
+            (type = 'board' AND bnum = #{bnum} AND cnum = 0)
         ORDER BY wdate ASC
             LIMIT #{startRow}, #{pageBlock}
     </select>
@@ -30,9 +30,9 @@
     <select id="getTotalRows" resultType="int">
         SELECT COUNT(*) FROM pageon.comment
         WHERE
-            (type = 'forum' AND fnum = #{fnum} AND cnum IS NULL) OR
-            (type = 'review' AND rnum = #{rnum} AND cnum IS NULL) OR
-            (type = 'board' AND bnum = #{bnum} AND cnum IS NULL)
+            (type = 'forum' AND fnum = #{fnum} AND cnum = 0) OR
+            (type = 'review' AND rnum = #{rnum} AND cnum = 0) OR
+            (type = 'board' AND bnum = #{bnum} AND cnum = 0)
     </select>
 
     <select id="selectAllChild" resultType="com.tmtb.pageon.comment.model.CommentVO">

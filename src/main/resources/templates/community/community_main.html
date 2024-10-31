@@ -100,10 +100,10 @@
     <tbody>
     <th:block th:each="vo : ${list1}">
         <tr id="table1">
-            <td class="td"><a th:href="|/board/b_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+            <td class="td"><a th:href="|/b_selectOne?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/board/b_selectAll.do|">더보기...</a></td>
+    <td class="td"><a th:href="|/freeboard|">더보기...</a></td>
     </tbody>
 </table>
 
@@ -117,9 +117,9 @@
             <td class="td"><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/notice/n_selectAll.do|">더보기...</a></td>
+    <td class="td"><a class="aaacss" th:href="|/notice/n_selectAll.do|">더보기...</a></td>
     </tbody>
-</table>
+    </table>
 </div>
 
 <br><br><br><br><br><br><br><br><br><br>
@@ -130,10 +130,10 @@
     <tbody>
     <th:block th:each="vo : ${list3}">
         <tr id="table3">
-            <td class="td"><a th:href="|/review/r_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+            <td class="td"><a th:href="|/review/detail?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/review/r_selectAll.do|">더보기...</a></td>
+    <td class="td"><a th:href="|/review/list|">더보기...</a></td>
     </tbody>
 </table>
 
@@ -147,7 +147,7 @@
             <td class="td"><a th:href="|/forum/view?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/forum/f_selectAll.do|">더보기...</a></td>
+    <td class="td"><a th:href="|/forum/list|">더보기...</a></td>
     </tbody>
 </table>
 </div>

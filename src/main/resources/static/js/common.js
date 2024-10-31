@@ -147,23 +147,6 @@
             },
         });
 
-        /* 작품 메인의 사용자 추천, 선호 카테고리 추천 스와이퍼 */
-        var worktSwiper = new Swiper(".work-swiper", {
-            spaceBetween: 20,
-            navigation: {
-                nextEl: ".work-slider-button-next",
-                prevEl: ".work-slider-button-prev",
-            },
-            breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                },
-                660: {
-                    slidesPerView: 3,
-                }
-            },
-        });
-
         var testimonialSwiper = new Swiper(".testimonial-swiper", {
             slidesPerView: 1,
             spaceBetween: 20,
