@@ -1,10 +1,10 @@
-package com.tmtb.pageon.review.Conroller;
+package com.tmtb.pageon.review.conroller;
 
 
 import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
-import com.tmtb.pageon.review.Service.ReviewService;
-import com.tmtb.pageon.review.Service.SentimentAnalysisService;
+import com.tmtb.pageon.review.service.ReviewService;
+import com.tmtb.pageon.review.service.SentimentAnalysisService;
 import com.tmtb.pageon.review.model.ReviewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,18 +78,18 @@ public class ReviewContoller {
 
     //리뷰 상세
     @GetMapping("/review/detail")
-    public String selectOne(Model model, ReviewVO vo,
+    public String selectOne(Model model,
+                            ReviewVO vo,
                             @RequestParam(defaultValue = "1")int cpage,
                             @RequestParam(defaultValue = "20")int pageBlock){
         log.info("리뷰 상세");
         ReviewVO vo2 = service.selectOne(vo);
         model.addAttribute("vo2", vo2);
 
-        log.info("testPage()... cpage: {}, pageBlock: {}", cpage, pageBlock);
+        log.info("vo2:{}", vo2);
 
         //  CommentController의 selectAll() 메서드를 호출하여 댓글 데이터를 가져옵니다.
-        Map<String, Object> commentsData = controller.selectAll("forum", null, 1, null, cpage, pageBlock); // type과 부모글의
-
+        Map<String, Object> commentsData = controller.selectAll("review", null, null, vo2.getNum(), cpage, pageBlock); // type과 부모글의
 
         // 댓글 목록 가져오기
         List<CommentVO> comments = (List<CommentVO>) commentsData.get("comments");
@@ -97,19 +97,11 @@ public class ReviewContoller {
         // 전체 댓글 수 가져오기
         int totalRows = (int) commentsData.get("totalRows");
 
-
-        model.addAttribute("cpage", cpage);
-        model.addAttribute("pageBlock", pageBlock);
+        model.addAttribute("totalPageCount", (int) Math.ceil((double) totalRows / pageBlock));
         model.addAttribute("comments", comments);
         model.addAttribute("cpage", cpage);
-
-
-
-
-
-
-
-        log.info("vo2:{}", vo2);
+        model.addAttribute("pageBlock", pageBlock);
+        model.addAttribute("vo2", vo2);
         return "review/detail";
     }
     //리뷰 검색 및 페이징
