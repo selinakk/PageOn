@@ -49,6 +49,7 @@
           <td class="align-middle">
             <a th:if="${book.workType == 'book'}" th:href="@{/book/detail(item_id=${book.work_num})}" th:text="${book.workTitle}"></a>
             <a th:if="${book.workType == 'webnovel'}" th:href="@{/webnovel/detail(item_id=${book.work_num})}" th:text="${book.workTitle}"></a>
+            <a th:if="${book.workType == 'webtoon'}" th:href="@{/wt_selectOne(item_id=${book.work_num})}" th:text="${book.workTitle}"></a>
           </td>
 
           <td class="align-middle">

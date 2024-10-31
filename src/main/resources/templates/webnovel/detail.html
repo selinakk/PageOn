@@ -56,7 +56,7 @@
             <button class="dropdown-button">내 서재에 추가</button>
             <div class="dropdown-content">
                 <!-- 각 상태를 파라미터로 보내는 링크들 -->
-                <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                <form action="/bookshelf/insertOK" method="post">
                     <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
                     <input type="hidden" name="work_num" th:value="${vo2.item_id}" />
                     <label for="read"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="positionabsolute"> 읽은 작품</label>
