@@ -65,7 +65,7 @@ public class ReviewService {
         log.info("review getTotalRow");
         return mapper.review_getTotalRow();
     }
-    //
+//
     public List<ReviewVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
         log.info("review getTotalRow");
 
@@ -93,7 +93,7 @@ public class ReviewService {
         log.info("increaseLike ...");
         return mapper.review_increamentLikes(num);
     }
-    //
+//
     public int increamentDislikes(int num) {
         log.info("increamentDislikes ,,");
         return mapper.review_increamentDislikes(num);
@@ -115,3 +115,4 @@ public class ReviewService {
 //        return mapper.writeFindWorkByCategory(titleId);
 //    }
 }
+

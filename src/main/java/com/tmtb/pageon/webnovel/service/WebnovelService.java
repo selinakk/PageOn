@@ -46,28 +46,33 @@ public class WebnovelService {
         return mapper.getSearchTotalRows(searchKey, "%" + searchWord + "%");
     }
 
-    public List<WebnovelVO> selectWebnovelsByCategories(List<String> categories, int cpage, int pageBlock, String sortOrder) {
+    public List<WebnovelVO> selectWebnovelsByCategory(String category, int cpage, int pageBlock, String sortOrder) {
         int startRow = (cpage - 1) * pageBlock;
-        return mapper.selectWebnovelsByCategories(categories, startRow, pageBlock, sortOrder);
+        return mapper.selectWebnovelsByCategory(category, startRow, pageBlock, sortOrder);
     }
 
-    public int getTotalRowsByCategories(List<String> categories) {
-        return mapper.getTotalRowsByCategories(categories);
+    public int getTotalRowsByCategory(String category) {
+        return mapper.getTotalRowsByCategory(category);
     }
 
-    public List<WebnovelVO> searchWebnovelsInCategories(List<String> categories, String searchKey, String searchWord, int cpage, int pageBlock, String sortOrder) {
+    public List<WebnovelVO> searchWebnovelsInCategory(String category, String searchKey, String searchWord, int cpage, int pageBlock, String sortOrder) {
         int startRow = (cpage - 1) * pageBlock;
+
+        // searchKey가 유효하지 않으면 기본값을 title로 설정
         if (!"title".equals(searchKey) && !"writer".equals(searchKey)) {
             searchKey = "title";
         }
-        return mapper.searchWebnovelsInCategories(categories, searchKey, "%" + searchWord + "%", startRow, pageBlock, sortOrder);
+
+        return mapper.searchWebnovelsInCategory(category, searchKey, "%" + searchWord + "%", startRow, pageBlock, sortOrder);
     }
 
-    public int getSearchTotalRowsInCategories(List<String> categories, String searchKey, String searchWord) {
+    public int getSearchTotalRowsInCategory(String category, String searchKey, String searchWord) {
+        // searchKey가 유효하지 않으면 기본값을 title로 설정
         if (!"title".equals(searchKey) && !"writer".equals(searchKey)) {
             searchKey = "title";
         }
-        return mapper.getSearchTotalRowsInCategories(categories, searchKey, "%" + searchWord + "%");
+
+        return mapper.getSearchTotalRowsInCategory(category, searchKey, "%" + searchWord + "%");
     }
 
     public WebnovelVO selectOne(WebnovelVO vo) {

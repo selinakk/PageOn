@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>PageOn 토론 목록</title>
+</head>
+<body>
+<main th:fragment="forum-list">
+  <div class="position-relative padding-medium">
+    <div class="container">
+      <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+        <h3 class="d-flex align-items-center">토론 게시판</h3>
+        <form action="/forum/search" method="GET" class="search-list--custom d-flex">
+          <select name="searchKey" id="searchKey" class="form-select p-2 w-25 rounded-0">
+            <option value="title" th:selected="${searchKey == 'title'}">토론 제목</option>
+            <option value="workTitle" th:selected="${searchKey == 'workTitle'}">작품 제목</option>
+            <option value="content" th:selected="${searchKey == 'content'}">내용</option>
+            <option value="userName" th:selected="${searchKey == 'userName'}">게시자명</option>
+          </select>
+          <input type="text" minlength="2" name="searchWord" th:value="${searchWord}" placeholder="검색어를 입력해 주세요" class="form-control p-2 w-75 rounded-0" required>
+          <input type="submit" class="btn btn-dark rounded-0 p-2" value="검색">
+        </form>
+      </div>
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <p class="f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
+          <strong th:text="${searchWord}"></strong>에 대한 검색 결과: <span th:text="${totalSearchList}"></span>건
+        </p>
+        <p class="f-3" th:unless="${not #strings.isEmpty(searchWord)}"
+           th:text="|총 ${totalList}건|"></p>
+
+        <th:block th:if="${#strings.isEmpty(searchWord)}">
+          <div class="sort-wrapper position-relative">
+            <button class="nav-link dropdown-toggle">정렬</button>
+            <div class="dropdown-menu animate slide border vstack text-center">
+              <a class="p-1 text-black" th:href="@{/forum/list(page=${currentPage}, size=${pageSize}, sortField='wdate', sortDir='desc')}">
+                <small>최신순</small>
+              </a>
+              <a class="p-1 text-black" th:href="@{/forum/list(page=${currentPage}, size=${pageSize}, sortField='hitcount', sortDir='desc')}">
+                <small>조회수순</small>
+              </a>
+              <a class="p-1 text-black" th:href="@{/forum/list(page=${currentPage}, size=${pageSize}, sortField='commentCnt', sortDir='desc')}">
+                <small>댓글이 많은 순</small>
+              </a>
+            </div>
+          </div>
+        </th:block>
+      </div>
+
+      <ul class="list-unstyled row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">
+          <li class="p-3" th:each="forum : ${list}">
+            <div class="card position-relative p-4 border rounded-3 fs-6">
+              <a th:href="@{/forum/view(num=${forum.num})}">
+                <img class="w-100 shadow-sm" th:src="@{${forum.workImgName}}" th:alt="|${forum.workTitle} 작품 이미지|"/>
+
+                <p class="mt-4 mb-0" th:text="${forum.workTitle}"></p>
+                <h6 class="my-3 fw-bold" th:text="${forum.title}"></h6>
+              </a>
+              <div class="d-flex flex-wrap gap-3">
+                <p class="mb-0">댓글수 <span th:text="${forum.commentCnt}"></span></p>
+                <p class="mb-0">조회수 <span th:text="${forum.hitcount}"></span></p>
+                <div class="w-100 d-flex justify-content-between align-items-center">
+                  <p class="mb-0">
+                    <a th:href="@{/bookshelf/list(userId=${forum.user_id})}" class="d-flex align-items-center">
+                      <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
+                        <img class="w-100 h-100" th:src="@{/img/{userImgName}(userImgName=${forum.userImgName})}" th:alt="|${forum.userName}님 프로필 이미지|">
+                      </span>
+                      <strong th:text="${forum.userName}"></strong>
+                    </a>
+                  </p>
+                  <span th:text="${forum.wdate}"></span>
+                </div>
+              </div>
+              <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
+                  <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+                  <input type="hidden" name="work_num" th:value="${forum.work_num}" />
+                  <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                  <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                  <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                </div>
+              </form>
+            </div>
+          </li>
+        </ul>
+
+      <th:block th:if="${totalSearchPages > 1}">
+        <div class="paging d-flex justify-content-center">
+          <a th:each="i : ${#numbers.sequence(1, totalSearchPages)}"
+             th:href="@{/forum/search(page=${i}, searchKey=${searchKey}, searchWord=${searchWord})}"
+             th:classappend="${i == currentPage} ? 'active' : ''"
+             th:text="${i}">
+          </a>
+        </div>
+      </th:block>
+      <th:block th:if="${searchWord == null or #strings.isEmpty(searchWord)}">
+        <div class="paging d-flex justify-content-center">
+          <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+             th:href="@{/forum/list(page=${i}, sortField=${sortField}, sortDir=${sortDir})}"
+             th:classappend="${i == currentPage} ? 'active' : ''"
+             th:text="${i}">
+          </a>
+        </div>
+      </th:block>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

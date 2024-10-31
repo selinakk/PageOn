@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.dao.DuplicateKeyException;
+
 import java.util.List;
 
 @Slf4j
@@ -83,15 +83,11 @@ public class BookshelfController {
                                   RedirectAttributes redirectAttributes){
         log.info("/bookshelf/insertOK - 서재에 작품 추가");
 
-        try {
-            boolean result = service.insertBookshelfOK(userId, sort, workNum);
-            if (result) {
-                redirectAttributes.addFlashAttribute("successMsg", "서재에 추가되었습니다.");
-            } else {
-                redirectAttributes.addFlashAttribute("errorMsg", "다시 시도해 주세요.");
-            }
-        } catch (DuplicateKeyException e) {
-            redirectAttributes.addFlashAttribute("errorMsg", "이미 서재에 등록된 작품입니다.");
+        boolean result = service.insertBookshelfOK(userId, sort, workNum);
+        if (result) {
+            redirectAttributes.addFlashAttribute("successMsg", "서재에 추가되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMsg", "다시 시도해 주세요.");
         }
         return "redirect:/bookshelf/list?userId=tester2"; //임시 - 프로필id 필요
     }

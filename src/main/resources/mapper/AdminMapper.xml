@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmtb.pageon.user.mapper.AdminMapper">
+
+    <select id="selectAllMembers" resultType="com.tmtb.pageon.user.model.UserVO">
+        SELECT * FROM member
+        ORDER BY num
+            LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="countAllMembers" resultType="int">
+        SELECT COUNT(*) FROM member
+    </select>
+
+    <insert id="insertMember" parameterType="com.tmtb.pageon.user.model.UserVO">
+        INSERT INTO member (id, pw, name, tel, imgname, like_categories, introduce, imgPath)
+        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{imgname}, #{like_categories}, #{introduce}, #{imgPath})
+    </insert>
+
+    <update id="updateMember" parameterType="com.tmtb.pageon.user.model.UserVO">
+        UPDATE member
+        SET pw = #{pw}, name = #{name}, tel = #{tel}, imgname = #{imgname}, like_categories = #{like_categories}, introduce = #{introduce}, imgPath = #{imgPath}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMember" parameterType="String">
+        DELETE FROM member WHERE id = #{id}
+    </delete>
+
+    <select id="searchMembers" parameterType="map" resultType="com.tmtb.pageon.user.model.UserVO">
+        SELECT *
+        FROM pageon.member
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY reg_date ${sortOrder}
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="countSearchMembers" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM pageon.member
+        WHERE name LIKE CONCAT('%', #{keyword}, '%') OR tel LIKE CONCAT('%', #{keyword}, '%') OR id LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+</mapper>

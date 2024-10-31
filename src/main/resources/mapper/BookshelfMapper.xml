@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmtb.pageon.bookshelf.mapper.BookshelfMapper">
+<!--    목록 보기-->
+    <select id="getList" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
+        SELECT b.*, w.title AS workTitle, w.img_name AS workImgName
+        FROM bookshelf b
+        JOIN work w ON b.work_num = w.item_id
+        WHERE b.user_id = #{user_id}
+        ORDER BY ${sortField} ${sortDir}
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="getListBySort" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
+        SELECT b.*, w.title AS workTitle, w.img_name as workImgName
+        FROM bookshelf b
+        JOIN work w ON b.work_num = w.item_id
+        WHERE b.sort=#{sort} AND b.user_id = #{userId}
+        ORDER BY ${sortField} ${sortDir}
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="getListCnt" resultType="int">
+        SELECT count(*) FROM bookshelf WHERE user_id = #{userId}
+    </select>
+    <select id="getListBySortCnt" resultType="int">
+        SELECT count(*) FROM bookshelf where sort=#{sort} AND user_id = #{userId}
+    </select>
+    <select id="getUserName" resultType="String">
+        SELECT name FROM member WHERE id = #{userId}
+    </select>
+<!--    목록 보기 끝-->
+<!--    DML -->
+    <insert id="insertBookshelfOK">
+        insert into bookshelf(user_id,sort,work_num) values(#{userId},#{sort},#{workNum})
+    </insert>
+    <update id="updateSortOK">
+        update bookshelf set sort=#{sort} where num=#{num}
+    </update>
+    <delete id="deleteBookshelfOK">
+        delete from bookshelf where num=#{num}
+    </delete>
+<!--    DML-->
+</mapper>

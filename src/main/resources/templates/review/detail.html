@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    <div id="paging">
+    <div id="paging" th:if="${totalPageCount > 1}">
         <ul>
             <li th:if="${cpage > 1}">
                 <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
@@ -197,6 +197,8 @@ $(document).ready(function() {
         });
     });
 });
+
+var rnum = [[${vo2.num}]]; // vo2.num 값을 정수로 저장
 
 function fetchChildComments(commentId, page = 1) {
     const childCommentsDiv = $('#childComments-' + commentId);
@@ -312,8 +314,8 @@ function submitComment() {
         contentType: "application/json",
         data: JSON.stringify({
             content: commentText,
-            type: "forum", // 부모글 타입
-            fnum: 1, // 부모글id
+            type: "review", // 부모글 타입
+            rnum: rnum, // 부모글id
             user_id: "user123" // 로그인id
         }),
         success: function() {
@@ -338,8 +340,8 @@ function submitReply(parentId) {
         contentType: "application/json",
         data: JSON.stringify({
             content: replyText,
-            type: "forum", // 부모글 타입
-            fnum: 1, // 부모글id
+            type: "review", // 부모글 타입
+            rnum: rnum, // 부모글id
             cnum: parentId,
             user_id: "user123" // 로그인id
         }),

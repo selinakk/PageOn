@@ -45,4 +45,3 @@ public interface NoticeMapper {
     public void hitcountUpdate(NoticeVO vo);
 }
 
-

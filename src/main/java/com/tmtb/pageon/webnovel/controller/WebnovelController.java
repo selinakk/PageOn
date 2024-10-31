@@ -22,29 +22,30 @@ public class WebnovelController {
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/webnovels")
     public String selectAllWebnovels(Model model,
-                                 @RequestParam(required = false) List<String> category, // 변경
+                                 @RequestParam(required = false) String category,
                                  @RequestParam(required = false, defaultValue = "1") int cpage,
                                  @RequestParam(required = false, defaultValue = "20") int pageBlock,
                                  @RequestParam(required = false) String searchKey,
                                  @RequestParam(required = false) String searchWord,
-                                 @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
+                                 @RequestParam(required = false, defaultValue = "latest") String sortOrder) { // 정렬 추가
         log.info("selectAllWebnovels() category: {}, cpage: {}, pageBlock: {}, searchKey: {}, searchWord: {}, sortOrder: {}",
                 category, cpage, pageBlock, searchKey, searchWord, sortOrder);
 
         List<WebnovelVO> list;
         int totalRows;
 
+        // 검색어가 있을 때 (전체 조회 또는 카테고리 내 검색)
         if (searchWord != null && !searchWord.isEmpty()) {
-            if (category != null && !category.isEmpty()) {
-                list = service.searchWebnovelsInCategories(category, searchKey, searchWord, cpage, pageBlock, sortOrder);
-                totalRows = service.getSearchTotalRowsInCategories(category, searchKey, searchWord);
+            if (category != null && !category.equals("전체") && !category.isEmpty()) {
+                list = service.searchWebnovelsInCategory(category, searchKey, searchWord, cpage, pageBlock, sortOrder);
+                totalRows = service.getSearchTotalRowsInCategory(category, searchKey, searchWord);
             } else {
                 list = service.searchWebnovels(searchKey, searchWord, cpage, pageBlock, sortOrder);
                 totalRows = service.getSearchTotalRows(searchKey, searchWord);
             }
-        } else if (category != null && !category.isEmpty()) {
-            list = service.selectWebnovelsByCategories(category, cpage, pageBlock, sortOrder);
-            totalRows = service.getTotalRowsByCategories(category);
+        } else if (category != null && !category.equals("전체") && !category.isEmpty()) {
+            list = service.selectWebnovelsByCategory(category, cpage, pageBlock, sortOrder);
+            totalRows = service.getTotalRowsByCategory(category);
         } else {
             list = service.selectAllWebnovels(cpage, pageBlock, sortOrder);
             totalRows = service.getTotalRows();

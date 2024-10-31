@@ -17,11 +17,11 @@ public interface WebnovelMapper {
     List<WebnovelVO> selectAllWebnovels(int startRow, int pageBlock, String sortOrder);
     int getTotalRows();
 
-    List<WebnovelVO> selectWebnovelsByCategories(List<String> categories, int startRow, int pageBlock, String sortOrder);
-    int getTotalRowsByCategories(List<String> categories);
+    List<WebnovelVO> selectWebnovelsByCategory(String category, int startRow, int pageBlock, String sortOrder);
+    int getTotalRowsByCategory(String category);
 
-    List<WebnovelVO> searchWebnovelsInCategories(List<String> categories, String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
-    int getSearchTotalRowsInCategories(List<String> categories, String searchKey, String searchWord);
+    List<WebnovelVO> searchWebnovelsInCategory(String category, String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
+    int getSearchTotalRowsInCategory(String category, String searchKey, String searchWord);
 
     List<WebnovelVO> searchWebnovels(String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
     int getSearchTotalRows(String searchKey, String searchWord);
