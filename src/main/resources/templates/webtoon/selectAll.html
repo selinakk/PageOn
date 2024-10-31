@@ -45,13 +45,22 @@
                         <div class="card-title" th:text="${webtoon.title}"></div>
                     </div>
                 </div>
-                <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                <form action="/bookshelf/insertOK" method="post" th:id="'addToLibraryForm' + ${webtoon.item_id}">
                     <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
-                        <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+                        <input type="hidden" name="user_id" value="tester2" /> <!--로그인id-->
                         <input type="hidden" name="work_num" th:value="${webtoon.item_id}" />
-                        <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                        <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                        <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+
+                        <label th:for="'read' + ${webtoon.item_id}" class="btn btn-dark">
+                            <input type="radio" name="sort" th:id="'read' + ${webtoon.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품
+                        </label>
+
+                        <label th:for="'to-read' + ${webtoon.item_id}" class="btn btn-dark">
+                            <input type="radio" name="sort" th:id="'to-read' + ${webtoon.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품
+                        </label>
+
+                        <label th:for="'ing' + ${webtoon.item_id}" class="btn btn-dark">
+                            <input type="radio" name="sort" th:id="'ing' + ${webtoon.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품
+                        </label>
                     </div>
                 </form>
             </div>
