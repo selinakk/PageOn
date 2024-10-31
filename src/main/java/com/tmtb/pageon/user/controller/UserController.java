@@ -1,16 +1,24 @@
 package com.tmtb.pageon.user.controller;
 
 import com.tmtb.pageon.user.model.*;
+import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -18,15 +26,18 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    ProductService productService;
 
-    // POST 요청: 사용자 등록 정보를 처리하는 메서드
+    // 사용자 등록
     @PostMapping("/insertUserForm")
-    public String insertUserForm(@ModelAttribute("user") UserVO userVO) {
+    public String insertUserForm(@ModelAttribute("user") UserVO userVO, @RequestParam("imgFile") MultipartFile imgFile) {
         log.info("사용자 정보 전달: {}", userVO);
-        userService.insertUser(userVO);
-        return "redirect:/";
+        userService.insertUser(userVO, imgFile);
+        return "redirect:/"; // 리다이렉트
     }
 
+    // 아이디 중복 체크
     @PostMapping("/selectUser")
     @ResponseBody
     public String insertSelectfindUser(@RequestParam String id) {
@@ -34,66 +45,60 @@ public class UserController {
         return isExist ? "해당 아이디가 존재합니다" : "해당 아이디는 사용 가능합니다";
     }
 
+    // 사용자 프로필 조회
+    // 사용자 프로필 조회
     @GetMapping("/user/profile")
     public String findById(HttpSession session, Model model) {
         String id = (String) session.getAttribute("id");
         log.info("세션에서 가져온 id: " + id);
+
         if (id != null) {
             UserVO userVO = userService.findById(id);
-            List<ForumVO> forumList = userService.findByForum(id); // 포럼 데이터 조회
-            List<BoardVO> boardList = userService.findByBoard(id); // 게시판 데이터 조회
-            List<ReviewVO> reviewList = userService.findByReviews(id); // 리뷰 데이터 조회
+            List<ForumVO> forumList = userService.findByForum(id);
+            List<BoardVO> boardList = userService.findByBoard(id);
+            List<ReviewVO> reviewList = userService.findByReviews(id);
             List<CommentVO> commentList = userService.findByComment(id);
 
-            // 사용자 카테고리 정보 추가
-            String[] categories = userVO.getLike_categories().split(","); // 카테고리를 배열로 변환
-            model.addAttribute("categories", categories); // 카테고리 목록을 모델에 추가
 
+            // 최근 본 항목 조회
+            List<Object> recentItems = productService.getRecentItems(id); // ID에 따른 최근 본 항목 가져오기
+
+            // 사용자 선호 카테고리와 다른 데이터 추가
+            String[] categories = userVO.getLike_categories().split(",");
+            model.addAttribute("categories", categories);
             model.addAttribute("userVO", userVO);
             model.addAttribute("forumList", forumList);
             model.addAttribute("boardList", boardList);
             model.addAttribute("reviewList", reviewList);
             model.addAttribute("commentList", commentList);
+            model.addAttribute("recentItems", recentItems); // 최근 본 항목 추가
         } else {
             return "redirect:/";
         }
         return "user/profile";
     }
 
+    // 사용자 프로필 조회
     @GetMapping("/user/userprofile")
-    public String findByIdUser(@RequestParam("id") String id, Model model) {
-        log.info("URL 파라미터에서 가져온 id: " + id);
-
-        // id 값이 존재할 경우 처리
-        if (id != null && !id.isEmpty()) {
-            // 사용자 정보 조회
+    public String userfindById(@RequestParam("id") String id, Model model) {
+        if (id != null) {
             UserVO userVO = userService.findById(id);
-
-            // 포럼, 게시판, 리뷰, 댓글 데이터 조회
             List<ForumVO> forumList = userService.findByForum(id);
             List<BoardVO> boardList = userService.findByBoard(id);
             List<ReviewVO> reviewList = userService.findByReviews(id);
             List<CommentVO> commentList = userService.findByComment(id);
 
-            // 사용자 선호 카테고리 처리
-            if (userVO.getLike_categories() != null && !userVO.getLike_categories().isEmpty()) {
-                String[] categories = userVO.getLike_categories().split(","); // 카테고리 문자열을 배열로 변환
-                model.addAttribute("categories", categories); // 카테고리 배열을 모델에 추가
-            }
-
-            // 모델에 필요한 데이터 추가
+            // 사용자 선호 카테고리와 다른 데이터 추가
+            String[] categories = userVO.getLike_categories().split(",");
+            model.addAttribute("categories", categories);
             model.addAttribute("userVO", userVO);
             model.addAttribute("forumList", forumList);
             model.addAttribute("boardList", boardList);
             model.addAttribute("reviewList", reviewList);
             model.addAttribute("commentList", commentList);
-
         } else {
-
             return "redirect:/";
         }
-
-
         return "user/profile";
     }
 
@@ -133,52 +138,56 @@ public class UserController {
         return "user/allProfile"; // 전체보기 페이지로 이동
     }
 
-    @PostMapping("user/update")
-    public String updateUserInfo(@ModelAttribute UserVO user, HttpSession session) {
+
+    // 사용자 정보 업데이트
+    @PostMapping("/user/update")
+    public String updateUserInfo(@ModelAttribute UserVO user, HttpSession session, @RequestParam("imgFile") MultipartFile imgFile) {
+
+
         String id = (String) session.getAttribute("id");
-        user.setId(id);
-        userService.updateUserInfo(user);
-        log.info("udpate");
+        if (id != null) {
+            user.setId(id);
+            userService.updateUserInfo(user, imgFile);
+            return "redirect:/user/profile";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    // 카테고리 업데이트
+    @PostMapping("/user/updateCategories")
+    public String updateUserCategories(@RequestParam List<String> likeCategories, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        log.info("Received categories: {}", likeCategories);
+        userService.updateUserCategories(id, String.join(",", likeCategories));
         return "redirect:/user/profile";
     }
 
-    @PostMapping("user/updateCategories")
-    public String updateUserCategories(@RequestParam List<String> likeCategories, HttpSession session) {
-        String id = (String) session.getAttribute("id");
-
-        // 로그 추가
-        log.info("Received categories: {}", likeCategories); // 수신된 카테고리 확인
-
-        userService.updateUserCategories(id, String.join(",", likeCategories)); // 카테고리 리스트를 콤마로 구분된 문자열로 변환
-        return "redirect:/user/profile"; // 성공 후 리디렉션
-    }
-
+    // 사용자 프로필 수정 페이지 이동
     @GetMapping("/user/updateProfile")
     public String updateUserProfile(HttpSession session, Model model) {
         String id = (String) session.getAttribute("id");
         if (id != null) {
             UserVO userVO = userService.findById(id);
             model.addAttribute("userVO", userVO);
-            return "user/updateProfile"; // 사용자 정보 수정 페이지
+            return "user/updateProfile";
         } else {
             return "redirect:/";
         }
     }
 
-
+    // 카테고리 수정 페이지 이동
     @GetMapping("/user/updateCategoriesPage")
     public String updateUserCategoriesPage(HttpSession session, Model model) {
         String id = (String) session.getAttribute("id");
         if (id != null) {
-            // 여기에 사용자의 현재 카테고리를 가져오는 로직을 추가합니다.
             UserVO userVO = userService.findById(id);
-            model.addAttribute("likeCategories", userVO.getLike_categories().split(",")); // 현재 카테고리
-            return "user/updateCategories"; // 카테고리 수정 페이지
+            model.addAttribute("likeCategories", userVO.getLike_categories().split(","));
+            return "user/updateCategories";
         } else {
             return "redirect:/";
         }
-
     }
 
-}
 
+}

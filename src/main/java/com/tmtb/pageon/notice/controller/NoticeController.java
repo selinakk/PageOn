@@ -1,7 +1,5 @@
 package com.tmtb.pageon.notice.controller;
 
-import com.tmtb.pageon.forum.model.ForumVO;
-import com.tmtb.pageon.forum.service.ForumService;
 import com.tmtb.pageon.notice.model.NoticeVO;
 import com.tmtb.pageon.notice.service.NoticeService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,31 +30,53 @@ public class NoticeController {
     private String realPath;
 
 
-
+    // 공지사항 목록 조회 페이징
     @GetMapping("/notice/n_selectAll.do")
-    public String selectAll(Model model, @RequestParam(defaultValue = "1") int cpage,
-                            @RequestParam(defaultValue = "15") int pageBlock) {
-        log.info("/notice/n_selectAll.do");
+    public String selectAllSorted(
+            Model model,
+            @RequestParam(defaultValue = "1") int cpage,
+            @RequestParam(defaultValue = "15") int pageBlock,
+            @RequestParam(defaultValue = "newest") String sort
+    ) {
+        List<NoticeVO> list = service.selectAllSortedPageBlock(cpage, pageBlock, sort);
+        int totalRows = service.getTotalRows();
+        int totalPageCount = (totalRows + pageBlock - 1) / pageBlock;
+
+        model.addAttribute("list", list);
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("currentSort", sort);
+
+        return "notice/selectAll";
+    }
+
+
+
+    // 공지사항 검색 조회 페이징
+    @GetMapping("/notice/n_searchList.do")
+    public String searchList(Model model, @RequestParam(defaultValue = "id") String searchKey,
+                             @RequestParam(defaultValue = "ad") String searchWord,
+                             @RequestParam(defaultValue = "1") int cpage,
+                             @RequestParam(defaultValue = "15") int pageBlock) {
+        log.info("/notice/n_searchList.do");
+        log.info("searchKey:{}", searchKey);
+        log.info("searchWord:{}", searchWord);
         log.info("cpage:{}", cpage);
         log.info("pageBlock:{}", pageBlock);
 
-        List<NoticeVO> list = service.selectAllPageBlock(cpage, pageBlock);
+        List<NoticeVO> list = service.searchListPageBlock(searchKey, searchWord,cpage,pageBlock);
         log.info("list.size():{}", list.size());
 
         model.addAttribute("list", list);
 
-        int total_rows = service.getTotalRows();// select count(*) total_rows from member;
+        int total_rows = service.getSearchTotalRows(searchKey, searchWord);
         log.info("total_rows:{}", total_rows);
-
         int totalPageCount = 0;
-
         if (total_rows / pageBlock == 0) {
             totalPageCount = 1;
         } else if (total_rows % pageBlock == 0) {
             totalPageCount = total_rows / pageBlock;
         } else {
             totalPageCount = total_rows / pageBlock + 1;
-            ;
         }
         log.info("totalPageCount:{}", totalPageCount);
 
@@ -67,77 +87,23 @@ public class NoticeController {
 
 
 
-    //오래된순
-    @GetMapping("/notice/n_selectAllNew.do")
-    public String selectAllNew(Model model, @RequestParam(defaultValue = "1") int cpage,
-                            @RequestParam(defaultValue = "15") int pageBlock) {
-        log.info("/notice/n_selectAllNew.do");
-        log.info("cpage:{}", cpage);
-        log.info("pageBlock:{}", pageBlock);
+    // 공지사항 상세보기
+    @GetMapping("/notice/n_selectOne.do")
+    public String selectOne(NoticeVO vo, Model model) {
+        log.info("/notice/n_selectOne.do");
+        log.info("vo:{}", vo);
 
-        List<NoticeVO> list = service.selectAllNewPageBlock(cpage, pageBlock);
-        log.info("list.size():{}", list.size());
+        NoticeVO vo2 = service.selectOne(vo);
+        log.info("vo2:{}", vo2);
 
-        model.addAttribute("list", list);
+        model.addAttribute("vo2", vo2);
 
-        int total_rows = service.getTotalRows();
-        log.info("total_rows:{}", total_rows);
-
-        int totalPageCount = 0;
-
-
-        if (total_rows / pageBlock == 0) {
-            totalPageCount = 1;
-        } else if (total_rows % pageBlock == 0) {
-            totalPageCount = total_rows / pageBlock;
-        } else {
-            totalPageCount = total_rows / pageBlock + 1;
-            ;
-        }
-        log.info("totalPageCount:{}", totalPageCount);
-
-        model.addAttribute("totalPageCount", totalPageCount);
-
-        return "notice/selectAll";
+        return "notice/selectOne";
     }
 
 
 
-    //조회순
-    @GetMapping("/notice/n_selectAllHitcount.do")
-    public String selectAllHitcount(Model model, @RequestParam(defaultValue = "1") int cpage,
-                               @RequestParam(defaultValue = "15") int pageBlock) {
-        log.info("/notice/n_selectAllHitcount.do");
-        log.info("cpage:{}", cpage);
-        log.info("pageBlock:{}", pageBlock);
-
-        List<NoticeVO> list = service.selectAllHitcountPageBlock(cpage, pageBlock);
-        log.info("list.size():{}", list.size());
-
-        model.addAttribute("list", list);
-
-        int total_rows = service.getTotalRows();
-        log.info("total_rows:{}", total_rows);
-
-        int totalPageCount = 0;
-
-        if (total_rows / pageBlock == 0) {
-            totalPageCount = 1;
-        } else if (total_rows % pageBlock == 0) {
-            totalPageCount = total_rows / pageBlock;
-        } else {
-            totalPageCount = total_rows / pageBlock + 1;
-            ;
-        }
-        log.info("totalPageCount:{}", totalPageCount);
-
-        model.addAttribute("totalPageCount", totalPageCount);
-
-        return "notice/selectAll";
-    }
-
-
-
+    // 공지사항 작성 폼
     @GetMapping("/notice/n_insert.do")
     public String insert() {
         log.info("/notice/n_insert.do");
@@ -146,10 +112,20 @@ public class NoticeController {
 
 
 
+    // 공지사항 작성
     @PostMapping("/notice/n_insertOK.do")
     public String insertOK(NoticeVO vo) throws IllegalStateException, IOException {
         log.info("/notice/n_insertOK.do");
         log.info("vo:{}", vo);
+
+        // 설정된 업로드 디렉터리 경로 가져오기
+        String uploadPath = realPath;
+        File uploadDir = new File(uploadPath);
+
+        // 디렉터리가 존재하지 않으면 생성
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
 
         log.info(realPath);
 
@@ -189,21 +165,7 @@ public class NoticeController {
 
 
 
-    @GetMapping("/notice/n_selectOne.do")
-    public String selectOne(NoticeVO vo, Model model) {
-        log.info("/notice/n_selectOne.do");
-        log.info("vo:{}", vo);
-
-        NoticeVO vo2 = service.selectOne(vo);
-        log.info("vo2:{}", vo2);
-
-        model.addAttribute("vo2", vo2);
-
-        return "notice/selectOne";
-    }
-
-
-
+    // 공지사항 수정 폼
     @GetMapping("/notice/n_update.do")
     public String update(NoticeVO vo, Model model) {
         log.info("/notice/n_update.do");
@@ -219,6 +181,7 @@ public class NoticeController {
 
 
 
+    // 공지사항 수정
     @PostMapping("/notice/n_updateOK.do")
     public String updateOK(NoticeVO vo) throws IllegalStateException, IOException {
         log.info("/notice/n_updateOK.do");
@@ -261,6 +224,7 @@ public class NoticeController {
 
 
 
+    //공지사항 삭제 폼
     @GetMapping("/notice/n_delete.do")
     public String delete() {
         log.info("/notice/n_delete.do");
@@ -269,6 +233,7 @@ public class NoticeController {
 
 
 
+    //공지사항 삭제
     @PostMapping("/notice/n_deleteOK.do")
     public String deleteOK(NoticeVO vo) {
         log.info("/notice/n_deleteOK.do");
@@ -285,38 +250,6 @@ public class NoticeController {
 
 
 
-    @GetMapping("/notice/n_searchList.do")
-    public String searchList(Model model, @RequestParam(defaultValue = "id") String searchKey,
-                             @RequestParam(defaultValue = "ad") String searchWord,
-                             @RequestParam(defaultValue = "1") int cpage,
-                             @RequestParam(defaultValue = "15") int pageBlock) {
-        log.info("/notice/n_searchList.do");
-        log.info("searchKey:{}", searchKey);
-        log.info("searchWord:{}", searchWord);
-        log.info("cpage:{}", cpage);
-        log.info("pageBlock:{}", pageBlock);
-
-        List<NoticeVO> list = service.searchListPageBlock(searchKey, searchWord,cpage,pageBlock);
-        log.info("list.size():{}", list.size());
-
-        model.addAttribute("list", list);
-
-        int total_rows = service.getSearchTotalRows(searchKey, searchWord);
-        log.info("total_rows:{}", total_rows);
-        int totalPageCount = 0;
-        if (total_rows / pageBlock == 0) {
-            totalPageCount = 1;
-        } else if (total_rows % pageBlock == 0) {
-            totalPageCount = total_rows / pageBlock;
-        } else {
-            totalPageCount = total_rows / pageBlock + 1;
-        }
-        log.info("totalPageCount:{}", totalPageCount);
-
-        model.addAttribute("totalPageCount", totalPageCount);
-
-        return "notice/selectAll";
-    }
 }
 
 

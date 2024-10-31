@@ -7,56 +7,28 @@
         select * from notice order by num desc
     </select>
 
-    <select id="searchListTitle" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select * from notice where title like #{searchWord} order by num desc
-    </select>
-
-    <select id="searchListContent" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select * from notice where content like #{searchWord} order by num desc
-    </select>
-
-    <insert id="insertOK">
-        insert into notice(title,content,user_id,img_name)
-        values(#{title},#{content},#{user_id},#{img_name})
-    </insert>
-
-    <select id="selectOne" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select * from notice where num=#{num}
-    </select>
-
-    <update id="updateOK">
-        update notice set title=#{title},content=#{content},user_id=#{user_id},img_name=#{img_name}
-        where num=#{num}
-    </update>
-
-    <update id="hitcountUpdate">
-        update notice set hitcount=hitcount+1
-        where num=#{num}
-    </update>
-
-    <delete id="deleteOK">
-        delete from notice where num=#{num}
-    </delete>
-
-    <select id="selectAllPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select * from notice order by num desc limit #{startRow},#{pageBlock}
-    </select>
-
-    <select id="selectAllNewPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select * from notice order by num asc limit #{startRow},#{pageBlock}
-    </select>
-
-    <select id="selectAllHitcountPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select * from notice order by hitcount desc limit #{startRow},#{pageBlock}
+    <select id="selectAllSortedPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        SELECT * FROM notice
+        <choose>
+            <when test="sort == 'newest'">
+                ORDER BY wdate DESC
+            </when>
+            <when test="sort == 'oldest'">
+                ORDER BY wdate ASC
+            </when>
+            <when test="sort == 'mostViewed'">
+                ORDER BY hitcount DESC
+            </when>
+            <otherwise>
+                ORDER BY wdate DESC
+            </otherwise>
+        </choose>
+        LIMIT #{startRow}, #{pageBlock}
     </select>
 
     <select id="getTotalRows" resultType="int">
         select count(*) total_rows
         from notice
-    </select>
-
-    <select id="selectAllNew" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select * from notice
     </select>
 
     <select id="searchListPageBlockTitle"
@@ -82,6 +54,33 @@
         select count(*) total_rows
         from notice where content like #{searchWord}
     </select>
+
+    <select id="selectOne" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select * from notice where num=#{num}
+    </select>
+
+
+    <insert id="insertOK">
+        insert into notice(title,content,user_id,img_name)
+        values(#{title},#{content},#{user_id},#{img_name})
+    </insert>
+
+
+    <update id="updateOK">
+        update notice set title=#{title},content=#{content},user_id=#{user_id},img_name=#{img_name}
+        where num=#{num}
+    </update>
+
+
+    <delete id="deleteOK">
+        delete from notice where num=#{num}
+    </delete>
+
+
+    <update id="hitcountUpdate">
+        update notice set hitcount=hitcount+1
+        where num=#{num}
+    </update>
 
     <select id="noticeCommunity" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select title from notice order by num desc limit 3;

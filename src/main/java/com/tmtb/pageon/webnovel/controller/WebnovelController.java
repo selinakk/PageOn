@@ -3,8 +3,10 @@ package com.tmtb.pageon.webnovel.controller;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
 import com.tmtb.pageon.review.service.ReviewService;
+import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,9 @@ public class WebnovelController {
 
     @Autowired
     private ForumService forumService;
+
+    @Autowired
+    private ProductService productService;
 
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/webnovels")
@@ -72,14 +77,19 @@ public class WebnovelController {
 
     // 상세 조회
     @GetMapping("/webnovel/detail")
-    public String selectOne(WebnovelVO vo, Model model) {
+    public String selectOne(WebnovelVO vo, Model model, HttpSession session) {
         log.info("/webnovel/detail");
         log.info("vo:{}", vo);
 
         // 현재 책 정보 조회
         WebnovelVO vo2 = service.selectOne(vo);
         log.info("vo2:{}", vo2);
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
 
+        List<Object> recentItems = productService.addRecentItem(id,vo2); // 캐싱을 위한 product service 생성
+        log.info("최근 본 항목 리스트: {}", recentItems);
         model.addAttribute("vo2", vo2);
 
         // 동일한 카테고리의 유사한 웹소설 조회
@@ -98,5 +108,13 @@ public class WebnovelController {
 
         return "webnovel/detail";
     }
+    //  // 세션에서 사용자 ID 가져오기
+    //        String id = (String) session.getAttribute("id");
+    //        log.info("세션에서 가져온 사용자 ID: {}", id);
+    //
+    //        List<Object> recentItems = productService.addRecentItem(id,vo2); // 캐싱을 위한 product service 생성
+    //        log.info("최근 본 항목 리스트: {}", recentItems);
+    //이 내용은 사용자 최근 조회 목록을 위해 조회할때 발생하난 vo데이터 들을 캐싱하기 위해서 짠 로직입니다
+    //여러번 테스트
 
 }
