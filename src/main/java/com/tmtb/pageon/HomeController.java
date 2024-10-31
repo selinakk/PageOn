@@ -1,5 +1,6 @@
 package com.tmtb.pageon;
 
+import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
 import com.tmtb.pageon.community.service.CommunityService;

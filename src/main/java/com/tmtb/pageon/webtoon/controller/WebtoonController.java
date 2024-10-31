@@ -119,7 +119,7 @@ public class WebtoonController {
 
 
         WebtoonVO vo2 = webtoonService.selectOne(vo);
-        List<WebtoonVO> similarWebtoons = webtoonService.searchWebtoonByCategories(vo2.getCategories(), 0, 5);
+        List<WebtoonVO> similarWebtoons = webtoonService.searchWebtoonByCategories(vo2.getCategories(), 0, 15);
 
 
         String formattedUpdateDay = vo2.getFormattedUpdateDay();

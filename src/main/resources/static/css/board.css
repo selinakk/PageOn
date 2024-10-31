@@ -38,7 +38,8 @@ input[name="searchWord"] {
     width: 150px;
 
 .board-card {
-    width: 10rem;
+    width: 10%;
+    height: 10%;
     cursor: pointer;
 }
 
@@ -74,8 +75,19 @@ input[name="searchWord"] {
     padding: 0;
     font-size: 1rem;
 }
+
+/*링크 버튼 위에 마우스 호버시 색상변경*/
 .btn-link:hover {
     color: #0056b3;
     text-decoration: none;
+}
+
+/*게시판 선택 목록에 화살표 추가*/
+.custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="none" stroke="currentColor" stroke-width=".5" d="M2 5L0 3h4z"/></svg>') no-repeat right 0.75rem center/8px 10px;
+    padding-right: 1.5rem;
 }
 

@@ -93,12 +93,12 @@
         <section id="similar-webtoons" class="position-relative padding-small">
             <div class="container">
                 <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-                    <h4 class="d-flex align-items-center">이런 작품은 어떠세요?</h4>
+                    <h3 class="d-flex align-items-center">유사한 카테고리 작품</h3>
                     <a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}" class="btn">더보기</a>
                 </div>
                 <div class="swiper product-swiper">
                     <div class="swiper-wrapper">
-                        <div th:each="webtoon : ${similarWebtoons}"
+                        <div class="swiper-slide" th:each="webtoon : ${similarWebtoons}"
                              th:if="${vo2.title} != ${webtoon.title}">
                             <div class="card position-relative p-4 border rounded-3">
                                 <a th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''">
@@ -114,6 +114,8 @@
                 </div>
             </div>
         </section>
+
+
 
 
         <!-- 토론 섹션 -->
