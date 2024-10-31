@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmtb.pageon.notice.mapper.NoticeMapper">
+
+
+    <select id="selectAll" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select * from notice order by num desc
+    </select>
+
+
+    <select id="selectAllSortedPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        SELECT * FROM notice
+        <choose>
+            <when test="sort == 'newest'">
+                ORDER BY wdate DESC
+            </when>
+            <when test="sort == 'oldest'">
+                ORDER BY wdate ASC
+            </when>
+            <when test="sort == 'mostViewed'">
+                ORDER BY hitcount DESC
+            </when>
+            <otherwise>
+                ORDER BY wdate DESC
+            </otherwise>
+        </choose>
+        LIMIT #{startRow}, #{pageBlock}
+    </select>
+
+
+    <select id="getTotalRows" resultType="int">
+        select count(*) total_rows
+        from notice
+    </select>
+
+
+    <select id="searchListPageBlockTitle"
+            resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select * from notice
+        where title like #{searchWord}
+        order by num desc limit #{startRow},#{pageBlock}
+    </select>
+
+
+    <select id="searchListPageBlockContent"
+            resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select * from notice
+        where content like #{searchWord}
+        order by num desc limit #{startRow},#{pageBlock}
+    </select>
+
+
+    <select id="getSearchTotalRowsTitle" resultType="int">
+        select count(*) total_rows
+        from notice where title like #{searchWord}
+    </select>
+
+
+    <select id="getSearchTotalRowsContent" resultType="int">
+        select count(*) total_rows
+        from notice where content like #{searchWord}
+    </select>
+
+
+    <select id="selectOne" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select * from notice where num=#{num}
+    </select>
+
+
+    <insert id="insertOK">
+        insert into notice(title,content,user_id,img_name)
+        values(#{title},#{content},#{user_id},#{img_name})
+    </insert>
+
+
+    <update id="updateOK">
+        update notice set title=#{title},content=#{content},user_id=#{user_id},img_name=#{img_name}
+        where num=#{num}
+    </update>
+
+
+    <delete id="deleteOK">
+        delete from notice where num=#{num}
+    </delete>
+
+
+    <update id="hitcountUpdate">
+        update notice set hitcount=hitcount+1
+        where num=#{num}
+    </update>
+
+
+    <select id="noticeCommunity" resultType="com.tmtb.pageon.notice.model.NoticeVO">
+        select title from notice order by num desc limit 3;
+    </select>
+
+</mapper>
