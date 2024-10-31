@@ -533,17 +533,57 @@ a.text-danger .svg-icon {
     margin: 20px;
 }
 
-#book-detail .review-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* 각 리뷰 간의 간격 */
+#book-detail .review-header h3 {
+    margin: 0;
 }
 
-#book-detail .review {
-    flex: 1 1 30%; /* 각 리뷰가 30%의 너비를 차지 */
+#book-detail .review-header .more-button {
+    margin-left: 20px; /* 제목과 버튼 간의 여백 */
+}
+
+#book-detail .review-header .action-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#book-detail .review-header .action-button:hover {
+    background-color: #0056b3;
+}
+
+/* 리뷰 리스트 */
+#book-detail .review-list {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 각 리뷰 간의 간격 */
+    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+}
+
+#book-detail .review-list .review-item {
+    text-align: center;
+    width: 150px; /* 각 리뷰 항목의 너비 */
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 4px;
+}
+
+#book-detail .review-list .review-item strong {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+#book-detail .review-list .review-item p {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+#book-detail .review-list .review-item .rating {
+    color: #f39c12; /* 평점에 색상을 부여 */
+    font-weight: bold;
 }
 
 /* 유사한 작품 섹션 */
@@ -601,24 +641,82 @@ a.text-danger .svg-icon {
 
 
 /* 토론 섹션 스타일 */
-#book-detail .discussion-header {
+#book-detail .forums-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px;
 }
 
-#book-detail .discussion-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* 각 토론 글 간의 간격 */
+/* 제목과 더보기 버튼 */
+#book-detail .forums-header h3 {
+    margin: 0;
 }
 
-#book-detail .discussion-item {
-    flex: 1 1 30%; /* 각 토론 글이 30%의 너비를 차지 */
+#book-detail .forums-header .more-button {
+    margin-left: 20px; /* 제목과 버튼 간의 여백 */
+}
+
+#book-detail .forums-header .action-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#book-detail .forums-header .action-button:hover {
+    background-color: #0056b3;
+}
+
+/* 토론 리스트 */
+#book-detail .forums {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 각 토론 항목 사이의 간격 */
+    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+}
+
+#book-detail .forums .forum-item {
+    text-align: center;
+    width: 150px; /* 각 토론 항목의 너비 */
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 4px;
+}
+
+#book-detail .forums .forum-item p {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* 토론 항목 제목, 작성자, 댓글 수 */
+#book-detail .forums .forum-item .forum-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+#book-detail .forums .forum-item .forum-author,
+#book-detail .forums .forum-item .forum-comments {
+    font-size: 14px;
+    color: #555;
+}
+
+/* 빈 리스트 메시지 중앙 정렬 및 스타일 */
+#reviews .empty-message,
+#forums .empty-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* 아이템 5개일 때와 같은 높이 설정 */
+    font-size: 18px;
+    color: #888;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
 }
 
 #book-detail .card h6 {
@@ -913,17 +1011,57 @@ a.text-danger .svg-icon {
     margin: 20px;
 }
 
-#webnovel-detail .review-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* 각 리뷰 간의 간격 */
+#webnovel-detail .review-header h3 {
+    margin: 0;
 }
 
-#webnovel-detail .review {
-    flex: 1 1 30%; /* 각 리뷰가 30%의 너비를 차지 */
+#webnovel-detail .review-header .more-button {
+    margin-left: 20px; /* 제목과 버튼 간의 여백 */
+}
+
+#webnovel-detail .review-header .action-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#webnovel-detail .review-header .action-button:hover {
+    background-color: #0056b3;
+}
+
+/* 리뷰 리스트 */
+#webnovel-detail .review-list {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 각 리뷰 간의 간격 */
+    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+}
+
+#webnovel-detail .review-list .review-item {
+    text-align: center;
+    width: 150px; /* 각 리뷰 항목의 너비 */
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 4px;
+}
+
+#webnovel-detail .review-list .review-item strong {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+#webnovel-detail .review-list .review-item p {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+#webnovel-detail .review-list .review-item .rating {
+    color: #f39c12; /* 평점에 색상을 부여 */
+    font-weight: bold;
 }
 
 /* 유사한 작품 섹션 */
@@ -981,24 +1119,66 @@ a.text-danger .svg-icon {
 
 
 /* 토론 섹션 스타일 */
-#webnovel-detail .discussion-header {
+#webnovel-detail .forums-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px;
 }
 
-#webnovel-detail .discussion-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* 각 토론 글 간의 간격 */
+/* 제목과 더보기 버튼 */
+#webnovel-detail .forums-header h3 {
+    margin: 0;
 }
 
-#webnovel-detail .discussion-item {
-    flex: 1 1 30%; /* 각 토론 글이 30%의 너비를 차지 */
+#webnovel-detail .forums-header .more-button {
+    margin-left: 20px; /* 제목과 버튼 간의 여백 */
+}
+
+#webnovel-detail .forums-header .action-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#webnovel-detail .forums-header .action-button:hover {
+    background-color: #0056b3;
+}
+
+/* 토론 리스트 */
+#webnovel-detail .forums {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 각 토론 항목 사이의 간격 */
+    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+}
+
+#webnovel-detail .forums .forum-item {
+    text-align: center;
+    width: 150px; /* 각 토론 항목의 너비 */
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 4px;
+}
+
+#webnovel-detail .forums .forum-item p {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* 토론 항목 제목, 작성자, 댓글 수 */
+#webnovel-detail .forums .forum-item .forum-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+#webnovel-detail .forums .forum-item .forum-author,
+#webnovel-detail .forums .forum-item .forum-comments {
+    font-size: 14px;
+    color: #555;
 }
 
 #webnovel-detail .card h6 {

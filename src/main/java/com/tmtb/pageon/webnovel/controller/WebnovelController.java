@@ -1,5 +1,8 @@
 package com.tmtb.pageon.webnovel.controller;
 
+import com.tmtb.pageon.forum.model.ForumVO;
+import com.tmtb.pageon.forum.service.ForumService;
+import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -18,6 +20,12 @@ public class WebnovelController {
 
     @Autowired
     private WebnovelService service;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ForumService forumService;
 
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/webnovels")
@@ -77,6 +85,16 @@ public class WebnovelController {
         // 동일한 카테고리의 유사한 웹소설 조회
         List<WebnovelVO> list = service.getLimitedWebnovelsByCategory(vo2.getCategories(), 20, vo2.getItem_id());
         model.addAttribute("list", list);
+
+        // 제목으로 리뷰와 토론 검색
+        String bookTitle = vo2.getTitle();
+
+        // 최대 5개의 리뷰와 토론 조회
+//        List<ReviewVO> reviewList = reviewService.searchListPageBlock("title", bookTitle, 1, 5);
+        List<ForumVO> forumList = forumService.searchForum("workTitle", bookTitle, 1, 20);
+
+//        model.addAttribute("reviewList", reviewList);
+        model.addAttribute("forumList", forumList);
 
         return "webnovel/detail";
     }

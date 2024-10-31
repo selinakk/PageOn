@@ -2,12 +2,15 @@ package com.tmtb.pageon.book.controller;
 
 import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
+import com.tmtb.pageon.forum.model.ForumVO;
+import com.tmtb.pageon.forum.service.ForumService;
+import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -18,6 +21,12 @@ public class BookController {
 
     @Autowired
     private BookService service;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ForumService forumService;
 
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/books")
@@ -77,6 +86,16 @@ public class BookController {
         // 동일한 카테고리의 유사한 책 조회
         List<BookVO> list = service.getLimitedBooksByCategory(vo2.getCategories(), 20, vo2.getItem_id());
         model.addAttribute("list", list);
+
+        // 제목으로 리뷰와 토론 검색
+        String bookTitle = vo2.getTitle();
+
+        // 최대 5개의 리뷰와 토론 조회
+//        List<ReviewVO> reviewList = reviewService.searchListPageBlock("title", bookTitle, 1, 5);
+        List<ForumVO> forumList = forumService.searchForum("workTitle", bookTitle, 1, 20);
+
+//        model.addAttribute("reviewList", reviewList);
+        model.addAttribute("forumList", forumList);
 
         return "book/detail";
     }

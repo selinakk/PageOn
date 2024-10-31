@@ -87,10 +87,4 @@ public class BookService {
         return mapper.selectAllBooks(startRow, pageBlock, "popular");
     }
 
-
-    // added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정
-    public void updateAddedBs(int item_id) {
-        mapper.updateAddedBs(item_id);
-    }
-
 }
