@@ -2,18 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tmtb.pageon.review.mapper.ReviewMapper">
 
+    <!--리뷰 전체 목록-->
     <select id="review_selectAllPageBlock" resultType="com.tmtb.pageon.review.model.ReviewVO">
         SELECT r.* , w.title AS work_title, w.img_name
-        FROM review r JOIN work w ON r.work_num = w.item_id ORDER BY #{sortType} #{sort} limit #{startRow},#{pageBlock}
+        FROM review r JOIN work w ON r.work_num = w.item_id
+        <choose>
+        <when test="sortType =='recent'">
+            ORDER BY wdate desc
+        </when>
+        <when test="sortType =='old'">
+           ORDER BY wdate asc
+        </when>
+        <when test="sortType =='popular'">
+            ORDER BY `like` desc
+        </when>
+        <when test="sortType == 'rating'">
+            ORDER BY rating desc
+        </when>
+        </choose>
+       LIMIT #{startRow},#{pageBlock}
     </select>
     <select id="review_getTotalRow" resultType="int">
         SELECT count(*) total_rows FROM review
     </select>
+    
+    <!--리뷰 검색 및 페이징-->
     <select id="review_searchListPageWork_id" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM review WHERE work_id like  #{searchWord} ORDER BY #{sortType} #{sort} limit #{startRow},#{pageBlock}
+        SELECT * FROM review WHERE work_id
+        <if test="searchKey == 'title'">
+            AND title LIKE #{searchKey}
+        </if>
+        <if test="searchKey == 'content'">
+            AND title LIKE #{searchKey}
+        </if>
+        <choose>
+            <when test="sortType =='recent'">
+                ORDER BY wdate desc
+            </when>
+            <when test="sortType =='old'">
+                ORDER BY wdate asc
+            </when>
+            <when test="sortType =='popular'">
+                ORDER BY `like` desc
+            </when>
+            <when test="sortType == 'rating'">
+                ORDER BY rating desc
+            </when>
+        </choose>
+        limit #{startRow},#{pageBlock}
     </select>
     <select id="review_searchListPageBlockTitle" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM review WHERE title like #{searchWord} ORDER BY #{sortType} #{sort} limit #{startRow},#{pageBlock}
+        SELECT * FROM review WHERE title like #{searchWord}
+                             ORDER BY #{sortType} #{sort} limit #{startRow},#{pageBlock}
     </select>
     <select id="review_getSearchTotalRowsTitle" resultType="int">
         SELECT count(*) total_rows
@@ -24,6 +64,8 @@
         SELECT count(*) total_rows
         FROM review WHERE work_id LIKE #{searchWord}
     </select>
+
+<!--    리뷰 입력 수정 삭제 -->
     <insert id="review_insertOK" >
         insert into review(work_num, title, content, user_id, rating)
         values (#{work_num}, #{title}, #{content}, #{user_id}, #{rating})
@@ -35,30 +77,37 @@
     <delete id="review_deleteOK">
         DELETE FROM review WHERE num=#{num}
     </delete>
+
+<!--    리뷰 상세 -->
     <select id="review_selectOne" resultType="com.tmtb.pageon.review.model.ReviewVO">
         SELECT r.* , w.title AS work_title, w.img_name
         FROM review r JOIN work w ON r.work_num = w.item_id WHERE num=#{num}
     </select>
+
+<!--    리뷰 좋아요수 증가, 총 total 좋아요 수 -->
     <update id="review_increamentLikes" >
         UPDATE review set `like` =`like` +1 WHERE num=#{num}
     </update>
     <select id="getLikeCount" resultType="int">
         SELECT `like` FROM review WHERE num=#{num}
     </select>
+
+<!--    리뷰 싫어요수 증가, 총 total 좋아요 수-->
     <select id="getHateCount" resultType="int">
         SELECT hate FROM review WHERE num=#{num}
     </select>
-    <update id="review_updateReport" >
-        UPDATE review set report=1 WHERE num=#{num}
-    </update>
     <update id="review_increamentDislikes" >
-        UPDATE review set hate=hate+1 WHERE num=#{num}
+        UPDATE review set hate = hate +1 WHERE num=#{num}
     </update>
 
-<!--    <select id="writeFindWorkByCategory" resultType="Work">-->
-<!--        SELECT w.* FROM work w WHERE w.categories = (SELECT categories FROM work WHERE title_id = #{totleId})-->
-<!--        AND w.title !=#{titleId} LIMIT 20;-->
+<!--    리뷰 신고-->
+    <update id="review_updateReport" >
+    UPDATE review set report =1 WHERE num=#{num}
+</update>
 
-<!--    </select>-->
+<!--    해당 사용자가 작성한 리뷰 -->
+    <select id="getReviewByUserId" parameterType="com.tmtb.pageon.review.model.ReviewVO">
+        SELECT * FROM review WHERE user_id =#{user_Id}
+    </select>
 
 </mapper>

@@ -6,7 +6,7 @@
     <title>Document</title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/sub.css" rel="stylesheet">
-    <link href="/review/styles.css" rel="stylesheet">
+    <link href="/css/review.css" rel="stylesheet" >
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body  th:fragment="content">
@@ -29,9 +29,10 @@
             </div>
             </p>
                 <span th:class="dt-2" >
-                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
+                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm" class="re_form">
                         <span th:text="${vo2.report}"></span>
-                        <button th:class="btn-3" type="button" onclick="confirmReport()">report</button>
+                        <input type="hidden" name="num" th:value="${vo2.num}">
+                        <button th:class="btns-3" type="button" onclick="confirmReport()">report</button>
                     </form>
                 </span>
             <div th:if="${result}">

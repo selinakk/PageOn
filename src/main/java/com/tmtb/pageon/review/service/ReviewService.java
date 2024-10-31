@@ -1,13 +1,24 @@
 package com.tmtb.pageon.review.service;
 
+import com.tmtb.pageon.book.mapper.BookMapper;
+import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.review.mapper.ReviewMapper;
 import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.webnovel.mapper.WebnovelMapper;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
+import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
+import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.springframework.boot.web.server.Ssl.ClientAuth.map;
 
 @Service
 @Slf4j
@@ -48,24 +59,24 @@ public class ReviewService {
         }
     }
 
-    public List<ReviewVO> selectAllPageBlock(int cpage, int pageBlock, String sortType, String sort) {
+    public List<ReviewVO> selectAllPageBlock(int cpage, int pageBlock, String sortType) {
         log.info("review selectAllPageBlock");
 
         int startRow = (cpage - 1) * pageBlock;
         log.info("startRow:{}", startRow);
         log.info("pageBlock:{}", pageBlock);
         log.info("sortType:{}", sortType);
-        log.info("sort:{}", sort);
 
 
-        return mapper.review_selectAllPageBlock(startRow, pageBlock, sortType, sort);
+        return mapper.review_selectAllPageBlock(startRow, pageBlock, sortType);
     }
 
     public int getTotalRow() {
         log.info("review getTotalRow");
         return mapper.review_getTotalRow();
     }
-//
+
+    //
     public List<ReviewVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
         log.info("review getTotalRow");
 
@@ -82,8 +93,6 @@ public class ReviewService {
     }
 
 
-
-
     public int updateReport(ReviewVO vo) {
         log.info("updateReport..");
         return mapper.review_updateReport(vo);
@@ -93,26 +102,28 @@ public class ReviewService {
         log.info("increaseLike ...");
         return mapper.review_increamentLikes(num);
     }
-//
+
     public int increamentDislikes(int num) {
         log.info("increamentDislikes ,,");
         return mapper.review_increamentDislikes(num);
     }
 
     public int getLikeCount(int num) {
-        return  mapper.getLikeCount(num);
+        return mapper.getLikeCount(num);
     }
 
     public int getHateCount(int num) {
         return mapper.getHateCount(num);
     }
 
-    public void getUserProfile(String userId) {
+
+    public List<ReviewVO> getUserReview(String userId) {
+        return mapper.reviewfindByUserId(userId); //유저 리뷰조회
     }
 
 
-//    public List<Work> getrecommendation(int titleId) {
-//        return mapper.writeFindWorkByCategory(titleId);
-//    }
+    public List<ReviewVO> getRecentReview(int cpage, int pageBlock) {
+        int start_Row = (cpage -1) * pageBlock;
+        return mapper.review_selectAllPageBlock(start_Row,pageBlock,"recent");
+    }
 }
-

@@ -1,11 +1,14 @@
 package com.tmtb.pageon.review.conroller;
 
 
+import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
 import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.review.service.SentimentAnalysisService;
 import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
+import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,13 +38,12 @@ public class ReviewContoller {
     @GetMapping("/review/list")
     public String getUsers(Model model, @RequestParam(defaultValue = "1")int cpage,
                            @RequestParam(defaultValue ="8" )int pageBlock,
-                           @RequestParam(defaultValue = "num")String sortType,
-                           @RequestParam(defaultValue = "desc")String sort
+                           @RequestParam(defaultValue = "recent")String sortType
                            //@RequestParam String userId
     ) {
         log.info("리뷰 목록");
        //List<ReviewVO> list = service.selectAll(cpage);
-        List<ReviewVO> list = service.selectAllPageBlock(cpage, pageBlock, sortType, sort );
+        List<ReviewVO> list = service.selectAllPageBlock(cpage, pageBlock, sortType );
         model.addAttribute("list", list);
         log.info("list:{}", list);
 
@@ -66,7 +69,6 @@ public class ReviewContoller {
 
         //정렬순
         log.info("sortType:{}", sortType);
-        log.info("sort:{}", sort);
 
         log.info("pageBlock:{}", pageBlock);
         model.addAttribute("cpage", cpage);
@@ -102,6 +104,7 @@ public class ReviewContoller {
         model.addAttribute("cpage", cpage);
         model.addAttribute("pageBlock", pageBlock);
         model.addAttribute("vo2", vo2);
+        model.addAttribute("totalRows", totalRows);
         return "review/detail";
     }
     //리뷰 검색 및 페이징
@@ -139,8 +142,9 @@ public class ReviewContoller {
 //
     //리뷰 입력
     @GetMapping("/review/insert")
-    public String insert() {
+    public String insert(Model model) {
         log.info("리뷰 입력");
+
         return "review/insert";
 
     }
@@ -214,19 +218,21 @@ public class ReviewContoller {
     //좋아요 기능
     @PostMapping("/likeUpOK")
     public ResponseEntity<LikeResponse> likeReview(@RequestParam int num) {
+
+        log.info("좋아요");
         service.increamentLikes(num); // 좋아요 수 증가
-        Integer likeCount = service.getLikeCount(num); // 증가된 좋아요 수 가져오기
+        int likeCount = service.getLikeCount(num); // 증가된 좋아요 수 가져오기
         return ResponseEntity.ok(new LikeResponse(likeCount)); // 응답 반환
     }
 
     public static class LikeResponse {
-        private Integer likeCount;
+        private int likeCount;
 
-        public LikeResponse(Integer likeCount) {
+        public LikeResponse(int likeCount) {
             this.likeCount = likeCount;
         }
 
-        public Integer getLikeCount() {
+        public int getLikeCount() {
             return likeCount;
         }
     }
@@ -234,6 +240,8 @@ public class ReviewContoller {
     //싫어요 기능
     @PostMapping("/dislikeUpOK")
     public  ResponseEntity<HateResponse> hateReview(@RequestParam int num){
+
+        log.info("싫어요 ");
         service.increamentDislikes(num);
         int HateCount = service.getHateCount(num);
         return ResponseEntity.ok(new HateResponse(HateCount));
@@ -257,6 +265,8 @@ public class ReviewContoller {
     @PostMapping("/analyzeOK")
     @ResponseBody
     public String analyzeSentiment(@RequestParam("content") String content) {
+
+        log.info("분석 start");
         try {
             return sentimentservice.analyzeSentiment(content);
         } catch (Exception e) {
@@ -264,17 +274,17 @@ public class ReviewContoller {
         }
     }
 
-    //리뷰 작성 시 해당되는 작품 카테고리 추천
-//    @PostMapping("/recommendation")
-//    public ResponseEntity<?> recommentdation(@RequestParam(defaultValue = "titlw_id")int title_id{
+
+//    @GetMapping("/recommemdation")
+//    public String recommendation(@PathVariable String userId, Model model){
+//        List<ReviewVO> userReview = service.getUserReview(userId);
+//        List<Object> RecommendedWorks = service.getRecommendedWorks(userId);
 //
-//        List<Work> recommendation = service.getrecommendation(title_id);
-//
-//        //추천리스츠 작품 반
-//        return  ResponseEntity.ok(recommendation);
+//        model.addAttribute("userReview", userReview);
+//        model.addAttribute("recommendationWork", RecommendedWorks);
 //
 //
-//
+//        return "recommendation";
 //    }
 
 
