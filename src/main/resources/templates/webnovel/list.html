@@ -95,22 +95,12 @@
                 <img th:src="@{${vo.img_name}}" class="webnovel-img" alt="Webnovel Cover">
             </a>
             <a th:href="@{/webnovel/detail(item_id=${vo.item_id})}" class="webnovel-title" th:text="${vo.title}"></a>
-            <form action="/bookshelf/insertOK" method="post" th:id="'addToLibraryForm' + ${vo.item_id}">
+            <form action="/bookshelf/insertOK"  method="post">
                 <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
-                    <input type="hidden" name="user_id" value="tester2" /> <!--로그인id-->
                     <input type="hidden" name="work_num" th:value="${vo.item_id}" />
-
-                    <label th:for="'read' + ${vo.item_id}" class="btn btn-dark">
-                        <input type="radio" name="sort" th:id="'read' + ${vo.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품
-                    </label>
-
-                    <label th:for="'to-read' + ${vo.item_id}" class="btn btn-dark">
-                        <input type="radio" name="sort" th:id="'to-read' + ${vo.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품
-                    </label>
-
-                    <label th:for="'ing' + ${vo.item_id}" class="btn btn-dark">
-                        <input type="radio" name="sort" th:id="'ing' + ${vo.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품
-                    </label>
+                    <label th:for="'read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${vo.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${vo.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${vo.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
                 </div>
             </form>
         </div>
