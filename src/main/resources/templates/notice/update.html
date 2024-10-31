@@ -74,7 +74,7 @@
 <br>
 
 <div>
-  <form action="/notice/n_updateOK.do" method="post" enctype="multipart/form-data">
+  <form onsubmit="return validateForm()" action="/notice/n_updateOK.do" method="post" enctype="multipart/form-data">
     <table id="insertTables" border="1">
       <tr>
         <td class="centers"><label for="num">글번호</label></td>
@@ -103,6 +103,44 @@
     <br>
     <input id="submit1" type="submit" value="수정완료"></td>
   </form>
+
+  <script>
+    function getByteLength(text) {
+      let byteSize = 0;
+      for (let i = 0; i < text.length; i++) {
+        const charCode = text.charCodeAt(i);
+        byteSize += charCode <= 0x007F ? 1 : charCode <= 0x07FF ? 2 : 3; // ASCII는 1바이트, 나머지 유니코드는 2~3바이트
+      }
+      return byteSize;
+    }
+
+    function validateForm() {
+      const title = document.getElementById("title").value;
+      const content = document.getElementById("content").value;
+      const fileInput = document.getElementById("file");
+
+      if (getByteLength(title) > 100) {
+        alert("제목이 100바이트를 초과하였습니다.");
+        return false;
+      }
+
+      if (getByteLength(content) > 5000) {
+        alert("내용이 5000바이트를 초과하였습니다.");
+        return false;
+      }
+
+      if (fileInput.files.length > 0) {
+        const fileName = fileInput.files[0].name;
+        if (getByteLength(fileName) > 100) {
+          alert("이미지 파일 이름이 100바이트를 초과하였습니다.");
+          return false;
+        }
+      }
+
+      return true; // 모든 조건을 만족하면 폼을 제출
+    }
+  </script>
+
 </div>
 
 </body>
