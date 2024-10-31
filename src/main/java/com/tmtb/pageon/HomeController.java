@@ -2,6 +2,10 @@ package com.tmtb.pageon;
 
 import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
+import com.tmtb.pageon.community.service.CommunityService;
+import com.tmtb.pageon.forum.model.ForumVO;
+import com.tmtb.pageon.notice.model.NoticeVO;
+import com.tmtb.pageon.user.model.ReviewVO;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
@@ -26,6 +30,9 @@ public class HomeController {
     @Autowired
     private WebtoonService webtoonService;
 
+    @Autowired
+    CommunityService service;
+
     @GetMapping("/")
     public String home(Model model) {
         log.info("인덱스 페이지");
@@ -41,6 +48,24 @@ public class HomeController {
         //인기순으로 20개의 웹툰을 조회
         List<WebtoonVO> popularWebtoons = webtoonService.selectPopularWebtoons(1, 20);
         model.addAttribute("popularWebtoons", popularWebtoons);
+
+
+        List<BoardVO> boardVO = service.boardSelectList();
+        log.info("boardVO:{}", boardVO);
+
+        List<NoticeVO> noticeVO = service.noticeSelectList();
+        log.info("noticeVO:{}", noticeVO);
+
+        List<ReviewVO> reviewVO = service.reviewSelectList();
+        log.info("reviewVO:{}", reviewVO);
+
+        List<ForumVO> forumVO = service.forumSelectList();
+        log.info("forumVO:{}", forumVO);
+
+        model.addAttribute("boardVO", boardVO);
+        model.addAttribute("noticeVO", noticeVO);
+        model.addAttribute("reviewVO", reviewVO);
+        model.addAttribute("forumVO", forumVO);
 
         return "index";
     }
