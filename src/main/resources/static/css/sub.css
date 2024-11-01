@@ -308,7 +308,7 @@ a.text-danger .svg-icon {
     border: 1px solid #ccc;
 }
 
-/* 검색 아이콘 및 버튼 스타일 */
+/* 검색 버튼 스타일 */
 #book-list .book-search input[type="image"], #webnovel-list .webnovel-search input[type="image"] {
     width: 40px;
     height: 40px;
@@ -317,13 +317,6 @@ a.text-danger .svg-icon {
     margin-left: 5px;
     vertical-align: middle;
     border-radius: 0;
-}
-
-#book-list .search-icon, #webnovel-list .search-icon {
-    width: 30px;
-    height: 30px;
-    vertical-align: middle;
-    margin-left: 5px;
 }
 
 /* 필터 스타일 */
