@@ -24,9 +24,6 @@
             </form>
         </div>
         <div>
-            <button th:id="write-btn" onclick="location.href='/review/insert'">write</button>
-        </div>
-        <div>
             <div style="margin: 10px">
                 <strong>정렬</strong>
                 <small><a th:href="|@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='recent')}|">최신순</a></small>
@@ -42,14 +39,14 @@
 
     </div>
 </div>
-<div th:each="review : ${list}" style="display: inline-block">
-    <a th:href="|/review/detail?num=${review.num}|">
-        <div style="width: 300px; margin: 20px;">
-            <div class="card position-relative">
-                <img class="w-100 shadow-sm" th:src="@{${review.workImg}}" th:alt="|${review.workTitle} 작품 이미지|" style="width: 100px" height="300px"/>
-                <p class="mt-4 mb-0 fw-bold" th:text="${review.workTitle}"></p>
-                <h6 class="mt-4 mb-0" th:text="${review.title}"></h6>
-                <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
+<ul class="list-unstyled row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">
+    <li class="p-3" th:each="review : ${list}">
+        <div class="card position-relative p-4 border rounded-3 fs-6">
+            <a th:href="@{/forum/view(num=${review.num})}">
+                <img class="w-100 shadow-sm" th:src="@{${review.workImg}}" th:alt="|${review.workTitle} 작품 이미지|"/>
+                <p class="mt-4 mb-0" th:text="${review.workTitle}"></p>
+                <h6 class="my-3 fw-bold" th:text="${review.title}"></h6>
+                <div class="review-content d -flex">
                     <div class="rating text=wrning d-flex align-item-center">
                         <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
                         <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
@@ -58,11 +55,12 @@
                         <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
                     </div>
                 </div>
-                <small th:text="${review.wdate}"></small>
+            </a>
+                    <span th:text="${review.wdate}"></span>
+                </div>
             </div>
-        </div>
-    </a>
-</div>
+    </li>
+</ul>
 <div style="text-align: center">
     <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
         <th:block th:if="${param.searchKey == null}">
