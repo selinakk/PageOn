@@ -6,6 +6,7 @@ import com.tmtb.pageon.review.model.ReviewVO;
 import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,9 @@ public class HomeController {
         return "index";
     }
 
+    @Autowired
+    HttpSession session;
+
     @GetMapping("/work_index")
     public String workPage(Model model) {
         log.info("작품 메인 페이지");
@@ -56,6 +60,8 @@ public class HomeController {
         // 인기순으로 20개의 도서를 조회
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
+
+        session.setAttribute("id","admin2");
 
         return "work/work_index";
     }

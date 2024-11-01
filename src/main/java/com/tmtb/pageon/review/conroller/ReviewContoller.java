@@ -286,42 +286,46 @@ public class ReviewContoller {
     public String bookrecommendation(@RequestParam(defaultValue = "id") String id, Model model,
                                  @RequestParam(defaultValue = "1")int cpage,
                                  @RequestParam(defaultValue = "20")int pageBlock){
-
+        log.info("id:{}",id);
         log.info("book 추천 start");
         List<BookVO> Books  =service.getBookRecommendation(id, cpage, pageBlock);
+        log.info("{}",Books);
+
         model.addAttribute("Books", Books);
         model.addAttribute("id", id);
 
-       // List<Object> recommendation  =service.getReviewRecommendation(id, cpage, pageBlock);
-
-        return "bookrecommendation";
+        return "review/bookrecommendation";
     }
 
     @GetMapping("/review/webtoonrecommendation")
-    public String webtoonrecommendation(@RequestParam(defaultValue = "user_id") String userId, Model model,
+    public String webtoonrecommendation(@RequestParam(defaultValue = "id") String id, Model model,
                                  @RequestParam(defaultValue = "1")int cpage,
-                                 @RequestParam(defaultValue = "20")int pageBlock){
+                                 @RequestParam(defaultValue = "10")int pageBlock){
 
         log.info("webtoon 추천 start");
-        List<WebtoonVO> webtoons  =service.getWebtoonRecommendation(userId, cpage, pageBlock);
+        log.info("id:{}",id);
+        List<WebtoonVO> webtoons  =service.getWebtoonRecommendation(id, cpage, pageBlock);
+        log.info("webtoons:{}",webtoons);
         model.addAttribute("webtoons", webtoons);
-        model.addAttribute("userId", userId);
+        model.addAttribute("id", id);
 
 
-        return "webtoonecommendation";
+        return "review/webtoonrecommendation";
     }
     @GetMapping("/review/webnovelrecommendation")
-    public String webnovelrecommendation(@RequestParam(defaultValue = "user_id") String userId, Model model,
+    public String webnovelrecommendation(@RequestParam(defaultValue = "id") String id, Model model,
                                         @RequestParam(defaultValue = "1")int cpage,
-                                        @RequestParam(defaultValue = "20")int pageBlock){
+                                        @RequestParam(defaultValue = "10")int pageBlock){
 
         log.info("webnovel 추천 start");
-        List<WebtoonVO> webtoons  =service.getWebtoonRecommendation(userId, cpage, pageBlock);
+        log.info("id:{}",id);
+        List<WebtoonVO> webtoons  =service.getWebtoonRecommendation(id, cpage, pageBlock);
+        log.info("webtoons:{}",webtoons);
         model.addAttribute("webtoons", webtoons);
-        model.addAttribute("userId", userId);
+        model.addAttribute("id", id);
 
 
-        return "webnovelrecommendation";
+        return "review/webnovelrecommendation";
     }
 
 

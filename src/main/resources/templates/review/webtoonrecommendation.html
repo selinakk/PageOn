@@ -1,4 +1,4 @@
-<!doctype html>
+bookrecommendation.html<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
 <head>
     <meta charset="UTF-8">
@@ -17,12 +17,12 @@
 </div>
 </div>
 <div class="book-grid"><input type="hidden" name="id" th:value="${id}">
-    <div class="book-item position-relative" th:each="vo : ${Books}">
+    <div class="book-item position-relative" th:each="vo : ${webtoons}">
 
-        <a th:href="@{/book/detail(item_id=${vo.item_id})}">
+        <a th:href="@{/webtoon/detail(item_id=${vo.item_id})}">
             <img th:src="@{${vo.img_name}}" class="book-img" alt="Book Cover">
         </a>
-        <a th:href="@{/book/detail(item_id=${vo.item_id})}" class="book-title" th:text="${vo.title}"></a>
+        <a th:href="@{/webtoon/detail(item_id=${vo.item_id})}" class="book-title" th:text="${vo.title}"></a>
         <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
             <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
                 <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->

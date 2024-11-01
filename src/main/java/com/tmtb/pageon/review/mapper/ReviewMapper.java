@@ -55,7 +55,7 @@ public interface ReviewMapper {
 
     List<BookVO> getBookRecommendation(String id, int startRow, int pageBlock);
 
-    List<WebtoonVO> getWebtoonRecommendation(String userId, int startRow, int pageBlock);
+    List<WebtoonVO> getWebtoonRecommendation(String id, int startRow, int pageBlock);
 
-    List<WebnovelVO> getWebnovelRecommendation(String userId, int startRow, int pageBlock);
+    List<WebnovelVO> getWebnovelRecommendation(String id, int startRow, int pageBlock);
 }

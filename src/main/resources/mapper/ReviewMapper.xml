@@ -101,28 +101,28 @@
 <!--        FROM review r JOIN work w on w.categories = r.categories-->
 <!--        WHERE r.user_id = #{user_id};-->
 <!--    </select>-->
-    <select id="getWebnovelRecommendation" resultType="com.tmtb.pageon.review.model.ReviewVO" parameterType="map">
-        SELECT DISTINCT w.item_id, w.title, w.img_name
-        FROM review r
-                 JOIN work w ON r.categories = w.categories
+    <select id="getWebnovelRecommendation" resultType="com.tmtb.pageon.webnovel.model.WebnovelVO" parameterType="map">
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, r.categories
+        FROM work w
+                 JOIN review r ON r.categories = w.categories
                  JOIN member m ON m.id = r.user_id
-        WHERE m.id = #{id} AND w.worknum != r.worknum
+        WHERE m.id = #{id} AND w.item_id != r.work_num
         AND w.type = 'webnovel'
     </select>
     <select id="getWebtoonRecommendation" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO" parameterType="map">
-        SELECT DISTINCT w.item_id, w.title, w.img_name
-        FROM review r
-                 JOIN work w ON r.categories = w.categories
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, r.categories
+        FROM work w
+                 JOIN review r ON r.categories = w.categories
                  JOIN member m ON m.id = r.user_id
-        WHERE m.id = #{id} AND w.worknum != r.worknum
+        WHERE m.id = #{id} AND w.item_id != r.work_num
         AND w.type = 'webtoon'
     </select>
-    <select id="getBookRecommendation" resultType="com.tmtb.pageon.review.model.ReviewVO" parameterType="map">
-        SELECT DISTINCT w.item_id, w.title, w.img_name, r.categories
-        FROM review r
-                 JOIN work w ON r.categories = w.categories
+    <select id="getBookRecommendation" resultType="com.tmtb.pageon.book.model.BookVO" parameterType="map">
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, r.categories
+        FROM work w
+                 JOIN review r ON r.categories = w.categories
                  JOIN member m ON m.id = r.user_id
-        WHERE m.id = #{id} AND w.worknum != r.worknum
+        WHERE m.id = #{id} AND w.item_id != r.work_num
         AND w.type = 'book'
     </select>
 

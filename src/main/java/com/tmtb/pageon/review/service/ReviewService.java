@@ -135,16 +135,16 @@ public class ReviewService {
         return mapper.getBookRecommendation(id, start_Row, pageBlock);
     }
 
-    public List<WebtoonVO> getWebtoonRecommendation(String userId, int cpage, int pageBlock) {
+    public List<WebtoonVO> getWebtoonRecommendation(String id, int cpage, int pageBlock) {
         log.info("리뷰 웹툰추천 ,,");
         int start_Row = (cpage - 1) * pageBlock;
-        return mapper.getWebtoonRecommendation(userId, start_Row, pageBlock);
+        return mapper.getWebtoonRecommendation(id, start_Row, pageBlock);
     }
 
-    public List<WebnovelVO> getWebnovelRecommendation(String userId, int cpage, int pageBlock) {
+    public List<WebnovelVO> getWebnovelRecommendation(String id, int cpage, int pageBlock) {
         log.info("리뷰 웹소설추천 ,,");
         int start_Row = (cpage - 1) * pageBlock;
-        return mapper.getWebnovelRecommendation(userId, start_Row, pageBlock);
+        return mapper.getWebnovelRecommendation(id, start_Row, pageBlock);
     }
 
 }
