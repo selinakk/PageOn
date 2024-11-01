@@ -267,7 +267,7 @@ a.text-danger .svg-icon {
 
 #book-list .selected-sort, #webnovel-list .selected-sort {
     font-weight: bold;
-    color: red;
+    color: var(--primary-color);
 }
 
 #book-list .sort-option, #webnovel-list .sort-option {
@@ -342,7 +342,7 @@ a.text-danger .svg-icon {
 
 #book-list .selected-option, #webnovel-list .selected-option,
 #book-list .selected-category, #webnovel-list .selected-category {
-    color: red;
+    color: var(--primary-color);
     font-weight: bold;
 }
 
@@ -401,7 +401,7 @@ a.text-danger .svg-icon {
 
 /* 현재 페이지 빨간색 강조 */
 #book-list .pagination a.active, #webnovel-list .pagination a.active {
-    color: red !important;
+    color: var(--primary-color) !important;
 }
 
 /* 작품 상세보기 */
@@ -410,9 +410,7 @@ a.text-danger .svg-icon {
     max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 정보 섹션 */
@@ -524,15 +522,10 @@ a.text-danger .svg-icon {
 }
 
 #book-detail .review-header .action-button, #webnovel-detail .review-header .action-button {
-    background-color: #007bff;
     color: white;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 4px;
-}
-
-#book-detail .review-header .action-button:hover, #webnovel-detail .review-header .action-button:hover {
-    background-color: #0056b3;
 }
 
 #book-detail .review-list, #webnovel-detail .review-list {
@@ -584,15 +577,10 @@ a.text-danger .svg-icon {
 }
 
 #book-detail .similar-books-header .action-button, #webnovel-detail .similar-webnovels-header .action-button {
-    background-color: #007bff;
     color: white;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 4px;
-}
-
-#book-detail .similar-books-header .action-button:hover, #webnovel-detail .similar-webnovels-header .action-button:hover {
-    background-color: #0056b3;
 }
 
 #book-detail .similar-books, #webnovel-detail .similar-webnovels {
@@ -635,15 +623,10 @@ a.text-danger .svg-icon {
 }
 
 #book-detail .forums-header .action-button, #webnovel-detail .forums-header .action-button {
-    background-color: #007bff;
     color: white;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 4px;
-}
-
-#book-detail .forums-header .action-button:hover, #webnovel-detail .forums-header .action-button:hover {
-    background-color: #0056b3;
 }
 
 #book-detail .forums, #webnovel-detail .forums {
