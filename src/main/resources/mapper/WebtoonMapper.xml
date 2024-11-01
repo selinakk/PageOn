@@ -3,7 +3,6 @@
 
 <mapper namespace="com.tmtb.pageon.webtoon.mapper.WebtoonMapper">
 
-<!--    전체웹툰 가나다 순서-->
     <select id="getWebtoonList" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
@@ -12,25 +11,10 @@
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-<!--    인기 웹툰 임시-->
-    <select id="selectPopularWebtoons" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
-        SELECT *
-        FROM work
-        WHERE type = 'webtoon'
-        ORDER BY added_bs DESC
-            LIMIT #{pageSize} OFFSET #{offset}
-    </select>
-
     <select id="getTotalCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM work
         WHERE type = 'webtoon'
-    </select>
-    <select id="getTotalCountByPopular" resultType="java.lang.Integer">
-        SELECT COUNT(*)
-        FROM work
-        WHERE type = 'webtoon'
-        ORDER BY added_bs DESC
     </select>
 
     <select id="selectOne" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
@@ -39,7 +23,6 @@
         WHERE item_id = #{item_id}
           AND type = 'webtoon';
     </select>
-    
 
     <select id="searchWebtoonByTitle" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
@@ -50,7 +33,7 @@
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <select id="searchWebtoonByWriter" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+    <select id="searchWebtoonWriter" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
         WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
@@ -76,10 +59,10 @@
           AND type = 'webtoon'
     </select>
 
-    <select id="getTotalCountByWriter" resultType="int">
+    <select id="getTotalCountByContent" resultType="int">
         SELECT COUNT(*)
         FROM work
-        WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE content LIKE CONCAT('%', #{searchWord}, '%')
           AND type = 'webtoon'
     </select>
 

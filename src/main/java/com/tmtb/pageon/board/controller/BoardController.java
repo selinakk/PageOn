@@ -7,7 +7,6 @@ import com.tmtb.pageon.comment.model.CommentVO;
 import jakarta.servlet.ServletContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +36,6 @@ public class BoardController {
 
     @Autowired
     ServletContext context;
-
-    @Value("${file.dir}")
-    private String uploadDir;
 
     //자유게시판 목록
     @GetMapping("/freeboard")
@@ -102,11 +97,11 @@ public class BoardController {
     //게시판 글 작성 완료
     @PostMapping("/b_insertOK")
     public String b_insertOK(BoardVO vo) throws IOException {
-        log.info("게시글 작성");
+        log.info("게시글 작성 완료");
 
 
-        // 상대 경로를 절대 경로로 변환
-        String realPath = Paths.get(uploadDir).toAbsolutePath().toString();
+        String realPath = context.getRealPath("resources/upload_img");
+        log.info(realPath);
 
         File uploadDir = new File(realPath);
         if (!uploadDir.exists()) {
@@ -136,8 +131,6 @@ public class BoardController {
             ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
         }
 
-
-        log.info("vo:{}", vo);
         boardService.insertOK(vo);
 
         if ("qna".equals(vo.getCategory())) {
@@ -149,7 +142,7 @@ public class BoardController {
 
     //게시글 상세 보기
     @GetMapping("/b_selectOne")
-    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category, @RequestParam(defaultValue = "1") int cpage,
+    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category,@RequestParam(defaultValue = "1") int cpage,
                               @RequestParam(defaultValue = "20") int pageBlock) {
         log.info("게시글 상세보기 페이지");
 
@@ -162,12 +155,14 @@ public class BoardController {
         model.addAttribute("category", category);
 
 
+
         // 댓글 데이터 가져오기
         Map<String, Object> commentsData = commentController.selectAll("board", vo.getNum(), null, null, 1, 20);
         List<CommentVO> comments = (List<CommentVO>) commentsData.get("comments");
         int totalPageCount = (int) commentsData.get("totalPageCount");
         // 전체 댓글 수 가져오기
         int totalRows = (int) commentsData.get("totalRows");
+
 
 
         // 댓글 데이터를 모델에 추가
@@ -214,8 +209,7 @@ public class BoardController {
     public String b_updateOK(BoardVO vo) throws IOException {
         log.info("수정완료 페이지");
 
-        // 상대 경로를 절대 경로로 변환
-        String realPath = Paths.get(uploadDir).toAbsolutePath().toString();
+        String realPath = context.getRealPath("resources/upload_img");
         log.info(realPath);
 
         File uploadDir = new File(realPath);
@@ -258,6 +252,7 @@ public class BoardController {
             return "redirect:/b_update?num=" + vo.getNum();
         }
     }
+
 
 
     //게시판 신고 기능
@@ -307,6 +302,7 @@ public class BoardController {
             return "board/freeboard";
         }
     }
+
 
 
 }

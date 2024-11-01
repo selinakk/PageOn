@@ -1,152 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::content})}">
 <head>
     <meta charset="UTF-8">
     <title>웹툰 상세</title>
 </head>
-
 <body>
+<div th:fragment="content" class="text-center">
 
+<!--    <h4 class="mt-4">웹툰 상세</h4>-->
 
-<!--더 보기 랑 유사 카테고리 수정 필요-->
+    <div class="row justify-content-center g-0 mt-4" style="margin-top: 25px">
 
-<section id="webnovel-detail" class="position-relative padding-small">
-    <div class="webnovel-detail-container">
-        <div class="webnovel-info">
-            <img th:src="${vo2.img_name}" class="webnovel-cover">
-            <div>
-                <h4 th:text="${vo2.title}"></h4>
-                <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
-                <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
-                <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
-                <p><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
-
-                <p><strong>줄거리:</strong>
-                </p>
-                <p><span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
-                    <button id="toggleButton" onclick="toggleText()" class="btn btn-link">더 보기</button>
-                </p>
-                <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
-                                        th:text="${vo2.categories}"></a></p>
-            </div>
+        <div class="col-md-1">
+            <img th:src="${vo2.img_name}" class="img-thumbnail">
         </div>
 
+        <div class="col-md-2">
+            <h4 th:text="${vo2.title}"></h4>
+            <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
+            <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
+            <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
+            <p><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
+            <p><strong>줄거리:</strong>
+                <span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
+                <button id="toggleButton" onclick="toggleText()" class="btn btn-link">더 보기</button>
+            </p>
+            <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
+                                    th:text="${vo2.categories}"></a></p>
 
-        <div class="add-to-library">
-            <button class="dropdown-button">내 서재에 추가</button>
-            <div class="dropdown-content">
-                <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
-                    <input type="hidden" name="user_id" value="tester2"/> <!--로그인id-->
-                    <input type="hidden" name="work_num" th:value="${vo2.item_id}"/>
-                    <label for="read"><input type="radio" name="sort" id="read" value="read"
-                                             onchange="this.form.submit()" class="positionabsolute"> 읽은 작품</label>
-                    <label for="to-read"><input type="radio" name="sort" id="to-read" value="to-read"
-                                                onchange="this.form.submit()" class="positionabsolute"> 읽고 싶은 작품</label>
-                    <label for="ing"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()"
-                                            class="positionabsolute"> 읽고 있는 작품</label>
-                </form>
-            </div>
+            <a th:href="${vo2.link}" class="btn btn-sm btn-outline-primary" role="button">보러가기</a>
         </div>
+    </div>
 
+    <div>
+        <!--         이부분에 리뷰 추가-->
+    </div>
 
-        <!-- 2. 감상/구매 버튼 -->
-        <a class="action-button" th:href="@{${vo2.link}}">감상 / 구매</a>
-
-        <!-- 3. 토론 열기 -->
-        <a class="action-button" th:href="@{/forum/write(work_num=${vo2.item_id})}">토론 열기</a>
-
-        <!-- 4. 리뷰 작성 -->
-        <a class="action-button" href="#">리뷰 작성</a>
-
-        <!-- 리뷰 섹션 -->
-        <div class="review-section">
-            <!-- 제목과 더보기 버튼을 나란히 배치 -->
-            <div class="review-header">
-                <h3>리뷰</h3>
-                <div class="more-button">
-                    <a href="#" class="btn">더보기</a> <!-- 나중에 리뷰 전체 페이지로 연결 -->
-                </div>
-            </div>
-
-            <!-- 리뷰 리스트 (더미 데이터) -->
-            <div class="review-list">
-                <div class="review">
-                    <p><strong>사용자01</strong></p>
-                    <p>리뷰 내용 예시 1. 이 작품은 아주 흥미로웠습니다!</p>
-                    <a href="#">더보기</a>
-                </div>
-                <div class="review">
-                    <p><strong>사용자02</strong></p>
-                    <p>리뷰 내용 예시 2. 추천할만한 책입니다.</p>
-                    <a href="#">더보기</a>
-                </div>
-                <div class="review">
-                    <p><strong>사용자03</strong></p>
-                    <p>리뷰 내용 예시 3. 좀 더 개선될 부분이 있긴 하지만 좋았습니다.</p>
-                    <a href="#">더보기</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 유사 카테고리 추가 -->
-        <section id="similar-webtoons" class="position-relative padding-small">
-            <div class="container">
-                <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-                    <h3 class="d-flex align-items-center">유사한 카테고리 작품</h3>
-                    <a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}" class="btn">더보기</a>
-                </div>
-                <div class="swiper product-swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" th:each="webtoon : ${similarWebtoons}"
-                             th:if="${vo2.title} != ${webtoon.title}">
-                            <div class="card position-relative p-4 border rounded-3">
-                                <a th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''">
-                                    <img th:src="${webtoon.img_name}" class="img-fluid shadow-sm">
-                                    <h6 class="mt-4 mb-0 fw-bold" th:text="${webtoon.title}">제목</h6>
-                                    <div class="review-content d-flex">
-                                        <p class="my-2 me-2 fs-6 text-black-50" th:text="${webtoon.writer}">작가</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+    <!-- 유사 카테고리 추가 -->
+    <div>
+        <h4 style="margin-top: 100px">이런 작품은 어떠세요?</h4>
+        <div class="row justify-content-center">
+            <div class="col-md-3 col-sm-6 mb-4" th:each="webtoon : ${similarWebtoons}" th:if="${vo2.title} != ${webtoon.title}" style="width: 300px; height: 300px;">
+                <div class="card" th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''" style="cursor:pointer;">
+                    <img th:src="${webtoon.img_name}" class="img-thumbnail" style="width: 200px; height: 200px;">
+                    <div class="card-body">
+                        <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
+                        <div class="card-title" th:text="${webtoon.title}"></div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-
-
-
-        <!-- 토론 섹션 -->
-        <div class="discussion-section">
-            <!-- 제목과 더보기 버튼을 나란히 배치 -->
-            <div class="discussion-header">
-                <h3>토론</h3>
-                <div class="more-button">
-                    <a href="#" class="btn">더보기</a> <!-- 나중에 리뷰 전체 페이지로 연결 -->
-                </div>
-            </div>
-
-
-            <!-- 토론 글 리스트 (더미 데이터) -->
-            <div class="discussion-list">
-                <div class="discussion-item">
-                    <p>토론 제목 예시 1: 이 작품의 결말에 대해</p>
-                    <p>참여자 수: 10</p>
-                </div>
-                <div class="discussion-item">
-                    <p>토론 제목 예시 2: 등장인물에 대한 토론</p>
-                    <p>참여자 수: 15</p>
-                </div>
-                <div class="discussion-item">
-                    <p>토론 제목 예시 3: 스토리의 흐름</p>
-                    <p>참여자 수: 8</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <div>
+        <!--        이 작품에 대한 리뷰 최근순으로 정렬-->
+    </div>
 
-</section>
+    <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
+</div>
 </body>
 </html>

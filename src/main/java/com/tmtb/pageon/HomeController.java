@@ -9,8 +9,6 @@ import com.tmtb.pageon.notice.model.NoticeVO;
 import com.tmtb.pageon.user.model.ReviewVO;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
-import com.tmtb.pageon.webtoon.model.WebtoonVO;
-import com.tmtb.pageon.webtoon.service.WebtoonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +26,6 @@ public class HomeController {
 
     @Autowired
     private BookService bookService;
-    @Autowired
-    private WebtoonService webtoonService;
 
     @Autowired
     CommunityService service;
@@ -45,11 +41,6 @@ public class HomeController {
         // 인기순으로 20개의 도서를 조회
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
-
-        //인기순으로 20개의 웹툰을 조회
-        List<WebtoonVO> popularWebtoons = webtoonService.selectPopularWebtoons(1, 20);
-        model.addAttribute("popularWebtoons", popularWebtoons);
-
 
         // 홈화면에 최근 4개의 게시글 조회
         List<BoardVO> boardVO = service.boardSelectList();

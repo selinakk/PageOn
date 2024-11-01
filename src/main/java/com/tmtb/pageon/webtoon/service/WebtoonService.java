@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmtb.pageon.board.model.BoardVO;
-import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
@@ -25,24 +24,20 @@ public class WebtoonService {
 
     @Autowired
     private WebtoonMapper webtoonMapper;
-    //웹툰 리스트
+
     public List<WebtoonVO> getWebtoonList(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        return webtoonMapper.getWebtoonList(offset, pageSize , "popular");
+        return webtoonMapper.getWebtoonList(offset, pageSize);
     }
-    //인기 웹툰 리스트
-    public List<WebtoonVO> selectPopularWebtoons(int offset, int pageSize) {
-        return webtoonMapper.selectPopularWebtoons(offset, pageSize);
-    }
-    //제목 검색
+
     public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize);
     }
-    //작가 검색
-    public List<WebtoonVO> searchWebtoonByWriter(String searchWord, int offset, int pageSize) {
-        return webtoonMapper.searchWebtoonByWriter(searchWord, offset, pageSize);
+
+    public List<WebtoonVO> searchWebtoonWriter(String searchWord, int offset, int pageSize) {
+        return webtoonMapper.searchWebtoonWriter(searchWord, offset, pageSize);
     }
-    //장르 검색
+
     public List<WebtoonVO> searchWebtoonByCategories(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonByCategories(searchWord, offset, pageSize);
     }
@@ -51,16 +46,13 @@ public class WebtoonService {
         return webtoonMapper.getCategories();
     }
 
-    public int getTotalCountByPopular() {
-        return webtoonMapper.getTotalCountByPopular();
-    }
 
     public int getTotalCountByTitle(String searchWord) {
         return webtoonMapper.getTotalCountByTitle(searchWord);
     }
 
     public int getTotalCountByContent(String searchWord) {
-        return webtoonMapper.getTotalCountByWriter(searchWord);
+        return webtoonMapper.getTotalCountByContent(searchWord);
     }
 
     public int getTotalCountByCategories(String searchWord) {
@@ -84,8 +76,6 @@ public class WebtoonService {
     public int getTotalCountByFilteredCategories(List<String> categories) {
         return webtoonMapper.getTotalCountByFilteredCategories(categories);
     }
-
-
 
 
     //웹툰 api 연동

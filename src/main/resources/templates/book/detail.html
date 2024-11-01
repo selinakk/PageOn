@@ -82,7 +82,7 @@
                     <h3 class="d-flex align-items-center">리뷰</h3>
                     <a th:href="@{/reviews(bookId=${vo2.item_id})}" class="btn">더보기</a> <!-- 리뷰 전체 페이지로 이동 -->
                 </div>
-                <div class="swiper review-swiper">
+                <div class="swiper detail-swiper">
                     <div class="swiper-wrapper">
                         <!-- 리뷰가 없을 경우 표시 -->
                         <p th:if="${#lists.isEmpty(reviewList)}" class="empty-message">리뷰가 없어요!</p>
@@ -108,7 +108,7 @@
                     <h3 class="d-flex align-items-center">유사한 카테고리 작품</h3>
                     <a th:href="@{/books(category=${vo2.categories})}" class="btn">더보기</a> <!-- 유사한 카테고리 작품 전체 페이지로 이동 -->
                 </div>
-                <div class="swiper product-swiper">
+                <div class="swiper detail-swiper">
                     <div class="swiper-wrapper">
                         <!-- 유사한 작품을 5개까지 출력 -->
                         <div class="swiper-slide" th:each="book : ${list}">
@@ -134,7 +134,7 @@
                     <h3 class="d-flex align-items-center">토론</h3>
                     <a th:href="@{/forum/search(searchKey='workTitle', searchWord=${vo2.title})}" class="btn">더보기</a> <!-- 토론 검색 페이지로 이동 -->
                 </div>
-                <div class="swiper product-swiper">
+                <div class="swiper detail-swiper">
                     <div class="swiper-wrapper">
                         <!-- 토론 글이 없을 경우 표시 -->
                         <p th:if="${#lists.isEmpty(forumList)}" class="empty-message">토론이 없어요!</p>
