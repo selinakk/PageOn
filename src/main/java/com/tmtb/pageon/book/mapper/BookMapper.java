@@ -18,11 +18,11 @@ public interface BookMapper {
     List<BookVO> selectAllBooks(int startRow, int pageBlock, String sortOrder);
     int getTotalRows();
 
-    List<BookVO> selectBooksByCategory(String category, int startRow, int pageBlock, String sortOrder);
-    int getTotalRowsByCategory(String category);
+    List<BookVO> selectBooksByCategories(List<String> categories, int startRow, int pageBlock, String sortOrder);
+    int getTotalRowsByCategories(List<String> categories);
 
-    List<BookVO> searchBooksInCategory(String category, String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
-    int getSearchTotalRowsInCategory(String category, String searchKey, String searchWord);
+    List<BookVO> searchBooksInCategories(List<String> categories, String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
+    int getSearchTotalRowsInCategories(List<String> categories, String searchKey, String searchWord);
 
     List<BookVO> searchBooks(String searchKey, String searchWord, int startRow, int pageBlock, String sortOrder);
     int getSearchTotalRows(String searchKey, String searchWord);
@@ -30,8 +30,5 @@ public interface BookMapper {
     public BookVO selectOne(BookVO vo);
 
     List<BookVO> selectLimitedBooksByCategory(Map<String, Object> params);
-
-    // added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정
-    void updateAddedBs(int item_id);
 
 }

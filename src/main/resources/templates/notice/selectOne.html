@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/sub.css">
 <!--    <link rel="stylesheet" href="/css/notice/selectOneCSS.css"> &lt;!&ndash; CSS 파일 링크 &ndash;&gt;-->
+
     <style>
         /* /notice/selectOneCSS.css */
         #tablecss {
@@ -63,15 +64,6 @@
             background-color: #152315;
         }
 
-        #submit1:hover {
-            background-color: #152315;
-        }
-
-        #submit1 {
-            padding: 10px 30px;
-            margin-right: 150%;
-        }
-
         #button-container {
             display: flex; /* 버튼들을 한 줄에 정렬 */
             gap: 10px; /* 버튼 사이의 간격 설정 */
@@ -88,7 +80,6 @@
         #tr:hover {
             background-color: #E15C5CFF;
         }
-
     </style>
 
     <script>
@@ -101,16 +92,15 @@
             }
         }
     </script>
-
 </head>
 
 <body>
 
 <header th:replace="~{header :: header}"></header>
-<!--<h1>공지사항 상세 페이지</h1>-->
 <nav th:replace="~{top_menu::top_menu}"></nav>
+<h3 style="margin-left: 3%">공지사항 상세 페이지</h3>
 
-<br><br>
+<br>
 
 <table border="1" id="tablecss">
 
@@ -152,6 +142,7 @@
         <button id="btn2" type="submit" onclick="return confirmDelete()">삭제하기</button>
     </form>
 </div>
+</body>
 
 <!-- Bootstrap JS, Popper.js, and jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -164,7 +155,5 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
-
-</body>
 
 </html>

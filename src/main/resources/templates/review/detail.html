@@ -6,6 +6,7 @@
     <title>Document</title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/sub.css" rel="stylesheet">
+    <link href="/review/styles.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body  th:fragment="content">
@@ -15,9 +16,6 @@
             <h3 class="d-flex align-items-center">리뷰 상세보기</h3>
             <a href="/review/insert">write</a>
             <a href="/review/list">목록</a>
-        </div>
-        <div style="align-content: center">
-
         </div>
         <div th:class="dt-1" >
             <p th:class="dt-2">제목: <span th:text="${vo2.title}"></span></p>
@@ -31,10 +29,9 @@
             </div>
             </p>
                 <span th:class="dt-2" >
-                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm" class="re_form">
+                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
                         <span th:text="${vo2.report}"></span>
-                        <input type="hidden" name="num" th:value="${vo2.num}">
-                        <button th:class="btns-3" type="button" onclick="confirmReport()">report</button>
+                        <button th:class="btn-3" type="button" onclick="confirmReport()">report</button>
                     </form>
                 </span>
             <div th:if="${result}">

@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.springframework.dao.DuplicateKeyException;
 import java.util.List;
 
 @Slf4j
@@ -72,24 +73,26 @@ public class BookshelfController {
     }
     //목록 끝
     //DML 시작
-    @GetMapping("/bookshelf/write")
-    public String bookshelfWrite(Model model){
-        return "bookshelf/write";
-    }
     @PostMapping("/bookshelf/insertOK")
-    public String insertBookshelf(@RequestParam("user_id") String userId,
-                                  @RequestParam("sort") String sort,
+    public String insertBookshelf(@RequestParam("sort") String sort,
                                   @RequestParam("work_num") int workNum,
+                                  HttpSession session,
                                   RedirectAttributes redirectAttributes){
-        log.info("/bookshelf/insertOK - 서재에 작품 추가");
+//        String userId = (String) session.getAttribute("userId");
+        String userId = "tester2";
 
-        boolean result = service.insertBookshelfOK(userId, sort, workNum);
-        if (result) {
-            redirectAttributes.addFlashAttribute("successMsg", "서재에 추가되었습니다.");
-        } else {
-            redirectAttributes.addFlashAttribute("errorMsg", "다시 시도해 주세요.");
+        try {
+            boolean result = service.insertBookshelfOK(userId, sort, workNum);
+            if (result) {
+                log.info("/bookshelf/insertOK - 서재에 {}번 작품 추가", workNum);
+                redirectAttributes.addFlashAttribute("successMsg", "서재에 추가되었습니다.");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMsg", "다시 시도해 주세요.");
+            }
+        } catch (DuplicateKeyException e) {
+            redirectAttributes.addFlashAttribute("errorMsg", "이미 서재에 등록된 작품입니다.");
         }
-        return "redirect:/bookshelf/list?userId=tester2"; //임시 - 프로필id 필요
+        return "redirect:/bookshelf/list?userId="+userId; //임시 - 프로필id 필요
     }
     @PostMapping("/bookshelf/updateSortOK")
     public String updateSort(@RequestParam("sort") String sort,

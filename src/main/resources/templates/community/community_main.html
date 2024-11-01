@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/sub.css">
 <!--    <link rel="stylesheet" href="/css/community/community_mainCSS.css"> &lt;!&ndash; CSS 파일 링크 &ndash;&gt;-->
+
     <style>
         /* /community/community_mainCSS.css */
         .td {
@@ -89,10 +90,11 @@
 </head>
 
 <body>
-<!--<h1>커뮤니티 메인 페이지</h1>-->
+
 <header th:replace="~{header :: header}"></header>
 <nav th:replace="~{top_menu::top_menu}"></nav>
-<br>
+<h3 style="text-align: center">커뮤니티 메인 페이지</h3>
+<br><br>
 
 <div id="button-container">
 <table id="insertTable1" border="1">
@@ -100,10 +102,10 @@
     <tbody>
     <th:block th:each="vo : ${list1}">
         <tr id="table1">
-            <td class="td"><a th:href="|/board/b_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+            <td class="td"><a th:href="|/b_selectOne?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/board/b_selectAll.do|">더보기...</a></td>
+    <td class="td"><a th:href="|/freeboard|">더보기...</a></td>
     </tbody>
 </table>
 
@@ -117,12 +119,12 @@
             <td class="td"><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/notice/n_selectAll.do|">더보기...</a></td>
+    <td class="td"><a class="aaacss" th:href="|/notice/n_selectAll.do|">더보기...</a></td>
     </tbody>
-</table>
+    </table>
 </div>
 
-<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
 
 <div id="button-container2">
 <table id="insertTable3" border="1">
@@ -130,10 +132,10 @@
     <tbody>
     <th:block th:each="vo : ${list3}">
         <tr id="table3">
-            <td class="td"><a th:href="|/review/r_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
+            <td class="td"><a th:href="|/review/detail?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/review/r_selectAll.do|">더보기...</a></td>
+    <td class="td"><a th:href="|/review/list|">더보기...</a></td>
     </tbody>
 </table>
 
@@ -147,7 +149,7 @@
             <td class="td"><a th:href="|/forum/view?num=${vo.num}|">[[${vo.title}]]</a></td>
         </tr>
     </th:block>
-    <td class="td"><a th:href="|/forum/f_selectAll.do|">더보기...</a></td>
+    <td class="td"><a th:href="|/forum/list|">더보기...</a></td>
     </tbody>
 </table>
 </div>
@@ -166,8 +168,8 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
 
-
 </body>
 </html>
+
 
 
