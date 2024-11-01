@@ -29,12 +29,15 @@
     
     <!--리뷰 검색 및 페이징-->
     <select id="review_searchListPage" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT r.* , w.title AS work_title, w.img_name AS work_img
+        SELECT r.* , w.title AS workTitle, w.img_name AS workImg
         FROM review r JOIN work w ON r.work_num = w.item_id
         <if test="searchKey == 'title'">
             WHERE r.title LIKE #{searchWord}
         </if>
         <if test="searchKey == 'user_id'">
+            WHERE r.user_id LIKE #{searchWord}
+        </if>
+        <if test="searchKey == 'workTitle'">
             WHERE r.user_id LIKE #{searchWord}
         </if>
         ORDER BY NUM DESC
