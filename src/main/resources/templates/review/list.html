@@ -45,7 +45,9 @@
     <a th:href="|/review/detail?num=${review.num}|">
         <div style="width: 300px; margin: 20px;">
             <div class="card position-relative">
-                <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
+                <img class="w-100 shadow-sm" th:src="@{${review.workImg}}" th:alt="|${review.workTitle} 작품 이미지|" style="width: 100px" height="300px"/>
+                <p class="mt-4 mb-0 fw-bold" th:text="${review.workTitle}"></p>
+                <h6 class="mt-4 mb-0" th:text="${review.title}"></h6>
                 <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
                     <div class="rating text=wrning d-flex align-item-center">
                         <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>

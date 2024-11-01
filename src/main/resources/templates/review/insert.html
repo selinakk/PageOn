@@ -24,6 +24,8 @@
             <div>
                 <img src="">
                 <input type="hidden" name="work_num" th:value="${work_num}">
+                <input type="hidden" name="categories" th:value="${categories}">
+                <input type="hidden" name="user_id" th:value="${user_id}">
             </div>
             <p>
             <div>
@@ -47,12 +49,6 @@
                 <span class="star" data-value="5">★</span>
             </div>
             <p id="rating" >Rating: 0.0</p>
-            </p>
-            <p>
-            <div>
-                <label for="user_id" th:size="30px">작성자</label>
-                <input class="review-sub_box" type="text" id="user_id" name="user_id" value="admin10"> //로그인id
-            </div>
             </p>
             <p>
                 <button class="save-btn" type="submit">등록</button>
