@@ -25,8 +25,7 @@ public class SecurityConfig {
 				)
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(config ->
-
-						config.requestMatchers("/admin/**").hasRole("ADMIN")// 접근제한
+						config.requestMatchers("/members/**").hasRole("ADMIN")// 접근제한
 						 .anyRequest().permitAll() // 모든 요청을 허용
 				)
 				.formLogin(config ->

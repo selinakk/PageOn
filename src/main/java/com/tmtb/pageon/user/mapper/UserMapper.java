@@ -37,7 +37,8 @@ public interface UserMapper {
     void updateCategories(String id, String likeCategories);
 
     void updateUserInfo(UserVO user);
-
+    // 비밀번호 업데이트 메서드
+    void updatePassword(String id, String encodedPassword);
 
 
 }

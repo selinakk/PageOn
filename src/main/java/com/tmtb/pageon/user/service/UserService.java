@@ -53,9 +53,6 @@ public class UserService {
                 log.info("File size: " + imgFile.getSize());
                 user.setImg_name(imgFile.getOriginalFilename());
                 user.setImg_data(imgFile.getBytes());
-                log.info("Image data size: " + user.getImg_data().length); // 데이터 크기 확인
-                String encodedPwd = encoder.encode(user.getPw());
-                user.setPw(encodedPwd);
             } else {
                 log.info("No new image uploaded. Keeping existing image data.");
             }
@@ -105,6 +102,21 @@ public class UserService {
 
     public List<CommentVO> findByComment(String id) {
         return mapper.findByComment(id);
+    }
+
+    // 비밀번호 확인 메서드
+    public boolean checkPassword(String id, String rawPassword) {
+        UserVO user = mapper.findById(id); // 아이디로 사용자 정보 조회
+        if (user != null) {
+            return encoder.matches(rawPassword, user.getPw()); // 비밀번호 비교
+        }
+        return false;
+    }
+
+    // 비밀번호 변경 메서드
+    public void updatePassword(String id, String newPassword) {
+        String encodedPwd = encoder.encode(newPassword); // 새로운 비밀번호 암호화
+        mapper.updatePassword(id, encodedPwd); // 데이터베이스에 업데이트
     }
 
 

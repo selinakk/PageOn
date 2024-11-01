@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.List;
@@ -212,6 +213,19 @@ public class UserController {
         return "user/expired";
     }
 
+    @GetMapping("/user/denied")
+    public String user_denied() {
+        // 로그인 실패임을 알릴 페이지
+        return "user/denied";
+    }
 
+
+    @PostMapping("/updatePassword")
+    public ModelAndView updatePassword(@RequestParam String id, @RequestParam String newPassword) {
+        userService.updatePassword(id, newPassword); // 새로운 비밀번호 업데이트
+        ModelAndView mav = new ModelAndView("redirect:/login");
+        mav.addObject("success", "Password updated successfully");
+        return mav;
+    }
 
 }

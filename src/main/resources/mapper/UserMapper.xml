@@ -19,7 +19,7 @@
 
     <!-- 특정 회원의 정보 조회 쿼리 -->
     <select id="findById" parameterType="String" resultType="com.tmtb.pageon.user.model.UserVO">
-        SELECT id, pw, name, tel, img_name, reg_date, like_categories, introduce,img_data
+        SELECT id, pw, name, tel, img_name, reg_date, like_categories, introduce,img_data,user_role
         FROM pageon.member
         WHERE id = #{id}
     </select>
