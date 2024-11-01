@@ -157,29 +157,9 @@ a.text-danger .svg-icon {
 
 #comment #submitCommentButton,
 #comment .replySubmitButton {
-    background-color: #007bff;
     display: block;
     width: 100%;
     box-sizing: border-box;
-}
-
-#comment #submitCommentButton:hover,
-#comment .replySubmitButton:hover {
-    background-color: #0056b3;
-}
-
-#comment .replyButton,
-#comment .editButton,
-#comment .deleteButton,
-#comment .reportButton {
-    background-color: #28a745;
-}
-
-#comment .replyButton:hover,
-#comment .editButton:hover,
-#comment .deleteButton:hover,
-#comment .reportButton:hover {
-    background-color: #218838;
 }
 
 /* 댓글 내 액션 버튼 정렬 */
@@ -194,7 +174,8 @@ a.text-danger .svg-icon {
 #comment .page-link {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 0 10px;
+    flex-direction: row;
 }
 
 #comment #paging ul {
@@ -202,28 +183,29 @@ a.text-danger .svg-icon {
     padding: 0;
     margin: 0;
     display: flex;
+    flex-direction: row;
 }
 
 #comment #paging li {
-    margin: 0 5px;
+    margin: 0 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 #comment #paging a,
 #comment .page-link {
     text-decoration: none;
-    color: #007bff;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#comment #paging a:hover,
-#comment .page-link:hover {
-    text-decoration: underline;
-}
-
-#comment #paging .active,
-#comment .page-link.active {
+/* 댓글 페이징 스타일 */
+#comment #paging .active a,
+#comment #paging .page-link.active {
     font-weight: bold;
-    color: #333;
+    color: var(--primary-color);
     cursor: default;
 }
 
@@ -243,6 +225,7 @@ a.text-danger .svg-icon {
 
 /* 도서와 웹소설 공통 스타일 */
 /* 작품 목록 */
+/* 기본 레이아웃 설정 */
 #book-list, #webnovel-list {
     max-width: 1600px;
     margin: 0 auto;
@@ -254,25 +237,29 @@ a.text-danger .svg-icon {
     margin-bottom: 20px;
 }
 
+/* 필터와 정렬 옵션의 기본 스타일 */
 #book-list #filter-container, #webnovel-list #filter-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 #book-list #sort-options, #webnovel-list #sort-options {
     margin-left: auto;
 }
 
+#book-list .selected-sort, #webnovel-list .selected-sort,
+#book-list .sort-option, #webnovel-list .sort-option {
+    font-size: 1rem;
+    text-decoration: none;
+}
+
 #book-list .selected-sort, #webnovel-list .selected-sort {
     font-weight: bold;
     color: var(--primary-color);
-}
-
-#book-list .sort-option, #webnovel-list .sort-option {
-    margin-left: 10px;
-    text-decoration: none;
 }
 
 /* 검색 스타일 */
@@ -312,6 +299,10 @@ a.text-danger .svg-icon {
 
 /* 필터 스타일 */
 #book-list #filter-options, #webnovel-list #filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -320,8 +311,8 @@ a.text-danger .svg-icon {
 #book-list .category, #webnovel-list .category {
     color: black;
     text-decoration: none;
-    margin-right: 10px;
     font-weight: normal;
+    font-size: 1rem;
 }
 
 #book-list .selected-option, #webnovel-list .selected-option,
@@ -336,39 +327,157 @@ a.text-danger .svg-icon {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 5px;
-    width: 180px;
+    padding: 10px;
     transition: transform 0.2s;
 }
 
-#book-list .book-item:hover, #webnovel-list .webnovel-item:hover {
-    transform: scale(1.05);
-}
-
+/* 아이템 그리드 레이아웃 반응형 */
 #book-list .book-grid, #webnovel-list .webnovel-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    padding: 10px;
-    margin-bottom: 30px;
+    gap: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
     place-items: center;
 }
 
-/* 이미지 사이즈 고정 */
+/* 반응형 레이아웃 */
+@media (min-width: 1200px) {
+    /* 4열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    /* 3열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* 글자 크기와 검색 바 크기 조정 */
+    #book-list .sort-option, #webnovel-list .sort-option,
+    #book-list .filter-option, #webnovel-list .filter-option,
+    #book-list .category, #webnovel-list .category,
+    #book-list .selected-category, #webnovel-list .selected-category {
+        font-size: 0.9rem;
+    }
+
+    #book-list .book-search, #webnovel-list .webnovel-search {
+        max-width: 100%;
+    }
+
+    /* 필터 옵션과 정렬 옵션을 세로로 쌓기 */
+    #book-list #filter-container, #webnovel-list #filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 767px) {
+    /* 2열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* 글자 크기 줄이기 */
+    #book-list .sort-option, #webnovel-list .sort-option,
+    #book-list .filter-option, #webnovel-list .filter-option,
+    #book-list .category, #webnovel-list .category,
+    #book-list .selected-category, #webnovel-list .selected-category {
+        font-size: 0.8rem;
+    }
+
+    #book-list .book-search, #webnovel-list .webnovel-search {
+        max-width: 100%;
+        font-size: 0.9rem;
+    }
+
+    /* 필터 및 정렬 옵션을 한 줄로 정렬 */
+    #book-list #filter-container, #webnovel-list #filter-container {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    #book-list #filter-options, #webnovel-list #filter-options {
+        justify-content: center;
+    }
+}
+
+/* 반응형 그리드 */
+@media (min-width: 1200px) {
+    /* 4열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    /* 3열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    /* 2열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 이미지 크기 */
 #book-list .book-img, #webnovel-list .webnovel-img {
-    width: 150px;
-    height: 200px;
     object-fit: cover;
     margin-bottom: 10px;
 }
 
+/* 반응형 이미지 크기 */
+@media (min-width: 1200px) {
+    #book-list .book-img, #webnovel-list .webnovel-img {
+        width: 220px;
+        height: 300px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    #book-list .book-img, #webnovel-list .webnovel-img {
+        width: 170px;
+        height: 230px;
+    }
+}
+
+@media (max-width: 767px) {
+    #book-list .book-img, #webnovel-list .webnovel-img {
+        width: 120px;
+        height: 160px;
+    }
+}
+
 /* 제목 스타일 */
 #book-list .book-title, #webnovel-list .webnovel-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
     text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 제목 크기 조정 */
+@media (min-width: 1200px) {
+    #book-list .book-title, #webnovel-list .webnovel-title {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    #book-list .book-title, #webnovel-list .webnovel-title {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 767px) {
+    #book-list .book-title, #webnovel-list .webnovel-title {
+        font-size: 14px;
+    }
 }
 
 /* 페이징 */
@@ -388,8 +497,105 @@ a.text-danger .svg-icon {
     color: var(--primary-color) !important;
 }
 
+@media (max-width: 480px),
+(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2),
+(max-device-width: 480px) and (min-resolution: 192dpi) {
+
+    /* 2열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+    }
+
+    /* 글자 크기 크게 */
+    #book-list .sort-option, #webnovel-list .sort-option,
+    #book-list .filter-option, #webnovel-list .filter-option,
+    #book-list .category, #webnovel-list .category,
+    #book-list .selected-category, #webnovel-list .selected-category,
+    #book-list .selected-sort, #webnovel-list .selected-sort {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    /* 검색 바 크기 확대 및 중앙 정렬 */
+    #book-list .book-search, #webnovel-list .webnovel-search {
+        max-width: 100%;
+        font-size: 4rem; /* 2배 크기 */
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    #book-list .book-search input[type="text"], #webnovel-list .webnovel-search input[type="text"],
+    #book-list .book-search select, #webnovel-list .webnovel-search select {
+        height: 60px; /* 높이 대폭 확대 */
+        font-size: 1.8rem; /* 폰트 크기 확대 */
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    /* 검색 버튼 크기 조정 */
+    #book-list .book-search input[type="submit"], #webnovel-list .webnovel-search input[type="submit"],
+    .btn.btn-dark {
+        height: 60px; /* 높이 대폭 확대 */
+        font-size: 1.8rem; /* 폰트 크기 확대 */
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    /* 필터 및 정렬 옵션을 한 줄로 정렬 */
+    #book-list #filter-container, #webnovel-list #filter-container {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    #book-list #filter-options, #webnovel-list #filter-options {
+        justify-content: center;
+    }
+
+    /* 이미지 크기 대폭 확대 */
+    #book-list .book-img, #webnovel-list .webnovel-img {
+        width: 300px !important; /* 강제로 너비 설정 */
+        height: 400px !important; /* 높이 설정 */
+        max-width: none !important; /* 최대 너비 제한 제거 */
+        max-height: none !important; /* 최대 높이 제한 제거 */
+        object-fit: cover;
+    }
+
+    /* 제목 크기 대폭 확대 */
+    #book-list .book-title, #webnovel-list .webnovel-title {
+        font-size: 1.8rem;
+        margin-top: 10px;
+    }
+
+    /* 아이템 간 간격 줄이기 */
+    #book-list .book-item, #webnovel-list .webnovel-item {
+        padding: 10px;
+    }
+
+    /* 페이징 */
+    #book-list .pagination, #webnovel-list .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        font-size: 1.8rem; /* 페이징 글씨 크기 4배로 확대 */
+    }
+
+    #book-list .pagination a, #webnovel-list .pagination a {
+        margin: 0 15px; /* 간격을 좀 더 넓게 */
+        text-decoration: none;
+    }
+
+    /* 현재 페이지 빨간색 강조 */
+    #book-list .pagination a.active, #webnovel-list .pagination a.active {
+        color: var(--primary-color) !important;
+        font-weight: bold; /* 강조 */
+    }
+}
+
 /* 작품 상세보기 */
-/* detail 컨테이너 */
+/* 작품 상세보기 컨테이너 */
 #book-detail .book-detail-container, #webnovel-detail .webnovel-detail-container {
     max-width: 1600px;
     margin: 0 auto;
@@ -402,6 +608,7 @@ a.text-danger .svg-icon {
     display: flex;
     align-items: flex-start;
     margin-bottom: 20px;
+    flex-wrap: nowrap; /* 텍스트가 이미지 옆에 고정되도록 설정 */
 }
 
 #book-detail .book-cover, #webnovel-detail .webnovel-cover {
@@ -441,11 +648,15 @@ a.text-danger .svg-icon {
 #book-detail .dropdown-content, #webnovel-detail .dropdown-content {
     display: none;
     position: absolute;
+    top: 100%;
+    left: 0;
     background-color: black;
     min-width: 160px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     z-index: 2;
+    padding: 0;
+    list-style: none; /* 불필요한 불릿 제거 */
 }
 
 #book-detail .dropdown-content a, #webnovel-detail .dropdown-content a,
@@ -459,7 +670,7 @@ a.text-danger .svg-icon {
 
 #book-detail .dropdown-content label input, #webnovel-detail .dropdown-content label input {
     appearance: none;
-    text-indent: -9999px;
+    text-indent: -9999px; /* 라벨의 점을 숨기기 */
 }
 
 #book-detail .dropdown-content a:hover, #webnovel-detail .dropdown-content a:hover,
@@ -467,6 +678,7 @@ a.text-danger .svg-icon {
     background-color: var(--primary-color);
 }
 
+/* 드롭다운 활성화 */
 #book-detail .add-to-library:hover .dropdown-content,
 #webnovel-detail .add-to-library:hover .dropdown-content {
     display: block;
@@ -499,10 +711,6 @@ a.text-danger .svg-icon {
 
 #book-detail .review-header h3, #webnovel-detail .review-header h3 {
     margin: 0;
-}
-
-#book-detail .review-header .more-button, #webnovel-detail .review-header .more-button {
-    margin-left: 20px;
 }
 
 #book-detail .review-header .action-button, #webnovel-detail .review-header .action-button {
@@ -556,10 +764,6 @@ a.text-danger .svg-icon {
     margin: 0;
 }
 
-#book-detail .similar-books-header .more-button, #webnovel-detail .similar-webnovels-header .more-button {
-    margin-left: 20px;
-}
-
 #book-detail .similar-books-header .action-button, #webnovel-detail .similar-webnovels-header .action-button {
     color: white;
     padding: 8px 16px;
@@ -600,10 +804,6 @@ a.text-danger .svg-icon {
 
 #book-detail .forums-header h3, #webnovel-detail .forums-header h3 {
     margin: 0;
-}
-
-#book-detail .forums-header .more-button, #webnovel-detail .forums-header .more-button {
-    margin-left: 20px;
 }
 
 #book-detail .forums-header .action-button, #webnovel-detail .forums-header .action-button {
@@ -683,6 +883,158 @@ a.text-danger .svg-icon {
     object-fit: cover;
     display: block;
     margin: 0 auto;
+}
+
+/* 반응형 설정 */
+@media (max-width: 1199px) {
+    #book-detail .book-cover, #webnovel-detail .webnovel-cover {
+        width: 120px;
+        height: 160px;
+        margin-right: 15px;
+    }
+
+    #book-detail .dropdown-button, #webnovel-detail .dropdown-button,
+    #book-detail .action-button, #webnovel-detail .action-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    #book-detail .review-list .review-item, #webnovel-detail .review-list .review-item,
+    #book-detail .forums .forum-item, #webnovel-detail .forums .forum-item {
+        width: 130px;
+    }
+
+    #book-detail .similar-books .book-item img, #webnovel-detail .similar-webnovels .webnovel-item img {
+        width: 90px;
+        height: 135px;
+    }
+
+    #book-detail .review-list .review-item p, #webnovel-detail .review-list .review-item p {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 767px) {
+    #book-detail .book-info, #webnovel-detail .webnovel-info {
+        display: flex;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin: 0 auto;
+    }
+
+    #book-detail .book-cover, #webnovel-detail .webnovel-cover {
+        width: 100px;
+        height: 140px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    #book-detail .dropdown-button, #webnovel-detail .dropdown-button,
+    #book-detail .action-button, #webnovel-detail .action-button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    #book-detail .dropdown-content, #webnovel-detail .dropdown-content {
+        min-width: 140px;
+    }
+
+    #book-detail .dropdown-content a, #webnovel-detail .dropdown-content a,
+    #book-detail .dropdown-content label, #webnovel-detail .dropdown-content label {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    #book-detail .review-list .review-item, #webnovel-detail .review-list .review-item,
+    #book-detail .forums .forum-item, #webnovel-detail .forums .forum-item {
+        width: 100%;
+        padding: 8px;
+    }
+
+    #book-detail .similar-books .book-item img, #webnovel-detail .similar-webnovels .webnovel-item img {
+        width: 80px;
+        height: 120px;
+    }
+
+    #book-detail .review-list .review-item p, #webnovel-detail .review-list .review-item p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px),
+(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2),
+(max-device-width: 480px) and (min-resolution: 192dpi) {
+
+    /* 상세 정보 메인 이미지 크기 대폭 확대 */
+    #book-detail .book-cover,
+    #webnovel-detail .webnovel-cover {
+        width: 300px !important;
+        height: 450px !important;
+        object-fit: cover !important;
+        margin: 0 auto 20px auto !important;
+    }
+
+    /* 상세 정보 섹션 중앙 정렬 및 세로 배치 */
+    #book-detail .book-info, #webnovel-detail .webnovel-info {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+    }
+
+    /* 유사 작품 이미지 크기 3배 확대 */
+    #book-detail .similar-books .book-item img, #webnovel-detail .similar-webnovels .webnovel-item img,
+    #book-detail .img-fluid, #webnovel-detail .img-fluid {
+        width: 300px !important;
+        height: 450px !important;
+        object-fit: cover !important;
+        margin: 0 auto !important;
+    }
+
+    /* 유사 작품 제목 크기 확대 */
+    #book-detail .similar-books .book-item h6, #webnovel-detail .similar-webnovels .webnovel-item h6 {
+        font-size: 2.5rem !important;
+        margin-top: 15px !important;
+        text-align: center;
+    }
+
+    /* 드롭다운 및 액션 버튼 크기 */
+    #book-detail .dropdown-button, #webnovel-detail .dropdown-button,
+    #book-detail .action-button, #webnovel-detail .action-button {
+        padding: 10px 20px !important;
+        font-size: 2rem !important;
+    }
+
+    /* 드롭다운 내용 크기 조정 */
+    #book-detail .dropdown-content, #webnovel-detail .dropdown-content {
+        min-width: 180px !important;
+    }
+
+    #book-detail .dropdown-content a, #webnovel-detail .dropdown-content a,
+    #book-detail .dropdown-content label, #webnovel-detail .dropdown-content label {
+        padding: 14px 18px !important;
+        font-size: 1.3rem !important;
+    }
+
+    /* 리뷰 및 토론 텍스트 크기 대폭 확대 */
+    #book-detail .review-list .review-item p, #webnovel-detail .review-list .review-item p,
+    #book-detail .forums .forum-item p, #webnovel-detail .forums .forum-item p {
+        font-size: 2rem !important;
+    }
+
+    /* 제목 크기 대폭 확대 */
+    #book-detail h3, #webnovel-detail h3 {
+        font-size: 2.5rem !important;
+        margin-top: 10px !important;
+    }
+
+    /* 일반 텍스트 크기 대폭 확대 */
+    #book-detail p, #webnovel-detail p,
+    #book-detail .book-description, #webnovel-detail .webnovel-description {
+        font-size: 2rem !important;
+    }
 }
 /* 최종 정리 끝 */
 
