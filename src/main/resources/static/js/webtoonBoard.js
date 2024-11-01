@@ -246,16 +246,24 @@ function updatePaging(pagingDiv, totalPageCount, currentPage, commentId) {
         return;
     }
 
+    // 페이지 링크 컨테이너 생성 (가로 정렬을 위한 flex 컨테이너)
+    const pageLinksContainer = $('<div class="page-links-container"></div>').css({
+        display: 'flex',
+        'justify-content': 'center',
+        'flex-direction': 'row'
+    });
+
     // 페이지 링크 생성
     for (let i = 1; i <= totalPageCount; i++) {
         const pageLink = $(`<span class="page-link" onclick="fetchChildComments(${commentId}, ${i})">${i}</span>`);
         if (i === currentPage) {
             pageLink.addClass('active'); // 현재 페이지 강조
         }
-        pagingDiv.append(pageLink);
+        pageLinksContainer.append(pageLink);
     }
 
-    // 페이징 div를 보여줌
+    // 페이지 링크 컨테이너를 pagingDiv에 추가하고, 표시
+    pagingDiv.append(pageLinksContainer);
     pagingDiv.show();
 }
 

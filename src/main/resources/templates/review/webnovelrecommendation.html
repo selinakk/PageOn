@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/sub.css" rel="stylesheet">
+</head>
+<body  th:fragment="content">
+<div class="position-relative padding-medium">
+    <div class="container">
+        <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+            <h3 class="d-flex align-items-center">사용자 추천</h3>
+        </div>
+    </div>
+</div>
+</div>
+<div class="book-grid"><input type="hidden" name="id" th:value="${session.id}">
+    <div class="book-item position-relative" th:each="vo : ${webnovels}">
+
+        <a th:href="@{/book/detail(item_id=${vo.item_id})}">
+            <img th:src="@{${vo.img_name}}" class="book-img" alt="Book Cover">
+        </a>
+        <a th:href="@{/book/detail(item_id=${vo.item_id})}" class="book-title" th:text="${vo.title}"></a>
+        <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+            <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
+                <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+                <input type="hidden" name="work_num" th:value="${vo.item_id}" />
+                <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

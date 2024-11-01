@@ -164,6 +164,27 @@
             },
         });
 
+
+        var detailSwiper = new Swiper(".detail-swiper", {
+            spaceBetween: 20,
+            navigation: {
+                nextEl: ".detail-slider-button-next",
+                prevEl: ".detail-slider-button-prev",
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+                1000: {
+                    slidesPerView: 3,
+                },
+                1200: {
+                    slidesPerView: 5,
+                }
+            },
+            loop: false // 루프 설정
+        });
+
         var testimonialSwiper = new Swiper(".testimonial-swiper", {
             slidesPerView: 1,
             spaceBetween: 20,
