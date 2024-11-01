@@ -294,6 +294,7 @@ a.text-danger .svg-icon {
     border-radius: 0;
     background-position: right 0.25em center;
     box-sizing: border-box;
+    border: 1px solid #ccc;
 }
 
 /* 텍스트 입력 스타일 */
@@ -306,17 +307,6 @@ a.text-danger .svg-icon {
     border-radius: 0;
     box-sizing: border-box;
     border: 1px solid #ccc;
-}
-
-/* 검색 버튼 스타일 */
-#book-list .book-search input[type="image"], #webnovel-list .webnovel-search input[type="image"] {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    font-size: 1rem;
-    margin-left: 5px;
-    vertical-align: middle;
-    border-radius: 0;
 }
 
 /* 필터 스타일 */
