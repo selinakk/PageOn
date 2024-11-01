@@ -6,8 +6,8 @@
 <mapper namespace="com.tmtb.pageon.user.mapper.UserMapper">
 
     <insert id="insertUser" parameterType="com.tmtb.pageon.user.model.UserVO">
-        INSERT INTO pageon.member (id, pw, name, tel, img_name, reg_date, like_categories, introduce, img_data)
-        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, NOW(), #{like_categories}, #{introduce}, #{img_data})
+        INSERT INTO pageon.member (id, pw, name, tel, img_name, reg_date, like_categories, introduce, img_data,user_role)
+        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, NOW(), #{like_categories}, #{introduce}, #{img_data},#{user_role})
     </insert>
 
     <!-- 아이디 중복 체크를 위한 쿼리 -->

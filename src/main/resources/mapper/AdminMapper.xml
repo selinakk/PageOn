@@ -12,10 +12,6 @@
         SELECT COUNT(*) FROM member
     </select>
 
-    <insert id="insertMember" parameterType="com.tmtb.pageon.user.model.UserVO">
-        INSERT INTO member (id, pw, name, tel, img_name, like_categories, introduce, imgPath)
-        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, #{like_categories}, #{introduce}, #{imgPath})
-    </insert>
 
     <update id="updateMember" parameterType="com.tmtb.pageon.user.model.UserVO">
         UPDATE pageon.member

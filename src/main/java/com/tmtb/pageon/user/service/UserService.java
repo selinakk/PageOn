@@ -5,6 +5,7 @@ import com.tmtb.pageon.user.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,11 +21,16 @@ public class UserService {
     @Autowired
     private UserMapper mapper;
 
+    @Autowired
+    private PasswordEncoder encoder;
     // 사용자 등록
     public void insertUser(UserVO user, MultipartFile imgFile) {
         try {
             user.setImg_name(imgFile.getOriginalFilename());
             user.setImg_data(imgFile.getBytes());
+            String encodedPwd = encoder.encode(user.getPw());
+            user.setPw(encodedPwd);
+            log.info("uservo정보",user);
             mapper.insertUser(user);
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,6 +54,8 @@ public class UserService {
                 user.setImg_name(imgFile.getOriginalFilename());
                 user.setImg_data(imgFile.getBytes());
                 log.info("Image data size: " + user.getImg_data().length); // 데이터 크기 확인
+                String encodedPwd = encoder.encode(user.getPw());
+                user.setPw(encodedPwd);
             } else {
                 log.info("No new image uploaded. Keeping existing image data.");
             }

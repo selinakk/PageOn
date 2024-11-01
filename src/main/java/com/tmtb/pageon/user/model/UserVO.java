@@ -15,10 +15,11 @@ public class UserVO {
     private String tel;
     private String  like_categories;
     private String introduce;
+    private String user_role;
     private String img_name; // 변수명 확인
     private Date regDate; // 이 부분이 누락되었을 수도 있습니다.
     private byte[] img_data; // BLOB 데이터를 저장하기 위한 필드
-    private String user_role;
+
 
 
 

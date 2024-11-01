@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>login.html</title>
-<link rel="stylesheet" href="/css/main.css">
+	<meta charset="UTF-8">
+	<title>Login Fail</title>
 </head>
-<body th:replace="~{layout::layout}">
-	<div th:fragment="content">
-		<script>
-			alert("아이디 혹은 비밀번호가 틀려요");
-			location.href = "[[@{/}]]";
-		</script>
-	</div>
-
+<body>
+<script>
+	alert("아이디 혹은 비밀번호가 틀려요");
+	location.href = "[[@{/}]]";  <!-- 홈 경로로 이동 -->
+</script>
 </body>
 </html>
-

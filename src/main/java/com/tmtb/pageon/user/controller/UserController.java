@@ -5,20 +5,15 @@ import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 @Slf4j
 @Controller
@@ -32,9 +27,12 @@ public class UserController {
     // 사용자 등록
     @PostMapping("/insertUserForm")
     public String insertUserForm(@ModelAttribute("user") UserVO userVO, @RequestParam("imgFile") MultipartFile imgFile) {
+        if (userVO.getUser_role() == null || userVO.getUser_role().isEmpty()) {
+            userVO.setUser_role("USER"); // 기본값 설정
+        }
         log.info("사용자 정보 전달: {}", userVO);
         userService.insertUser(userVO, imgFile);
-        return "redirect:/"; // 리다이렉트
+        return "redirect:/";
     }
 
     // 아이디 중복 체크
@@ -188,6 +186,32 @@ public class UserController {
             return "redirect:/";
         }
     }
+
+    // 로그인이 필요한 요청경로를 로그인 하지 않은 상태로 요청하면 리다일렉트 되는 요청경로
+    @GetMapping("/user/required_login")
+    public String required_login() {
+        return "/user/required_login";
+    }
+
+    // 로그인 폼을 제출(post) 한 로그인 프로세즈 중에 forward 되는 경로이기 때문에 @PostMapping 임에 주의!
+    @PostMapping("/user/login_fail")
+    public String login_fail() {
+        // 로그인 실패임을 알릴 페이지
+        return "user/login_fail";
+    }
+
+    @PostMapping("/user/login_success")
+    public String login_success() {
+        // 로그인 성공후 보여질 페이지
+        return "redirect:/";
+    }
+
+    // 세션 허용갯수 초과시
+    @GetMapping("/user/expired")
+    public String expired() {
+        return "user/expired";
+    }
+
 
 
 }
