@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public class ReviewContoller {
     //리뷰 목록
     @GetMapping("/review/list")
     public String getUsers(Model model, @RequestParam(defaultValue = "1")int cpage,
-                           @RequestParam(defaultValue ="8" )int pageBlock,
+                           @RequestParam(defaultValue ="4" )int pageBlock,
                            @RequestParam(defaultValue = "recent")String sortType
                            //@RequestParam String userId
     ) {
@@ -146,10 +145,12 @@ public class ReviewContoller {
     //리뷰 입력
     @GetMapping("/review/insert")
     public String insert(Model model,
-                         @RequestParam(defaultValue = "work_num") int work_num) {
+                         @RequestParam(defaultValue = "work_num") int work_num,
+                         @RequestParam(defaultValue = "categories")String categories ) {
         log.info("리뷰 입력");
 
         model.addAttribute("work_num", work_num);
+        model.addAttribute("categories", categories);
         return "review/insert";
 
     }
@@ -280,15 +281,47 @@ public class ReviewContoller {
     }
 
 
-    @GetMapping("/recommemdation")
-    public String recommendation(@RequestParam(defaultValue = "admin1") String user_Id, Model model){
-        //List<Object> RecommendedWorks = service.getReviewRecommended(user_Id);
-        //model.addAttribute("recommendationWork", RecommendedWorks);
+    //해당 type의 추천 작품 20개씩
+    @GetMapping("/review/bookrecommendation")
+    public String bookrecommendation(@RequestParam(defaultValue = "id") String id, Model model,
+                                 @RequestParam(defaultValue = "1")int cpage,
+                                 @RequestParam(defaultValue = "20")int pageBlock){
 
-        
+        log.info("book 추천 start");
+        List<BookVO> Books  =service.getBookRecommendation(id, cpage, pageBlock);
+        model.addAttribute("Books", Books);
+        model.addAttribute("id", id);
+
+       // List<Object> recommendation  =service.getReviewRecommendation(id, cpage, pageBlock);
+
+        return "bookrecommendation";
+    }
+
+    @GetMapping("/review/webtoonrecommendation")
+    public String webtoonrecommendation(@RequestParam(defaultValue = "user_id") String userId, Model model,
+                                 @RequestParam(defaultValue = "1")int cpage,
+                                 @RequestParam(defaultValue = "20")int pageBlock){
+
+        log.info("webtoon 추천 start");
+        List<WebtoonVO> webtoons  =service.getWebtoonRecommendation(userId, cpage, pageBlock);
+        model.addAttribute("webtoons", webtoons);
+        model.addAttribute("userId", userId);
 
 
-        return "recommendation";
+        return "webtoonecommendation";
+    }
+    @GetMapping("/review/webnovelrecommendation")
+    public String webnovelrecommendation(@RequestParam(defaultValue = "user_id") String userId, Model model,
+                                        @RequestParam(defaultValue = "1")int cpage,
+                                        @RequestParam(defaultValue = "20")int pageBlock){
+
+        log.info("webnovel 추천 start");
+        List<WebtoonVO> webtoons  =service.getWebtoonRecommendation(userId, cpage, pageBlock);
+        model.addAttribute("webtoons", webtoons);
+        model.addAttribute("userId", userId);
+
+
+        return "webnovelrecommendation";
     }
 
 
