@@ -91,3 +91,14 @@ input[name="searchWord"] {
     padding-right: 1.5rem;
 }
 
+.short-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 줄 수 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.full-text {
+    display: block;
+}
+

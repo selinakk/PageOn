@@ -10,10 +10,10 @@
 
 <!--더 보기 랑 유사 카테고리 수정 필요-->
 
-<section id="webtoon-detail" class="position-relative padding-small">
-    <div class="webtoon-detail-container">
-        <div class="webtoon-info">
-            <img th:src="${vo2.img_name}" class="webtoon-cover">
+<section id="webnovel-detail" class="position-relative padding-small">
+    <div class="webnovel-detail-container">
+        <div class="webnovel-info">
+            <img th:src="${vo2.img_name}" class="webnovel-cover">
             <div>
                 <h4 th:text="${vo2.title}"></h4>
                 <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
@@ -28,7 +28,6 @@
                 </p>
                 <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
                                         th:text="${vo2.categories}"></a></p>
-                <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
             </div>
         </div>
 
