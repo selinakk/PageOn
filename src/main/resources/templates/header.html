@@ -264,7 +264,6 @@
                                       <input type="password" minlength="2" name="pw" placeholder="Your Password" class="form-control w-100 rounded-3 p-3" required>
                                     </div>
                                     <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Login</button>
-                                    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</button>
                                   </form>
 
                                   <!-- 에러 메시지 출력 -->
@@ -272,39 +271,6 @@
                                     <span th:text="${error}"></span>
                                   </div>
                                 </div>
-
-
-                                <!-- 비밀번호 변경 모달 -->
-                                <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title" id="changePasswordModalLabel">비밀번호 변경</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                      </div>
-                                      <div class="modal-body">
-                                        <form id="changePasswordForm">
-                                          <div class="mb-3">
-                                            <label for="newPassword" class="form-label">새 비밀번호 *</label>
-                                            <input type="password" id="newPassword" name="newPassword" class="form-control" required>
-                                          </div>
-                                          <div class="mb-3">
-                                            <label for="confirmPassword" class="form-label">새 비밀번호 확인 *</label>
-                                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
-                                          </div>
-                                          <div id="passwordErrorMessage" style="color:red;"></div>
-                                        </form>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                        <button type="button" class="btn btn-primary" onclick="changePassword()">비밀번호 변경</button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-
-
 
 
 
