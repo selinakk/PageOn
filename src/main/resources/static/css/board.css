@@ -1,71 +1,75 @@
-/*검색 선택*/
-.search-select {
+
+/*게시판 선택*/
+.board-select {
+    display: flex;
+    margin-right: 1rem;
+    justify-content: flex-start;
+    position: absolute;
+    z-index: 1;
+    width: 300px;
+    height: 50px;
+}
+
+/*자유 게시판 질문 게시판 상자*/
+.board-select .free-qna {
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 100px;
+}
+
+
+/* 검색 스타일 */
+.board-search {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    max-width: 340px;
+}
+
+.board-search select {
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1rem;
+    margin-right: -1px;
+    line-height: 40px;
+    border-radius: 0;
+    background-position: right 0.25em center;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+/* 텍스트 입력 스타일 */
+.board-search input[type="text"] {
+    flex: 1;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1rem;
+    line-height: 40px;
+    border-radius: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+.form-select {
     width: 100px;
-    padding: 0.25rem;
-    font-size: 0.875rem;
 }
 
-
-input[name="searchWord"] {
-    padding: 0.25rem;
-    width: 50%;
-    font-size:10pt;
+.btn{
+    min-width: 4rem;
+    max-width: 80px;
 }
 
-.input-group-append .btn {
-    padding: 0.25rem 0.5rem;
-}
-
-
-.board-container {
-    margin: 5px 0;
-}
-
-.card {
-    margin: 0 8px;
-}
-
-
-.input-group {
-    margin-left: 20px;
-}
-
-.write-button {
-    margin-left: 15px;
-}
-
-.input-group .form-control-sm {
-    width: 150px;
-
-.board-card {
-    width: 10%;
-    height: 10%;
-    cursor: pointer;
-}
-
-.sort-card {
-    width: 6rem;
-    cursor: pointer;
-}
-
-
-}
-
-/*검색 + 글작성 */
-.board-tap {
-
-}
-
-.short-text {
-    display: inline-block;
-    max-height: 3em; /* 3줄로 제한 */
-    overflow: hidden;
-    white-space: normal;
-}
-.full-text {
-    display: inline-block;
-    white-space: normal;
-}
 .btn-link {
     background: none;
     border: none;
@@ -76,29 +80,163 @@ input[name="searchWord"] {
     font-size: 1rem;
 }
 
+#table-list {
+    table-layout: auto;
+}
+
+.btn-right {
+    margin-left: auto;
+}
+
 /*링크 버튼 위에 마우스 호버시 색상변경*/
 .btn-link:hover {
     color: #0056b3;
     text-decoration: none;
 }
 
-/*게시판 선택 목록에 화살표 추가*/
-.custom-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="none" stroke="currentColor" stroke-width=".5" d="M2 5L0 3h4z"/></svg>') no-repeat right 0.75rem center/8px 10px;
-    padding-right: 1.5rem;
+.latest-hit-select {
+    width: 100px;
+    height: 100px;
 }
+
 
 .short-text {
     display: -webkit-box;
-    -webkit-line-clamp: 1; /* 줄 수 */
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .full-text {
     display: block;
+}
+
+.table-list {
+    max-height: 50px;
+}
+
+.table-list th:nth-child(1) {
+    width: 5%;
+}
+
+.table-list th:nth-child(2) {
+    width: 70%;
+}
+
+.table-list th:nth-child(3) {
+    width: 15%;
+}
+
+.table-list th:nth-child(4) {
+    width: 10%;
+}
+
+@media screen and (max-width: 768px) {
+
+    .table td {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    body {
+        font-size: 0.8rem; /* 전체 폰트 크기를 줄임 */
+    }
+
+
+}
+
+@media screen and (max-width: 768px) {
+    /* 모바일 */
+    .table td {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    body {
+        font-size: 0.8rem; /* 전체 폰트 크기를 줄임 */
+    }
+
+    /*게시판 선택*/
+    .board-select {
+        display: flex;
+        margin-right: 1rem;
+        justify-content: flex-start;
+        position: absolute;
+        z-index: 1;
+        width: 300px;
+        height: 50px;
+    }
+
+    /*자유 게시판 질문 게시판 상자*/
+    .board-select .free-qna {
+        text-align: center;
+        cursor: pointer;
+        width: 50%;
+        height: 50%;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .filter-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 50px;
+    }
+
+
+    /* 검색 스타일 */
+    .board-search {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        max-width: 100px;
+    }
+
+    .board-search select {
+        height: 40px;
+        padding: 0 10px;
+        font-size: 1rem;
+        margin-right: -1px;
+        line-height: 40px;
+        border-radius: 0;
+        background-position: right 0.25em center;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+    }
+
+    /* 텍스트 입력 스타일 */
+    .board-search input[type="text"] {
+        flex: 1;
+        height: 40px;
+        padding: 0 10px;
+        font-size: 1rem;
+        line-height: 40px;
+        border-radius: 0;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+    }
+
+}
+
+@media screen and (max-width:1024px) {
+    /* 타블렛 */
+
+    .table td {
+        max-width: 500px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    body {
+        font-size: 1rem; /* 전체 폰트 크기를 줄임 */
+    }
+
 }
 

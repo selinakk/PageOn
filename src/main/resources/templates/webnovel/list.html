@@ -9,9 +9,12 @@
 
     <!-- '전체', '인기', '사용자 추천', '선호' 선택 -->
     <div id="filter-options">
-        <a th:href="@{/webnovels(filter='all')}" class="filter-option" th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
-        <a th:href="@{/webnovels(filter='recommend')}" class="filter-option" th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
-        <a th:href="@{/webnovels(filter='prefer')}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
+        <a th:href="@{/webnovels(filter='all')}" class="filter-option"
+           th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
+        <a th:href="@{/webnovels(filter='recommend')}" class="filter-option"
+           th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
+        <a th:href="@{/webnovels(filter='prefer')}" class="filter-option"
+           th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
     </div>
 
     <!-- 카테고리 선택 링크 -->
@@ -121,12 +124,26 @@
                 <img th:src="@{${vo.img_name}}" class="webnovel-img" alt="Webnovel Cover">
             </a>
             <a th:href="@{/webnovel/detail(item_id=${vo.item_id})}" class="webnovel-title" th:text="${vo.title}"></a>
-            <form action="/bookshelf/insertOK"  method="post">
+            <form action="/bookshelf/insertOK" method="post">
                 <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
-                    <input type="hidden" name="work_num" th:value="${vo.item_id}" />
-                    <label th:for="'read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${vo.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                    <label th:for="'to-read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${vo.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                    <label th:for="'ing'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${vo.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                    <input type="hidden" name="work_num" th:value="${vo.item_id}"/>
+                    <label th:for="'read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort"
+                                                                                     th:id="'read'+${vo.item_id}"
+                                                                                     value="read"
+                                                                                     onchange="this.form.submit()"
+                                                                                     class="position-absolute"> 읽은
+                        작품</label>
+                    <label th:for="'to-read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort"
+                                                                                        th:id="'to-read'+${vo.item_id}"
+                                                                                        value="to-read"
+                                                                                        onchange="this.form.submit()"
+                                                                                        class="position-absolute"> 읽고 싶은
+                        작품</label>
+                    <label th:for="'ing'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort"
+                                                                                    th:id="'ing'+${vo.item_id}"
+                                                                                    value="ing"
+                                                                                    onchange="this.form.submit()"
+                                                                                    class="position-absolute"> 읽고 있는 작품</label>
                 </div>
             </form>
         </div>

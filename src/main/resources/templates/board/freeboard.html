@@ -12,65 +12,56 @@
 
     <!-- 게시판 선택 -->
     <div class="position-relative">
-        <div class="d-flex mr-3 justify-content-start position-absolute" style="z-index: 1;">
-            <div class="card text-center board-card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
+        <div class="board-select">
+            <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
                  onclick="location.href='/freeboard'">
-                <div class="card-body">
-                    <h5 class="card-title">자유 게시판</h5>
+                <div class="">
+                    <h5 class="">자유 게시판</h5>
                 </div>
             </div>
-            <div class="card text-center board-card ml-1"
+            <div class="free-qna card"
                  th:classappend="${category == 'qna'} ? 'border-primary' : ''"
                  onclick="location.href='/qnaboard'">
-                <div class="card-body">
-                    <h5 class="card-title">질문 게시판</h5>
+                <div>
+                    <h5>질문 게시판</h5>
                 </div>
             </div>
         </div>
 
-    <!-- 검색 폼과 글작성 버튼 -->
-    <div class="d-flex justify-content-end mb-4">
-        <form action="/b_search" method="get" class="d-flex">
-            <div class="input-group mt-3">
-                <div class="d-flex">
-                    <select name="category" class="form-control form-control-sm mr-1 search-select"
-                            style="width: 50%;">
-                        <option value="all">전체</option>
-                        <option value="free">자유</option>
-                        <option value="qna">질문</option>
-                    </select>
-                    <select name="searchType" class="form-control form-control-sm mr-1 search-select"
-                            style="width: 50%;">
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                </div>
-                <input type="text" name="searchWord" class="form-control form-control-sm mr-1"
-                       placeholder="검색어를 입력하세요">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-outline-primary">검색</button>
-                </div>
-            </div>
-        </form>
-        <div class="mt-3 ml-4 input-group-append" style="margin-left: 20px;">
-            <button onclick="location.href='/b_insert'" class="btn btn-outline-primary">글작성</button>
+        <!-- 검색 폼과 글작성 버튼 -->
+        <div class="filter-container">
+            <form class="board-search" action="/b_search" method="get">
+                <select name="category">
+                    <option value="all">전체</option>
+                    <option value="free">자유</option>
+                    <option value="qna">질문</option>
+                </select>
+                <select name="searchType">
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                </select>
+                <input type="text" name="searchWord" placeholder="검색어를 입력하세요">
+                <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2">검색</button>
+            </form>
         </div>
     </div>
 
 
     <div class="card p-4">
-        <select name="sort" class="form-control form-control-sm mr-1 search-select custom-select"
-                style="width: 5%; height: 10%" onchange="handleSortChange(this.value)">
+        <div class="d-flex">
+        <select name="sort" class="form-select" onchange="handleSortChange(this.value)">
             <option value="date" th:selected="${sort == 'date'}">최신순</option>
             <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
         </select>
+        <button onclick="location.href='/b_insert'" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
+        </div>
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th style="width: 5%">번호</th>
-                <th style="width: 70%">제목</th>
-                <th style="width: 15%">작성자</th>
-                <th style="width: 10%">조회수</th>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
             </tr>
             </thead>
             <tbody>
@@ -105,6 +96,7 @@
             </ul>
         </nav>
 
+    </div>
     </div>
 </section>
 </body>
