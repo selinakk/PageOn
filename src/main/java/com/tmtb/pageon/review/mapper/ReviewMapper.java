@@ -1,7 +1,10 @@
 package com.tmtb.pageon.review.mapper;
 
 
+import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
+import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -49,45 +52,10 @@ public interface ReviewMapper {
 
     List<Object> getReviewRecommended(String userId);
 
-//    List<ReviewVO> review_searchListPageTitle(int startRow, int pageBlock, String searchWord);
-//
-//    List<ReviewVO> review_searchListPageContent(int startRow, int pageBlock, String searchWord);
-//
-//    int getsearchListPageTitle(int startRow, int pageBlock, String searchWord);
-//
-//    int getsearchListPageContent(int startRow, int pageBlock, String searchWord);
 
+    List<BookVO> getBookRecommendation(String id, int startRow, int pageBlock);
 
-//   Map<String, Object> getCategoryByWorkId(@Param("workNum")int workNum);
-//
-//    //동일한 카테고리인 book, webtoon, webnovel 추천
-//    List<BookVO> getBookByCategory(@Param("caregories") String caregories,
-//                             @Param("workNum") int workNum);
-//
-//    List<WebtoonVO> getWebtoonByCategory(@Param("categories") String caregories,
-//                                               @Param("workNum") int workNum);
-//
-//    List<WebnovelVO> getWebnovelByCategry(@Param("categories") String caregories,
-//                                          @Param("workNum") int workNum);
+    List<WebtoonVO> getWebtoonRecommendation(String userId, int startRow, int pageBlock);
 
-
-    //작성한 리뷰의 작품 카테고리 조회
-//    List<ReviewVO> getReviewByCategories(String categories);
-//
-//    BookVO getBookByNum(int workNum);
-//
-//    List<BookVO> getBookByCategory(String category);
-//
-//    WebtoonVO getWebttonByNum(int workNum);
-//
-//    List<WebtoonVO> getWebtoonByCategory(String category);
-//
-//    WebnovelVO WebnovelByNum(int workNum);
-//
-//    List<WebnovelVO> getWebnovelByCategory(String category);
-//
-//    ReviewVO getReviewByUserId(String userId);
-//
-
-    
+    List<WebnovelVO> getWebnovelRecommendation(String userId, int startRow, int pageBlock);
 }

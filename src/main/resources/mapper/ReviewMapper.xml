@@ -4,8 +4,9 @@
 
     <!--리뷰 전체 목록-->
     <select id="review_selectAllPageBlock" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT r.* , w.title AS work_title, w.img_name AS work_img
+        SELECT r.* , w.title AS workTitle, w.img_name AS workImg
         FROM review r JOIN work w ON r.work_num = w.item_id
+        JOIN member m ON m.id=r.user_id
         <choose>
         <when test="sortType =='recent'">
             ORDER BY wdate desc
@@ -53,8 +54,8 @@
 
 <!--    리뷰 입력 수정 삭제 -->
     <insert id="review_insertOK" >
-        insert into review(work_num, title, content, user_id, rating)
-        values (#{work_num}, #{title}, #{content}, #{user_id}, #{rating})
+        insert into review(work_num, title, content, user_id, rating, categories)
+        values (#{work_num}, #{title}, #{content}, #{user_id}, #{rating}, #{categories})
     </insert>
   <update id="review_updateOK">
         UPDATE review SET work_num=#{work_num}, title=#{title}, content=#{content}, user_id=#{user_id}, rating=#{rating}, wdate=now()
@@ -92,17 +93,34 @@
 </update>
 
 <!--    해당 사용자가 작성한 리뷰 -->
-    <select id="getReviewByUserId" parameterType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT * FROM review WHERE user_id =#{user_Id}
+<!--    <select id="getReviewRecommended" resultType="com.tmtb.pageon.review.model.ReviewVO" parameterType="map">-->
+<!--        SELECT r.*, w.title AS workTitle, w.img_name AS workImg-->
+<!--        FROM review r JOIN work w on w.categories = r.categories-->
+<!--        WHERE r.user_id = #{user_id};-->
+<!--    </select>-->
+    <select id="getWebnovelRecommendation" resultType="com.tmtb.pageon.review.model.ReviewVO" parameterType="map">
+        SELECT DISTINCT w.item_id, w.title, w.img_name
+        FROM review r
+                 JOIN work w ON r.categories = w.categories
+                 JOIN member m ON m.id = r.user_id
+        WHERE m.id = #{id} AND w.worknum != r.worknum
+        AND w.type = 'webnovel'
     </select>
-
-    <select id="getReviewRecommended" resultType="com.tmtb.pageon.review.model.ReviewVO" parameterType="map">
-        SELECT w.* FROM work w JOIN review r ON w.item_id = r.work_num
-        WHERE r.user_id = 'tester2'
-        AND w.categories =
-            (SELECT w2.categories FROM review r2
-            JOIN work w2 ON r2.work_num=w2.item_id
-            WHERE r2.user_id = 'tester2')
+    <select id="getWebtoonRecommendation" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO" parameterType="map">
+        SELECT DISTINCT w.item_id, w.title, w.img_name
+        FROM review r
+                 JOIN work w ON r.categories = w.categories
+                 JOIN member m ON m.id = r.user_id
+        WHERE m.id = #{id} AND w.worknum != r.worknum
+        AND w.type = 'webtoon'
+    </select>
+    <select id="getBookRecommendation" resultType="com.tmtb.pageon.review.model.ReviewVO" parameterType="map">
+        SELECT DISTINCT w.item_id, w.title, w.img_name, r.categories
+        FROM review r
+                 JOIN work w ON r.categories = w.categories
+                 JOIN member m ON m.id = r.user_id
+        WHERE m.id = #{id} AND w.worknum != r.worknum
+        AND w.type = 'book'
     </select>
 
 </mapper>

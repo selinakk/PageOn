@@ -1,19 +1,17 @@
 package com.tmtb.pageon.review.service;
 
 
+import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.review.mapper.ReviewMapper;
 import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
+import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.springframework.boot.web.server.Ssl.ClientAuth.map;
 
 @Service
 @Slf4j
@@ -119,12 +117,34 @@ public class ReviewService {
 
 
     public List<ReviewVO> getRecentReview(int cpage, int pageBlock) {
+        log.info("getRecentReview ,,");
         int start_Row = (cpage -1) * pageBlock;
         return mapper.review_selectAllPageBlock(start_Row,pageBlock,"recent");
     }
 
-    public List<Object> getReviewRecommended(String userId) {
 
-        return mapper.getReviewRecommended(userId);
+    public List<Object> getReviewRecommendation(String id, int cpage, int pageBlock) {
+        log.info("getReviewRecommendation ,,");
+        int start_Row = (cpage - 1) * pageBlock;
+        return mapper.getReviewRecommended(id);
     }
+
+    public List<BookVO> getBookRecommendation(String id, int cpage, int pageBlock) {
+        log.info("리뷰 책추천 ,,");
+        int start_Row = (cpage - 1) * pageBlock;
+        return mapper.getBookRecommendation(id, start_Row, pageBlock);
+    }
+
+    public List<WebtoonVO> getWebtoonRecommendation(String userId, int cpage, int pageBlock) {
+        log.info("리뷰 웹툰추천 ,,");
+        int start_Row = (cpage - 1) * pageBlock;
+        return mapper.getWebtoonRecommendation(userId, start_Row, pageBlock);
+    }
+
+    public List<WebnovelVO> getWebnovelRecommendation(String userId, int cpage, int pageBlock) {
+        log.info("리뷰 웹소설추천 ,,");
+        int start_Row = (cpage - 1) * pageBlock;
+        return mapper.getWebnovelRecommendation(userId, start_Row, pageBlock);
+    }
+
 }
