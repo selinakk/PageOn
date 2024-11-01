@@ -7,8 +7,4 @@ import java.sql.Timestamp;
 
 @Data
 public class CommunityVO {
-
-
-
-
 }

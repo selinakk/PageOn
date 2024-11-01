@@ -1,6 +1,10 @@
 package com.tmtb.pageon.review.service;
 
 import com.tmtb.pageon.review.mapper.ReviewMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.tmtb.pageon.review.mapper.ReviewMapper;
 import com.tmtb.pageon.review.model.ReviewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +69,7 @@ public class ReviewService {
         log.info("review getTotalRow");
         return mapper.review_getTotalRow();
     }
-//
+    //
     public List<ReviewVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
         log.info("review getTotalRow");
 
@@ -93,7 +97,7 @@ public class ReviewService {
         log.info("increaseLike ...");
         return mapper.review_increamentLikes(num);
     }
-//
+    //
     public int increamentDislikes(int num) {
         log.info("increamentDislikes ,,");
         return mapper.review_increamentDislikes(num);
@@ -115,4 +119,3 @@ public class ReviewService {
 //        return mapper.writeFindWorkByCategory(titleId);
 //    }
 }
-

@@ -2,9 +2,11 @@ package com.tmtb.pageon.webtoon.controller;
 
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.board.service.BoardService;
+import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import com.tmtb.pageon.webtoon.service.WebtoonService;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,10 @@ public class WebtoonController {
 
     @Autowired
     private WebtoonService webtoonService;
+
+    @Autowired
+    private ProductService productService;
+
 
     @Autowired
     ServletContext context;
@@ -112,24 +118,29 @@ public class WebtoonController {
         return "webtoon/selectAll";
     }
 
-    //게시글 상세 보기
+    // 게시글 상세 보기
     @GetMapping("/wt_selectOne")
-    public String wt_selectOne(WebtoonVO vo, Model model) {
+    public String wt_selectOne(WebtoonVO vo, Model model, HttpSession session) {
         log.info("게시글 상세보기 페이지");
 
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
 
         WebtoonVO vo2 = webtoonService.selectOne(vo);
         List<WebtoonVO> similarWebtoons = webtoonService.searchWebtoonByCategories(vo2.getCategories(), 0, 15);
 
+        // 최근 본 항목 추가 (userId를 함께 전달)
+        List<Object> recentItems = productService.addRecentItem(id, vo2); // 캐싱을 위한 product service 생성
+        log.info("최근 본 항목 리스트: {}", recentItems);
 
         String formattedUpdateDay = vo2.getFormattedUpdateDay();
         log.info("vo2:{}", vo2);
         log.info("similarWebtoons:{}", similarWebtoons);
 
-
         model.addAttribute("vo2", vo2);
         model.addAttribute("similarWebtoons", similarWebtoons);
-
+        model.addAttribute("recentItems", recentItems); // 최근 본 항목 추가
 
         return "webtoon/selectOne";
     }

@@ -31,12 +31,11 @@
       padding: 10px 30px;
       font-style: initial;
       font-size: 20px;
-      background-color: #E15C5CFF;
       color: white;
       border: none;
       border-radius: 14px;
       cursor: pointer;
-      margin-left: 90%;
+      margin-left: 87.5%;
     }
 
     #btn1:hover {
@@ -45,7 +44,7 @@
 
     #insertTable {
       border-collapse: collapse;
-      width: 95%;
+      width: 90%;
       margin: auto;
       border: 2px solid black; /* 바깥 테두리를 진하게 */
     }
@@ -66,14 +65,14 @@
       color: blue;
     }
   </style>
-
 </head>
 
 <body>
 
-<!--<h1>공지사항 작성 페이지</h1>-->
 <header th:replace="~{header :: header}"></header>
 <nav th:replace="~{top_menu::top_menu}"></nav>
+<h3 style="margin-left: 4.7%">공지사항 작성 페이지</h3>
+
 <br>
 <form onsubmit="return validateForm()" action="/notice/n_insertOK.do" method="post" enctype="multipart/form-data">
   <table id="insertTable" border="1">
@@ -114,19 +113,30 @@
     const content = document.getElementById("content").value;
     const fileInput = document.getElementById("file");
 
-    if (getByteLength(title) > 100) {
+    if (getByteLength(title) > 100 ) {
       alert("제목이 100바이트를 초과하였습니다.");
       return false;
     }
-    if (getByteLength(userId) > 20) {
-      alert("작성자가 20바이트를 초과하였습니다.");
+    if (getByteLength(title) <= 0 ) {
+      alert("제목을 입력하세요.");
       return false;
     }
     if (getByteLength(content) > 5000) {
       alert("내용이 5000바이트를 초과하였습니다.");
       return false;
     }
-
+    if (getByteLength(content) <= 0) {
+      alert("내용을 입력하세요.");
+      return false;
+    }
+    if (getByteLength(userId) > 45) {
+      alert("작성자가 45바이트를 초과하였습니다.");
+      return false;
+    }
+    if (getByteLength(userId) <= 0) {
+      alert("작성자를 입력하세요.");
+      return false;
+    }
     if (fileInput.files.length > 0) {
       const fileName = fileInput.files[0].name;
       if (getByteLength(fileName) > 100) {
@@ -138,7 +148,6 @@
     return true; // 모든 조건을 만족하면 폼을 제출
   }
 </script>
-
 
 </body>
 

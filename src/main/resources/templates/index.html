@@ -139,22 +139,22 @@
             <h3 class="d-flex align-items-center">최근 공지사항</h3>
             <a href="/notice/n_selectAll.do" class="btn">더보기</a>
         </div>
-
-        <div class="row" style="display: flex; flex-wrap: wrap;"> <!-- flex-wrap을 추가하여 줄 바꿈을 방지 -->
-            <th:block th:each="vo : ${noticeVO}">
-                <div class="col-md-3 posts mb-4" style="border: 1px solid #ccc; padding: 15px; border-radius: 5px; margin: 10px; flex: 1 0 21%;"> <!-- flex 속성을 사용하여 너비 조정 -->
-                    <h4 class="card-title mb-2 text-capitalize text-dark">
-                        <a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a>
-                    </h4>
-
-                    <p class="mb-2">
-                        <span th:text="${vo.content.length() > 100 ? vo.content.substring(0, 100) + '...' : vo.content}">짧은 내용...</span>
-                        <span class="text-decoration-underline text-black-50">
+        <div class="row">
+            <!-- Bootstrap 카드 스타일을 위해 'card' 및 관련 클래스 추가 -->
+            <div class="col-md-3 mb-4" th:each="vo : ${noticeVO}">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <p class="fs-6 text-primary" th:text="${#dates.format(vo.wdate, 'yyyy-MM-dd')}"></p>
+                        <h4 class="card-title mb-2 text-capitalize text-dark">
+                            <a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a>
+                        </h4>
+                        <p class="mb-2 lh-base">
+                            <span th:text="${vo.content.length() > 100 ? vo.content.substring(0, 100) + '...' : vo.content}"></span>
                             <a th:href="|/notice/n_selectOne.do?num=${vo.num}|" style="color: blue; text-decoration: underline;">자세히 보기...</a>
-                        </span>
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </th:block>
+            </div>
         </div>
     </div>
 </section>

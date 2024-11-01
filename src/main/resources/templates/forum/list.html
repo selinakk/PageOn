@@ -69,7 +69,7 @@
                   <span th:text="${forum.wdate}"></span>
                 </div>
               </div>
-              <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+              <form action="/bookshelf/insertOK" method="post">
                 <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
                   <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
                   <input type="hidden" name="work_num" th:value="${forum.work_num}" />
