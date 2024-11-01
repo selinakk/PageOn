@@ -16,7 +16,7 @@
     </div>
 </div>
 </div>
-<div class="book-grid"><input type="hidden" name="id" th:value="${id}">
+<div class="book-grid"><input type="hidden" name="id" th:value="${session.id}">
     <div class="book-item position-relative" th:each="vo : ${webnovels}">
 
         <a th:href="@{/book/detail(item_id=${vo.item_id})}">

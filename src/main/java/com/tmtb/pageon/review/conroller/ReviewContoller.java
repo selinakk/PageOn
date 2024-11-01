@@ -9,6 +9,7 @@ import com.tmtb.pageon.review.service.SentimentAnalysisService;
 import com.tmtb.pageon.review.model.ReviewVO;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -283,9 +284,11 @@ public class ReviewContoller {
 
     //해당 type의 추천 작품 20개씩
     @GetMapping("/review/bookrecommendation")
-    public String bookrecommendation(@RequestParam(defaultValue = "id") String id, Model model,
+    public String bookrecommendation(HttpSession session, Model model,
                                  @RequestParam(defaultValue = "1")int cpage,
-                                 @RequestParam(defaultValue = "20")int pageBlock){
+                                 @RequestParam(defaultValue = "10")int pageBlock){
+
+        String id = (String) session.getAttribute("id");
         log.info("id:{}",id);
         log.info("book 추천 start");
         List<BookVO> Books  =service.getBookRecommendation(id, cpage, pageBlock);
@@ -298,9 +301,11 @@ public class ReviewContoller {
     }
 
     @GetMapping("/review/webtoonrecommendation")
-    public String webtoonrecommendation(@RequestParam(defaultValue = "id") String id, Model model,
-                                 @RequestParam(defaultValue = "1")int cpage,
-                                 @RequestParam(defaultValue = "10")int pageBlock){
+    public String webtoonrecommendation(HttpSession session, Model model,
+                                        @RequestParam(defaultValue = "1")int cpage,
+                                        @RequestParam(defaultValue = "10")int pageBlock){
+
+        String id = (String) session.getAttribute("id");
 
         log.info("webtoon 추천 start");
         log.info("id:{}",id);
@@ -313,10 +318,11 @@ public class ReviewContoller {
         return "review/webtoonrecommendation";
     }
     @GetMapping("/review/webnovelrecommendation")
-    public String webnovelrecommendation(@RequestParam(defaultValue = "id") String id, Model model,
+    public String webnovelrecommendation(HttpSession session, Model model,
                                         @RequestParam(defaultValue = "1")int cpage,
                                         @RequestParam(defaultValue = "10")int pageBlock){
 
+        String id = (String) session.getAttribute("id");
         log.info("webnovel 추천 start");
         log.info("id:{}",id);
         List<WebtoonVO> webtoons  =service.getWebtoonRecommendation(id, cpage, pageBlock);
