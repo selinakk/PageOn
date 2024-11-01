@@ -18,4 +18,5 @@ public class BookshelfVO {
     //work 테이블 참조
     private String workTitle;
     private String workImgName;
+    private String workType;
 }

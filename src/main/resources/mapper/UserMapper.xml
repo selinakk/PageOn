@@ -5,10 +5,9 @@
 
 <mapper namespace="com.tmtb.pageon.user.mapper.UserMapper">
 
-    <!-- 회원 정보를 저장하는 쿼리 -->
     <insert id="insertUser" parameterType="com.tmtb.pageon.user.model.UserVO">
-        INSERT INTO pageon.member (id, pw, name, tel, imgname, reg_date, like_categories, introduce, imgPath)
-        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{imgname}, NOW(), #{like_categories}, #{introduce}, #{imgPath})
+        INSERT INTO pageon.member (id, pw, name, tel, img_name, reg_date, like_categories, introduce, img_data)
+        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, NOW(), #{like_categories}, #{introduce}, #{img_data})
     </insert>
 
     <!-- 아이디 중복 체크를 위한 쿼리 -->
@@ -20,27 +19,29 @@
 
     <!-- 특정 회원의 정보 조회 쿼리 -->
     <select id="findById" parameterType="String" resultType="com.tmtb.pageon.user.model.UserVO">
-        SELECT id, pw, name, tel, imgname, reg_date, like_categories, introduce, imgPath
+        SELECT id, pw, name, tel, img_name, reg_date, like_categories, introduce,img_data
         FROM pageon.member
         WHERE id = #{id}
     </select>
 
     <select id="findByforumPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.ForumVO">
-        SELECT num, content_num, title, content, user_id, wdate, report, likes
-        FROM pageon.forum
+        SELECT num, title, content, user_id, wdate, report, hitcount, comment_count
+        FROM forum
         WHERE user_id = #{id}
         ORDER BY wdate DESC
             LIMIT #{offset}, #{size}
     </select>
 
+
     <select id="findBoardsByUserPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.BoardVO">
-        SELECT num, title, content, user_id, wdate, img_name, report, category, hitcount
+        SELECT num, title, content, user_id, wdate, img_name, report, category, boardhitcount
         FROM pageon.board
         WHERE user_id = #{id}
         ORDER BY wdate DESC
             LIMIT #{offset}, #{size}
     </select>
 
+    <!-- 사용자가 작성한 리뷰 조회 쿼리 -->
     <select id="findByReviewsPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.ReviewVO">
         SELECT num, work_num, title, content, user_id, wdate, rating, report, hate, `like`
         FROM pageon.review
@@ -48,6 +49,7 @@
         ORDER BY wdate DESC
             LIMIT #{offset}, #{size}
     </select>
+
 
     <select id="findCommentsByUserPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.CommentVO">
         SELECT num, type, content, user_id, wdate, report
@@ -57,15 +59,16 @@
             LIMIT #{offset}, #{size}
     </select>
 
+    <!-- 특정 회원의 forum 정보를 조회하는 쿼리 -->
     <select id="findByForum" parameterType="String" resultType="com.tmtb.pageon.user.model.ForumVO">
-        SELECT num, content_num, title, content, user_id, wdate, report, likes
-        FROM pageon.forum
+        SELECT num, title, content, user_id, wdate, report, hitcount
+        FROM forum
         WHERE user_id = #{id}
         ORDER BY wdate DESC
     </select>
 
     <select id="findByBoard" parameterType="String" resultType="com.tmtb.pageon.user.model.BoardVO">
-        SELECT num, title, content, user_id, wdate, img_name, report, category, hitcount
+        SELECT num, title, content, user_id, wdate, img_name, report, category, boardhitcount
         FROM pageon.board
         WHERE user_id = #{id}
         ORDER BY wdate DESC
@@ -88,19 +91,24 @@
 
     <!-- 사용자 카테고리 업데이트 쿼리 -->
     <update id="updateCategories">
-        UPDATE member
+        UPDATE pageon.member
         SET like_categories = #{likeCategories}
         WHERE id = #{id}
     </update>
 
+
     <!-- 회원정보 수정 쿼리 -->
     <update id="updateUserInfo" parameterType="com.tmtb.pageon.user.model.UserVO">
         UPDATE pageon.member
-        SET pw = #{pw}, name = #{name}, tel = #{tel}, imgname = #{imgname}, introduce = #{introduce}, imgPath = #{imgPath}
+        SET pw = #{pw}, name = #{name}, tel = #{tel}, img_name = #{img_name}, introduce = #{introduce}, img_data = #{img_data}
         WHERE id = #{id}
     </update>
 
 
+    <insert id="addRecentlyViewed">
+        INSERT INTO recentlyviewed (id, product_id, url)
+        VALUES (#{id}, #{productId}, #{url})
+    </insert>
 
 
 </mapper>

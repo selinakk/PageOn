@@ -46,7 +46,12 @@
           <td class="align-middle">
             <img class="img-fluid work-cover--sm" th:src="@{${book.workImgName}}" th:alt="|${book.workTitle} 작품 이미지|"/>
           </td>
-          <td class="align-middle"><a th:href="@{/book/detail(item_id=${book.work_num})}" th:text="${book.workTitle}"></a></td>
+          <td class="align-middle">
+            <a th:if="${book.workType == 'book'}" th:href="@{/book/detail(item_id=${book.work_num})}" th:text="${book.workTitle}"></a>
+            <a th:if="${book.workType == 'webnovel'}" th:href="@{/webnovel/detail(item_id=${book.work_num})}" th:text="${book.workTitle}"></a>
+            <a th:if="${book.workType == 'webtoon'}" th:href="@{/wt_selectOne(item_id=${book.work_num})}" th:text="${book.workTitle}"></a>
+          </td>
+
           <td class="align-middle">
             <span th:if="${!isOwner}">
                 <span th:if="${book.sort == 'to-read'}" th:text="'읽고 싶은 작품'"></span>

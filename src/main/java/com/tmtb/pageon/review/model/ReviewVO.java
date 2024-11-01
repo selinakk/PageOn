@@ -16,10 +16,4 @@ public class ReviewVO {
     private boolean report;
     private int like;
     private int hate;
-    private String categories;
-
-
-    //작품 이미지
-    private String workTitle;
-    private String workImg;
 }

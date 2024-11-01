@@ -3,7 +3,7 @@
 <mapper namespace="com.tmtb.pageon.bookshelf.mapper.BookshelfMapper">
 <!--    목록 보기-->
     <select id="getList" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
-        SELECT b.*, w.title AS workTitle, w.img_name AS workImgName
+        SELECT b.*, w.title AS workTitle, w.img_name AS workImgName, w.type AS workType
         FROM bookshelf b
         JOIN work w ON b.work_num = w.item_id
         WHERE b.user_id = #{user_id}
@@ -11,7 +11,7 @@
         LIMIT #{offset}, #{size}
     </select>
     <select id="getListBySort" resultType="com.tmtb.pageon.bookshelf.model.BookshelfVO">
-        SELECT b.*, w.title AS workTitle, w.img_name as workImgName
+        SELECT b.*, w.title AS workTitle, w.img_name as workImgName, w.type AS workType
         FROM bookshelf b
         JOIN work w ON b.work_num = w.item_id
         WHERE b.sort=#{sort} AND b.user_id = #{userId}

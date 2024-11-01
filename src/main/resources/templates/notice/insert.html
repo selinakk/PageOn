@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/sub.css">
-<!--  <link rel="stylesheet" href="/css/notice/insertCSS.css"> &lt;!&ndash; CSS 파일 링크 &ndash;&gt;-->
+  <!--  <link rel="stylesheet" href="/css/notice/insertCSS.css"> &lt;!&ndash; CSS 파일 링크 &ndash;&gt;-->
 
   <style>
     /* /notice/insertCSS.css */
@@ -31,12 +31,11 @@
       padding: 10px 30px;
       font-style: initial;
       font-size: 20px;
-      background-color: #E15C5CFF;
       color: white;
       border: none;
       border-radius: 14px;
       cursor: pointer;
-      margin-left: 90%;
+      margin-left: 87.5%;
     }
 
     #btn1:hover {
@@ -45,7 +44,7 @@
 
     #insertTable {
       border-collapse: collapse;
-      width: 95%;
+      width: 90%;
       margin: auto;
       border: 2px solid black; /* 바깥 테두리를 진하게 */
     }
@@ -66,38 +65,89 @@
       color: blue;
     }
   </style>
-
 </head>
 
 <body>
 
-<!--<h1>공지사항 작성 페이지</h1>-->
 <header th:replace="~{header :: header}"></header>
 <nav th:replace="~{top_menu::top_menu}"></nav>
+<h3 style="margin-left: 4.7%">공지사항 작성 페이지</h3>
+
 <br>
-<form action="/notice/n_insertOK.do" method="post" enctype="multipart/form-data">
+<form onsubmit="return validateForm()" action="/notice/n_insertOK.do" method="post" enctype="multipart/form-data">
   <table id="insertTable" border="1">
     <tr>
       <td class="center"><label for="title">제목</label></td>
-      <td><input class="input" type="text" id="title" name="title" value="홈페이지 업데이트" placeholder="제목을 입력하세요"></td>
+      <td><input class="input" type="text" id="title" name="title" placeholder="제목을 입력하세요"></td>
     </tr>
     <tr>
       <td class="center"><label for="content">내용</label></td>
-      <td><textarea class="input" name="content" id="content" cols="100" rows="17">시스템 업데이트</textarea></td>
+      <td><textarea class="input" name="content" id="content" cols="100" rows="17" placeholder="내용을 입력하세요"></textarea></td>
     </tr>
     <tr>
-      <!--관리자 로그인 세션 있을 때, <td>바로 뒤에 넣으면 됨-->
       <td class="center"><label for="user_id">작성자</label></td>
-      <td><input class="input" type="text" id="user_id" name="user_id" value="관리자"></td>
+      <td><input class="input" type="text" id="user_id" name="user_id" placeholder="작성자를 입력하세요"></td>
     </tr>
     <tr>
       <td class="center"><label for="file">이미지</label></td>
-      <td class="center"><input type="file" id="file" name="file" ></td>
+      <td class="center"><input type="file" id="file" name="file"></td>
     </tr>
   </table>
 
-  <input class id="btn1" type="submit" value="등록하기">
+  <input id="btn1" type="submit" value="등록하기">
 </form>
+
+<script>
+  function getByteLength(text) {
+    let byteSize = 0;
+    for (let i = 0; i < text.length; i++) {
+      const charCode = text.charCodeAt(i);
+      byteSize += charCode <= 0x007F ? 1 : charCode <= 0x07FF ? 2 : 3; // ASCII는 1바이트, 나머지 유니코드는 2~3바이트
+    }
+    return byteSize;
+  }
+
+  function validateForm() {
+    const title = document.getElementById("title").value;
+    const userId = document.getElementById("user_id").value;
+    const content = document.getElementById("content").value;
+    const fileInput = document.getElementById("file");
+
+    if (getByteLength(title) > 100 ) {
+      alert("제목이 100바이트를 초과하였습니다.");
+      return false;
+    }
+    if (getByteLength(title) <= 0 ) {
+      alert("제목을 입력하세요.");
+      return false;
+    }
+    if (getByteLength(content) > 5000) {
+      alert("내용이 5000바이트를 초과하였습니다.");
+      return false;
+    }
+    if (getByteLength(content) <= 0) {
+      alert("내용을 입력하세요.");
+      return false;
+    }
+    if (getByteLength(userId) > 45) {
+      alert("작성자가 45바이트를 초과하였습니다.");
+      return false;
+    }
+    if (getByteLength(userId) <= 0) {
+      alert("작성자를 입력하세요.");
+      return false;
+    }
+    if (fileInput.files.length > 0) {
+      const fileName = fileInput.files[0].name;
+      if (getByteLength(fileName) > 100) {
+        alert("이미지 파일 이름이 100바이트를 초과하였습니다.");
+        return false;
+      }
+    }
+
+    return true; // 모든 조건을 만족하면 폼을 제출
+  }
+</script>
 
 </body>
 

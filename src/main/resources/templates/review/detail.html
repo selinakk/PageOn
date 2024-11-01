@@ -6,6 +6,7 @@
     <title>Document</title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/sub.css" rel="stylesheet">
+    <link href="/review/styles.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body  th:fragment="content">
@@ -15,9 +16,6 @@
             <h3 class="d-flex align-items-center">리뷰 상세보기</h3>
             <a href="/review/insert">write</a>
             <a href="/review/list">목록</a>
-        </div>
-        <div style="align-content: center">
-
         </div>
         <div th:class="dt-1" >
             <p th:class="dt-2">제목: <span th:text="${vo2.title}"></span></p>
@@ -31,10 +29,9 @@
             </div>
             </p>
                 <span th:class="dt-2" >
-                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm" class="re_form">
+                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
                         <span th:text="${vo2.report}"></span>
-                        <input type="hidden" name="num" th:value="${vo2.num}">
-                        <button th:class="btns-3" type="button" onclick="confirmReport()">report</button>
+                        <button th:class="btn-3" type="button" onclick="confirmReport()">report</button>
                     </form>
                 </span>
             <div th:if="${result}">
@@ -110,14 +107,8 @@
 
     <div id="paging" th:if="${totalPageCount > 1}">
         <ul>
-            <li th:if="${cpage > 1}">
-                <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
-            </li>
             <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
                 <a th:href="@{/test(cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
-            </li>
-            <li th:if="${cpage < totalPageCount}">
-                <a th:href="@{/test(cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
             </li>
         </ul>
     </div>
@@ -278,16 +269,24 @@ function updatePaging(pagingDiv, totalPageCount, currentPage, commentId) {
         return;
     }
 
+    // 페이지 링크 컨테이너 생성 (가로 정렬을 위한 flex 컨테이너)
+    const pageLinksContainer = $('<div class="page-links-container"></div>').css({
+        display: 'flex',
+        'justify-content': 'center',
+        'flex-direction': 'row'
+    });
+
     // 페이지 링크 생성
     for (let i = 1; i <= totalPageCount; i++) {
         const pageLink = $(`<span class="page-link" onclick="fetchChildComments(${commentId}, ${i})">${i}</span>`);
         if (i === currentPage) {
             pageLink.addClass('active'); // 현재 페이지 강조
         }
-        pagingDiv.append(pageLink);
+        pageLinksContainer.append(pageLink);
     }
 
-    // 페이징 div를 보여줌
+    // 페이지 링크 컨테이너를 pagingDiv에 추가하고, 표시
+    pagingDiv.append(pageLinksContainer);
     pagingDiv.show();
 }
 

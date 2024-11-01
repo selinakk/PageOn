@@ -1,12 +1,14 @@
 package com.tmtb.pageon;
 
+import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
-import com.tmtb.pageon.review.model.ReviewVO;
-import com.tmtb.pageon.review.service.ReviewService;
+import com.tmtb.pageon.community.service.CommunityService;
+import com.tmtb.pageon.forum.model.ForumVO;
+import com.tmtb.pageon.notice.model.NoticeVO;
+import com.tmtb.pageon.user.model.ReviewVO;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,7 @@ public class HomeController {
     private BookService bookService;
 
     @Autowired
-    private ReviewService reviewService;
+    CommunityService service;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -40,14 +42,30 @@ public class HomeController {
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
 
-        List<ReviewVO> recentReviews = reviewService.getRecentReview(1,4);
-        model.addAttribute("recentReviews", recentReviews);
+        // 홈화면에 최근 4개의 게시글 조회
+        List<BoardVO> boardVO = service.boardSelectList();
+        log.info("boardVO:{}", boardVO);
+
+        // 홈화면에 최근 4개의 공지사항글 조회
+        List<NoticeVO> noticeVO = service.noticeSelectList();
+        log.info("noticeVO:{}", noticeVO);
+
+        // 홈화면에 최근 4개의 리뷰글 조회
+        List<ReviewVO> reviewVO = service.reviewSelectList();
+        log.info("reviewVO:{}", reviewVO);
+
+        // 홈화면에 최근 4개의 토론글 조회
+        List<ForumVO> forumVO = service.forumSelectList();
+        log.info("forumVO:{}", forumVO);
+
+        model.addAttribute("boardVO", boardVO);
+        model.addAttribute("noticeVO", noticeVO);
+        model.addAttribute("reviewVO", reviewVO);
+        model.addAttribute("forumVO", forumVO);
 
         return "index";
     }
 
-    @Autowired
-    HttpSession session;
 
     @GetMapping("/work_index")
     public String workPage(Model model) {
@@ -60,8 +78,6 @@ public class HomeController {
         // 인기순으로 20개의 도서를 조회
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
-
-        session.setAttribute("id","admin2");
 
         return "work/work_index";
     }
