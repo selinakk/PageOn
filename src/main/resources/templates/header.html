@@ -231,7 +231,7 @@
                     </a>
 
 
-                    <!-- 로그인 / 회원가입 모달 -->
+                    <!-- 로그인 / 회원가입 모달 --><!-- 로그인 / 회원가입 모달 -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
@@ -270,9 +270,13 @@
                                   <div th:if="${error}" class="alert alert-danger" role="alert">
                                     <span th:text="${error}"></span>
                                   </div>
+
+                                  <!-- 아이디/비밀번호 찾기 링크 (로그인 탭에서만 표시) -->
+                                  <div class="text-center mt-3">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#findIdModal">아이디 찾기</a> |
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#findPwModal">비밀번호 찾기</a>
+                                  </div>
                                 </div>
-
-
 
 
                                 <!-- 회원가입 탭 -->
@@ -282,46 +286,67 @@
                                     <div id="errorMessage" style="color:red;"></div>
 
                                     <!-- 아이디 입력 -->
-                                    <div class="form-group py-1">
-                                      <label class="mb-1" for="idInput">Your email address *</label>
-                                      <input type="text" id="idInput" minlength="2" name="id" placeholder="User name"
-                                             class="form-control w-100 rounded-2 p-1" required>
+                                    <div class="col-auto">
+                                      <label for="idInput" class="mb-1">이름을 입력하세요*</label>
+                                      <input type="text" id="idInput" minlength="2" name="id" placeholder="User name" class="form-control w-100 rounded-2 p-1" required>
+                                      <div id="checkidResult" style="color: red; margin-top: 5px;"></div>
+                                    </div>
+                                    <div class="col-auto">
                                       <button type="button" id="checkIdButton" class="btn btn-secondary mt-1" onclick="checkId()">아이디 중복 체크</button>
-                                      <div id="checkResult" style="color: red; margin-top: 5px;"></div> <!-- 중복 체크 결과 표시 -->
                                     </div>
 
-                                    <!-- 나머지 입력 필드들... -->
-                                    <div class="form-group pb-1">
-                                      <label class="mb-1" for="password">Password *</label>
-                                      <input type="password" id="password" minlength="6" name="pw" placeholder="Your Password"
-                                             class="form-control w-100 rounded-2 p-1" required>
+                                    <!-- 비밀번호 입력 -->
+                                    <div class="col-auto">
+                                      <label for="password" class="mb-1">Password *</label>
+                                      <input type="password" id="password" minlength="6" name="pw" placeholder="Your Password" class="form-control w-100 rounded-2 p-1" required>
                                     </div>
-                                    <div class="form-group pb-1">
-                                      <label class="mb-1" for="name">이름 *</label>
+
+                                    <!-- 이름 입력 -->
+                                    <div class="col-auto">
+                                      <label for="name" class="mb-1">이름 *</label>
                                       <input type="text" id="name" name="name" placeholder="이름" class="form-control w-100 rounded-2 p-1" required>
                                     </div>
-                                    <div class="form-group pb-1">
-                                      <label class="mb-1" for="tel">전화번호 *</label>
+
+                                    <!-- 전화번호 입력 -->
+                                    <div class="col-auto">
+                                      <label for="tel" class="mb-1">전화번호 *</label>
                                       <input type="tel" id="tel" name="tel" placeholder="전화번호" class="form-control w-100 rounded-2 p-1" required>
                                     </div>
-                                    <div class="form-group pb-1">
-                                      <label class="mb-1" for="like_categories">관심 카테고리 *</label>
+
+                                    <!-- 이메일 입력 -->
+                                    <div class="col-auto">
+                                      <label for="email" class="mb-1">이메일</label>
+                                      <input type="text" id="email" name="email" placeholder="이메일" class="form-control w-100 rounded-2 p-1" required>
+                                      <div id="checkemailResult" style="color: red; margin-top: 5px;"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                      <button type="button" id="checkEmailButton" class="btn btn-secondary mt-1" onclick="checkEmail()">이메일 중복 체크</button>
+                                    </div>
+
+                                    <!-- 관심 카테고리 입력 -->
+                                    <div class="col-auto">
+                                      <label for="like_categories" class="mb-1">관심 카테고리 *</label>
                                       <div class="input-group">
                                         <input type="text" id="selected-category" name="like_categories" placeholder="관심 카테고리" class="form-control w-100 rounded-2 p-1" readonly required>
                                         <button type="button" id="nextButton" class="btn btn-outline-secondary">다음</button>
                                       </div>
                                     </div>
-                                    <div class="form-group pb-1">
-                                      <label class="mb-1" for="introduce">자기소개</label>
+
+                                    <!-- 자기소개 입력 -->
+                                    <div class="col-auto">
+                                      <label for="introduce" class="mb-1">자기소개</label>
                                       <textarea name="introduce" placeholder="자기소개" class="form-control w-100 rounded-2 p-1"></textarea>
                                     </div>
-                                    <div class="form-group pb-1">
-                                      <label class="mb-1" for="imgFile">프로필 이미지 업로드</label>
+
+                                    <!-- 프로필 이미지 업로드 -->
+                                    <div class="col-auto">
+                                      <label for="imgFile" class="mb-1">프로필 이미지 업로드</label>
                                       <input type="file" name="imgFile" class="form-control w-100 rounded-2 p-1">
                                     </div>
 
-
-                                    <button type="submit" id="registerButton" class="btn btn-dark w-100 my-1">Register</button>
+                                    <div class="col-auto">
+                                      <button type="submit" id="registerButton" class="btn btn-dark w-100 my-1">Register</button>
+                                    </div>
                                   </form>
                                 </div>
                               </div>
@@ -330,6 +355,57 @@
                         </div>
                       </div>
                     </div>
+
+                    <!-- 아이디 찾기 모달 -->
+                    <div class="modal fade" id="findIdModal" tabindex="-1" aria-labelledby="findIdLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="findIdLabel">아이디 찾기</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form th:action="@{/find-id}" method="post">
+                              <div class="form-group py-3">
+                                <label class="mb-2" for="email">이메일 주소</label>
+                                <input type="email" name="email" placeholder="등록된 이메일 주소를 입력하세요" class="form-control w-100 rounded-3 p-3" required>
+                              </div>
+                              <button type="submit" class="btn btn-dark w-100 my-3">아이디 찾기</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 비밀번호 찾기 모달 -->
+                    <div class="modal fade" id="findPwModal" tabindex="-1" aria-labelledby="findPwLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="findPwLabel">비밀번호 찾기</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="#" th:action="@{/updatePassword}" method="post">
+                              <div class="form-group py-3">
+                                <label class="mb-2" for="id">아이디</label>
+                                <input type="text" name="id" placeholder="아이디를 입력하세요" class="form-control w-100 rounded-3 p-3" required>
+                              </div>
+                              <div class="form-group py-3">
+                                <label class="mb-2" for="email">이메일 주소</label>
+                                <input type="email" name="email" placeholder="등록된 이메일 주소를 입력하세요" class="form-control w-100 rounded-3 p-3" required>
+                              </div>
+                              <div class="form-group py-3">
+                                <label class="mb-2" for="pw">비밀번호</label>
+                                <input type="pw" name="pw" placeholder="새로 변경할 비밀번호를 적어주세요" class="form-control w-100 rounded-3 p-3" required>
+                              </div>
+                              <button type="submit" class="btn btn-dark w-100 my-3">비밀번호 찾기</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
 
                     <!-- 카테고리 선택 모달 -->
                     <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
@@ -466,7 +542,7 @@
 
                     function checkId() {
                       const idInput = document.getElementById('idInput').value.trim();
-                      const checkResult = document.getElementById('checkResult');
+                      const checkResult = document.getElementById('checkidResult');
 
                       if (idInput.length < 2) {
                         checkResult.textContent = '아이디는 2자 이상이어야 합니다.';
@@ -494,6 +570,37 @@
                       };
                       xhr.send(`id=${encodeURIComponent(idInput)}`);
                     }
+
+
+                    function checkEmail() {
+                      const emailInput = document.getElementById('email').value.trim();
+                      const checkResult = document.getElementById('checkemailResult');
+
+                      // AJAX 요청으로 서버에 중복 체크
+                      const xhr = new XMLHttpRequest();
+                      xhr.open("POST", "/selectEmail", true);
+                      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                      xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                          if (xhr.status === 200) {
+                            const responseText = xhr.responseText;
+                            checkResult.textContent = responseText;
+
+                            // 중복 가능 여부 판단
+                            isIdAvailable = responseText.includes("사용 가능합니다");
+                          } else {
+                            checkResult.textContent = '중복 체크 중 오류가 발생했습니다.';
+                            isIdAvailable = false;
+                          }
+                        }
+                      };
+                      xhr.send(`email=${encodeURIComponent(emailInput)}`); // 이메일로 보내기
+                    }
+
+
+
+
+
 
                     document.getElementById('nextButton').addEventListener('click', function() {
                       const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));

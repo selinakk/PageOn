@@ -6,8 +6,8 @@
 <mapper namespace="com.tmtb.pageon.user.mapper.UserMapper">
 
     <insert id="insertUser" parameterType="com.tmtb.pageon.user.model.UserVO">
-        INSERT INTO pageon.member (id, pw, name, tel, img_name, reg_date, like_categories, introduce, img_data,user_role)
-        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, NOW(), #{like_categories}, #{introduce}, #{img_data},#{user_role})
+        INSERT INTO pageon.member (id, pw, name, tel, img_name, reg_date, like_categories, introduce, img_data,user_role,email)
+        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, NOW(), #{like_categories}, #{introduce}, #{img_data},#{user_role},#{email})
     </insert>
 
     <!-- 아이디 중복 체크를 위한 쿼리 -->
@@ -100,7 +100,7 @@
     <!-- 회원정보 수정 쿼리 -->
     <update id="updateUserInfo" parameterType="com.tmtb.pageon.user.model.UserVO">
         UPDATE pageon.member
-        SET pw = #{pw}, name = #{name}, tel = #{tel}, img_name = #{img_name}, introduce = #{introduce}, img_data = #{img_data}
+        SET name = #{name}, tel = #{tel}, img_name = #{img_name}, introduce = #{introduce}, img_data = #{img_data}
         WHERE id = #{id}
     </update>
 
@@ -109,6 +109,32 @@
         INSERT INTO recentlyviewed (id, product_id, url)
         VALUES (#{id}, #{productId}, #{url})
     </insert>
+
+    <select id="findUserIdByEmail">
+        SELECT id
+        from member
+        WHERE email = #{email}
+    </select>
+
+
+    <select id="selectfindEmail" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        from member
+        WHERE email = #{email}
+    </select>
+
+
+    <update id="selectupdatePassword">
+        SELECT COUNT(*)
+        FROM member
+        WHERE id = #{id} AND email = #{email}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE member
+        SET pw = #{pw}
+        WHERE id = #{id} AND email = #{email}
+    </update>
 
 
 </mapper>

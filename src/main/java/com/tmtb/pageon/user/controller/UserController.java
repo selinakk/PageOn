@@ -1,8 +1,10 @@
 package com.tmtb.pageon.user.controller;
 
 import com.tmtb.pageon.user.model.*;
+import com.tmtb.pageon.user.service.MailService;
 import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.user.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,17 @@ public class UserController {
     UserService userService;
     @Autowired
     ProductService productService;
+    @Autowired
+    MailService mailService;
 
     // 사용자 등록
     @PostMapping("/insertUserForm")
-    public String insertUserForm(@ModelAttribute("user") UserVO userVO, @RequestParam("imgFile") MultipartFile imgFile) {
+    public String insertUserForm(@ModelAttribute("user") UserVO userVO, @RequestParam("imgFile") MultipartFile imgFile) throws MessagingException {
         if (userVO.getUser_role() == null || userVO.getUser_role().isEmpty()) {
             userVO.setUser_role("USER"); // 기본값 설정
         }
         log.info("사용자 정보 전달: {}", userVO);
+        mailService.sendRegisterIdByEmail(userVO.getEmail(), userVO.getId());
         userService.insertUser(userVO, imgFile);
         return "redirect:/";
     }
@@ -221,11 +226,45 @@ public class UserController {
 
 
     @PostMapping("/updatePassword")
-    public ModelAndView updatePassword(@RequestParam String id, @RequestParam String newPassword) {
-        userService.updatePassword(id, newPassword); // 새로운 비밀번호 업데이트
-        ModelAndView mav = new ModelAndView("redirect:/login");
-        mav.addObject("success", "Password updated successfully");
-        return mav;
+    public String updatePassword(@RequestParam String id, @RequestParam String pw, @RequestParam String email, Model model) {
+        // 아이디와 이메일이 맞는지 확인
+        if (userService.selectfindPw(id, email)) {
+            userService.updatePassword(id, pw, email); // 새로운 비밀번호 업데이트
+            model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다!");
+            return "user/success-pwupdate"; // 성공 페이지
+        } else {
+            model.addAttribute("message", "아이디와 이메일이 일치하지 않습니다. 다시 시도해 주세요.");
+            return "user/fail-pwupdate"; // 실패 페이지
+        }
     }
 
+    @PostMapping("/find-id")
+    public String findUserId(@RequestParam("email") String email, Model model) {
+        // DB에서 이메일로 아이디를 조회
+        String id = userService.findUserIdByEmail(email);
+
+        if (id != null) {
+            try {
+                // 아이디 이메일 전송
+                mailService.sendIdByEmail(email, id);
+                model.addAttribute("message", "이메일로 아이디가 전송되었습니다.");
+            } catch (Exception e) {
+                model.addAttribute("message", "메일 전송 중 오류가 발생했습니다.");
+            }
+        } else {
+            model.addAttribute("message", "해당 이메일로 등록된 아이디가 없습니다.");
+        }
+
+        return "user/find-id-result"; // 결과를 표시할 페이지
+    }
+
+
+    // 아이디 중복 체크
+    @PostMapping("/selectEmail")
+    @ResponseBody
+    public String insertSelectfindEmail(@RequestParam String email) {
+        boolean isExist = userService.selectfindEmail(email);
+        return isExist ? "해당 이메일이 존재합니다" : "해당 이메일은 사용 가능합니다";
+    }
 }
+

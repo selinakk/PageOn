@@ -4,6 +4,7 @@ import com.tmtb.pageon.user.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 import java.util.Map;
@@ -37,8 +38,13 @@ public interface UserMapper {
     void updateCategories(String id, String likeCategories);
 
     void updateUserInfo(UserVO user);
-    // 비밀번호 업데이트 메서드
-    void updatePassword(String id, String encodedPassword);
 
+    String findUserIdByEmail(String email);
+
+    int selectfindEmail(String email);
+
+    void updatePassword(String id, String pw, String email);
+
+    int selectupdatePassword(String id, String email) ;
 
 }
