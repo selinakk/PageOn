@@ -91,7 +91,7 @@ public class WebtoonController {
 
             //작가 검색
         } else if ("writer".equals(searchType)) {
-            webtoonList = webtoonService.searchWebtoonWriter(searchWord, offset, pageSize);
+            webtoonList = webtoonService.searchWebtoonByWriter(searchWord, offset, pageSize);
             totalCount = webtoonService.getTotalCountByContent(searchWord);
             //장르 검색
         } else if ("categories".equals(searchType)) {
