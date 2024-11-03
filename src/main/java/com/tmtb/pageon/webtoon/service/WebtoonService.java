@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmtb.pageon.board.model.BoardVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
