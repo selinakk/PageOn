@@ -155,7 +155,7 @@ public class WebnovelController {
 
         // id로 사용자 정보 조회 후 like_categories 가져오기
         UserVO user = userService.findById(id);
-        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(","));
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
         log.info("likeCategories: {}", likeCategories);
         model.addAttribute("likeCategories", likeCategories);
 

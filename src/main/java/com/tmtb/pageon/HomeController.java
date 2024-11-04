@@ -96,7 +96,7 @@ public class HomeController {
 
         if (id != null) {
             UserVO user = userService.findById(id);
-            List<String> likeCategories = Arrays.asList(user.getLike_categories().split(","));
+            List<String> likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
             model.addAttribute("likeCategories", likeCategories);
 
             // 선호 카테고리 기반 웹소설 목록 조회
