@@ -465,6 +465,9 @@ function validateForm() {
     return true; // 폼 제출을 허용
 }
 
+function handleBoardSelectChange(value) {
+    location.href = value;
+}
 
 
 
