@@ -238,7 +238,6 @@
                 <div class="col-6 col-md-4 col-lg-3" th:each="comment, iterStat : ${commentList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h6 class="card-title" th:text="${comment.title}"></h6>
                             <p class="card-text" th:text="${comment.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
                             <p class="card-text"><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
