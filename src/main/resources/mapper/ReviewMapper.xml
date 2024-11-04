@@ -44,17 +44,14 @@
         limit #{startRow},#{pageBlock}
     </select>
 
-    <select id="review_getSearchTotalRows" resultType="int">
+    <select id="review_getsearchListPage" resultType="int">
         SELECT count(*) total_rows, w.title AS workTitle
         FROM review r JOIN work w ON w.item_id = r.work_num
         <if test="searchKey == 'title'">
             WHERE r.title LIKE CONCAT('%', #{searchWord}, '%')
         </if>
-        <if test="searchKey == 'user_id'">
-            WHERE r.user_id LIKE CONCAT('%', #{searchWord},'%')
-        </if>
         <if test="searchKey == 'workTitle'">
-            WHERE r.user_id LIKE CONCAT('%', #{searchWord},'%')
+            WHERE w.title LIKE CONCAT('%', #{searchWord},'%')
         </if>
     </select>
 

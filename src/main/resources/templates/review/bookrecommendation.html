@@ -13,28 +13,33 @@
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
             <h3 class="d-flex align-items-center">사용자 추천</h3>
         </div>
-    </div>
-</div>
-</div>
-<div class="list-unstyled row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">
-    <input type="hidden" name="id" th:value="${session.id}">
-    <div class="book-position-settiong" th:each="vo : ${Books}">
-
-        <a th:href="@{/book/detail(item_id=${vo.item_id})}">
-            <img th:src="@{${vo.img_name}}" class="img-settiong" alt="Book Cover">
-        </a>
-        <a th:href="@{/book/detail(item_id=${vo.item_id})}" class="work-title-settiong" th:text="${vo.title}"></a>
-        <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
-            <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
-                <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
-                <input type="hidden" name="work_num" th:value="${vo.item_id}" />
-                <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+        <div>
+        <div class="selected-list">
+            <div class="selected-content" th:each="vo : ${books}">
+                <div class="card position-relative p-4 border rounded-3">
+                    <a th:href="@{/book/detail(item_id=${vo.item_id})}">
+                        <img th:href="@{/book/detail(item_id=${vo.item_id})}" th:src="@{${vo.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
+                        <h6 class="mt-4 mb-0 fw-bold">
+                            <a th:href="@{/book/detail(item_id=${vo.item_id})}" th:text="${vo.title}">작품 제목</a>
+                        </h6>
+                        <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                            <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
+                                <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+                                <input type="hidden" name="work_num" th:value="${vo.item_id}" />
+                                <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                                <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                                <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                            </div>
+                        </form>
+                    </a>
+                </div>
             </div>
-        </form>
+        </div>
+    </div>
     </div>
 </div>
+</div>
+
 
 
 
