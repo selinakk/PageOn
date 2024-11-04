@@ -1,44 +1,24 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
-    <link href="/css/style.css" rel="stylesheet">
-    <link href="/css/sub.css" rel="stylesheet">
+    <title>사용자 추천목록</title>
 </head>
-<body  th:fragment="content">
-<div class="position-relative padding-medium">
-    <div class="container">
-        <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-            <h3 class="d-flex align-items-center">사용자 추천</h3>
-        </div>
-    </div>
-    <div>
-    <div class="selected-list">
-        <div class="selected-content" th:each="vo : ${webtoons}">
-            <div class="card position-relative p-4 border rounded-3">
+<body>
+<section id="webnovel-list" class="position-relative padding-small">
+    <div id="filter-container">
+        <h3>사용자 추천 - 웹툰</h3>
+        <div class="webnovel-grid">
+            <div class="webnovel-item position-relative" th:each=" vo: ${webtoons}">
                 <a th:href="@{/wt_selectOne(item_id=${vo.item_id})}">
-                    <img th:href="@{/wt_selectOne(item_id=${vo.item_id})}" th:src="@{${vo.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
-                    <h6 class="mt-4 mb-0 fw-bold">
-                        <a th:href="@{/wt_selectOne(item_id=${vo.item_id})}" th:text="${vo.title}">작품 제목</a>
-                    </h6>
-                    <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
-                        <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
-                            <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
-                            <input type="hidden" name="work_num" th:value="${vo.item_id}" />
-                            <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                            <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                            <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
-                        </div>
-                    </form>
+                    <img th:src="@{${vo.img_name}}" class="webnovel-img" alt="Webnovel Cover">
                 </a>
+                <a th:href="@{/wt_selectOne(item_id=${vo.item_id})}" class="webnovel-title"
+                   th:text="${vo.title}"></a>
             </div>
         </div>
+
     </div>
-</div>
-
-</div>
-
+</section>
 </body>
 </html>

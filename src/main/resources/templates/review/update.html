@@ -13,24 +13,20 @@
   <div class="container">
     <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
       <h3 class="d-flex align-items-center">리뷰 수정페이지</h3>
-      <button th:class="write_box" onclick="location.href='/review/insert'">write</button>
     </div>
   </div>
   <form th:action="@{/review/updateOK}" method="POST">
     <div class="md-2">
       <p>
         <input type="hidden" name="num" th:value="${vo2.num}">
-      </p>
-      <p>
-        <input type="text" id="work_num" name="work_num" >
-        <button th:class="write_box" onclick="location.href='/work/selectAll'">작품선택</button>
+        <input type="hidden" name="work_num" th:value="${vo2.work_num}">
+        <input type="hidden" name="user_id" th:value="${vo2.user_id}"> //로그인id
       </p>
       <p>
       <div>
         <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력" th:value="${vo2.title}">
       </div>
       </p>
-
       <p>
       <div>
         <label for="content"></label>
@@ -45,13 +41,7 @@
         <span class="star" data-value="4">★</span>
         <span class="star" data-value="5">★</span>
       </div>
-      <p id="rating" >Rating: 0.0</p>
-      </p>
-      <p>
-      <div>
-        <label for="user_id" style="font-size: 15px" >작성자: </label>
-        <input class="review-sub_box" type="text" id="user_id" name="user_id" th:value="${vo2.user_id}"> //로그인id
-      </div>
+      <p name="rating" id="rating" >Rating: 0.0</p>
       </p>
       <p>
       <div>
@@ -61,8 +51,6 @@
       </p>
     </div>
   </form>
-
-
 </div>
 </div>
 <script>
