@@ -18,10 +18,10 @@
             <a href="/review/list">목록</a>
         </div>
         <div th:class="dt-1" >
-            <p th:class="dt-2">제목: <span th:text="${vo2.title}"></span></p>
-            <p th:class="dt-2">작성일: <span th:text="${vo2.wdate}"></span></p>
-            <p th:class="dt-2">리뷰 내용: <span id="reviewContent" th:text="${vo2.content}"></span></p>
-            <p th:class="dt-2">
+            <p th:class="justify-content-p">제목: <span th:text="${vo2.title}"></span></p>
+            <p th:class="justify-content-p">작성일: <span th:text="${vo2.wdate}"></span></p>
+            <p th:class="justify-content-p">리뷰 내용: <span id="reviewContent" th:text="${vo2.content}"></span></p>
+            <p th:class="justify-content-p">
                 별점: <span th:text="${vo2.rating}"></span></p>
             <div id="review-detail" th:data-num="${vo2.num}" th:class="dt-2">
                 <button id="like-button"><img src="/img/like.png" th:class="like-btn"><span id="like-count" th:text="${vo2.like}"></span></button>

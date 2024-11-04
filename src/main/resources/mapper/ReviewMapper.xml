@@ -35,26 +35,28 @@
             WHERE r.title LIKE #{searchWord}
         </if>
         <if test="searchKey == 'user_id'">
-            WHERE r.user_id LIKE #{searchWord}
+            WHERE m.id LIKE #{searchWord}
         </if>
         <if test="searchKey == 'workTitle'">
-            WHERE r.user_id LIKE #{searchWord}
+            WHERE w.title LIKE #{searchWord}
         </if>
         ORDER BY NUM DESC
         limit #{startRow},#{pageBlock}
     </select>
 
-    <select id="review_getSearchTotalRows" resultType="int">
+    <select id="review_getsearchListPage" resultType="int">
         SELECT count(*) total_rows, w.title AS workTitle
-        FROM review r JOIN work w ON w.item_id = r.work_num
+        FROM review r
+            JOIN work w ON w.item_id = r.work_num
+        JOIN member m ON m.id = r.user_id
         <if test="searchKey == 'title'">
             WHERE r.title LIKE CONCAT('%', #{searchWord}, '%')
         </if>
         <if test="searchKey == 'user_id'">
-            WHERE r.user_id LIKE CONCAT('%', #{searchWord},'%')
+            WHERE m.id LIKE CONCAT('%', #{searchWord},'%')
         </if>
         <if test="searchKey == 'workTitle'">
-            WHERE r.user_id LIKE CONCAT('%', #{searchWord},'%')
+            WHERE w.title LIKE CONCAT('%', #{searchWord},'%')
         </if>
     </select>
 

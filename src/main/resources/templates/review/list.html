@@ -12,10 +12,11 @@
     <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
             <h3 class="d-flex align-items-center">리뷰목록</h3>
-            <form action="/review/searchList" method="GET" class="search-list--custom d-flex w-100">
+            <form th:action="@{/review/searchList}" method="GET" class="search-list--custom d-flex">
                 <select name="searchKey" id="searchKey" class="form-select p-2 w-25 rounded-0">
-                    <option value="title">제목</option>
-                    <option value="work_title">작품 제목</option>
+                    <option value="title" th:selected="${searchKey == 'title'}">글제목</option>
+                    <option value="workTitle" th:selected="${searchKey == 'workTitle'}">작품명</option>
+                    <option value="workTitle" th:selected="${searchKey == 'user_id'}">작성자</option>
                 </select>
                 <input type="text" minlength="2" name="searchWord" placeholder="검색어를 입력해 주세요"
                        class="form-control p-2 w-75 rounded-0">
@@ -23,42 +24,41 @@
             </form>
         </div>
         <div>
-            <button th:id="write-btn" onclick="location.href='/review/insert'">write</button>
-        </div>
-        <div>
             <div style="margin: 10px">
-<!--                <a th:href="@{/review/list}" th:param="||"></a>-->
                 <strong>정렬</strong>
-                <small><a th:href="|@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='wdate',sort='desc')}|">최신순</a></small>
-                <small><a th:href="|@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='wdate',sort='asc')}|">오래된 순</a></small>
-                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='like',sort='desc')}">인기순</a></small>
-                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='rating',sort='desc')}">별점순</a></small>
-                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='commentCount',sort='desc')}">댓글 많은순</a></small>
+                <small><a th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='recent')}">최신순</a></small>
+                <small><a th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='old')}">오래된 순</a></small>
+                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='like')}">인기순</a></small>
             </div>
+
         </div>
         </div>
+
     </div>
 </div>
-<div th:each="review : ${list}" style="display: inline-block">
-    <a th:href="|/review/detail?num=${review.num}|">
-        <div style="width: 300px; margin: 20px;">
-            <div class="card position-relative">
-                <img src="image.prodect-item1.png" class="img-fluid" alt="work img">
-                <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
-                <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
-                    <div class="rating text=wrning d-flex align-item-center">
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+<div class="list-unstyled row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">
+    <div th:each="review : ${list}" class="p-3">
+        <a th:href="|/review/detail?num=${review.num}|">
+            <div>
+                <div class="card position-relative">
+                    <img th:src="${review.workImg}" class="img-fluid" th:alt="${review.workTitle}">
+                    <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
+                    <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
+                        <div class="rating text=wrning d-flex align-item-center">
+                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                        </div>
                     </div>
+                    <small th:text="${review.wdate}"></small>
                 </div>
-                <small th:text="${review.wdate}"></small>
             </div>
-        </div>
-    </a>
+        </a>
+    </div>
 </div>
+
 <div style="text-align: center"><
     <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
         <th:block th:if="${param.searchKey == null}">

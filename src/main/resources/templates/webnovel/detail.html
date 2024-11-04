@@ -73,7 +73,7 @@
         <a class="action-button" th:href="@{/forum/write(work_num=${vo2.item_id})}">토론 열기</a>
 
         <!-- 4. 리뷰 작성 -->
-        <a class="action-button" th:href="@{/review/insert(work_num=${vo2.item_id})}">리뷰 작성</a>
+        <a class="action-button" th:href="@{/review/insert(work_num=${vo2.item_id}, categories=${vo2.categories})}">리뷰 작성</a>
 
         <!-- 리뷰 섹션 -->
         <section id="reviews" class="position-relative padding-small">

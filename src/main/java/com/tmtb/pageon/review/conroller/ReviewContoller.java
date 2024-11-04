@@ -1,11 +1,15 @@
 package com.tmtb.pageon.review.conroller;
 
 
+import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
 import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.review.service.SentimentAnalysisService;
 import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
+import com.tmtb.pageon.webtoon.model.WebtoonVO;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,14 +37,12 @@ public class ReviewContoller {
     //리뷰 목록
     @GetMapping("/review/list")
     public String getUsers(Model model, @RequestParam(defaultValue = "1")int cpage,
-                           @RequestParam(defaultValue ="8" )int pageBlock,
-                           @RequestParam(defaultValue = "num")String sortType,
-                           @RequestParam(defaultValue = "desc")String sort
+                           @RequestParam(defaultValue ="10" )int pageBlock,
+                           @RequestParam(defaultValue = "num")String sortType
                            //@RequestParam String userId
     ) {
         log.info("리뷰 목록");
-       //List<ReviewVO> list = service.selectAll(cpage);
-        List<ReviewVO> list = service.selectAllPageBlock(cpage, pageBlock, sortType, sort );
+        List<ReviewVO> list = service.selectAllPageBlock(cpage, pageBlock, sortType );
         model.addAttribute("list", list);
         log.info("list:{}", list);
 
@@ -58,17 +60,13 @@ public class ReviewContoller {
         model.addAttribute("total_Row", total_Row);
         log.info("totalRow:{}", total_Row);
 
-
         //페이지 수
         model.addAttribute("totalPageCount", totalPageCount);
         log.info("totalPageCount:{}", totalPageCount);
 
-
         //정렬순
         log.info("sortType:{}", sortType);
-        log.info("sort:{}", sort);
-
-        log.info("pageBlock:{}", pageBlock);
+        log.info("review seleteAll cpage:{}, pageBlock:{}", cpage,pageBlock);
         model.addAttribute("cpage", cpage);
 
 
@@ -81,7 +79,7 @@ public class ReviewContoller {
     public String selectOne(Model model,
                             ReviewVO vo,
                             @RequestParam(defaultValue = "1")int cpage,
-                            @RequestParam(defaultValue = "20")int pageBlock){
+                            @RequestParam(defaultValue = "4")int pageBlock){
         log.info("리뷰 상세");
         ReviewVO vo2 = service.selectOne(vo);
         model.addAttribute("vo2", vo2);
@@ -113,14 +111,14 @@ public class ReviewContoller {
         log.info("리뷰 상세");
         log.info("searchKey:{}", searchKey);
         log.info("searchWord:{}", searchWord);
-        log.info("cpage:{}", cpage);
-        log.info("pageBlock:{}", pageBlock);
+        log.info("review searchList cpage:{}, pageBlock:{}", cpage,pageBlock);
         List<ReviewVO> list= service.searchListPageBlock(searchKey,searchWord,cpage,pageBlock);
-        model.addAttribute("list:", list);
+        model.addAttribute("list", list);
         log.info("list:{}", list);
 
 
         int total_rows= service.getsearchTotalRow(searchKey, searchWord);
+        log.info("total_rows:{}", total_rows);
 
         int totalPageCount =0;
         if (total_rows/ pageBlock ==0){
@@ -131,7 +129,6 @@ public class ReviewContoller {
             totalPageCount = total_rows / pageBlock +1;
         }
         log.info("totalPageCount:{}", totalPageCount);
-
         model.addAttribute("totalPageCount", totalPageCount);
 
         return "review/list";
@@ -139,8 +136,14 @@ public class ReviewContoller {
 //
     //리뷰 입력
     @GetMapping("/review/insert")
-    public String insert() {
+    public String insert(@RequestParam(defaultValue = "work_num")int work_num,
+                         @RequestParam(defaultValue = "categories")String categories,
+                         Model model) {
         log.info("리뷰 입력");
+        log.info("work_num:{} ", work_num);
+        log.info("categories:{} ", categories);
+        model.addAttribute("work_num", work_num);
+        model.addAttribute("categories", categories);
         return "review/insert";
 
     }
@@ -169,6 +172,7 @@ public class ReviewContoller {
         log.info("리뷰 입력");
         int result  = service.insertOK(vo);
         log.info("result:{}", result);
+
         if (result==1){
             return "redirect:/review/list";
         } return "review/insert";
@@ -264,18 +268,63 @@ public class ReviewContoller {
         }
     }
 
-    //리뷰 작성 시 해당되는 작품 카테고리 추천
-//    @PostMapping("/recommendation")
-//    public ResponseEntity<?> recommentdation(@RequestParam(defaultValue = "titlw_id")int title_id{
-//
-//        List<Work> recommendation = service.getrecommendation(title_id);
-//
-//        //추천리스츠 작품 반
-//        return  ResponseEntity.ok(recommendation);
-//
-//
-//
-//    }
+
+    //리뷰 작성 시 카테고리 추천
+    @GetMapping("/review/bookrecommendation")
+    public String bookrecommendation(HttpSession session, Model model,
+                                     @RequestParam(defaultValue = "1")int cpage,
+                                     @RequestParam(defaultValue = "10")int pageBlock){
+        log.info("책 추천.." );
+
+        String id = (String) session.getAttribute("id");
+        log.info("id:{}", id);
+        log.info("review book recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
+
+        List<BookVO> books = service.getBookRecommendation(id, cpage, pageBlock);
+        log.info("books:{}", books);
+        model.addAttribute("books", books);
+
+        return "review/bookrecommendation";
+
+    }
+    //리뷰 작성 시 카테고리 추천
+    @GetMapping("/review/webtoonrecommendation")
+    public String webtoonrecommendation(HttpSession session, Model model,
+                                     @RequestParam(defaultValue = "1")int cpage,
+                                     @RequestParam(defaultValue = "10")int pageBlock){
+
+        log.info("웹툰 추천.." );
+
+        String id = (String) session.getAttribute("id");
+        log.info("id:{}", id);
+        log.info("review webtoons recommended cpage:{}, pageBlock:{}", cpage,pageBlock);
+
+        List<WebtoonVO> webtoons = service.getWebtoonRecommendation(id, cpage,pageBlock);
+        log.info("webtoons:{}", webtoons);
+        model.addAttribute("webtoons", webtoons);
+
+        return "review/webtoonrecommendation";
+
+    }
+    //리뷰 작성 시 카테고리 추천
+    @GetMapping("/review/webnovelrecommendation")
+    public String webnovelrecommendation(HttpSession session, Model model,
+                                     @RequestParam(defaultValue = "1")int cpage,
+                                     @RequestParam(defaultValue = "10")int pageBlock){
+        log.info("웹소설 추천.." );
+
+        String id = (String) session.getAttribute("id");
+        log.info("id:{}", id);
+        log.info("review webnovels recommended cpage:{}, pageBlock:{}", cpage,pageBlock);
+
+        List<WebnovelVO> webnovels = service.getWebnovelRecommendation(id, cpage,pageBlock);
+        log.info("webnovels:{}", webnovels);
+        model.addAttribute("webnovels", webnovels);
+
+        return "review/webnovelrecommendation";
+
+    }
+
 
 
 }
