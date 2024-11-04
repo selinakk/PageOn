@@ -81,8 +81,13 @@ public class ForumController {
     @GetMapping("/forum/view")
     public String forumView(ForumVO vo,
                             Model model,
+                            HttpSession session,
                             @RequestParam(defaultValue = "1") int cpage,
                             @RequestParam(defaultValue = "20") int pageBlock) {
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
+
         //아래 라인 조회수 증가 메서드
         service.increaseForumHit(vo.getNum());
 

@@ -77,9 +77,14 @@ public class ReviewContoller {
     //리뷰 상세
     @GetMapping("/review/detail")
     public String selectOne(Model model,
+                            HttpSession session,
                             ReviewVO vo,
                             @RequestParam(defaultValue = "1")int cpage,
                             @RequestParam(defaultValue = "20")int pageBlock){
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
+
         log.info("리뷰 상세");
         ReviewVO vo2 = service.selectOne(vo);
         model.addAttribute("vo2", vo2);
