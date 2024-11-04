@@ -14,6 +14,32 @@
         <a th:href="@{/books/liked(category=${likeCategories})}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
     </div>
 
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const sessionId = [[${session.id}]];
+
+            function openLoginModal(event) {
+                event.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            // 예시: sessionId를 사용하는 코드가 이 위치 이후에 있어야 오류가 발생하지 않음
+            function submitComment() {
+                if (!sessionId) {
+                    openLoginModal(event); // 세션이 없으면 모달을 열도록 설정
+                } else {
+                    // 댓글 제출 로직
+                }
+            }
+
+            if (!sessionId) { // 세션 ID가 null인 경우
+                // 선호 버튼
+                document.querySelector("a[href*='/books/liked']").addEventListener("click", openLoginModal);
+            }
+        });
+    </script>
+
     <!-- 카테고리 선택 링크 -->
     <div>
         <a href="javascript:void(0);" onclick="selectAll()" id="전체" class="category">#전체</a>

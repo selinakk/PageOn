@@ -145,13 +145,13 @@ public class WebnovelController {
     //여러번 테스트
 
     @GetMapping("/webnovels/liked")
-    public String selectWebnovelsByLikeCategories(Model model,
+    public String selectWebnovelsByLikeCategories(Model model, HttpSession session,
                                               @RequestParam(required = false, defaultValue = "1") int cpage,
                                               @RequestParam(required = false, defaultValue = "20") int pageBlock,
                                               @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
-        // 테스트용 더미 사용자 ID
-        String id = "tester2";
-        log.info("테스트용 사용자 ID: {}", id);
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
 
         // id로 사용자 정보 조회 후 like_categories 가져오기
         UserVO user = userService.findById(id);
