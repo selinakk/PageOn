@@ -1,10 +1,10 @@
 package com.tmtb.pageon.webnovel.controller;
 
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
 import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.user.service.ProductService;
-import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -108,11 +108,11 @@ public class WebnovelController {
         model.addAttribute("list", list);
 
         // 제목으로 리뷰와 토론 검색
-        String bookTitle = vo2.getTitle();
+        String webnovelTitle = vo2.getTitle();
 
         // 최대 5개의 리뷰와 토론 조회
-//        List<ReviewVO> reviewList = reviewService.searchListPageBlock("title", bookTitle, 1, 5);
-        List<ForumVO> forumList = forumService.searchForum("workTitle", bookTitle, 1, 20);
+//        List<ReviewVO> reviewList = reviewService.searchListPageBlock("title", webnovelTitle, 1, 5);
+        List<ForumVO> forumList = forumService.searchForum("workTitle", webnovelTitle, 1, 20);
 
 //        model.addAttribute("reviewList", reviewList);
         model.addAttribute("forumList", forumList);

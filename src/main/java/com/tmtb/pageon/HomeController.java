@@ -1,12 +1,16 @@
 package com.tmtb.pageon;
 
 import com.tmtb.pageon.board.model.BoardVO;
+import com.tmtb.pageon.book.controller.BookController;
 import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
 import com.tmtb.pageon.community.service.CommunityService;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.notice.model.NoticeVO;
 import com.tmtb.pageon.user.model.ReviewVO;
+import com.tmtb.pageon.user.model.UserVO;
+import com.tmtb.pageon.user.service.UserService;
+import com.tmtb.pageon.webnovel.controller.WebnovelController;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -28,11 +33,15 @@ public class HomeController {
 
     @Autowired
     private BookService bookService;
+
     @Autowired
     private WebtoonService webtoonService;
 
     @Autowired
     CommunityService service;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -80,14 +89,33 @@ public class HomeController {
     public String workPage(Model model) {
         log.info("작품 메인 페이지");
 
-        // 인기순으로 20개의 웹소설을 조회
+        // 테스트용 더미 사용자 ID
+        String id = "tester2";
+        UserVO user = userService.findById(id);
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(","));
+        model.addAttribute("likeCategories", likeCategories);
+
+        // 선호 카테고리 기반 웹소설 목록 조회
+        List<WebnovelVO> likedWebnovels = webnovelService.selectWebnovelsByCategories(likeCategories, 1, 20, "latest");
+        model.addAttribute("likedWebnovels", likedWebnovels);
+
+        // 선호 카테고리 기반 도서 목록 조회
+        List<BookVO> likedBooks = bookService.selectBooksByCategories(likeCategories, 1, 20, "latest");
+        model.addAttribute("likedBooks", likedBooks);
+
+        // 인기순으로 20개의 웹툰 조회
+        List<WebtoonVO> popularWebtoons = webtoonService.selectPopularWebtoons(1, 20);
+        model.addAttribute("popularWebtoons", popularWebtoons);
+
+        // 인기순으로 20개의 웹소설 조회
         List<WebnovelVO> popularWebnovels = webnovelService.selectPopularWebnovels(1, 20);
         model.addAttribute("popularWebnovels", popularWebnovels);
 
-        // 인기순으로 20개의 도서를 조회
+        // 인기순으로 20개의 도서 조회
         List<BookVO> popularBooks = bookService.selectPopularBooks(1, 20);
         model.addAttribute("popularBooks", popularBooks);
 
         return "work/work_index";
     }
+
 }
