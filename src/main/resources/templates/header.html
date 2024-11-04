@@ -625,8 +625,7 @@
                     </script>
                   </li>
                   <li class="pe-3">
-<!--                    아래 tester에 세션 프로필id 들어가야함-->
-                    <a href="/bookshelf/list?userId=tester2">
+                    <a th:href="@{/bookshelf/list(userId=${session.id})}">
                       <i class="svg-icon--lg d-block">
                         <img src="/img/ic_book.svg" alt="나의 서재" class="w-100">
                       </i>

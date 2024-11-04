@@ -9,11 +9,9 @@
     <div class="container">
       <h3 class="d-flex align-items-center">토론 게시하기</h3>
       <form action="/forum/insertOK" method="POST">
+        <input type="hidden" name="user_id" id="user_id" th:value="${session.id}">
         <input type="hidden" name="work_num" th:value="${work_num}">
-        <input type="hidden" name="user_id" id="user_id" value="admin">//로그인id
-        <div class="form-group py-3">
-          작품명
-        </div>
+        <h4 class="form-group py-3 text-primary" th:text="${work_title}"></h4>
         <div class="form-group py-3">
           <label for="title" class="mb-2">제목</label>
           <input type="text" name="title" id="title" class="form-control w-100 rounded-3 p-3" placeholder="제목은 최대 100바이트까지 작성 가능합니다">

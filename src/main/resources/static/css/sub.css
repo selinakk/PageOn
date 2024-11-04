@@ -46,6 +46,8 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     -webkit-appearance: none;
     text-indent: -9999px;
 }
+#best-work .swiper-slide .card:hover .card-concern,
+#work-index .swiper-slide .card:hover .card-concern,
 .book-item:hover .card-concern,
 .webnovel-item:hover .card-concern,
 .content-item:hover .card-concern{bottom:160px;opacity:1;z-index: 2}
@@ -919,7 +921,13 @@ a.text-danger .svg-icon {
     }
 }
 @media (max-width: 991px){
-    .navbar-toggler{border: 0 !important}
+    .navbar-nav, .nav-item, .navbar-nav .dropdown-menu {width: 100%;}
+    .navbar-toggler, .navbar-nav .dropdown-menu{border: 0 !important}
+    .navbar-nav .dropdown-menu{
+        position: static;
+        top: unset;
+        left: unset;
+    }
 }
 @media screen and (min-width:576px){.container{max-width:96%;}}
 @media (max-width: 767px) {

@@ -31,7 +31,7 @@ public class ForumService {
     public ForumVO selectOne(ForumVO vo){
         return mapper.selectOne(vo);
     }
-
+    public String getWorkTitle(int item_id) {return mapper.getWorkTitle(item_id);}
     //
     public boolean insertForumOK(ForumVO vo){return mapper.insertForumOK(vo);}
     public boolean updateForumOK(ForumVO vo) {return mapper.updateForumOK(vo);}

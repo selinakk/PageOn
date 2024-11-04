@@ -4,6 +4,7 @@ import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -115,7 +116,11 @@ public class ForumController {
     @GetMapping("/forum/write")
     public String insertForum(@RequestParam("work_num")int workNum, Model model) {
         log.info("/forum/write - 토론 게시하기");
+
+        String work_title = service.getWorkTitle(workNum);
+
         model.addAttribute("work_num", workNum);
+        model.addAttribute("work_title", work_title);
         return "forum/write";
 
     }

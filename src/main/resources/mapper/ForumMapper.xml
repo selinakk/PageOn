@@ -71,6 +71,9 @@
     <select id="getCommentCnt" resultType="int">
         SELECT COUNT(*) AS commentCnt FROM comment WHERE fnum = #{fnum}
     </select>
+    <select id="getWorkTitle">
+        select title FROM work where item_id=#{item_id}
+    </select>
 <!--    상세 보기 끝-->
 <!--    DML -->
     <insert id="insertForumOK">
