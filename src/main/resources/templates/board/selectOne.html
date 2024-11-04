@@ -6,10 +6,10 @@
     <title>자유게시판</title>
 </head>
 <body>
-<section class="container mt-5">
-    <h4 class="mb-4 text-center" th:text="${category == 'free' ? '자유 게시판' : '질문 게시판'}">게시판</h4>
+<section class="container mt-5  board-width">
+    <h4 class="text-center" th:text="${category == 'free' ? '자유 게시판' : '질문 게시판'}">게시판</h4>
 
-    <div class="position-relative">
+    <div class="position-relative board-select-div">
         <div class="board-select-detail">
             <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
                  onclick="location.href='/freeboard'">
@@ -24,30 +24,34 @@
                     <h5>질문 게시판</h5>
                 </div>
             </div>
+            <button class="btn btn-secondary btn-small" onclick="history.back()">뒤로가기</button>
         </div>
 
 
-        <div class="d-flex justify-content-end mt-3" >
+        <div class="d-flex justify-content-end mt-3">
             <!-- 게시글 수정 버튼 -->
-            <a th:href="@{/b_update(num=${vo2.num})}" th:if="${vo2.user_id == currentUserId}" class="btn btn-outline-primary btn-dark rounded-0 p-2 ml-auto">수정</a>
+            <a th:href="@{/b_update(num=${vo2.num})}" th:if="${vo2.user_id == currentUserId}"
+               class="btn btn-outline-primary btn-dark rounded-0 p-2 ml-auto">수정</a>
 
             <!-- 게시글 삭제 버튼 -->
-            <form th:action="@{/b_deleteOK}" th:if="${vo2.user_id == currentUserId}" method="post" id="deleteForm" class="ml-2">
+            <form th:action="@{/b_deleteOK}" th:if="${vo2.user_id == currentUserId}" method="post" id="deleteForm"
+                  class="ml-2">
                 <input type="hidden" name="num" th:value="${vo2.num}">
                 <input type="hidden" name="category" th:value="${vo2.category}">
-                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmDelete()">삭제</button>
+                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmDelete()">
+                    삭제
+                </button>
             </form>
 
             <!-- 신고하기 버튼 -->
             <form th:action="@{/b_reportOK}" method="post" id="reportForm" class="ml-2">
                 <input type="hidden" name="num" th:value="${vo2.num}">
-                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmReport()">신고</button>
+                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmReport()">
+                    신고
+                </button>
             </form>
         </div>
-
-
-
-
+    </div>
 
 
     <div class="card p-4">
@@ -63,15 +67,13 @@
             </thead>
         </table>
         <div>
-            <img th:if="${vo2.img_name != 'default.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}" class="img-thumbnail">
+            <img th:if="${vo2.img_name != 'default.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"
+                 class="img-thumbnail">
             <p th:utext="${vo2.formattedContent}"></p> <!-- th:utext를 사용하여 HTML 태그를 해석 -->
         </div>
-
-
     </div>
-</section>
 
-
+</section> <!-- 여기서 section 태그를 닫습니다 -->
 
 <section id="comment" class="position-relative padding-small">
     <h3>댓글</h3>
@@ -145,7 +147,6 @@
         </ul>
     </div>
 </section>
-
 
 </body>
 </html>
