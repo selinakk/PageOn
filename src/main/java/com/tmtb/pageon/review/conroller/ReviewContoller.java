@@ -79,7 +79,7 @@ public class ReviewContoller {
     public String selectOne(Model model,
                             ReviewVO vo,
                             @RequestParam(defaultValue = "1")int cpage,
-                            @RequestParam(defaultValue = "20")int pageBlock){
+                            @RequestParam(defaultValue = "4")int pageBlock){
         log.info("리뷰 상세");
         ReviewVO vo2 = service.selectOne(vo);
         model.addAttribute("vo2", vo2);
@@ -118,6 +118,7 @@ public class ReviewContoller {
 
 
         int total_rows= service.getsearchTotalRow(searchKey, searchWord);
+        log.info("total_rows:{}", total_rows);
 
         int totalPageCount =0;
         if (total_rows/ pageBlock ==0){
@@ -128,7 +129,6 @@ public class ReviewContoller {
             totalPageCount = total_rows / pageBlock +1;
         }
         log.info("totalPageCount:{}", totalPageCount);
-
         model.addAttribute("totalPageCount", totalPageCount);
 
         return "review/list";

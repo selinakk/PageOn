@@ -45,11 +45,6 @@ public class ReviewService {
         return mapper.review_deleteOK(vo);
     }
 
-    public int getsearchTotalRow(String searchKey, String searchWord) {
-        log.info("review getsearchTotalRow");
-
-        return mapper.review_getsearchListPage(searchKey,"%"+searchWord+"%" );
-    }
 
     public List<ReviewVO> selectAllPageBlock(int cpage, int pageBlock, String sortType) {
         log.info("review selectAllPageBlock");
@@ -75,10 +70,15 @@ public class ReviewService {
         log.info("startRow:{}", startRow);
         log.info("pageBlock:{}", pageBlock);
 
-       return mapper.review_searchListPage(searchKey,searchWord,startRow,pageBlock);
+       return mapper.review_searchListPage(searchKey,"%"+ searchWord +"%",startRow,pageBlock);
 
     }
 
+    public int getsearchTotalRow(String searchKey, String searchWord) {
+        log.info("review getsearchTotalRow");
+
+        return mapper.review_getsearchListPage(searchKey,"%"+searchWord+"%" );
+    }
 
 
 
