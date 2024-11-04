@@ -30,15 +30,40 @@ public class UserController {
     MailService mailService;
 
     // 사용자 등록
+    // 사용자 등록
     @PostMapping("/insertUserForm")
-    public String insertUserForm(@ModelAttribute("user") UserVO userVO, @RequestParam("imgFile") MultipartFile imgFile) throws MessagingException {
+    public String insertUserForm(@ModelAttribute("user") UserVO userVO, @RequestParam("imgFile") MultipartFile imgFile, Model model) throws MessagingException {
         if (userVO.getUser_role() == null || userVO.getUser_role().isEmpty()) {
-            userVO.setUser_role("USER"); // 기본값 설정
+            userVO.setUser_role("USER");
         }
+
         log.info("사용자 정보 전달: {}", userVO);
-        mailService.sendRegisterIdByEmail(userVO.getEmail(), userVO.getId());
-        userService.insertUser(userVO, imgFile);
-        return "redirect:/";
+
+        String id = userVO.getId(); // 등록된 사용자 아이디
+        String email = userVO.getEmail(); // 입력된 이메일
+
+        // 이메일과 ID가 유효한지 확인
+        if (email != null && !email.isEmpty()) {
+            try {
+                // 아이디 이메일 전송
+                mailService.sendRegisterIdByEmail(email, id);
+                // 사용자 등록
+                userService.insertUser(userVO, imgFile);
+                model.addAttribute("message", "회원가입이 완료되었습니다. 홈으로 가서 다시 로그인하세요.");
+                log.info("회원가입이 완료되었습니다: {}", email);
+            } catch (Exception e) {
+                // 메일 전송 중 오류가 발생하면 사용자 등록 중단
+                model.addAttribute("message", "회원가입 메일 전송 중 오류가 발생했습니다.");
+                log.error("메일 전송 중 오류 발생: {}", e.getMessage());
+                return "user/find-id-result"; // 결과 페이지로 이동
+            }
+        } else {
+            model.addAttribute("message", "유효하지 않은 이메일입니다.");
+            return "user/find-id-result"; // 결과 페이지로 이동
+        }
+
+        // 결과를 표시할 페이지로 이동
+        return "user/find-id-result";
     }
 
     // 아이디 중복 체크
@@ -49,7 +74,6 @@ public class UserController {
         return isExist ? "해당 아이디가 존재합니다" : "해당 아이디는 사용 가능합니다";
     }
 
-    // 사용자 프로필 조회
     // 사용자 프로필 조회
     @GetMapping("/user/profile")
     public String findById(HttpSession session, Model model) {

@@ -4,10 +4,24 @@
     <meta charset="UTF-8">
     <title>비밀번호 변경 성공!</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 페이지 전체 스타일 설정 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <div class="alert alert-info mt-5" th:text="${message}"></div>
+<div class="container text-center">
+    <!-- 비밀번호 변경 성공 메시지 -->
+    <div class="alert alert-success mt-5" th:text="${message}">비밀번호 변경 성공 메시지가 여기에 표시됩니다.</div>
+
+    <!-- 홈으로 돌아가는 버튼 -->
     <a href="/" class="btn btn-primary">홈으로</a>
 </div>
 </body>
