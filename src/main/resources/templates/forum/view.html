@@ -11,18 +11,14 @@
         <h3 class="d-flex align-items-center">토론 상세보기</h3>
       </div>
       <div class="d-flex flex-wrap justify-content-md-between justify-content-center border-bottom pb-5">
-        <div class="col-md-3 col-4 mb-2">
-<!--          <a th:switch="${vo2.workType}"-->
-<!--             th:href=""-->
-<!--          <img class="img-fluid shadow-sm" th:src="@{${vo2.workImgName}}" th:alt="|${vo2.workTitle} 작품 이미지|"/>-->
-          <a th:switch="${vo2.workType}"
+          <a class="display-block col-md-3 col-4 mb-2"
+             th:switch="${vo2.workType}"
              th:href="@{${vo2.workType == 'book' ? '/book/detail' : vo2.workType == 'webnovel' ? '/webnovel/detail' : '/wt_selectOne'}(item_id=${vo2.work_num})}"
              >
-            <img class="img-fluid shadow-sm" th:src="@{${vo2.workImgName}}" th:alt="|${vo2.workTitle} 작품 이미지|"/>
+            <img class="img-fluid w-100 shadow-sm" th:src="@{${vo2.workImgName}}" th:alt="|${vo2.workTitle} 작품 이미지|"/>
           </a>
-        </div>
         <div class="col-md-8 col-12">
-          <div class="d-flex justify-content-between mb-4 text-black-50">
+          <div class="d-md-flex justify-content-between mb-4 text-black-50">
             <div>
               <small th:text="'조회수 '+${vo2.hitcount} "></small>
               <small th:text="' 게시일 '+${vo2.wdate}"></small>
