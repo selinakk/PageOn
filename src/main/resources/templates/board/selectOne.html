@@ -9,46 +9,45 @@
 <section class="container mt-5">
     <h4 class="mb-4 text-center" th:text="${category == 'free' ? '자유 게시판' : '질문 게시판'}">게시판</h4>
 
-    <div class="board-container d-flex align-items-start">
-        <!-- 게시판 선택 -->
-        <div class="position-relative">
-            <div class="d-flex mr-3 justify-content-start">
-                <div class="card text-center board-card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
-                     onclick="location.href='/freeboard'">
-                    <div class="card-body">
-                        <h5 class="card-title">자유 게시판</h5>
-                    </div>
-                </div>
-                <div class="card text-center board-card ml-1"
-                     th:classappend="${category == 'qna'} ? 'border-primary' : ''"
-                     onclick="location.href='/qnaboard'">
-                    <div class="card-body">
-                        <h5 class="card-title">질문 게시판</h5>
-                    </div>
-                </div>
-                <!-- 추후 회원 로그인 추가후 수정할것 -->
-                <div class="d-flex justify-content-between mt-3">
-                    <!-- 게시글 수정 버튼 -->
-                    <a th:href="@{/b_update(num=${vo2.num})}" class="btn">게시글수정</a>
-
-                    <!-- 게시글 삭제 버튼 -->
-                    <form th:action="@{/b_deleteOK}" method="post" id="deleteForm">
-                        <input type="hidden" name="num" th:value="${vo2.num}">
-                        <input type="hidden" name="category" th:value="${vo2.category}">
-                        <button type="button" class="btn" onclick="confirmDelete()">게시글삭제</button>
-                    </form>
-
-                    <!-- 신고하기 버튼 -->
-                    <form th:action="@{/b_reportOK}" method="post" id="reportForm">
-                        <input type="hidden" name="num" th:value="${vo2.num}">
-                        <button type="button" class="btn" onclick="confirmReport()">신고</button>
-                    </form>
+    <div class="position-relative">
+        <div class="board-select-detail">
+            <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
+                 onclick="location.href='/freeboard'">
+                <div class="">
+                    <h5 class="">자유 게시판</h5>
                 </div>
             </div>
-
-
+            <div class="free-qna card"
+                 th:classappend="${category == 'qna'} ? 'border-primary' : ''"
+                 onclick="location.href='/qnaboard'">
+                <div>
+                    <h5>질문 게시판</h5>
+                </div>
+            </div>
         </div>
-    </div>
+
+
+        <div class="d-flex justify-content-end mt-3" >
+            <!-- 게시글 수정 버튼 -->
+            <a th:href="@{/b_update(num=${vo2.num})}" th:if="${vo2.user_id == currentUserId}" class="btn btn-outline-primary btn-dark rounded-0 p-2 ml-auto">수정</a>
+
+            <!-- 게시글 삭제 버튼 -->
+            <form th:action="@{/b_deleteOK}" th:if="${vo2.user_id == currentUserId}" method="post" id="deleteForm" class="ml-2">
+                <input type="hidden" name="num" th:value="${vo2.num}">
+                <input type="hidden" name="category" th:value="${vo2.category}">
+                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmDelete()">삭제</button>
+            </form>
+
+            <!-- 신고하기 버튼 -->
+            <form th:action="@{/b_reportOK}" method="post" id="reportForm" class="ml-2">
+                <input type="hidden" name="num" th:value="${vo2.num}">
+                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmReport()">신고</button>
+            </form>
+        </div>
+
+
+
+
 
 
     <div class="card p-4">
@@ -64,8 +63,7 @@
             </thead>
         </table>
         <div>
-            <img th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}" class="img-thumbnail">
-            <img th:src="@{/resources/uploadimgPath/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail">
+            <img th:if="${vo2.img_name != 'default.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}" class="img-thumbnail">
             <p th:utext="${vo2.formattedContent}"></p> <!-- th:utext를 사용하여 HTML 태그를 해석 -->
         </div>
 

@@ -43,9 +43,6 @@ public class WebtoonController {
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         List<WebtoonVO> webtoonList;
-
-
-
         List<WebtoonVO> categories = webtoonService.getCategories();
 
         webtoonList = webtoonService.getWebtoonList(page, pageSize);
@@ -65,6 +62,7 @@ public class WebtoonController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("categories", categories);
+        model.addAttribute("sortOrder", sortOrder);
         log.info("categories:{}", categories);
 
         return "webtoon/selectAll";

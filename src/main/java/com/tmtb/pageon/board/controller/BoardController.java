@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -93,8 +95,12 @@ public class BoardController {
 
     //게시판 글 작성 페이지
     @GetMapping("/b_insert")
-    public String b_insert(Model model) {
+    public String b_insert(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         log.info("게시글 작성 페이지");
+
+        model.addAttribute("id", userDetails.getUsername());
+
+        log.info("id:{}", userDetails.getUsername());
 
         return "board/insert";
     }
@@ -147,9 +153,10 @@ public class BoardController {
 
     //게시글 상세 보기
     @GetMapping("/b_selectOne")
-    public String b_selectOne(BoardVO vo, Model model, @RequestParam(defaultValue = "free") String category, @RequestParam(defaultValue = "1") int cpage,
+    public String b_selectOne(BoardVO vo, @AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(defaultValue = "free") String category, @RequestParam(defaultValue = "1") int cpage,
                               @RequestParam(defaultValue = "20") int pageBlock) {
         log.info("게시글 상세보기 페이지");
+
 
         boardService.updateBoardHitCount(vo);
 
@@ -158,6 +165,13 @@ public class BoardController {
 
         model.addAttribute("vo2", vo2);
         model.addAttribute("category", category);
+
+        if (userDetails != null) {
+            model.addAttribute("currentUserId", userDetails.getUsername());
+        } else {
+            model.addAttribute("currentUserId", null);
+        }
+
 
 
 

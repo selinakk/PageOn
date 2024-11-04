@@ -21,6 +21,35 @@
     justify-content: center;
 }
 
+.board-select-detail {
+    text-align: center;
+    cursor: pointer;
+    width: 50%;
+    height: 100%;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    top: 50px;
+}
+
+.board-select-detail .free-qna {
+    text-align: center;
+    cursor: pointer;
+    width: 10%;
+    height: 100%;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.point {
+    cursor: pointer;
+}
+
+
 .filter-container {
     display: flex;
     justify-content: flex-end;
@@ -64,7 +93,7 @@
     width: 100px;
 }
 
-.btn{
+.btn {
     min-width: 4rem;
     max-width: 80px;
 }
@@ -106,6 +135,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .full-text {
     display: block;
 }
@@ -128,6 +158,10 @@
 
 .table-list th:nth-child(4) {
     width: 10%;
+}
+
+.user-id {
+    display: none;
 }
 
 @media screen and (max-width: 768px) {
@@ -222,12 +256,10 @@
     }
 
 
-
 }
 
-@media screen and (max-width:1024px) {
+@media screen and (max-width: 1024px) {
     /* 타블렛 */
-
     .table td {
         max-width: 500px;
         white-space: nowrap;
