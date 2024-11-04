@@ -76,6 +76,7 @@ a.text-danger .svg-icon {
 }
 .forum__textarea {
     min-height: 20rem;
+    background: none;
 }
 /* 토론 끝 */
 /*서재 시작*/
@@ -884,11 +885,12 @@ a.text-danger .svg-icon {
     margin: 0 auto;
 }
 
-/* 반응형 설정 */
+/******************** 반응형 설정 ******************/
 @media (max-width: 1199px) {
     .logo {
         width: auto;
         height: 3.4rem;
+        padding: 5px 0;
     }
     #book-detail .book-cover, #webnovel-detail .webnovel-cover {
         width: 120px;
@@ -919,7 +921,13 @@ a.text-danger .svg-icon {
 @media (max-width: 991px){
     .navbar-toggler{border: 0 !important}
 }
+@media screen and (min-width:576px){.container{max-width:96%;}}
 @media (max-width: 767px) {
+    #best-work ~ .padding-medium {
+        padding-top:2em;
+        padding-bottom: 2em;
+    }
+    .navbar{padding: 0!important;}
     .btn{padding: 0.5rem 1.625rem;}
     #book-detail .book-info, #webnovel-detail .webnovel-info {
         display: flex;
@@ -971,11 +979,17 @@ a.text-danger .svg-icon {
     .list-unstyled.row-cols-xl-4 {padding-top: 0;}
     div:has(.sort-wrapper) {padding-top: 2rem;}
 }
-
 @media (max-width: 480px),
 (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2),
 (max-device-width: 480px) and (min-resolution: 192dpi) {
-
+    .navbar-toggler svg.navbar-icon{
+        width: 40px;
+        height: 40px;
+    }
+    #best-work{
+        padding-top: 0;
+        padding-bottom: 0;
+    }
     /* 상세 정보 메인 이미지 크기 대폭 확대 */
     #book-detail .book-cover,
     #webnovel-detail .webnovel-cover {

@@ -11,6 +11,7 @@ public class ForumVO {
     private String title;
     private String content;
     private String user_id;
+    private String workType;
     private Date wdate;
     private boolean report;
     private int hitcount;
