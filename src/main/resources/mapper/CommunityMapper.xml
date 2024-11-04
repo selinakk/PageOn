@@ -32,7 +32,9 @@
     </select>
 
     <select id="forumSelectList" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        select * from forum order by num desc limit 4;
+        SELECT f.*, w.title AS workTitle, w.img_name AS workImgName
+        FROM forum f JOIN work w ON f.work_num = w.item_id
+        ORDER BY wdate desc limit 4
     </select>
 
 </mapper>
