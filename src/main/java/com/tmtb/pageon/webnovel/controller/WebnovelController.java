@@ -1,5 +1,7 @@
 package com.tmtb.pageon.webnovel.controller;
 
+import com.tmtb.pageon.user.model.UserVO;
+import com.tmtb.pageon.user.service.UserService;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,9 @@ public class WebnovelController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/webnovels")
     public String selectAllWebnovels(Model model,
@@ -43,6 +49,16 @@ public class WebnovelController {
                                  @RequestParam(required = false) String searchKey,
                                  @RequestParam(required = false) String searchWord,
                                  @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
+        // 테스트용 더미 사용자 ID
+        String id = "tester2";
+        log.info("테스트용 사용자 ID: {}", id);
+
+        // id로 사용자 정보 조회 후 like_categories 가져오기
+        UserVO user = userService.findById(id);
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(","));
+        log.info("likeCategories: {}", likeCategories);
+        model.addAttribute("likeCategories", likeCategories);
+
         // 중첩된 대괄호 제거 및 리스트 변환
         if (category != null && !category.isEmpty()) {
             category = category.stream()
@@ -127,5 +143,43 @@ public class WebnovelController {
     //        log.info("최근 본 항목 리스트: {}", recentItems);
     //이 내용은 사용자 최근 조회 목록을 위해 조회할때 발생하난 vo데이터 들을 캐싱하기 위해서 짠 로직입니다
     //여러번 테스트
+
+    @GetMapping("/webnovels/liked")
+    public String selectWebnovelsByLikeCategories(Model model,
+                                              @RequestParam(required = false, defaultValue = "1") int cpage,
+                                              @RequestParam(required = false, defaultValue = "20") int pageBlock,
+                                              @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
+        // 테스트용 더미 사용자 ID
+        String id = "tester2";
+        log.info("테스트용 사용자 ID: {}", id);
+
+        // id로 사용자 정보 조회 후 like_categories 가져오기
+        UserVO user = userService.findById(id);
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(","));
+        log.info("likeCategories: {}", likeCategories);
+        model.addAttribute("likeCategories", likeCategories);
+
+        String filter = "prefer";
+        model.addAttribute("filter", filter);
+
+        if (likeCategories.isEmpty()) {
+            log.info("No like_categories found for userId: {}", id);
+            model.addAttribute("likedWebnovels", Collections.emptyList());
+            model.addAttribute("totalPageCount", 0);
+            return "webnovel/list";
+        }
+
+        // 해당 카테고리에 맞는 목록 조회
+        List<WebnovelVO> list = service.selectWebnovelsByCategories(likeCategories, cpage, pageBlock, sortOrder);
+        int totalRows = service.getTotalRowsByCategories(likeCategories);
+        int totalPageCount = (int) Math.ceil((double) totalRows / pageBlock);
+
+        model.addAttribute("list", list);
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("sortOrder", sortOrder);
+
+        return "webnovel/list";
+    }
 
 }

@@ -14,39 +14,48 @@
     <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
             <h3 class="d-flex align-items-center">리뷰 상세보기</h3>
-            <a href="/review/insert">write</a>
             <a href="/review/list">목록</a>
         </div>
-        <div th:class="dt-1" >
-            <p th:class="justify-content-p">제목: <span th:text="${vo2.title}"></span></p>
-            <p th:class="justify-content-p">작성일: <span th:text="${vo2.wdate}"></span></p>
-            <p th:class="justify-content-p">리뷰 내용: <span id="reviewContent" th:text="${vo2.content}"></span></p>
+        <div th:class="review-list" >
+            <p th:class="justify-content-p"><span th:text="'제목: '+${vo2.title}"></span></p>
+            <p th:class="justify-content-p"><span th:text="'작성일: '+${vo2.wdate}"></span></p>
+            <p th:class="justify-content-p"><span id="reviewContent" th:text="'리뷰 내용: '+${vo2.content}"></span></p>
             <p th:class="justify-content-p">
-                별점: <span th:text="${vo2.rating}"></span></p>
-            <div id="review-detail" th:data-num="${vo2.num}" th:class="dt-2">
+                <span  th:text="'별점: '+${vo2.rating}"></span></p>
+            <div id="review-detail" th:data-num="${vo2.num}" th:class="justify-content-p">
                 <button id="like-button"><img src="/img/like.png" th:class="like-btn"><span id="like-count" th:text="${vo2.like}"></span></button>
                 <button id="dislike-button"><img src="/img/dislike.png" th:class="like-btn"><span id="hate-count" th:text="${vo2.hate}"></span></button>
             </div>
             </p>
+            <div class="justify-content-p">
                 <span th:class="dt-2" >
                     <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
                         <span th:text="${vo2.report}"></span>
                         <button th:class="btn-3" type="button" onclick="confirmReport()">report</button>
                     </form>
                 </span>
-            <div th:if="${result}">
+
+            </div>
+            <div  class="justify-content-p">
+                <div>
+                    <small>
+                    <button id="analyzeButton">감정 분석하기</button>
+                    <p id="sentimentResult">분석되지 않음</p>
+                </small>
+                </div>
+
+
+                <div th:if="${result}">
                 <h2>감정 분석 결과:</h2>
                 <p th:text="${result}"></p>
             </div>
-            <div th:if="${error}">
-                <h2>오류:</h2>
-                <p th:text="${error}"></p>
+                <div th:if="${error}">
+                    <h2>오류:</h2>
+                    <p th:text="${error}"></p>
+                </div>
             </div>
-        </div>
-        <small>
-            <p id="sentimentResult">분석되지 않음</p>
-            <button id="analyzeButton">감정 분석하기</button>
-        </small>
+
+
 
         <div >//로그인
             <div>

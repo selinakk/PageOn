@@ -33,13 +33,11 @@ function filterByCategory(element) {
     const badges = document.querySelectorAll('.hashtags .badge');
 
     // 클릭된 배지의 색상을 토글
-    if (element.classList.contains('bg-primary')) {
-        element.classList.remove('bg-primary');
-        element.classList.add('bg-secondary');
+    if (element.classList.contains('selected-option')) {
+        element.classList.remove('selected-option');
         selectedCategories = selectedCategories.filter(cat => cat !== category);
     } else {
-        element.classList.remove('bg-secondary');
-        element.classList.add('bg-primary');
+        element.classList.add('selected-option');
         selectedCategories.push(category);
     }
 
@@ -58,20 +56,34 @@ function fetchFilteredData() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const contentGrid = document.querySelector('.webtoon-grid');
+            const contentGrid = document.querySelector('.webnovel-grid');
             contentGrid.innerHTML = '';
 
             if (data.webtoons && data.webtoons.length > 0) {
                 data.webtoons.forEach(webtoon => {
                     console.log('webtoon:', webtoon);
                     const webtoonItem = `
-                        <div class="webtoon-item">
-                            <a href="/wt_selectOne?item_id=${webtoon.item_id}">
-                                <img src="${webtoon.imageDownloadUrl}" class="webtoon-img" alt="Webtoon Cover">
-                            </a>
-                            <a href="/wt_selectOne?item_id=${webtoon.item_id}" class="webtoon-title">${webtoon.title}</a>
-                        </div>
-                    `;
+    <div class="webnovel-item position-relative">
+        <a href="/wt_selectOne?item_id=${webtoon.item_id}">
+            <img src="${webtoon.imageDownloadUrl}" class="webnovel-img" alt="Webtoon Cover">
+        </a>
+        <a href="/wt_selectOne?item_id=${webtoon.item_id}" class="webtoon-title">${webtoon.title}</a>
+        <form action="/bookshelf/insertOK" method="post">
+            <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                <input type="hidden" name="work_num" value="${webtoon.item_id}">
+                <label for="read${webtoon.item_id}" class="btn btn-dark">
+                    <input type="radio" name="sort" id="read${webtoon.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품
+                </label>
+                <label for="to-read${webtoon.item_id}" class="btn btn-dark">
+                    <input type="radio" name="sort" id="to-read${webtoon.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품
+                </label>
+                <label for="ing${webtoon.item_id}" class="btn btn-dark">
+                    <input type="radio" name="sort" id="ing${webtoon.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품
+                </label>
+            </div>
+        </form>
+    </div>
+`;
                     contentGrid.innerHTML += webtoonItem;
                 });
             } else {
@@ -441,6 +453,16 @@ function confirmDelete() {
             }
         });
     }
+}
+
+//제목 입력 확인
+function validateForm() {
+    var title = document.getElementById("title").value;
+    if (title.trim() === "") {
+        alert("제목은 필수입니다!");
+        return false; // 폼 제출을 막음
+    }
+    return true; // 폼 제출을 허용
 }
 
 

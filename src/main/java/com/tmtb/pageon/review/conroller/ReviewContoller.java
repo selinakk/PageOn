@@ -37,7 +37,7 @@ public class ReviewContoller {
     //리뷰 목록
     @GetMapping("/review/list")
     public String getUsers(Model model, @RequestParam(defaultValue = "1")int cpage,
-                           @RequestParam(defaultValue ="10" )int pageBlock,
+                           @RequestParam(defaultValue ="4" )int pageBlock,
                            @RequestParam(defaultValue = "num")String sortType
                            //@RequestParam String userId
     ) {
@@ -79,7 +79,7 @@ public class ReviewContoller {
     public String selectOne(Model model,
                             ReviewVO vo,
                             @RequestParam(defaultValue = "1")int cpage,
-                            @RequestParam(defaultValue = "4")int pageBlock){
+                            @RequestParam(defaultValue = "20")int pageBlock){
         log.info("리뷰 상세");
         ReviewVO vo2 = service.selectOne(vo);
         model.addAttribute("vo2", vo2);
