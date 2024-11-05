@@ -47,6 +47,7 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
         	rd.forward(request, response);
         }else {
         	//6. 원래 가려던 목적지 경로로 리다일렉트 이동 시킨다 (GET 방식 요청 파라미터도 자동으로 같이 가지고 간다)
+            session.setAttribute("cashed",cashed.getRedirectUrl());
         	super.onAuthenticationSuccess(request, response, authentication);
         }
 	}

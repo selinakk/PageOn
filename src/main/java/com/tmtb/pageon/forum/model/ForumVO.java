@@ -3,6 +3,7 @@ package com.tmtb.pageon.forum.model;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.Base64;
 
 @Data
 public class ForumVO {
@@ -19,9 +20,16 @@ public class ForumVO {
 
     //member 테이블 참조
     private String userName;
-    private String userImgName;
+    private byte[] userImgData;
 
     //work 테이블 참조
     private String workTitle;
     private String workImgName;
+
+    public String getImgDataAsBase64() {
+        if (userImgData != null) {
+            return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(userImgData);
+        }
+        return null;
+    }
 }

@@ -4,19 +4,395 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<footer id="footer" th:fragment="footer">
-    <hr/>
-    <div id="footer-bottom" class="mb-2">
-        <div class="container">
-            <div class="d-flex flex-wrap justify-content-lg-center ">
-                <div class="copyright">
-                    <p>© Copyright 2024 Bookly. HTML Template by <a href="https://templatesjungle.com/"
-                                                                    target="_blank">TemplatesJungle</a>
-                    </p>
+<div th:fragment="footer">
+    <!-- 로그인 / 회원가입 모달 --><!-- 로그인 / 회원가입 모달 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header positoin-relative py-0 border-bottom-0">
+                    <h5 class="modal-title" id="exampleModalLabel" style="margin-top: 30px">로그인 / 회원가입</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-top: 30px;"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <div class="tabs-listing">
+                        <nav>
+                            <div class="nav nav-tabs d-flex justify-content-center" id="nav-tab" role="tablist">
+                                <button class="nav-link text-capitalize active" id="nav-sign-in-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-sign-in" type="button" role="tab" aria-controls="nav-sign-in"
+                                        aria-selected="true">Sign In</button>
+                                <button class="nav-link text-capitalize" id="nav-register-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-register" type="button" role="tab" aria-controls="nav-register"
+                                        aria-selected="false">Register</button>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel" aria-labelledby="nav-sign-in-tab">
+                                <form action="#" th:action="@{/login}" method="post">
+                                    <div class="form-group py-3">
+                                        <label class="mb-2" for="id">Username</label>
+                                        <input type="text" minlength="2" name="id" placeholder="Your Username" class="form-control w-100 rounded-3 p-3" required style="border: 1px solid #ced4da; border-radius: .375rem;">
+                                    </div>
+                                    <div class="form-group pb-3">
+                                        <label class="mb-2" for="pw">Password *</label>
+                                        <input type="password" minlength="2" name="pw" placeholder="Your Password" class="form-control w-100 rounded-3 p-3" required style="border: 1px solid #ced4da; border-radius: .375rem;">
+                                    </div>
+                                    <button type="submit" name="submit" class="btn btn-dark w-100 my-3" style="background-color: #343a40; color: white;">Login</button>
+                                </form>
+
+                                <!-- 에러 메시지 출력 -->
+                                <div th:if="${error}" class="alert alert-danger" role="alert">
+                                    <span th:text="${error}"></span>
+                                </div>
+
+                                <!-- 아이디/비밀번호 찾기 링크 (로그인 탭에서만 표시) -->
+                                <div class="text-center my-3">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#findIdModal">아이디 찾기</a> |
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#findPwModal">비밀번호 찾기</a>
+                                </div>
+                            </div>
+
+                            <!-- 회원가입 탭 -->
+                            <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
+                                <form id="registerForm" class="py-2" th:action="@{/insertUserForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                    <div class="w-100">
+                                        <label for="idInput" class="mb-1"><small>이름을 입력하세요*</small></label>
+                                        <div class="position-relative w-100 border rounded-2">
+                                            <input type="text" id="idInput" minlength="2" name="id" placeholder="User name" class="form-control w-75 border-0 fs-6" required>
+                                            <button type="button" id="checkIdButton" class="btn btn-secondary position-absolute text-nowrap text-white" onclick="checkId()" style="background-color: #6c757d;"><small>아이디 중복 체크</small></button>
+                                        </div>
+                                        <div id="checkidResult" class="mt-1 text-danger"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label for="password" class="mb-1"><small>Password *</small></label>
+                                        <input type="password" id="password" name="pw" placeholder="Your Password" class="form-control w-100 rounded-2 fs-6" required>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label for="name" class="mb-1"><small>이름 *</small></label>
+                                        <input type="text" id="name" name="name" placeholder="이름" class="form-control w-100 rounded-2 fs-6" required>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <label for="tel" class="mb-1"><small>전화번호 *</small></label>
+                                        <input type="tel" id="tel" name="tel" placeholder="전화번호" class="form-control w-100 rounded-2 fs-6" required>
+                                    </div>
+
+                                    <div class="w-100">
+                                        <label for="email" class="mb-1"><small>이메일</small></label>
+                                        <div class="position-relative w-100 border rounded-2">
+                                            <input type="text" id="email" name="email" placeholder="이메일" class="form-control w-75 border-0 fs-6" required>
+                                            <button type="button" id="checkEmailButton" class="btn btn-secondary position-absolute text-nowrap text-white" onclick="checkEmail()" style="background-color: #6c757d;"><small>이메일 중복 체크</small></button>
+                                        </div>
+                                        <div id="checkemailResult" class="mt-1 text-danger"></div>
+                                    </div>
+
+                                    <div class="w-100">
+                                        <label class="mb-1" for="like_categories"><small>관심 카테고리 *</small></label>
+                                        <div class="position-relative w-100 border rounded-2">
+                                            <input type="text" id="selected-category" name="like_categories" placeholder="관심 카테고리" class="form-control border-0 fs-6" readonly required style="width:85%;">
+                                            <button type="button" id="nextButton" class="btn btn-secondary position-absolute text-nowrap text-white" style="background-color: #6c757d;">선택</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="w-100">
+                                        <label for="introduce" class="mb-1"><small>자기소개</small></label>
+                                        <textarea name="introduce" placeholder="자기소개" class="form-control w-100 rounded-2 fs-6" rows="1"></textarea>
+                                    </div>
+
+                                    <div class="w-100 mb-3">
+                                        <label for="imgFile" class="mb-1"><small>프로필 이미지 업로드</small></label>
+                                        <input type="file" name="imgFile" class="form-control w-100 rounded-2 p-1 fs-6">
+                                    </div>
+
+                                    <div class="w-100">
+                                        <button type="submit" id="registerButton" class="btn btn-dark w-100 my-1 text-white" disabled style="background-color: #343a40;">Register</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</footer>
+
+    <!-- 아이디 찾기 모달 -->
+    <div class="modal fade" id="findIdModal" tabindex="-1" aria-labelledby="findIdLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="findIdLabel">아이디 찾기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/find-id}" method="post">
+                        <div class="form-group py-3">
+                            <label class="mb-2" for="email">이메일 주소</label>
+                            <input type="email" name="email" placeholder="등록된 이메일 주소를 입력하세요" class="form-control w-100 rounded-3 p-3" required>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 my-3">아이디 찾기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 비밀번호 찾기 모달 -->
+    <div class="modal fade" id="findPwModal" tabindex="-1" aria-labelledby="findPwLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="findPwLabel">비밀번호 찾기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" th:action="@{/updatePassword}" method="post">
+                        <div class="form-group py-3">
+                            <label class="mb-2" for="id">아이디</label>
+                            <input type="text" name="id" placeholder="아이디를 입력하세요" class="form-control w-100 rounded-3 p-3" required>
+                        </div>
+                        <div class="form-group py-3">
+                            <label class="mb-2" for="email">이메일 주소</label>
+                            <input type="email" name="email" placeholder="등록된 이메일 주소를 입력하세요" class="form-control w-100 rounded-3 p-3" required>
+                        </div>
+                        <div class="form-group py-3">
+                            <label class="mb-2" for="pw">비밀번호</label>
+                            <input type="pw" name="pw" placeholder="새로 변경할 비밀번호를 적어주세요" class="form-control w-100 rounded-3 p-3" required>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 my-3">비밀번호 찾기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 카테고리 선택 모달 -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalLabel">카테고리 선택</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group pb-3">
+                        <label class="mb-2">관심 카테고리 *</label>
+                        <div class="d-flex flex-wrap" id="category-checkboxes">
+                            <label class="p-2"for="cat1">
+                                <input type="checkbox" value="판타지" id="cat1">
+                                <span>판타지</span>
+                            </label>
+                            <label class="p-2"for="cat2">
+                                <input type="checkbox" value="현대판타지" id="cat2">
+                                <span>현대판타지</span>
+                            </label>
+                            <label class="p-2"for="cat3">
+                                <input type="checkbox" value="무협" id="cat3">
+                                <span>무협</span>
+                            </label>
+                            <label class="p-2"for="cat4">
+                                <input type="checkbox" value="드라마" id="cat4">
+                                <span>드라마</span>
+                            </label>
+                            <label class="p-2"for="cat5">
+                                <input type="checkbox" value="액션" id="cat5">
+                                <span>액션</span>
+                            </label>
+                            <label class="p-2"for="cat6">
+                                <input type="checkbox" value="추리" id="cat6">
+                                <span>추리</span>
+                            </label>
+                            <label class="p-2"for="cat7">
+                                <input type="checkbox" value="미스터리" id="cat7">
+                                <span>미스터리</span>
+                            </label>
+                            <label class="p-2"for="cat8">
+                                <input type="checkbox" value="로맨스" id="cat8">
+                                <span>로맨스</span>
+                            </label>
+                            <label class="p-2"for="cat9">
+                                <input type="checkbox" value="로맨스판타지" id="cat9">
+                                <span>로맨스판타지</span>
+                            </label>
+                            <label class="p-2"for="cat10">
+                                <input type="checkbox" value="순정" id="cat10">
+                                <span>순정</span>
+                            </label>
+                            <label class="p-2"for="cat11">
+                                <input type="checkbox" value="BL" id="cat11">
+                                <span>BL</span>
+                            </label>
+                            <label class="p-2"for="cat12">
+                                <input type="checkbox" value="공포" id="cat12">
+                                <span>공포</span>
+                            </label>
+                            <label class="p-2"for="cat13">
+                                <input type="checkbox" value="공상과학" id="cat13">
+                                <span>공상과학</span>
+                            </label>
+                            <label class="p-2"for="cat14">
+                                <input type="checkbox" value="코믹" id="cat14">
+                                <span>코믹</span>
+                            </label>
+                            <label class="p-2"for="cat15">
+                                <input type="checkbox" value="일상" id="cat15">
+                                <span>일상</span>
+                            </label>
+                            <label class="p-2"for="cat16">
+                                <input type="checkbox" value="학원" id="cat16">
+                                <span>학원</span>
+                            </label>
+                            <label class="p-2"for="cat17">
+                                <input type="checkbox" value="스포츠" id="cat17">
+                                <span>스포츠</span>
+                            </label>
+                            <label class="p-2"for="cat18">
+                                <input type="checkbox" value="소년" id="cat18">
+                                <span>소년</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="saveCategories" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let isIdAvailable = false; // 아이디 사용 가능 여부
+        let isEmailAvailable = false; // 이메일 사용 가능 여부
+
+        function validateForm() {
+            const id = document.getElementById("idInput").value;
+            const password = document.getElementById("password").value;
+            const name = document.getElementById("name").value;
+            const tel = document.getElementById("tel").value;
+            const email = document.getElementById("email").value;
+
+            if (id.length < 2) {
+                alert("아이디는 최소 2자 이상이어야 합니다.");
+                return false;
+            }
+            if (password.length < 6) {
+                alert("비밀번호는 최소 6자 이상이어야 합니다.");
+                return false;
+            }
+            if (name.trim() === "") {
+                alert("이름을 입력하세요.");
+                return false;
+            }
+            if (tel.trim() === "") {
+                alert("전화번호를 입력하세요.");
+                return false;
+            }
+            if (!validateEmail(email)) {
+                alert("유효한 이메일을 입력하세요.");
+                return false;
+            }
+
+            if (!isIdAvailable || !isEmailAvailable) {
+                alert("아이디와 이메일이 모두 사용 가능해야 합니다.");
+                return false;
+            }
+            return true;
+        }
+
+        function sendRequest(url, data, resultElementId, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const responseText = xhr.responseText;
+                        document.getElementById(resultElementId).textContent = responseText;
+                        callback(responseText);
+                    } else {
+                        document.getElementById(resultElementId).textContent = "중복 체크 중 오류가 발생했습니다.";
+                    }
+                }
+            };
+            xhr.send(data);
+        }
+
+        function checkId() {
+            const idInput = document.getElementById("idInput").value.trim();
+
+            // 공백 체크
+            if (idInput === "") {
+                document.getElementById("checkidResult").innerText = "아이디를 입력해주세요.";
+                return; // 함수 종료
+            }
+
+            sendRequest("/selectUser", `id=${encodeURIComponent(idInput)}`, "checkidResult", (responseText) => {
+                isIdAvailable = responseText.includes("사용 가능합니다");
+                checkSubmission();
+            });
+        }
+
+        function checkEmail() {
+            const emailInput = document.getElementById("email").value.trim();
+
+            // 공백 체크
+            if (emailInput === "") {
+                document.getElementById("checkemailResult").innerText = "이메일을 입력해주세요.";
+                return; // 함수 종료
+            }
+
+            sendRequest("/selectEmail", `email=${encodeURIComponent(emailInput)}`, "checkemailResult", (responseText) => {
+                isEmailAvailable = responseText.includes("사용 가능합니다");
+                checkSubmission();
+            });
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function checkSubmission() {
+            document.getElementById("registerButton").disabled = !(isIdAvailable && isEmailAvailable);
+        }
+
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+
+        document.getElementById("nextButton").addEventListener("click", function() {
+            const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
+            categoryModal.show();
+            // document.getElementById("exampleModal").style.zIndex = 2;
+        });
+        // document.getElementById('categoryModal').addEventListener('hide.bs.modal', function () {
+        //   document.getElementById("exampleModal").style.zIndex = 99999;
+        // });
+
+        document.getElementById("saveCategories").addEventListener("click", function() {
+            const selectedCategories = Array.from(document.querySelectorAll('#category-checkboxes input[type="checkbox"]:checked'))
+                .map((checkbox) => checkbox.value);
+            document.getElementById("selected-category").value = selectedCategories.join(", ");
+            const categoryModal = bootstrap.Modal.getInstance(document.getElementById("categoryModal"));
+            categoryModal.hide();
+        });
+    </script>
+    <footer id="footer">
+        <hr/>
+        <div id="footer-bottom" class="mb-2">
+            <div class="container">
+                <div class="d-flex flex-wrap justify-content-lg-center ">
+                    <div class="copyright">
+                        <p>© Copyright 2024 Bookly. HTML Template by <a href="https://templatesjungle.com/"
+                                                                        target="_blank">TemplatesJungle</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 </body>
 </html>

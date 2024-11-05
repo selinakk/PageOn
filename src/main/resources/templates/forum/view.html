@@ -26,16 +26,16 @@
             <div>
 
               <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">신고🚫</a>
-<!--              <span th:if="${vo2.user_id == user_id}">로그인id-->
+              <span th:if="${vo2.user_id == session.id}">로그인id
                   |&nbsp;<a th:href="@{/forum/update(num=${vo2.num})}">수정</a>
               | <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
-<!--              </span>-->
+              </span>
             </div>
 
           </div>
           <a th:href="@{/bookshelf/list(userId=${vo2.user_id})}" class="d-inline-flex align-items-center">
                       <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
-                        <img class="w-100 h-100" th:src="@{/img/{userImgName}(userImgName=${vo2.userImgName})}" th:alt="|${vo2.userName}님 프로필 이미지|">
+                        <img class="w-100 h-100" th:src="${vo2.imgDataAsBase64}" th:alt="|${vo2.userName}님 프로필 이미지|">
                       </span>
             <strong th:text="${vo2.userName}"></strong>
           </a>

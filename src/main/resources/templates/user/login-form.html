@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+<head>
+  <title>PageOn 토론 목록</title>
+</head>
+<body>
+<main th:fragment="login">
+  <div class="position-relative padding-medium">
+    <div class="login-container">
+      <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+        <h3 class="d-flex align-items-center">로그인</h3>
+      </div>
+          <form action="#" th:action="@{/login}" method="post">
+            <div class="form-group py-3">
+              <label class="mb-2" for="id">Username</label>
+              <input type="text" minlength="2" name="id" placeholder="Your Username" class="form-control w-100 rounded-3 p-3" required style="border: 1px solid #ced4da; border-radius: .375rem;">
+            </div>
+            <div class="form-group pb-3">
+              <label class="mb-2" for="pw">Password *</label>
+              <input type="password" minlength="2" name="pw" placeholder="Your Password" class="form-control w-100 rounded-3 p-3" required style="border: 1px solid #ced4da; border-radius: .375rem;">
+            </div>
+            <button type="submit" name="submit" class="btn btn-dark w-100 my-3" style="background-color: #343a40; color: white;">Login</button>
+          </form>
+          <!-- 아이디/비밀번호 찾기 링크 (로그인 탭에서만 표시) -->
+          <div class="text-center mt-3">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#findIdModal">아이디 찾기</a> |
+            <a href="#" data-bs-toggle="modal" data-bs-target="#findPwModal">비밀번호 찾기</a>
+            <a href="#" onclick="openRegisterModal()">회원가입</a>
+          </div>
+    </div>
+  <div>
+    <script>
+      function openRegisterModal() {
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.show();
+        // 회원가입 탭만 활성화
+        document.getElementById("nav-sign-in-tab").style.display = "none";
+        document.getElementById("nav-sign-in").classList.remove("show", "active");
+        document.getElementById("nav-register-tab").classList.add("active");
+        document.getElementById("nav-register").classList.add("show", "active");
+      }
+
+      // 모달 닫힘 이벤트에 초기화 코드 추가
+      document.getElementById('exampleModal').addEventListener('hide.bs.modal', function () {
+        // 모든 탭을 초기 상태로 되돌림
+        document.getElementById("nav-sign-in-tab").style.display = "";
+        document.getElementById("nav-sign-in").classList.remove("show", "active");
+        document.getElementById("nav-register-tab").classList.remove("active");
+        document.getElementById("nav-register").classList.remove("show", "active");
+        // 기본 탭으로 로그인 탭 활성화
+        document.getElementById("nav-sign-in").classList.add("show", "active");
+        document.getElementById("nav-sign-in-tab").classList.add("active");
+      });
+    </script>
+</main>
+</body>
+</html>
