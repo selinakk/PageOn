@@ -32,10 +32,10 @@
         <div class="review-container">
             <img class="img-view" th:src="@{${vo2.workImg}}" th:alt="|${vo2.workTitle} 작품 이미지|">
             <div th:class="review-position" >
-                <p><small class="text-auto" th:text="${vo2.workTitle}+'에 대한 리뷰'"></small></p>
+                <p><h4 class="text-auto" th:text="'[ ' + ${vo2.workTitle}+'에 대한 리뷰 ]'"></h4></p>
 
                 <p ><small th:text="'작성일: '+${vo2.wdate}"></small></p>
-                <p ><h4 th:text="${vo2.title}"></h4></p>
+                <p ><h3 th:text="${vo2.title}"></h3></p>
                 <p  id="reviewContent" ><h7 th:text="'내용: '+${vo2.content}"></h7></p>
                 <p ><h7  th:text="'★ '+${vo2.rating}"></h7></p>
                 <div id="review-detail" th:data-num="${vo2.num}">
@@ -59,6 +59,7 @@
                 </div>
         </div>
     </div>
+        <hr>
 
 </div>
 <!-- 여기가 댓글 관련 내용입니다. 이부분을 부모글의 상세보기와 추가해주시면 됩니다. -->

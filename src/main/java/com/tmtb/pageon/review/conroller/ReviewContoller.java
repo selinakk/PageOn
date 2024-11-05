@@ -38,7 +38,7 @@ public class ReviewContoller {
     @GetMapping("/review/list")
     public String getUsers(Model model, @RequestParam(defaultValue = "1")int cpage,
                            @RequestParam(defaultValue ="4" )int pageBlock,
-                           @RequestParam(defaultValue = "num")String sortType
+                           @RequestParam(defaultValue = "recent")String sortType
                            //@RequestParam String userId
     ) {
         log.info("리뷰 목록");
@@ -277,7 +277,7 @@ public class ReviewContoller {
 
 
     //리뷰 작성 시 카테고리 추천
-    @GetMapping("/review/bookrecommendation")
+    @GetMapping("/bookrecommendation")
     public String bookrecommendation(HttpSession session, Model model,
                                      @RequestParam(defaultValue = "1")int cpage,
                                      @RequestParam(defaultValue = "10")int pageBlock){
@@ -295,7 +295,7 @@ public class ReviewContoller {
 
     }
     //리뷰 작성 시 카테고리 추천
-    @GetMapping("/review/webtoonrecommendation")
+    @GetMapping("/webtoonrecommendation")
     public String webtoonrecommendation(HttpSession session, Model model,
                                      @RequestParam(defaultValue = "1")int cpage,
                                      @RequestParam(defaultValue = "10")int pageBlock){
@@ -314,7 +314,7 @@ public class ReviewContoller {
 
     }
     //리뷰 작성 시 카테고리 추천
-    @GetMapping("/review/webnovelrecommendation")
+    @GetMapping("/webnovelrecommendation")
     public String webnovelrecommendation(HttpSession session, Model model,
                                      @RequestParam(defaultValue = "1")int cpage,
                                      @RequestParam(defaultValue = "10")int pageBlock){

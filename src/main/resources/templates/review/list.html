@@ -24,9 +24,7 @@
             </form>
         </div>
         <div>
-            <div style="margin: 10px">
-                <strong>정렬</strong>
-                <small><a th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='recent')}">최신순</a></small>
+            <div id="array-soon">
                 <small><a th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='old')}">오래된 순</a></small>
                 <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='like')}">인기순</a></small>
             </div>
