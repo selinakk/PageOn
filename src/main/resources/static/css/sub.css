@@ -1117,4 +1117,70 @@ a.text-danger .svg-icon {
     margin: 0 auto;
 }
 
+/* 헤더 검색 팝업 */
+.search-type {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.search-type-text {
+    cursor: pointer;
+    font-weight: bold;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.search-type-text.selected {
+    color: var(--primary-color); /* 선택된 텍스트 색상 */
+}
+
+.cat-list-item {
+    margin: 5px 0;
+}
+
+.cat-list-item a {
+    color: #555;
+    text-decoration: none;
+}
+
+.cat-list-item a:hover {
+    color: var(--primary-color); /* 카테고리 링크 hover 색상 */
+}
+
+/* 검색 폼 레이아웃 */
+#filter-container {
+    display: flex;
+    align-items: center;
+}
+
+/* 검색 드롭다운 위치 조정 */
+.search-key {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    background-color: #f8f8f8;
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px; /* 검색 입력 필드와의 간격 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-key:focus {
+    outline: none;
+    background-color: #e0e0e0;
+}
+
+.search-key option {
+    color: #333;
+    background-color: #f8f8f8;
+    font-weight: normal;
+}
+
+.search-field {
+    flex: 1;
+}
+/* 헤더 검색 팝업 끝 */
+
 /***** //custom sub style 끝 *****/
