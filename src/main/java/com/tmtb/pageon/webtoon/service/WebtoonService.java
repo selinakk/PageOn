@@ -51,6 +51,13 @@ public class WebtoonService {
         return webtoonMapper.getCategories();
     }
 
+    public List<WebtoonVO> searchLikeCategories(List<String> likeCategories, int offset, int pageSize) {
+        return webtoonMapper.searchLikeCategories(likeCategories, offset, pageSize);
+    }
+    public int getTotalCountByLikeCategories(List<String> likeCategories) {
+        return webtoonMapper.getTotalCountByLikeCategories(likeCategories);
+    }
+
     public int getTotalCountByPopular() {
         return webtoonMapper.getTotalCountByPopular();
     }
@@ -273,6 +280,10 @@ public class WebtoonService {
             }
         }
     }
+
+
+
+
 }
 
 

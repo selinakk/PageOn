@@ -11,7 +11,6 @@
       <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
           <h3 class="d-flex align-items-center">사용자 추천</h3>
-
           <a th:href="@{/webtoonrecommendation}" class="btn">더보기</a>
         </div>
         <h4>웹툰</h4>
@@ -123,7 +122,7 @@
         <div class="swiper work-swiper">
           <div class="swiper-wrapper">
             <!-- 선호 카테고리 기반 추천 작품을 20개까지 출력 -->
-            <div class="swiper-slide" th:each="webnovel : ${likedWebtoons}">
+            <div class="swiper-slide" th:each="webtoon : ${likedWebtoons}">
               <div class="card position-relative p-4 border rounded-3">
                 <a href="#">
                   <img th:src="@{${webtoon.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
@@ -132,7 +131,7 @@
                   <a href="#" th:text="${webtoon.title}">작품 제목</a>
                 </h6>
                 <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50" th:text="${webnovel.writer}">작가</p>
+                  <p class="my-2 me-2 fs-6 text-black-50" th:text="${webtoon.writer}">작가</p>
                 </div>
                 <form action="/bookshelf/insertOK"  method="post">
                   <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">

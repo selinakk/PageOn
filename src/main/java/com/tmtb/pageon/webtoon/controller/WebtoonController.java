@@ -2,7 +2,9 @@ package com.tmtb.pageon.webtoon.controller;
 
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.board.service.BoardService;
+import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.ProductService;
+import com.tmtb.pageon.user.service.UserService;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import com.tmtb.pageon.webtoon.service.WebtoonService;
 import jakarta.servlet.ServletContext;
@@ -28,6 +30,8 @@ public class WebtoonController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
 
     @Autowired
     ServletContext context;
@@ -35,7 +39,7 @@ public class WebtoonController {
     @GetMapping("/wt_selectAll")
     public String wt_selectAll(@RequestParam(defaultValue = "1") int page,
                                @RequestParam(required = false) String sortOrder,
-                               Model model) {
+                               Model model, HttpSession session) {
         log.info("웹툰 전체 목록");
 
         int pageSize = 20;
@@ -47,8 +51,18 @@ public class WebtoonController {
 
         webtoonList = webtoonService.getWebtoonList(page, pageSize);
 
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
 
-
+        List<String> likeCategories = new ArrayList<>();
+        if (id != null) {
+            // id로 사용자 정보 조회 후 like_categories 가져오기
+            UserVO user = userService.findById(id);
+            if (user.getLike_categories() != null && !user.getLike_categories().isEmpty()) {
+                likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
+            }
+        }
 
         // 페이지 번호 그룹화
         int pageGroupSize = 10;
@@ -56,6 +70,7 @@ public class WebtoonController {
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
 
+        model.addAttribute("likeCategories", likeCategories);
         model.addAttribute("webtoonList", webtoonList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -64,10 +79,9 @@ public class WebtoonController {
         model.addAttribute("categories", categories);
         model.addAttribute("sortOrder", sortOrder);
         log.info("categories:{}", categories);
+        log.info("likeCategories: {}", likeCategories);
 
         return "webtoon/selectAll";
-
-
     }
 
 
@@ -105,6 +119,7 @@ public class WebtoonController {
             totalCount = webtoonService.getTotalCount();
         }
 
+
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         model.addAttribute("webtoonList", webtoonList);
@@ -118,6 +133,43 @@ public class WebtoonController {
 
         log.info("searchWord:{}", searchWord);
         log.info("searchType:{}", searchType);
+
+        return "webtoon/selectAll";
+    }
+
+    @GetMapping("/wt_like")
+    public String searchLikeCategories(@RequestParam(defaultValue = "1") int page, @RequestParam(required = false) List<String> categories, Model model, HttpSession session) {
+
+        int pageSize = 20;
+        int offset = (page - 1) * pageSize;
+        int totalCount;
+
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
+
+        // id로 사용자 정보 조회 후 like_categories 가져오기
+        UserVO user = userService.findById(id);
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
+        log.info("likeCategories: {}", likeCategories);
+        model.addAttribute("likeCategories", likeCategories);
+
+        String filter = "prefer";
+        model.addAttribute("filter", filter);
+
+
+        List<WebtoonVO> webtoonList;
+
+        webtoonList = webtoonService.searchLikeCategories(likeCategories, offset, pageSize);
+        totalCount = webtoonService.getTotalCountByLikeCategories(likeCategories);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        model.addAttribute("webtoonList", webtoonList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", (page - 1) / 10 * 10 + 1);
+        model.addAttribute("endPage", Math.min((page - 1) / 10 * 10 + 10, totalPages));
+        model.addAttribute("categories", categories);
 
         return "webtoon/selectAll";
     }
@@ -152,12 +204,11 @@ public class WebtoonController {
     //필터링
     @GetMapping("/wt_filter")
     @ResponseBody
-    public Map<String, Object> filterByCategories(@RequestParam(value = "categories", required = false) List<String> categories, @RequestParam(defaultValue = "1") int page) {
+    public Map<String, Object> filterByCategories(@RequestParam(value = "categories", required = false) List<String> categories, Model model, @RequestParam(defaultValue = "1") int page, HttpSession session) {
         log.info("카테고리 필터링: {}, 페이지: {}", categories, page);
 
         int pageSize = 20;
         int offset = (page - 1) * pageSize;
-
 
         List<WebtoonVO> webtoons;
         int totalCount;
@@ -178,6 +229,7 @@ public class WebtoonController {
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
 
+
         Map<String, Object> response = new HashMap<>();
         response.put("webtoons", webtoons);
         response.put("totalPages", totalPages);
@@ -186,7 +238,6 @@ public class WebtoonController {
 
         return response;
     }
-
 
 
 }

@@ -25,6 +25,9 @@ public interface WebtoonMapper {
 
     List<WebtoonVO> getCategories();
 
+    List<WebtoonVO> searchLikeCategories(@Param("likeCategories") List<String> likeCategories, @Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    int getTotalCountByLikeCategories(List<String> likeCategories);
     int getTotalCountByTitle(@Param("searchWord") String searchWord);
     int getTotalCountByWriter(@Param("searchWord") String searchWord);
     int getTotalCountByCategories(@Param("searchWord") String searchWord);

@@ -251,6 +251,10 @@
         display: none;
     }
 
+    .hide-div {
+        display: none;
+    }
+
     .board-select-dropdown {
         display: block;
         width: 175px;
@@ -264,9 +268,14 @@
     }
 
 
+
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+
+
+
+
     .card.p-4 {
         padding: 0 !important;
     }

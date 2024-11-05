@@ -67,6 +67,30 @@
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
+    <select id="searchLikeCategories" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE type = 'webtoon'
+        AND (
+        <foreach item="category" collection="likeCategories" separator=" OR ">
+            categories LIKE CONCAT('%', #{category}, '%')
+        </foreach>
+        )
+        ORDER BY item_id DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="getTotalCountByLikeCategories" resultType="int">
+        SELECT COUNT(*)
+        FROM work
+        WHERE type = 'webtoon'
+        AND (
+        <foreach item="category" collection="likeCategories" separator=" OR ">
+            categories LIKE CONCAT('%', #{category}, '%')
+        </foreach>
+        )
+    </select>
+
 
     <select id="getTotalCountByTitle" resultType="int">
         SELECT COUNT(*)

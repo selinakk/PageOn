@@ -14,15 +14,16 @@
         <div class="board-select">
             <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
                  onclick="location.href='/freeboard'">
-                    <h5 class="">자유 게시판</h5>
+                <h5 class="">자유 게시판</h5>
             </div>
             <div class="free-qna card"
                  th:classappend="${category == 'qna'} ? 'border-primary' : ''"
                  onclick="location.href='/qnaboard'">
-                    <h5>질문 게시판</h5>
+                <h5>질문 게시판</h5>
             </div>
         </div>
-        <select name="board-select" class="form-select board-select-dropdown" onchange="handleBoardSelectChange(this.value)">
+        <select name="board-select" class="form-select board-select-dropdown"
+                onchange="handleBoardSelectChange(this.value)">
             <option value="/freeboard" th:selected="${category == 'free'}">자유 게시판</option>
             <option value="/qnaboard" th:selected="${category == 'qna'}">질문 게시판</option>
         </select>
@@ -47,13 +48,19 @@
     </div>
 
 
-    <div class="card p-4 full-width">
+    <div class="card p-4">
         <div class="d-flex">
-        <select name="sort" class="form-select" onchange="handleSortChange(this.value)">
-            <option value="date" th:selected="${sort == 'date'}">최신순</option>
-            <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
-        </select>
-        <button onclick="location.href='/b_insert'" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
+            <select name="sort" class="form-select" onchange="handleSortChange(this.value)">
+                <option value="date" th:selected="${sort == 'date'}">최신순</option>
+                <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
+            </select>
+
+        <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">
+            글작성
+        </button>
+
+
+
         </div>
         <table class="table table-bordered table-hover">
             <thead>
@@ -68,7 +75,7 @@
             <tr th:each="board : ${boardList}" th:data-num="${board.num}" style="cursor:pointer;"
                 onclick="location.href='/b_selectOne?num=' + this.getAttribute('data-num')">
                 <td>[[${board.num}]]</td>
-                <td th:text="${board.title}"></td>
+                <td class="ellipsis" th:text="${board.title}"></td>
                 <td th:text="${board.user_id}"></td>
                 <td th:text="${board.boardhitcount}"></td>
             </tr>
@@ -96,6 +103,27 @@
             </ul>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const sessionId = [[${session.id}]];
+
+            function openLoginModal(event) {
+                event.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            document.getElementById("writeButton").addEventListener("click", function(event) {
+                if (!sessionId) {
+                    openLoginModal(event);
+                } else {
+                    location.href = '/b_insert';
+                }
+            });
+        });
+    </script>
+
 
 </section>
 </body>

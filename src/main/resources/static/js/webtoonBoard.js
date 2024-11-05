@@ -24,9 +24,13 @@ function confirmReport() {
 
 // 웹툰 관련
 
+
 //웹툰 필터링 관련
 let selectedCategories = [];
 let currentPage = 1;
+
+function filterByCategory(element) {
+    console.log('test')
 
 function filterByCategory(element) {
     const category = element.getAttribute('data-category');
@@ -95,6 +99,7 @@ function fetchFilteredData() {
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 //웹툰 상세 - 줄거리 더보기 입니다.
 function toggleText() {
@@ -516,7 +521,6 @@ function validateForm() {
 function handleBoardSelectChange(value) {
     location.href = value;
 }
-
 
 
 

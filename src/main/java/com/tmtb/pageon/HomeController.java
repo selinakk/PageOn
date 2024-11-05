@@ -113,6 +113,10 @@ public class HomeController {
             List<BookVO> likedBooks = bookService.selectBooksByCategories(likeCategories, 1, 20, "latest");
             model.addAttribute("likedBooks", likedBooks);
 
+            // 선호 카테고리 기반 웹툰 목록 조회
+            List<WebtoonVO> likedWebtoons = webtoonService.searchLikeCategories(likeCategories, 1, 20);
+            model.addAttribute("likedWebtoons", likedWebtoons);
+
             //리뷰카테고리에 따른 사용자 책추천
             List<BookVO> preferBooks = reviewService.getBookRecommendation(id, 1,4);
             log.info("preferBooks:{}", preferBooks);

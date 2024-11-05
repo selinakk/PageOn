@@ -52,7 +52,7 @@
                 <option value="date" th:selected="${sort == 'date'}">최신순</option>
                 <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
             </select>
-            <button onclick="location.href='/b_insert'" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
+            <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
         </div>
         <table class="table table-bordered table-hover">
             <thead>
@@ -96,6 +96,26 @@
             </nav>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const sessionId = [[${session.id}]];
+
+            function openLoginModal(event) {
+                event.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            document.getElementById("writeButton").addEventListener("click", function(event) {
+                if (!sessionId) {
+                    openLoginModal(event);
+                } else {
+                    location.href = '/b_insert';
+                }
+            });
+        });
+    </script>
 
 </section>
 </body>
