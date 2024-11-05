@@ -4,6 +4,7 @@ import com.tmtb.pageon.book.model.BookVO;
 import com.tmtb.pageon.book.service.BookService;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
+import com.tmtb.pageon.review.model.ReviewVO;
 import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.ProductService;
@@ -130,10 +131,10 @@ public class BookController {
         String bookTitle = vo2.getTitle();
 
         // 최대 5개의 리뷰와 토론 조회
-//        List<ReviewVO> reviewList = reviewService.searchListPageBlock("title", bookTitle, 1, 5);
+        List<ReviewVO> reviewList = reviewService.searchListPageBlock("workTitle", bookTitle, 1, 20);
         List<ForumVO> forumList = forumService.searchForum("workTitle", bookTitle, 1, 20);
 
-//        model.addAttribute("reviewList", reviewList);
+        model.addAttribute("reviewList", reviewList);
         model.addAttribute("forumList", forumList);
         log.info("동일한 카테고리의 유사한 책 리스트: {}", list);
 
