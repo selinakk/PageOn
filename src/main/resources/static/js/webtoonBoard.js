@@ -22,9 +22,6 @@ function confirmReport() {
     }
 }
 
-// 웹툰 관련
-
-
 
 //웹툰 상세 - 줄거리 더보기 입니다.
 function toggleText() {
@@ -72,26 +69,6 @@ function goToPage(page) {
     currentPage = page;
     fetchFilteredData();
 }
-
-// // 조회수 순으로 정렬하는 함수
-// function sortByHitCount() {
-//     const currentPath = window.location.pathname;
-//     if (currentPath.includes('freeboard')) {
-//         location.href = '/freeboard?sort=hitcount';
-//     } else if (currentPath.includes('qnaboard')) {
-//         location.href = '/qnaboard?sort=hitcount';
-//     }
-// }
-//
-// // 날짜 순으로 정렬하는 함수
-// function sortByDate() {
-//     const currentPath = window.location.pathname;
-//     if (currentPath.includes('freeboard')) {
-//         location.href = '/freeboard';
-//     } else if (currentPath.includes('qnaboard')) {
-//         location.href = '/qnaboard';
-//     }
-// }
 
 //날짜 조회순으로 게시판 정렬하는 함수
 function handleSortChange(value) {

@@ -94,8 +94,7 @@
             <div class="container">
                 <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
                     <h3 class="d-flex align-items-center">리뷰</h3>
-                    <!--리뷰 더보기를 어디로....?-->
-                    <a th:href="@{/reviews(bookId=${vo2.item_id})}" class="btn">더보기</a>
+                    <a th:href="@{/review/searchList(searchKey='workTitle', searchWord=${vo2.title})}" class="btn">더보기</a>
                 </div>
                 <div class="swiper detail-swiper">
                     <div class="swiper-wrapper">
@@ -109,7 +108,7 @@
                                 <p><strong th:text="${review.user_id}">사용자 이름</strong></p>
                                 <p th:text="${review.content}">리뷰 내용</p>
                                 <p th:text="'평점: ' + ${review.rating}">평점</p>
-                                <a th:href="@{/review/detail(id=${review.num})}">더보기</a>
+                                <a th:href="@{/review/detail(num=${review.num})}">더보기</a>
                             </div>
                         </div>
                     </div>
@@ -125,7 +124,7 @@
             <div class="container">
                 <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
                     <h3 class="d-flex align-items-center">유사한 카테고리 작품</h3>
-                    <a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
+                    <a th:href="@{/wt_search(categories=${vo2.categories}, searchType='categories')}"
                        class="btn">더보기</a>
                 </div>
                 <div class="swiper product-swiper">

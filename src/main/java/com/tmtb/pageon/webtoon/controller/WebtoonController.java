@@ -2,6 +2,10 @@ package com.tmtb.pageon.webtoon.controller;
 
 import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.board.service.BoardService;
+import com.tmtb.pageon.forum.model.ForumVO;
+import com.tmtb.pageon.forum.service.ForumService;
+import com.tmtb.pageon.review.model.ReviewVO;
+import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.user.service.UserService;
@@ -35,6 +39,13 @@ public class WebtoonController {
 
     @Autowired
     ServletContext context;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ForumService forumService;
+
 
     @GetMapping("/wt_selectAll")
     public String wt_selectAll(@RequestParam(defaultValue = "1") int page,
@@ -201,6 +212,13 @@ public class WebtoonController {
         log.info("vo2:{}", vo2);
         log.info("similarWebtoons:{}", similarWebtoons);
 
+        String webtoonTitle = vo2.getTitle();
+
+        List<ReviewVO> reviewList = reviewService.searchListPageBlock("workTitle", webtoonTitle, 1, 20);
+        List<ForumVO> forumList = forumService.searchForum("workTitle", webtoonTitle, 1, 20);
+
+        model.addAttribute("reviewList", reviewList);
+        model.addAttribute("forumList", forumList);
         model.addAttribute("vo2", vo2);
         model.addAttribute("similarWebtoons", similarWebtoons);
         model.addAttribute("recentItems", recentItems); // 최근 본 항목 추가
