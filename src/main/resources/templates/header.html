@@ -318,7 +318,7 @@
                     </svg>
                   </a>
                 </li>
-                <li class="pe-3">
+                <li class="pe-3" th:if="${session.id != null}">
                   <a th:href="@{/bookshelf/list(userId=${session.id})}">
                     <i class="svg-icon--lg d-block">
                       <img src="/img/ic_book.svg" alt="나의 서재" class="w-100">

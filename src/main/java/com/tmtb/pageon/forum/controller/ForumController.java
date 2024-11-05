@@ -136,7 +136,11 @@ public class ForumController {
         ForumVO vo2 = service.selectOne(vo);
         log.info("vo2:{}", vo2);
 
+        String work_title = service.getWorkTitle(vo2.getWork_num());
+
         model.addAttribute("vo2", vo2);
+        model.addAttribute("work_title", work_title);
+        log.info(work_title);
         return "forum/update";
     }
     @PostMapping("/forum/insertOK")

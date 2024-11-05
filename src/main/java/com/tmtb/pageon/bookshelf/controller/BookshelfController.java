@@ -29,12 +29,16 @@ public class BookshelfController {
                             @RequestParam(defaultValue = "10") int size,
                             @RequestParam(defaultValue = "date_added") String sortField,
                             @RequestParam(defaultValue = "desc") String sortDir,
-                                @RequestParam(value="sort", defaultValue="all") String sort,
-                                @RequestParam(value="userId") String userId,
-                                HttpSession session
+                            @RequestParam(value="sort", defaultValue="all") String sort,
+                            @RequestParam(value="userId") String userId,
+                            HttpSession session
     ) {
         List<BookshelfVO> list;
         int totalList;
+
+        //파라미터 userId와 로그인id가 일치하는지 판별
+        String sessionId = (String) session.getAttribute("id");
+        boolean isOwner = sessionId != null && sessionId.equals(userId);
 
         //전체보기 또는 분류별로보기 + 페이징 분기
         if(sort.equals("all")){
@@ -46,11 +50,6 @@ public class BookshelfController {
         }
         int totalPages = (int)Math.ceil((double)totalList/size);
         if (totalPages < 1) {totalPages = 0;}
-
-        //파라미터 userId와 로그인id가 일치하는지 판별
-        String loggedInUserId = (String) session.getAttribute("id");
-        boolean isOwner = loggedInUserId != null && loggedInUserId.equals(userId);
-        log.info("로그인 아이디: {}, 서재 주인 아이디: {}",loggedInUserId, userId);
 
         //userId로 회원의 name 값 구하기
         String userName = service.getUserName(userId);
