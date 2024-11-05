@@ -25,7 +25,7 @@
     </select>
 
     <select id="findByforumPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.ForumVO">
-        SELECT num, title, content, user_id, wdate, report, hitcount, comment_count
+        SELECT *
         FROM forum
         WHERE user_id = #{id}
         ORDER BY wdate DESC
@@ -34,7 +34,7 @@
 
 
     <select id="findBoardsByUserPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.BoardVO">
-        SELECT num, title, content, user_id, wdate, img_name, report, category, boardhitcount
+        SELECT *
         FROM pageon.board
         WHERE user_id = #{id}
         ORDER BY wdate DESC
@@ -43,7 +43,7 @@
 
     <!-- 사용자가 작성한 리뷰 조회 쿼리 -->
     <select id="findByReviewsPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.ReviewVO">
-        SELECT num, work_num, title, content, user_id, wdate, rating, report, hate, `like`
+        SELECT *
         FROM pageon.review
         WHERE user_id = #{id}
         ORDER BY wdate DESC
@@ -52,7 +52,7 @@
 
 
     <select id="findCommentsByUserPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.CommentVO">
-        SELECT num, type, content, user_id, wdate, report
+        SELECT *
         FROM pageon.comment
         WHERE user_id = #{id}
         ORDER BY wdate DESC
@@ -61,28 +61,28 @@
 
     <!-- 특정 회원의 forum 정보를 조회하는 쿼리 -->
     <select id="findByForum" parameterType="String" resultType="com.tmtb.pageon.user.model.ForumVO">
-        SELECT num, title, content, user_id, wdate, report, hitcount
+        SELECT *
         FROM forum
         WHERE user_id = #{id}
         ORDER BY wdate DESC
     </select>
 
     <select id="findByBoard" parameterType="String" resultType="com.tmtb.pageon.user.model.BoardVO">
-        SELECT num, title, content, user_id, wdate, img_name, report, category, boardhitcount
+        SELECT *
         FROM pageon.board
         WHERE user_id = #{id}
         ORDER BY wdate DESC
     </select>
 
     <select id="findByReviews" parameterType="String" resultType="com.tmtb.pageon.user.model.ReviewVO">
-        SELECT num, work_num, title, content, user_id, wdate, rating, report, hate, `like`
+        SELECT *
         FROM pageon.review
         WHERE user_id = #{id}
         ORDER BY wdate DESC
     </select>
 
     <select id="findByComment" parameterType="String" resultType="com.tmtb.pageon.user.model.CommentVO">
-        SELECT num, type, content, user_id, wdate, report
+        SELECT *
         FROM pageon.comment
         WHERE user_id = #{id}
         ORDER BY wdate DESC
