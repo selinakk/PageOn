@@ -291,6 +291,10 @@ public class UserController {
         boolean isExist = userService.selectfindEmail(email);
         return isExist ? "해당 이메일이 존재합니다" : "해당 이메일은 사용 가능합니다";
     }
-
+    @GetMapping( "/user/post-fail")
+    public String user_postfail() {
+        // 로그인 실패임을 알릴 페이지
+        return "user/post-fail";
+    }
 }
 

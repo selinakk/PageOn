@@ -43,9 +43,9 @@
                 <h6 th:text="${forum.title}"></h6>
                 <p th:text="${forum.content}"></p>
                 <p><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
-                <p><small>날짜: <span th:text="${#dates.format(forum.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                <p><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
                 <p><small>조회수: <span th:text="${forum.hitcount}"></span></small></p>
-                <a th:href="@{/forum/view(num=${forum.num})}" class="btn btn-primary">상세보기</a>
+                <a th:href="@{/forum/view(num=${forum.num})}" class="btn btn-primary">상세보기</a> <!-- 상세보기 링크 추가 -->
             </li>
         </ul>
         <nav aria-label="Page navigation">
