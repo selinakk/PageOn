@@ -47,7 +47,7 @@ public class WebtoonController {
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         List<WebtoonVO> webtoonList;
-        List<WebtoonVO> categories = webtoonService.getCategories();
+        List<WebtoonVO> allCategories = webtoonService.getCategories();
 
         webtoonList = webtoonService.getWebtoonList(page, pageSize);
 
@@ -76,9 +76,9 @@ public class WebtoonController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("categories", categories);
+        model.addAttribute("allCategories", allCategories);
         model.addAttribute("sortOrder", sortOrder);
-        log.info("categories:{}", categories);
+        log.info("allCategories:{}", allCategories);
         log.info("likeCategories: {}", likeCategories);
 
         return "webtoon/selectAll";
@@ -89,6 +89,7 @@ public class WebtoonController {
     public String wt_search(@RequestParam(required = false) String searchWord,
                             @RequestParam String searchType,
                             @RequestParam(defaultValue = "1") int page,
+                            @RequestParam(required = false) List<String> categories,
                             Model model) {
         log.info("웹툰 검색 페이지");
 
@@ -96,7 +97,7 @@ public class WebtoonController {
         int offset = (page - 1) * pageSize;
 
         List<WebtoonVO> webtoonList;
-        List<WebtoonVO> categories = webtoonService.getCategories();
+        List<WebtoonVO> allCategories = webtoonService.getCategories();
         int totalCount;
         // 제목 검색
         if ("title".equals(searchType)) {
@@ -108,8 +109,8 @@ public class WebtoonController {
             totalCount = webtoonService.getTotalCountByContent(searchWord);
             //장르 검색
         } else if ("categories".equals(searchType)) {
-            webtoonList = webtoonService.searchWebtoonByCategories(searchWord, offset, pageSize);
-            totalCount = webtoonService.getTotalCountByCategories(searchWord);
+            webtoonList = webtoonService.searchMultiCategories(categories, offset, pageSize);
+            totalCount = webtoonService.getTotalCountByMultiCategories(categories);
         } else if ("popular".equals(searchType)) {
             webtoonList = webtoonService.selectPopularWebtoons(offset, pageSize);
             totalCount = webtoonService.getTotalCountByPopular();
@@ -130,8 +131,10 @@ public class WebtoonController {
         model.addAttribute("startPage", (page - 1) / 10 * 10 + 1);
         model.addAttribute("endPage", Math.min((page - 1) / 10 * 10 + 10, totalPages));
         model.addAttribute("categories", categories);
+        model.addAttribute("allCategories", allCategories);
 
         log.info("searchWord:{}", searchWord);
+        log.info("categories:{}", categories);
         log.info("searchType:{}", searchType);
 
         return "webtoon/selectAll";
@@ -143,6 +146,9 @@ public class WebtoonController {
         int pageSize = 20;
         int offset = (page - 1) * pageSize;
         int totalCount;
+
+
+        List<WebtoonVO> allCategories = webtoonService.getCategories();
 
         // 세션에서 사용자 ID 가져오기
         String id = (String) session.getAttribute("id");
@@ -170,6 +176,7 @@ public class WebtoonController {
         model.addAttribute("startPage", (page - 1) / 10 * 10 + 1);
         model.addAttribute("endPage", Math.min((page - 1) / 10 * 10 + 10, totalPages));
         model.addAttribute("categories", categories);
+        model.addAttribute("allCategories", allCategories);
 
         return "webtoon/selectAll";
     }

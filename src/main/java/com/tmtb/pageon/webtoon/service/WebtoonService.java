@@ -47,6 +47,10 @@ public class WebtoonService {
         return webtoonMapper.searchWebtoonByCategories(searchWord, offset, pageSize);
     }
 
+    public List<WebtoonVO> searchMultiCategories(List<String> categories, int offset, int pageSize) {
+        return webtoonMapper.searchMultiCategories(categories, offset, pageSize);
+    }
+
     public List<WebtoonVO> getCategories() {
         return webtoonMapper.getCategories();
     }
@@ -72,6 +76,10 @@ public class WebtoonService {
 
     public int getTotalCountByCategories(String searchWord) {
         return webtoonMapper.getTotalCountByCategories(searchWord);
+    }
+
+    public int getTotalCountByMultiCategories(List<String> categories) {
+        return webtoonMapper.getTotalCountByMultiCategories(categories);
     }
 
     public int getTotalCount() {

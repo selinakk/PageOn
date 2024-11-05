@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>웹툰 목록</title>
-    <script>
-
-
-    </script>
 </head>
 <body>
 
@@ -22,10 +18,58 @@
     </div>
 
     <div class="filter-option">
-    <span class="category filter-option point" th:each="category : ${categories}" th:if="${category != null}"
+    <span class="category filter-option point" th:each="category : ${allCategories}" th:if="${category != null}"
           th:text="' #' + ${category}" th:data-category="${category}" onclick="filterByCategory(this)"></span>
         <span th:each="category : ${categories}" th:if="${category != null}"> </span>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categories = urlParams.getAll('categories');
+            categories.forEach(category => {
+                const element = document.querySelector(`[data-category="${category}"]`);
+                if (element) {
+                    element.classList.add('selected-category');
+                }
+            });
+
+            // wt_selectAll로 돌아갈 때 localStorage 초기화
+            if (window.location.pathname === '/wt_selectAll') {
+                localStorage.removeItem('selectedCategories');
+            }
+        });
+
+        function filterByCategory(element) {
+            const category = element.getAttribute('data-category');
+            let selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
+
+            if (selectedCategories.includes(category)) {
+                selectedCategories = selectedCategories.filter(cat => cat !== category);
+                element.classList.remove('selected-category');
+            } else {
+                selectedCategories.push(category);
+                element.classList.add('selected-category');
+            }
+
+            localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+
+            if (selectedCategories.length === 0) {
+                // 선택된 카테고리가 없으면 wt_selectAll로 리다이렉트
+                window.location.href = '/wt_selectAll';
+            } else {
+                const url = new URL(window.location.href);
+                url.pathname = '/wt_search';
+                url.searchParams.set('searchType', 'categories');
+                url.searchParams.set('sortOrder', '');
+                url.searchParams.set('page', '1'); // 항상 첫 페이지로 이동
+                url.searchParams.delete('categories');
+                selectedCategories.forEach(cat => url.searchParams.append('categories', cat));
+
+                window.location.href = url.toString();
+            }
+        }
+    </script>
 
     <!-- 검색 폼 -->
     <div id="filter-container">
@@ -35,7 +79,6 @@
             <select name="searchType">
                 <option value="title">제목</option>
                 <option value="writer">작가</option>
-                <option value="categories">장르</option>
             </select>
             <input type="text" name="searchWord" placeholder="Search..." th:value="${searchWord}"/>
             <input type="submit" class="btn btn-dark rounded-0 p-2" value="검색">
@@ -90,17 +133,17 @@
         <ul class="pagination">
             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/wt_search(page=${currentPage - 1}, searchType=${searchType}, searchWord=${searchWord})}">이전</a>
+                   th:href="@{/wt_search(page=${currentPage - 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">이전</a>
             </li>
             <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
                 th:classappend="${pageNum == currentPage} ? 'active'">
                 <a class="page-link"
-                   th:href="@{/wt_search(page=${pageNum}, searchType=${searchType}, searchWord=${searchWord})}"
+                   th:href="@{/wt_search(page=${pageNum}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}"
                    th:text="${pageNum}">1</a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/wt_search(page=${currentPage + 1}, searchType=${searchType}, searchWord=${searchWord})}">다음</a>
+                   th:href="@{/wt_search(page=${currentPage + 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">다음</a>
             </li>
         </ul>
     </div>

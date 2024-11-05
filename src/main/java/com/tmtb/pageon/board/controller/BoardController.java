@@ -178,15 +178,12 @@ public class BoardController {
         }
 
 
-
-
         // 댓글 데이터 가져오기
         Map<String, Object> commentsData = commentController.selectAll("board", vo.getNum(), null, null, 1, 20);
         List<CommentVO> comments = (List<CommentVO>) commentsData.get("comments");
         int totalPageCount = (int) commentsData.get("totalPageCount");
         // 전체 댓글 수 가져오기
         int totalRows = (int) commentsData.get("totalRows");
-
 
 
         // 댓글 데이터를 모델에 추가
@@ -278,7 +275,6 @@ public class BoardController {
     }
 
 
-
     //게시판 신고 기능
     @PostMapping("/b_reportOK")
     @ResponseBody
@@ -326,7 +322,6 @@ public class BoardController {
             return "board/freeboard";
         }
     }
-
 
 
 }
