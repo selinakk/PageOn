@@ -80,7 +80,8 @@
         <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
         <input type="hidden" id="bnum" th:value="${vo2.num}">
         <input type="hidden" id="type" value="board">
-        <img src="/img/comment_write.png" alt="대댓글 작성" onclick="submitComment()" class="comment-icon"/>
+        <input type="hidden" id="sessionId" th:value="${session.id}">
+        <img src="/img/comment_write.png" alt="댓글 작성" th:onclick="'handleCommentClick()'" class="comment-icon"/>
     </div>
 
     <div id="commentList">
@@ -95,13 +96,15 @@
                      th:onclick="'fetchChildComments(' + ${comment.num} + ')'" class="comment-icon"/>
                 <img src="/img/comment_childup.png" alt="대댓글 줄이기" th:onclick="'hideComment(' + ${comment.num} + ')'"
                      class="comment-icon"/>
-                <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'showReplyForm(' + ${comment.num} + ')'"
+                <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'handleReplyClick(' + ${comment.num} + ')'"
                      class="comment-icon"/>
-                <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-                <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-                <img src="/img/comment_report.png" alt="신고" th:onclick="'reportComment(' + ${comment.num} + ')'"
+                <span th:if="${comment.user_id == session.id}">
+                    <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                    <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                </span>
+                <img src="/img/comment_report.png" alt="신고" th:onclick="'handleReportClick(' + ${comment.num} + ')'"
                      class="comment-icon"/>
             </div>
 

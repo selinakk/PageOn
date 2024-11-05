@@ -5,6 +5,7 @@ import com.tmtb.pageon.board.model.BoardVO;
 import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -153,8 +154,12 @@ public class BoardController {
 
     //게시글 상세 보기
     @GetMapping("/b_selectOne")
-    public String b_selectOne(BoardVO vo, @AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(defaultValue = "free") String category, @RequestParam(defaultValue = "1") int cpage,
+    public String b_selectOne(BoardVO vo, @AuthenticationPrincipal UserDetails userDetails, Model model, HttpSession session, @RequestParam(defaultValue = "free") String category, @RequestParam(defaultValue = "1") int cpage,
                               @RequestParam(defaultValue = "20") int pageBlock) {
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
+
         log.info("게시글 상세보기 페이지");
 
 

@@ -49,11 +49,16 @@ public class UserService {
     public void updateUserInfo(UserVO user, MultipartFile imgFile) {
         try {
             if (!imgFile.isEmpty()) {
+                // 새 이미지가 업로드된 경우 이미지 데이터 설정
                 log.info("Uploaded file name: " + imgFile.getOriginalFilename());
                 log.info("File size: " + imgFile.getSize());
                 user.setImg_name(imgFile.getOriginalFilename());
                 user.setImg_data(imgFile.getBytes());
             } else {
+                // 이미지가 업로드되지 않은 경우 기존 이미지 정보를 유지
+                UserVO existingUser = mapper.findById(user.getId()); // 기존 사용자 정보 가져오기
+                user.setImg_name(existingUser.getImg_name());
+                user.setImg_data(existingUser.getImg_data());
                 log.info("No new image uploaded. Keeping existing image data.");
             }
             mapper.updateUserInfo(user);

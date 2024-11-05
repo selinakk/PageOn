@@ -184,6 +184,7 @@ function handleSortChange(value) {
 
 // 댓글 관련
 function fetchChildComments(commentId, page = 1) {
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
     const childCommentsDiv = $('#childComments-' + commentId);
     const pagingDiv = $('#paging-' + commentId);
 
@@ -199,6 +200,7 @@ function fetchChildComments(commentId, page = 1) {
             childCommentsDiv.empty();
             if (childComments.length > 0) {
                 childComments.forEach(function(childComment) {
+                    const isOwner = childComment.user_id === sessionId; // 세션 ID와 댓글 작성자 ID 비교
                     const childCommentElem = `
                 <div class="childComment" id="childComment-${childComment.num}">
                     <p><strong>${childComment.user_id}:</strong> ${childComment.content}</p>
@@ -206,10 +208,12 @@ function fetchChildComments(commentId, page = 1) {
                     <p>
                         <img src="/img/comment_child.png" alt="대댓글 더보기" onclick="fetchChildComments(${childComment.num})" class="comment-icon"/>
                         <img src="/img/comment_childup.png" alt="대댓글 줄이기" onclick="hideComment(${childComment.num})" class="comment-icon"/>
-                        <img src="/img/comment_write.png" alt="대댓글 작성" onclick="showReplyForm(${childComment.num}, true)" class="comment-icon"/>
-                        <img src="/img/comment_update.png" alt="수정" onclick="editComment(${childComment.num}, true)" class="comment-icon"/>
-                        <img src="/img/comment_delete.png" alt="삭제" onclick="deleteComment(${childComment.num}, true)" class="comment-icon"/>
-                        <img src="/img/comment_report.png" alt="신고" onclick="reportComment(${childComment.num}, true)" class="comment-icon"/>
+                        <img src="/img/comment_write.png" alt="대댓글 작성" onclick="handleReplyClick( ${childComment.num}, true)" class="comment-icon"/>
+                        ${isOwner ? `
+                            <img src="/img/comment_update.png" alt="수정" onclick="editComment(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_delete.png" alt="삭제" onclick="deleteComment(${childComment.num}, true)" class="comment-icon"/>
+                        ` : ''}
+                        <img src="/img/comment_report.png" alt="신고" onclick="handleReportClick(${childComment.num}, true)" class="comment-icon"/>
                     </p>
 
                     <div class="replyForm" id="childReplyForm-${childComment.num}" style="display:none;">
@@ -296,6 +300,8 @@ function submitComment() {
     const commentText = $('#commentText').val().trim();
     const bnum = $('#bnum').val(); // 게시글 번호 추가
     const type = $('#type').val(); // 게시글 타입 추가
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
+
     if (!commentText) {
         alert("댓글 내용을 입력하세요.");
         return;
@@ -309,7 +315,7 @@ function submitComment() {
             content: commentText,
             type: type, // 부모글 타입 (type 추가)
             bnum: bnum, // 부모글id (fnum -> bnum 변경)
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -324,6 +330,8 @@ function submitReply(parentId) {
     const replyText = $(`#replyText-${parentId}`).val().trim();
     const bnum = $('#bnum').val(); // 게시글 번호 추가
     const type = $('#type').val(); // 게시글 타입 추가
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
+
     if (!replyText) {
         alert("대댓글 내용을 입력하세요.");
         return;
@@ -338,7 +346,7 @@ function submitReply(parentId) {
             type: type, // 부모글 타입
             bnum: bnum, // 부모글id
             cnum: parentId,
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -382,6 +390,7 @@ function editComment(commentId, isChild = false) {
 
 function submitEdit(commentId) {
     const newCommentText = $(`#editText-${commentId}`).val().trim();
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
 
     $.ajax({
         type: "PUT",
@@ -389,7 +398,7 @@ function submitEdit(commentId) {
         contentType: "application/json",
         data: JSON.stringify({
             content: newCommentText,
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -434,6 +443,45 @@ function reportComment(commentId) {
         }
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
+    function openLoginModal(event) {
+        event.preventDefault();
+        const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.show();
+    }
+
+    // 댓글 작성 클릭 이벤트 처리
+    window.handleCommentClick = function() {
+        if (!sessionId) {
+            openLoginModal(event);
+        } else {
+            // 세션이 있을 경우 댓글 작성 기능 수행
+            submitComment();
+        }
+    }
+
+    // 대댓글 작성 클릭 이벤트 처리
+    window.handleReplyClick = function(commentNum, isChild = false) {
+        if (!sessionId) {
+            openLoginModal(event);
+        } else {
+            // 대댓글 작성 기능 호출
+            showReplyForm(commentNum, isChild);
+        }
+    }
+
+    // 신고 클릭 이벤트 처리
+    window.handleReportClick = function(commentNum, isChild = false) {
+        if (!sessionId) {
+            openLoginModal(event);
+        } else {
+            // 신고 기능 호출
+            reportComment(commentNum, isChild);
+        }
+    }
+});
 
 function confirmDelete() {
     if (confirm("삭제하시겠습니까?")) {

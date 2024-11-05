@@ -1,5 +1,6 @@
 package com.tmtb.pageon.webnovel.controller;
 
+import com.tmtb.pageon.review.model.ReviewVO;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.UserService;
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
@@ -127,10 +128,10 @@ public class WebnovelController {
         String webnovelTitle = vo2.getTitle();
 
         // 최대 5개의 리뷰와 토론 조회
-//        List<ReviewVO> reviewList = reviewService.searchListPageBlock("title", webnovelTitle, 1, 5);
+        List<ReviewVO> reviewList = reviewService.searchListPageBlock("workTitle", webnovelTitle, 1, 20);
         List<ForumVO> forumList = forumService.searchForum("workTitle", webnovelTitle, 1, 20);
 
-//        model.addAttribute("reviewList", reviewList);
+        model.addAttribute("reviewList", reviewList);
         model.addAttribute("forumList", forumList);
 
         return "webnovel/detail";
