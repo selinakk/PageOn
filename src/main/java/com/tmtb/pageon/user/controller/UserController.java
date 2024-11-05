@@ -1,6 +1,7 @@
 package com.tmtb.pageon.user.controller;
 
 import com.tmtb.pageon.user.model.*;
+import com.tmtb.pageon.user.service.AdminService;
 import com.tmtb.pageon.user.service.MailService;
 import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.user.service.UserService;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -29,8 +31,7 @@ public class UserController {
     @Autowired
     MailService mailService;
 
-    // 사용자 등록
-    // 사용자 등록
+
     @PostMapping("/insertUserForm")
     public String insertUserForm(@ModelAttribute("user") UserVO userVO, @RequestParam("imgFile") MultipartFile imgFile, Model model) throws MessagingException {
         if (userVO.getUser_role() == null || userVO.getUser_role().isEmpty()) {
@@ -290,5 +291,7 @@ public class UserController {
         boolean isExist = userService.selectfindEmail(email);
         return isExist ? "해당 이메일이 존재합니다" : "해당 이메일은 사용 가능합니다";
     }
+
+
 }
 

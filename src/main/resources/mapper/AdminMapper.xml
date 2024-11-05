@@ -13,9 +13,15 @@
     </select>
 
 
+    <!-- 회원 정보 수정 쿼리 - img_name과 img_data를 선택적으로 업데이트 -->
     <update id="updateMember" parameterType="com.tmtb.pageon.user.model.UserVO">
         UPDATE pageon.member
-        SET pw = #{pw}, name = #{name}, tel = #{tel}, img_name = #{img_name}, introduce = #{introduce}, img_data = #{img_data}
+        SET
+            name = #{name},
+            tel = #{tel},
+            introduce = #{introduce},
+            img_name = CASE WHEN #{img_name} IS NOT NULL THEN #{img_name} ELSE img_name END,
+            img_data = CASE WHEN #{img_data} IS NOT NULL THEN #{img_data} ELSE img_data END
         WHERE id = #{id}
     </update>
 

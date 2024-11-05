@@ -100,7 +100,10 @@
     <!-- 회원정보 수정 쿼리 -->
     <update id="updateUserInfo" parameterType="com.tmtb.pageon.user.model.UserVO">
         UPDATE pageon.member
-        SET name = #{name}, tel = #{tel}, img_name = #{img_name}, introduce = #{introduce}, img_data = #{img_data}
+        SET name = #{name}, tel = #{tel}, introduce = #{introduce}
+        <if test="img_name != null">
+            , img_name = #{img_name}, img_data = #{img_data}
+        </if>
         WHERE id = #{id}
     </update>
 
