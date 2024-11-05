@@ -2,11 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자유게시판</title>
 </head>
 <body>
-<section class="container mt-5">
+<section class="container mt-5 board-width">
     <h3 class="mb-4 text-center">질문 게시판</h3>
 
 
@@ -15,18 +14,19 @@
         <div class="board-select">
             <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
                  onclick="location.href='/freeboard'">
-                <div class="">
-                    <h5 class="">자유 게시판</h5>
-                </div>
+                <h5 class="">자유 게시판</h5>
             </div>
             <div class="free-qna card"
                  th:classappend="${category == 'qna'} ? 'border-primary' : ''"
                  onclick="location.href='/qnaboard'">
-                <div>
-                    <h5>질문 게시판</h5>
-                </div>
+                <h5>질문 게시판</h5>
             </div>
         </div>
+        <select name="board-select" class="form-select board-select-dropdown" onchange="handleBoardSelectChange(this.value)">
+            <option value="/freeboard" th:selected="${category == 'free'}">자유 게시판</option>
+            <option value="/qnaboard" th:selected="${category == 'qna'}">질문 게시판</option>
+        </select>
+
 
         <!-- 검색 폼과 글작성 버튼 -->
         <div class="filter-container">
@@ -41,7 +41,7 @@
                     <option value="content">내용</option>
                 </select>
                 <input type="text" name="searchWord" placeholder="검색어를 입력하세요">
-                <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2">검색</button>
+                <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2 search-btn">검색</button>
             </form>
         </div>
     </div>

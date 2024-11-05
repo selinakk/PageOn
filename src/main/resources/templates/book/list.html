@@ -11,8 +11,34 @@
     <div id="filter-options">
         <a th:href="@{/books(filter='all')}" class="filter-option" th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
         <a th:href="@{/books(filter='recommend')}" class="filter-option" th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
-        <a th:href="@{/books(filter='prefer')}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
+        <a th:href="@{/books/liked(category=${likeCategories})}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
     </div>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const sessionId = [[${session.id}]];
+
+            function openLoginModal(event) {
+                event.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            // 예시: sessionId를 사용하는 코드가 이 위치 이후에 있어야 오류가 발생하지 않음
+            function submitComment() {
+                if (!sessionId) {
+                    openLoginModal(event); // 세션이 없으면 모달을 열도록 설정
+                } else {
+                    // 댓글 제출 로직
+                }
+            }
+
+            if (!sessionId) { // 세션 ID가 null인 경우
+                // 선호 버튼
+                document.querySelector("a[href*='/books/liked']").addEventListener("click", openLoginModal);
+            }
+        });
+    </script>
 
     <!-- 카테고리 선택 링크 -->
     <div>
@@ -108,11 +134,35 @@
 
         <!-- 정렬 방식 선택 -->
         <div id="sort-options">
-            <a th:href="@{/books(sortOrder='latest', category=${category}, cpage=${cpage}, searchKey=${searchKey}, searchWord=${searchWord})}"
-               th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">최신순</a>
+            <!-- 최신순 정렬 -->
+            <th:block th:if="${filter == 'all' || filter == null}">
+                <a th:href="@{/books(sortOrder='latest', category=${category}, cpage=${cpage}, searchKey=${searchKey}, searchWord=${searchWord})}"
+                   th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">
+                    최신순
+                </a>
+            </th:block>
 
-            <a th:href="@{/books(sortOrder='popular', category=${category}, cpage=${cpage}, searchKey=${searchKey}, searchWord=${searchWord})}"
-               th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">인기순</a>
+            <th:block th:if="${filter == 'prefer'}">
+                <a th:href="@{/books/liked(category=${likeCategories}, sortOrder='latest', cpage=${cpage})}"
+                   th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">
+                    최신순
+                </a>
+            </th:block>
+
+            <!-- 인기순 정렬 -->
+            <th:block th:if="${filter == 'all' || filter == null}">
+                <a th:href="@{/books(sortOrder='popular', category=${category}, cpage=${cpage}, searchKey=${searchKey}, searchWord=${searchWord})}"
+                   th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">
+                    인기순
+                </a>
+            </th:block>
+
+            <th:block th:if="${filter == 'prefer'}">
+                <a th:href="@{/books/liked(category=${likeCategories}, sortOrder='popular', cpage=${cpage})}"
+                   th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">
+                    인기순
+                </a>
+            </th:block>
         </div>
     </div>
 
@@ -136,11 +186,23 @@
 
     <!-- 페이지네이션 -->
     <div class="pagination" th:if="${totalPageCount > 1}">
-        <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
-           th:href="@{/books(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord}, sortOrder=${sortOrder})}"
-           th:text="${i}"
-           th:classappend="${cpage == i} ? 'active' : ''">
-        </a>
+        <th:block th:if="${filter == 'prefer'}">
+            <!-- filter가 'prefer'일 경우의 URL -->
+            <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+               th:href="@{/books/liked(category=${likeCategories}, cpage=${i}, sortOrder=${sortOrder})}"
+               th:text="${i}"
+               th:classappend="${cpage == i} ? 'active' : ''">
+            </a>
+        </th:block>
+
+        <th:block th:if="${filter == 'all' || filter == null}">
+            <!-- filter가 'prefer'가 아닐 경우의 URL -->
+            <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+               th:href="@{/books(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord}, sortOrder=${sortOrder})}"
+               th:text="${i}"
+               th:classappend="${cpage == i} ? 'active' : ''">
+            </a>
+        </th:block>
     </div>
 
 </section>

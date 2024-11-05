@@ -229,15 +229,13 @@
                         <use xlink:href="#user"></use>
                       </svg>
                     </a>
-
-
                     <!-- 로그인 / 회원가입 모달 --><!-- 로그인 / 회원가입 모달 -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
-                          <div class="modal-header border-bottom-0">
-                            <h5 class="modal-title" id="exampleModalLabel">로그인 / 회원가입</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <div class="modal-header border-bottom-0" style="position: relative;">
+                            <h5 class="modal-title" id="exampleModalLabel" style="margin-top: 30px">로그인 / 회원가입</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-top: 30px;"></button>
                           </div>
                           <div class="modal-body">
                             <div class="tabs-listing">
@@ -252,18 +250,17 @@
                                 </div>
                               </nav>
                               <div class="tab-content" id="nav-tabContent">
-                                <!-- 로그인 탭 -->
                                 <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel" aria-labelledby="nav-sign-in-tab">
                                   <form action="#" th:action="@{/login}" method="post">
                                     <div class="form-group py-3">
                                       <label class="mb-2" for="id">Username</label>
-                                      <input type="text" minlength="2" name="id" placeholder="Your Username" class="form-control w-100 rounded-3 p-3" required>
+                                      <input type="text" minlength="2" name="id" placeholder="Your Username" class="form-control w-100 rounded-3 p-3" required style="border: 1px solid #ced4da; border-radius: .375rem;">
                                     </div>
                                     <div class="form-group pb-3">
                                       <label class="mb-2" for="pw">Password *</label>
-                                      <input type="password" minlength="2" name="pw" placeholder="Your Password" class="form-control w-100 rounded-3 p-3" required>
+                                      <input type="password" minlength="2" name="pw" placeholder="Your Password" class="form-control w-100 rounded-3 p-3" required style="border: 1px solid #ced4da; border-radius: .375rem;">
                                     </div>
-                                    <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Login</button>
+                                    <button type="submit" name="submit" class="btn btn-dark w-100 my-3" style="background-color: #343a40; color: white;">Login</button>
                                   </form>
 
                                   <!-- 에러 메시지 출력 -->
@@ -278,74 +275,62 @@
                                   </div>
                                 </div>
 
-
                                 <!-- 회원가입 탭 -->
                                 <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
                                   <form id="registerForm" th:action="@{/insertUserForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                                    <!-- 오류 메시지 출력 -->
-                                    <div id="errorMessage" style="color:red;"></div>
-
-                                    <!-- 아이디 입력 -->
                                     <div class="col-auto">
                                       <label for="idInput" class="mb-1">이름을 입력하세요*</label>
-                                      <input type="text" id="idInput" minlength="2" name="id" placeholder="User name" class="form-control w-100 rounded-2 p-1" required>
+                                      <input type="text" id="idInput" minlength="2" name="id" placeholder="User name" class="form-control w-100 rounded-2 p-1" required style="border: 1px solid #ced4da; border-radius: .375rem;">
                                       <div id="checkidResult" style="color: red; margin-top: 5px;"></div>
                                     </div>
                                     <div class="col-auto">
-                                      <button type="button" id="checkIdButton" class="btn btn-secondary mt-1" onclick="checkId()">아이디 중복 체크</button>
+                                      <button type="button" id="checkIdButton" class="btn btn-secondary mt-1" onclick="checkId()" style="background-color: #6c757d; color: white;">아이디 중복 체크</button>
                                     </div>
 
-                                    <!-- 비밀번호 입력 -->
                                     <div class="col-auto">
                                       <label for="password" class="mb-1">Password *</label>
-                                      <input type="password" id="password" minlength="6" name="pw" placeholder="Your Password" class="form-control w-100 rounded-2 p-1" required>
+                                      <input type="password" id="password" name="pw" placeholder="Your Password" class="form-control w-100 rounded-2 p-1" required style="border: 1px solid #ced4da; border-radius: .375rem;">
                                     </div>
 
-                                    <!-- 이름 입력 -->
                                     <div class="col-auto">
                                       <label for="name" class="mb-1">이름 *</label>
-                                      <input type="text" id="name" name="name" placeholder="이름" class="form-control w-100 rounded-2 p-1" required>
+                                      <input type="text" id="name" name="name" placeholder="이름" class="form-control w-100 rounded-2 p-1" required style="border: 1px solid #ced4da; border-radius: .375rem;">
                                     </div>
 
-                                    <!-- 전화번호 입력 -->
                                     <div class="col-auto">
                                       <label for="tel" class="mb-1">전화번호 *</label>
-                                      <input type="tel" id="tel" name="tel" placeholder="전화번호" class="form-control w-100 rounded-2 p-1" required>
+                                      <input type="tel" id="tel" name="tel" placeholder="전화번호" class="form-control w-100 rounded-2 p-1" required style="border: 1px solid #ced4da; border-radius: .375rem;">
                                     </div>
 
-                                    <!-- 이메일 입력 -->
                                     <div class="col-auto">
                                       <label for="email" class="mb-1">이메일</label>
-                                      <input type="text" id="email" name="email" placeholder="이메일" class="form-control w-100 rounded-2 p-1" required>
+                                      <input type="text" id="email" name="email" placeholder="이메일" class="form-control w-100 rounded-2 p-1" required style="border: 1px solid #ced4da; border-radius: .375rem;">
                                       <div id="checkemailResult" style="color: red; margin-top: 5px;"></div>
                                     </div>
                                     <div class="col-auto">
-                                      <button type="button" id="checkEmailButton" class="btn btn-secondary mt-1" onclick="checkEmail()">이메일 중복 체크</button>
+                                      <button type="button" id="checkEmailButton" class="btn btn-secondary mt-1" onclick="checkEmail()" style="background-color: #6c757d; color: white;">이메일 중복 체크</button>
                                     </div>
 
-                                    <!-- 관심 카테고리 입력 -->
-                                    <div class="col-auto">
-                                      <label for="like_categories" class="mb-1">관심 카테고리 *</label>
+                                    <div class="form-group pb-1">
+                                      <label class="mb-1" for="like_categories">관심 카테고리 *</label>
                                       <div class="input-group">
-                                        <input type="text" id="selected-category" name="like_categories" placeholder="관심 카테고리" class="form-control w-100 rounded-2 p-1" readonly required>
-                                        <button type="button" id="nextButton" class="btn btn-outline-secondary">다음</button>
+                                        <input type="text" id="selected-category" name="like_categories" placeholder="관심 카테고리" class="form-control w-100 rounded-2 p-1" readonly required style="border: 1px solid #ced4da; border-radius: .375rem;">
+                                        <button type="button" id="nextButton" class="btn btn-outline-secondary"style="background-color: #6c757d; color: white;">다음</button>
                                       </div>
                                     </div>
 
-                                    <!-- 자기소개 입력 -->
                                     <div class="col-auto">
                                       <label for="introduce" class="mb-1">자기소개</label>
-                                      <textarea name="introduce" placeholder="자기소개" class="form-control w-100 rounded-2 p-1"></textarea>
+                                      <textarea name="introduce" placeholder="자기소개" class="form-control w-100 rounded-2 p-1" style="border: 1px solid #ced4da; border-radius: .375rem;"></textarea>
                                     </div>
 
-                                    <!-- 프로필 이미지 업로드 -->
                                     <div class="col-auto">
                                       <label for="imgFile" class="mb-1">프로필 이미지 업로드</label>
-                                      <input type="file" name="imgFile" class="form-control w-100 rounded-2 p-1">
+                                      <input type="file" name="imgFile" class="form-control w-100 rounded-2 p-1" style="border: 1px solid #ced4da; border-radius: .375rem;">
                                     </div>
 
                                     <div class="col-auto">
-                                      <button type="submit" id="registerButton" class="btn btn-dark w-100 my-1">Register</button>
+                                      <button type="submit" id="registerButton" class="btn btn-dark w-100 my-1" disabled style="background-color: #343a40; color: white;">Register</button>
                                     </div>
                                   </form>
                                 </div>
@@ -492,12 +477,6 @@
                                   <input type="checkbox" value="소년" id="cat18">
                                   <label for="cat5">소년</label>
                                 </div>
-
-
-
-
-
-
                               </div>
                             </div>
                           </div>
@@ -520,113 +499,122 @@
 
                   <script>
                     let isIdAvailable = false; // 아이디 사용 가능 여부
+                    let isEmailAvailable = false; // 이메일 사용 가능 여부
 
                     function validateForm() {
-                      const errorMessage = document.getElementById('errorMessage');
-                      errorMessage.textContent = ''; // 이전 오류 메시지 초기화
+                      const id = document.getElementById("idInput").value;
+                      const password = document.getElementById("password").value;
+                      const name = document.getElementById("name").value;
+                      const tel = document.getElementById("tel").value;
+                      const email = document.getElementById("email").value;
 
-                      const idInput = document.getElementById('idInput').value.trim();
-
-                      if (!isIdAvailable) {
-                        errorMessage.textContent = '아이디가 중복됩니다. 다른 아이디를 사용하세요.';
+                      if (id.length < 2) {
+                        alert("아이디는 최소 2자 이상이어야 합니다.");
+                        return false;
+                      }
+                      if (password.length < 6) {
+                        alert("비밀번호는 최소 6자 이상이어야 합니다.");
+                        return false;
+                      }
+                      if (name.trim() === "") {
+                        alert("이름을 입력하세요.");
+                        return false;
+                      }
+                      if (tel.trim() === "") {
+                        alert("전화번호를 입력하세요.");
+                        return false;
+                      }
+                      if (!validateEmail(email)) {
+                        alert("유효한 이메일을 입력하세요.");
                         return false;
                       }
 
-                      if (idInput.length < 2) {
-                        errorMessage.textContent = '아이디는 2자 이상이어야 합니다.';
+                      if (!isIdAvailable || !isEmailAvailable) {
+                        alert("아이디와 이메일이 모두 사용 가능해야 합니다.");
                         return false;
                       }
-
                       return true;
                     }
 
-                    function checkId() {
-                      const idInput = document.getElementById('idInput').value.trim();
-                      const checkResult = document.getElementById('checkidResult');
+                    function sendRequest(url, data, resultElementId, callback) {
+                      const xhr = new XMLHttpRequest();
+                      xhr.open("POST", url, true);
+                      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                      xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                          if (xhr.status === 200) {
+                            const responseText = xhr.responseText;
+                            document.getElementById(resultElementId).textContent = responseText;
+                            callback(responseText);
+                          } else {
+                            document.getElementById(resultElementId).textContent = "중복 체크 중 오류가 발생했습니다.";
+                          }
+                        }
+                      };
+                      xhr.send(data);
+                    }
 
-                      if (idInput.length < 2) {
-                        checkResult.textContent = '아이디는 2자 이상이어야 합니다.';
-                        isIdAvailable = false;
-                        return;
+                    function checkId() {
+                      const idInput = document.getElementById("idInput").value.trim();
+
+                      // 공백 체크
+                      if (idInput === "") {
+                        document.getElementById("checkidResult").innerText = "아이디를 입력해주세요.";
+                        return; // 함수 종료
                       }
 
-                      // AJAX 요청으로 서버에 중복 체크
-                      const xhr = new XMLHttpRequest();
-                      xhr.open("POST", "/selectUser", true);
-                      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                      xhr.onreadystatechange = function () {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                          if (xhr.status === 200) {
-                            const responseText = xhr.responseText;
-                            checkResult.textContent = responseText;
-
-
-                            isIdAvailable = responseText.includes("사용 가능합니다");
-                          } else {
-                            checkResult.textContent = '중복 체크 중 오류가 발생했습니다.';
-                            isIdAvailable = false;
-                          }
-                        }
-                      };
-                      xhr.send(`id=${encodeURIComponent(idInput)}`);
+                      sendRequest("/selectUser", `id=${encodeURIComponent(idInput)}`, "checkidResult", (responseText) => {
+                        isIdAvailable = responseText.includes("사용 가능합니다");
+                        checkSubmission();
+                      });
                     }
-
 
                     function checkEmail() {
-                      const emailInput = document.getElementById('email').value.trim();
-                      const checkResult = document.getElementById('checkemailResult');
+                      const emailInput = document.getElementById("email").value.trim();
 
-                      // AJAX 요청으로 서버에 중복 체크
-                      const xhr = new XMLHttpRequest();
-                      xhr.open("POST", "/selectEmail", true);
-                      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                      xhr.onreadystatechange = function () {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                          if (xhr.status === 200) {
-                            const responseText = xhr.responseText;
-                            checkResult.textContent = responseText;
+                      // 공백 체크
+                      if (emailInput === "") {
+                        document.getElementById("checkemailResult").innerText = "이메일을 입력해주세요.";
+                        return; // 함수 종료
+                      }
 
-                            // 중복 가능 여부 판단
-                            isIdAvailable = responseText.includes("사용 가능합니다");
-                          } else {
-                            checkResult.textContent = '중복 체크 중 오류가 발생했습니다.';
-                            isIdAvailable = false;
-                          }
-                        }
-                      };
-                      xhr.send(`email=${encodeURIComponent(emailInput)}`); // 이메일로 보내기
+                      sendRequest("/selectEmail", `email=${encodeURIComponent(emailInput)}`, "checkemailResult", (responseText) => {
+                        isEmailAvailable = responseText.includes("사용 가능합니다");
+                        checkSubmission();
+                      });
                     }
 
+                    function validateEmail(email) {
+                      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                      return re.test(email);
+                    }
 
+                    function checkSubmission() {
+                      document.getElementById("registerButton").disabled = !(isIdAvailable && isEmailAvailable);
+                    }
 
+                    document.getElementById("registerForm").addEventListener("submit", function (event) {
+                      if (!validateForm()) {
+                        event.preventDefault();
+                      }
+                    });
 
-
-
-                    document.getElementById('nextButton').addEventListener('click', function() {
-                      const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+                    document.getElementById("nextButton").addEventListener("click", function() {
+                      const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
                       categoryModal.show();
                     });
 
-
-                    document.getElementById('saveCategories').addEventListener('click', function() {
-                      const selectedCategories = [];
-                      const checkboxes = document.querySelectorAll('#category-checkboxes input[type="checkbox"]');
-                      checkboxes.forEach((checkbox) => {
-                        if (checkbox.checked) {
-                          selectedCategories.push(checkbox.value);
-                        }
-                      });
-                      document.getElementById('selected-category').value = selectedCategories.join(', ');
-
-
-                        const categoryModal = bootstrap.Modal.getInstance(document.getElementById('categoryModal'));
-                        categoryModal.hide();
-                      });
-                    </script>
+                    document.getElementById("saveCategories").addEventListener("click", function() {
+                      const selectedCategories = Array.from(document.querySelectorAll('#category-checkboxes input[type="checkbox"]:checked'))
+                              .map((checkbox) => checkbox.value);
+                      document.getElementById("selected-category").value = selectedCategories.join(", ");
+                      const categoryModal = bootstrap.Modal.getInstance(document.getElementById("categoryModal"));
+                      categoryModal.hide();
+                    });
+                  </script>
                   </li>
                   <li class="pe-3">
-<!--                    아래 tester에 세션 프로필id 들어가야함-->
-                    <a href="/bookshelf/list?userId=tester2">
+                    <a th:href="@{/bookshelf/list(userId=${session.id})}">
                       <i class="svg-icon--lg d-block">
                         <img src="/img/ic_book.svg" alt="나의 서재" class="w-100">
                       </i>

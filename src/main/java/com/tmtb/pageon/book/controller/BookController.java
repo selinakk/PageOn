@@ -5,7 +5,9 @@ import com.tmtb.pageon.book.service.BookService;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
 import com.tmtb.pageon.review.service.ReviewService;
+import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.ProductService;
+import com.tmtb.pageon.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,9 @@ public class BookController {
     @Autowired
     private ProductService productService; // 캐싱을위한 product service생성
 
+    @Autowired
+    private UserService userService;
+
     // 목록 조회 (카테고리 및 검색 조건에 따라)
     @GetMapping("/books")
     public String selectAllBooks(Model model,
@@ -43,6 +49,16 @@ public class BookController {
                                  @RequestParam(required = false) String searchKey,
                                  @RequestParam(required = false) String searchWord,
                                  @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
+        // 테스트용 더미 사용자 ID
+        String id = "tester2";
+        log.info("테스트용 사용자 ID: {}", id);
+
+        // id로 사용자 정보 조회 후 like_categories 가져오기
+        UserVO user = userService.findById(id);
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(","));
+        log.info("likeCategories: {}", likeCategories);
+        model.addAttribute("likeCategories", likeCategories);
+
         // 중첩된 대괄호 제거 및 리스트 변환
         if (category != null && !category.isEmpty()) {
             category = category.stream()
@@ -132,5 +148,42 @@ public class BookController {
     //이 내용은 사용자 최근 조회 목록을 위해 싱세조회api가 호출할때 발생하는 vo데이터들을 캐싱하기 위해서 짠 로직입니다
     //여러번 테스트를 해본결과 해당 기능에 문제가 없고 최근조회목록 조회기능에도 문제가 없는거 같습니다 만약 문제가 생긴다면 연락부탁드립니다.
 
+    @GetMapping("/books/liked")
+    public String selectBooksByLikeCategories(Model model, HttpSession session,
+                                                  @RequestParam(required = false, defaultValue = "1") int cpage,
+                                                  @RequestParam(required = false, defaultValue = "20") int pageBlock,
+                                                  @RequestParam(required = false, defaultValue = "latest") String sortOrder) {
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
+
+        // id로 사용자 정보 조회 후 like_categories 가져오기
+        UserVO user = userService.findById(id);
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
+        log.info("likeCategories: {}", likeCategories);
+        model.addAttribute("likeCategories", likeCategories);
+
+        String filter = "prefer";
+        model.addAttribute("filter", filter);
+
+        if (likeCategories.isEmpty()) {
+            log.info("No like_categories found for userId: {}", id);
+            model.addAttribute("likedBooks", Collections.emptyList());
+            model.addAttribute("totalPageCount", 0);
+            return "book/list";
+        }
+
+        // 해당 카테고리에 맞는 목록 조회
+        List<BookVO> list = service.selectBooksByCategories(likeCategories, cpage, pageBlock, sortOrder);
+        int totalRows = service.getTotalRowsByCategories(likeCategories);
+        int totalPageCount = (int) Math.ceil((double) totalRows / pageBlock);
+
+        model.addAttribute("list", list);
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("sortOrder", sortOrder);
+
+        return "book/list";
+    }
 
 }

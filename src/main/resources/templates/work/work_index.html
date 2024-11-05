@@ -531,7 +531,7 @@
       </div>
     </section>
 
-    <section id="categories-recommend" class="position-relative padding-small">
+    <section id="categories-recommend" class="position-relative padding-small" th:if="${session.id != null}">
       <div class="container">
         <div class="section-title d-flex justify-content-between align-items-center mb-4">
           <h3 class="d-flex align-items-center">선호 카테고리 추천</h3>
@@ -551,6 +551,14 @@
                 <div class="review-content d-flex">
                   <p class="my-2 me-2 fs-6 text-black-50" th:text="${webnovel.writer}">작가</p>
                 </div>
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${webtoon.item_id}" />
+                    <label th:for="'read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webtoon.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webtoon.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webtoon.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -559,8 +567,8 @@
 
       <div class="container">
         <div class="section-title d-flex justify-content-between align-items-center mb-4">
-          <h3 class="d-flex align-items-center">선호 카테고리 추천</h3>
-          <a th:href="@{/webnovels(category=*{likeCategories})}" class="btn">더보기</a>
+          <h3 class="d-flex align-items-center"></h3>
+          <a th:href="@{/webnovels/liked(category=${likeCategories})}" class="btn">더보기</a>
 
         </div>
         <div class="swiper work-swiper">
@@ -577,6 +585,14 @@
                 <div class="review-content d-flex">
                   <p class="my-2 me-2 fs-6 text-black-50" th:text="${webnovel.writer}">작가</p>
                 </div>
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${webnovel.item_id}" />
+                    <label th:for="'read'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webnovel.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webnovel.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webnovel.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -585,8 +601,8 @@
 
       <div class="container">
         <div class="section-title d-flex justify-content-between align-items-center mb-4">
-          <h3 class="d-flex align-items-center">선호 카테고리 추천</h3>
-          <a th:href="@{/books(category=*{likeCategories})}" class="btn">더보기</a>
+          <h3 class="d-flex align-items-center"></h3>
+          <a th:href="@{/books/liked(category=${likeCategories})}" class="btn">더보기</a>
         </div>
         <div class="swiper work-swiper">
           <div class="swiper-wrapper">
@@ -602,6 +618,14 @@
                 <div class="review-content d-flex">
                   <p class="my-2 me-2 fs-6 text-black-50" th:text="${book.writer}">작가</p>
                 </div>
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${book.item_id}" />
+                    <label th:for="'read'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${book.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${book.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${book.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -635,6 +659,14 @@
                     </svg>
                     &lt;!&ndash; 별점 최대 5개까지 표시 &ndash;&gt;
                 </div>-->
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${webtoon.item_id}" />
+                    <label th:for="'read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webtoon.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webtoon.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webtoon.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
               </a>
             </div>
@@ -671,6 +703,14 @@
                   </div>-->
                 </div>
               </a>
+              <form action="/bookshelf/insertOK"  method="post">
+                <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                  <input type="hidden" name="work_num" th:value="${webnovel.item_id}" />
+                  <label th:for="'read'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webnovel.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                  <label th:for="'to-read'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webnovel.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                  <label th:for="'ing'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webnovel.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -703,6 +743,14 @@
                       </svg>
                       &lt;!&ndash; 별점 최대 5개까지 표시 &ndash;&gt;
                   </div>-->
+                  <form action="/bookshelf/insertOK"  method="post">
+                    <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                      <input type="hidden" name="work_num" th:value="${book.item_id}" />
+                      <label th:for="'read'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${book.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                      <label th:for="'to-read'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${book.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                      <label th:for="'ing'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${book.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                    </div>
+                  </form>
                 </div>
               </a>
             </div>

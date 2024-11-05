@@ -4,6 +4,7 @@ import com.tmtb.pageon.comment.controller.CommentController;
 import com.tmtb.pageon.comment.model.CommentVO;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.forum.service.ForumService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,8 +81,13 @@ public class ForumController {
     @GetMapping("/forum/view")
     public String forumView(ForumVO vo,
                             Model model,
+                            HttpSession session,
                             @RequestParam(defaultValue = "1") int cpage,
                             @RequestParam(defaultValue = "20") int pageBlock) {
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", id);
+
         //아래 라인 조회수 증가 메서드
         service.increaseForumHit(vo.getNum());
 
@@ -115,7 +121,11 @@ public class ForumController {
     @GetMapping("/forum/write")
     public String insertForum(@RequestParam("work_num")int workNum, Model model) {
         log.info("/forum/write - 토론 게시하기");
+
+        String work_title = service.getWorkTitle(workNum);
+
         model.addAttribute("work_num", workNum);
+        model.addAttribute("work_title", work_title);
         return "forum/write";
 
     }

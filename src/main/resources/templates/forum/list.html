@@ -69,13 +69,12 @@
                   <span th:text="${forum.wdate}"></span>
                 </div>
               </div>
-              <form action="/bookshelf/insertOK" method="post">
-                <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
-                  <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+              <form action="/bookshelf/insertOK"  method="post">
+                <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
                   <input type="hidden" name="work_num" th:value="${forum.work_num}" />
-                  <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                  <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                  <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  <label th:for="'read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${forum.work_num}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                  <label th:for="'to-read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${forum.work_num}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                  <label th:for="'ing'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${forum.work_num}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
                 </div>
               </form>
             </div>
