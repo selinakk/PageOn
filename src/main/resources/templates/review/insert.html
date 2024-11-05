@@ -47,8 +47,8 @@
                     <span class="star" data-value="5">★</span>
                 </div>
                 <h5 class="justify-content-p">별점:
-                    <p name="rating" id="rating" class="justify-content-p" >0.0</p>
-                    <input type="text" id="rating-text">
+                    <input type="text" id="ratingInput" name="rating" value="0" readonly>
+
                 </h5>
 
                 </p>
@@ -119,6 +119,10 @@
                 star.classList.remove('active');
             }
         });
+
+        // 실시간으로 input 태그에 값 반영
+        document.getElementById('ratingInput').value = rating;
+
     }
 </script>
 </body>

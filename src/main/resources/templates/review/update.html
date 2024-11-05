@@ -41,12 +41,15 @@
         <span class="star" data-value="4">★</span>
         <span class="star" data-value="5">★</span>
       </div>
-      <p name="rating" id="rating" >Rating: 0.0</p>
+      <h5 class="justify-content-p">별점:
+        <input type="text" id="ratingInput" name="rating" value="0" readonly>
+
+      </h5>
       </p>
       <p>
-      <div>
-      <div><button class="save-btn" type="submit">등록</button></div>
-      <div><button class="save-btn" type="button" onclick="location.href='/review/list'">취소</button></div>
+      <div class="btn-st">
+      <span><button class="save-btn" type="submit">등록</button></span>
+      <span><button class="save-btn" type="button" onclick="location.href='/review/list'">취소</button></span>
       </div>
       </p>
     </div>
@@ -109,6 +112,10 @@
         star.classList.remove('active');
       }
     });
+
+    // 실시간으로 input 태그에 값 반영
+    document.getElementById('ratingInput').value = rating;
+
   }
 </script>
 </body>
