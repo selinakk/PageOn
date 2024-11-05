@@ -66,7 +66,7 @@
         values (#{work_num}, #{title}, #{content}, #{user_id}, #{rating}, #{categories})
     </insert>
   <update id="review_updateOK">
-        UPDATE review SET work_num=#{work_num}, title=#{title}, content=#{content}, user_id=#{user_id}, rating=#{rating}, wdate=now()
+        UPDATE review SET work_num=#{work_num}, title=#{title}, content=#{content}, user_id=#{user_id}, rating=#{rating}
         WHERE num=#{num}
    </update>
     <delete id="review_deleteOK">
@@ -75,7 +75,7 @@
 
 <!--    리뷰 상세 -->
     <select id="review_selectOne" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT r.* , w.title AS work_title, w.img_name
+        SELECT r.* , w.title AS workTitle, w.img_name AS workImg
         FROM review r JOIN work w ON r.work_num = w.item_id WHERE num=#{num}
     </select>
 
@@ -102,7 +102,7 @@
 
 <!--   사용자 리뷰 작성 추천 -->
     <select id="getWebnovelRecommendation" resultType="com.tmtb.pageon.webnovel.model.WebnovelVO" parameterType="map">
-        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, r.categories
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type,w.writer, r.categories
         FROM work w
                  JOIN review r ON r.categories = w.categories
                  JOIN member m ON m.id = r.user_id
@@ -110,7 +110,7 @@
         AND w.type = 'webnovel'
     </select>
     <select id="getWebtoonRecommendation" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO" parameterType="map">
-        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, r.categories
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, w.writer, r.categories
         FROM work w
                  JOIN review r ON r.categories = w.categories
                  JOIN member m ON m.id = r.user_id
@@ -118,7 +118,7 @@
         AND w.type = 'webtoon'
     </select>
     <select id="getBookRecommendation" resultType="com.tmtb.pageon.book.model.BookVO" parameterType="map">
-        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, r.categories
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, w.writer,  r.categories
         FROM work w
                  JOIN review r ON r.categories = w.categories
                  JOIN member m ON m.id = r.user_id

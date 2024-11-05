@@ -129,4 +129,22 @@ public class ReviewService {
 
         return mapper.getWebnovelRecommendation(id, pageBlock, startRow);
     }
+
+    public List<BookVO> getBookBycategories(String id, int cpage, int pageBlock) {
+        log.info("getBookBycategories..");
+        int startRow = (cpage -1)*pageBlock;
+        return mapper.getBookRecommendation(id, pageBlock, startRow );
+    }
+
+    public List<WebtoonVO> getWebtoonBycategories(String id, int cpage, int pageBlock) {
+        log.info("getWebtoonBycategories..");
+        int startRow = (cpage - 1) * pageBlock;
+        return mapper.getWebtoonRecommendation(id, pageBlock, startRow);
+    }
+
+    public List<WebnovelVO> getWrbnovelBycategories(String id, int cpage, int pageBlock) {
+        log.info("getWrbnovelBycategories..");
+        int startRow = (cpage -1)*pageBlock;
+        return mapper.getWebnovelRecommendation(id, pageBlock, startRow );
+    }
 }

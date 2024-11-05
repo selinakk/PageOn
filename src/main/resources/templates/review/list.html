@@ -59,7 +59,7 @@
     </div>
 </div>
 
-<div style="text-align: center"><
+<div class="pagecount">
     <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
         <th:block th:if="${param.searchKey == null}">
             <a th:href="|/review/list?cpage=${i}|" th:text="${i}"></a>
@@ -70,7 +70,7 @@
                    th:text="${i}"></a>
             </th:block>
         </th:block>
-    </th:block>>
+    </th:block>
 </div>
 </body>
 </html>

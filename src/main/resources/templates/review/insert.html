@@ -29,13 +29,13 @@
                 <p>
                 <div class="justify-content-p">
                     <label for="title"></label>
-                    <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력" value="-- 리뷰">
+                    <input class="review-title_box" type="text" id="title" name="title" placeholder="제목을 입력해주세요" value="강추!...">
                 </div>
                 </p>
                 <p>
                 <div class="justify-content-p">
                     <label for="content"></label>
-                    <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.,,,500자 내" th:text="재밌다" ></textarea>
+                    <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요...500자 내" th:text="재밌다" ></textarea>
                 </div>
                 </p>
                 <p>
@@ -46,7 +46,11 @@
                     <span class="star" data-value="4">★</span>
                     <span class="star" data-value="5">★</span>
                 </div>
-                <p name="rating" id="rating" class="justify-content-p" >Rating: 0.0</p>
+                <h5 class="justify-content-p">별점:
+                    <p name="rating" id="rating" class="justify-content-p" >0.0</p>
+                    <input type="text" id="rating-text">
+                </h5>
+
                 </p>
                 <p class="justify-content-p">
                     <button class="save-btn" type="submit">등록</button>
@@ -55,6 +59,11 @@
         </form>
     </div>
 <script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const paragraphText = document.getElementById('rating').innerText; // 또는 textContent
+        document.getElementById('rating-text').innerText = paragraphText; // 가져온 값을 출력
+    });
 
     const stars = document.querySelectorAll('.star');
     const ratingDisplay = document.getElementById('rating');
@@ -74,7 +83,7 @@
 
             // 마우스 위치에 따른 별 채우기 효과
             fillStars(hoverRating);
-            ratingDisplay.textContent = `Rating: ${hoverRating.toFixed(1)}`;
+            ratingDisplay.textContent = `${hoverRating.toFixed(1)}`;
         });
 
         star.addEventListener('click', (event) => {
@@ -89,13 +98,13 @@
 
             // 클릭한 점수를 적용
             fillStars(rating);
-            ratingDisplay.textContent = `Rating: ${rating.toFixed(1)}`;
+            ratingDisplay.textContent = `${rating.toFixed(1)}`;
         });
 
         // 마우스를 별에서 뗐을 때 원래 점수로 복원
         star.addEventListener('mouseleave', () => {
             fillStars(rating);
-            ratingDisplay.textContent = `Rating: ${rating.toFixed(1)}`;
+            ratingDisplay.textContent = `${rating.toFixed(1)}`;
         });
     });
 

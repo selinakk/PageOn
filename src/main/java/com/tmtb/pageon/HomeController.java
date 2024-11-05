@@ -7,6 +7,7 @@ import com.tmtb.pageon.book.service.BookService;
 import com.tmtb.pageon.community.service.CommunityService;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.notice.model.NoticeVO;
+import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.user.model.ReviewVO;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.UserService;
@@ -15,6 +16,7 @@ import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.service.WebnovelService;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import com.tmtb.pageon.webtoon.service.WebtoonService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,8 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -90,10 +94,28 @@ public class HomeController {
         log.info("작품 메인 페이지");
 
         // 테스트용 더미 사용자 ID
-        String id = "tester2";
+        String id = "admin11";
         UserVO user = userService.findById(id);
         List<String> likeCategories = Arrays.asList(user.getLike_categories().split(","));
         model.addAttribute("likeCategories", likeCategories);
+
+
+        //사용자 추천 목록 3개만 조회
+        List<BookVO> preferBooks= reviewService.getBookBycategories(id, 1, 4);
+        log.info("preferBooks:{}", preferBooks);
+
+        //사용자 추천 목록 3개만 조회
+        List<WebtoonVO> preferWebtoons= reviewService.getWebtoonBycategories (id, 1, 5);
+        log.info("preferWebtoons:{}", preferWebtoons);
+
+
+        //사용자 추천 목록 3개만 조회
+        List<WebnovelVO> preferWebnovels= reviewService.getWrbnovelBycategories (id, 1, 5);
+        log.info("preferWebnovels:{}", preferWebnovels);
+
+
+
+
 
         // 선호 카테고리 기반 웹소설 목록 조회
         List<WebnovelVO> likedWebnovels = webnovelService.selectWebnovelsByCategories(likeCategories, 1, 20, "latest");

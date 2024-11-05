@@ -14,55 +14,49 @@
     <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
             <h3 class="d-flex align-items-center">리뷰 상세보기</h3>
-            <a href="/review/list">목록</a>
         </div>
-        <div th:class="review-list" >
-            <p th:class="justify-content-p"><span th:text="'제목: '+${vo2.title}"></span></p>
-            <p th:class="justify-content-p"><span th:text="'작성일: '+${vo2.wdate}"></span></p>
-            <p th:class="justify-content-p"><span id="reviewContent" th:text="'리뷰 내용: '+${vo2.content}"></span></p>
-            <p th:class="justify-content-p">
-                <span  th:text="'별점: '+${vo2.rating}"></span></p>
-            <div id="review-detail" th:data-num="${vo2.num}" th:class="justify-content-p">
-                <button id="like-button"><img src="/img/like.png" th:class="like-btn"><span id="like-count" th:text="${vo2.like}"></span></button>
-                <button id="dislike-button"><img src="/img/dislike.png" th:class="like-btn"><span id="hate-count" th:text="${vo2.hate}"></span></button>
-            </div>
-            </p>
-            <div class="justify-content-p">
-                <span th:class="dt-2" >
+        <div >//로그인
+            <div class="side-bar">
+                <span>
                     <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
-                        <span th:text="${vo2.report}"></span>
-                        <button th:class="btn-3" type="button" onclick="confirmReport()">report</button>
+                    <button th:class="btn-deco" type="button" onclick="confirmReport()">신고</button>
                     </form>
+                    <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
+                <a th:href="@{/review/deleteOK(num=${vo2.num})}" th:text="삭제">삭제</a>
                 </span>
 
+
             </div>
-            <div  class="justify-content-p">
+
+        </div>
+        <div class="review-container">
+            <img class="img-view" th:src="@{${vo2.workImg}}" th:alt="|${vo2.workTitle} 작품 이미지|">
+            <div th:class="review-position" >
+                <p><small class="text-auto" th:text="${vo2.workTitle}+'에 대한 리뷰'"></small></p>
+
+                <p ><small th:text="'작성일: '+${vo2.wdate}"></small></p>
+                <p ><h4 th:text="${vo2.title}"></h4></p>
+                <p  id="reviewContent" ><h7 th:text="'내용: '+${vo2.content}"></h7></p>
+                <p ><h7  th:text="'★ '+${vo2.rating}"></h7></p>
+                <div id="review-detail" th:data-num="${vo2.num}">
+                    <button id="like-button"><img src="/img/like.png" th:class="like-btn"><span id="like-count" th:text="${vo2.like}"></span></button>
+                    <button id="dislike-button"><img src="/img/dislike.png" th:class="like-btn"><span id="hate-count" th:text="${vo2.hate}"></span></button>
+                </div>
+                </p>
                 <div>
                     <small>
-                    <button id="analyzeButton">감정 분석하기</button>
-                    <p id="sentimentResult">분석되지 않음</p>
-                </small>
+                        <button id="analyzeButton">감정 분석</button>
+                        <span id="sentimentResult"></span>
+                    </small>
                 </div>
-
-
                 <div th:if="${result}">
-                <h2>감정 분석 결과:</h2>
-                <p th:text="${result}"></p>
-            </div>
+                    <h2>분석 결과:</h2>
+                    <p th:text="${result}"></p>
+                </div>
                 <div th:if="${error}">
                     <h2>오류:</h2>
                     <p th:text="${error}"></p>
                 </div>
-            </div>
-
-
-
-        <div >//로그인
-            <div>
-                <a th:href="@{/review/deleteOK(num=${vo2.num})}" th:text="삭제">삭제</a>
-                <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
-            </div>
-
         </div>
     </div>
 
@@ -124,6 +118,24 @@
 </section>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
+    function displayRating(rating) {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+
+        let stars = '★'.repeat(fullStars) + '☆'.repeat(emptyStars);
+        if (halfStar) {
+            stars = stars.slice(0, -emptyStars) + '½' + '☆'.repeat(emptyStars - 1);
+        }
+        return stars;
+    }
+
+    const averageRating = 4.3;
+    console.log(displayRating(averageRating)); // 예: "★★★★½☆"
+
+
+
+
 function confirmReport() {
     if (confirm("정말 신고 하시겠습니까?")){
         console.log("report click..");
