@@ -15,9 +15,9 @@ public interface NoticeMapper {
 
     public int getTotalRows();
 
-    public List<NoticeVO> searchListPageBlockTitle(String searchWord, int startRow, int pageBlock);
+    public List<NoticeVO> searchListPageBlockTitle(String searchWord, int startRow, int pageBlock, String sort);
 
-    public List<NoticeVO> searchListPageBlockContent(String searchWord, int startRow, int pageBlock);
+    public List<NoticeVO> searchListPageBlockContent(String searchWord, int startRow, int pageBlock, String sort);
 
     public int getSearchTotalRowsTitle(String searchWord);
 
