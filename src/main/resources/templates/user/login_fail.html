@@ -5,13 +5,9 @@
 	<title>Login Fail</title>
 </head>
 
-<body th:replace="~{layout::layout}">
-<div th:fragment="content">
-	<script>
-		alert("로그인 실패입니다");
-		location.href = "[[@{/}]]";
-	</script>
-</div>
+<script>
+	alert("아이디 혹은 비밀번호가 틀려요");
+	location.href = "[[@{/}]]";  <!-- 홈 경로로 이동 -->
+</script>
 
-</body>
 </html>
