@@ -28,9 +28,13 @@ public interface ReviewMapper {
                                              @Param("pageBlock") int pageBlock,
                                              @Param("sortType") String sortType);
 
-    List<ReviewVO> review_searchListPage(String searchKey, String searchWord, int startRow, int pageBlock);
+    List<ReviewVO> review_searchListPage( @Param("searchKey")String searchKey,
+                                          @Param("searchWord")String searchWord,
+                                         @Param("startRow") int startRow,
+                                         @Param("pageBlock") int pageBlock);
 
-    int review_getsearchListPage(String searchKey, String searchWord );
+    int review_getsearchListPage(@Param("searchKey")String searchKey,
+                                 @Param("searchWord")String searchWord );
 
     int review_updateReport(ReviewVO vo);
 

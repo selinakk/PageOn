@@ -30,7 +30,9 @@
     <!--리뷰 검색 및 페이징-->
     <select id="review_searchListPage" resultType="com.tmtb.pageon.review.model.ReviewVO">
         SELECT r.* , w.title AS workTitle, w.img_name AS workImg
-        FROM review r JOIN work w ON r.work_num = w.item_id
+        FROM review r
+        JOIN pageon.work w ON r.work_num = w.item_id
+        JOIN member m ON m.id = r.user_id
         <if test="searchKey == 'title'">
             WHERE r.title LIKE #{searchWord}
         </if>
@@ -45,9 +47,9 @@
     </select>
 
     <select id="review_getsearchListPage" resultType="int">
-        SELECT count(*) total_rows, w.title AS workTitle
+        SELECT count(*) total_rows
         FROM review r
-            JOIN work w ON w.item_id = r.work_num
+        JOIN work w ON w.item_id = r.work_num
         JOIN member m ON m.id = r.user_id
         <if test="searchKey == 'title'">
             WHERE r.title LIKE CONCAT('%', #{searchWord}, '%')

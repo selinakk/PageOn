@@ -135,6 +135,8 @@ public class ReviewContoller {
         }
         log.info("totalPageCount:{}", totalPageCount);
         model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("searchKey", searchKey);
+        model.addAttribute("searchWord", searchWord);
 
         return "review/list";
     }
