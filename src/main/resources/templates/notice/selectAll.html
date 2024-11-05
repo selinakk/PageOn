@@ -12,7 +12,7 @@
   <title>공지사항</title>
   <style>
     .table-header {
-      font-weight: 550; /* 400은 일반보다 덜 굵게 */
+      font-weight: 550;
     }
   </style>
 </head>
@@ -24,18 +24,22 @@
   <h3>공지사항 페이지</h3>
   <br>
 
-  <form class="d-flex justify-content-end" onsubmit="return validateForm()" action="/notice/n_searchList.do" style="margin-bottom: 1rem;">
+  <!-- 검색 폼 -->
+  <form class="d-flex justify-content-end" onsubmit="return validateForm()" action="/notice/n_searchList.do" method="get" style="margin-bottom: 1rem;">
     <select id="input2" name="searchKey" class="form-select form-select-sm me-0" style="width: auto; border-radius: 0; height: 45px; font-size: 1rem;">
-      <option value="title">제목</option>
-      <option value="content">내용</option>
+      <option value="title" th:selected="${currentSearchKey == 'title'}">제목</option>
+      <option value="content" th:selected="${currentSearchKey == 'content'}">내용</option>
     </select>
-    <input id="input1" type="text" name="searchWord" class="form-control form-control-sm me-0" placeholder="검색어를 입력하세요" style="width: 300px; font-size: 1rem; height: 45px; border-radius: 0;">
+    <input id="input1" type="text" name="searchWord" class="form-control form-control-sm me-0" placeholder="검색어를 입력하세요"
+           style="width: 300px; font-size: 1rem; height: 45px; border-radius: 0;" th:value="${currentSearchWord}">
     <input class="btn btn-outline-primary btn-dark rounded-0 p-2" id="search" type="submit" value="검색" style="width: auto; height: 45px; font-size: 1rem; border-radius: 0;">
   </form>
 
+  <!-- 테이블을 감싸는 카드 -->
   <div class="card p-4">
     <table class="table table-bordered table-hover w-100">
-      <form class="text-start" style="margin-bottom: 1rem;" action="/notice/n_selectAll.do" method="get">
+      <!-- 정렬 폼 -->
+      <form class="text-start" style="margin-bottom: 1rem;" action="/notice/n_searchList.do" method="get">
         <div style="display: flex; align-items: center;">
           <select name="sort" id="sort" class="form-select form-select-sm w-auto" style="font-size: 1rem;" onchange="this.form.submit()">
             <option value="newest" th:selected="${currentSort == 'newest'}">최신순</option>
@@ -43,8 +47,11 @@
             <option value="mostViewed" th:selected="${currentSort == 'mostViewed'}">조회순</option>
           </select>
           <input type="hidden" name="cpage" value="1"/>
+          <input type="hidden" name="searchKey" th:value="${currentSearchKey}"/>
+          <input type="hidden" name="searchWord" th:value="${currentSearchWord}"/>
         </div>
       </form>
+
       <br>
 
       <thead class="text-center">
@@ -68,21 +75,27 @@
       </tbody>
     </table>
 
-    <!-- 페이지네이션 링크를 포함하는 div를 테이블 아래에 추가 -->
+    <!-- 페이지네이션 -->
     <div class="text-center mt-3">
       <th:block th:each="i : ${#numbers.sequence(1, totalPageCount)}">
-        <a th:href="|/notice/n_selectAll.do?cpage=${i}&sort=${currentSort}|">[[${i}]]</a>
+        <a th:href="|/notice/n_searchList.do?cpage=${i}&sort=${currentSort}|"
+           th:if="${#strings.isEmpty(currentSearchWord)}">[[${i}]]</a>
+
+        <a th:href="|/notice/n_searchList.do?cpage=${i}&sort=${currentSort}&searchKey=${currentSearchKey}&searchWord=${currentSearchWord}|"
+           th:if="${!#strings.isEmpty(currentSearchWord)}">[[${i}]]</a>
       </th:block>
     </div>
   </div>
-
-  <!-- 글쓰기 버튼을 테이블 오른쪽 끝에 배치 -->
-  <div class="d-flex justify-content-end mt-3">
-    <form action="/notice/n_insert.do">
-      <input class="btn btn-dark" type="submit" value="작성하기" style="font-size: 1em">
-    </form>
-  </div>
 </section>
+
+
+<!-- 글쓰기 버튼: 네모 칸(card) 바깥쪽, 오른쪽 아래 -->
+<div class="container d-flex justify-content-end mt-3 mb-4" style="position: relative;">
+  <form action="/notice/n_insert.do" th:if="${id}=='admin'"> <!-- ADMIN일 때만 버튼 표시 -->
+    <input class="btn btn-dark" type="submit" value="작성하기" style="font-size: 1em;">
+  </form>
+</div>
+
 
 <footer th:replace="~{footer :: footer}"></footer>
 
@@ -91,7 +104,7 @@
     let byteSize = 0;
     for (let i = 0; i < text.length; i++) {
       const charCode = text.charCodeAt(i);
-      byteSize += charCode <= 0x007F ? 1 : charCode <= 0x07FF ? 2 : 3; // ASCII는 1바이트, 나머지 유니코드는 2~3바이트
+      byteSize += charCode <= 0x007F ? 1 : charCode <= 0x07FF ? 2 : 3;
     }
     return byteSize;
   }
@@ -103,12 +116,8 @@
       alert("검색어가 100바이트를 초과하였습니다.");
       return false;
     }
-    if (getByteLength(searchWord) <= 0) {
-      alert("검색어를 입력하세요.");
-      return false;
-    }
 
-    return true; // 모든 조건을 만족하면 폼을 제출
+    return true;
   }
 </script>
 

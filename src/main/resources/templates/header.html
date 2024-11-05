@@ -95,43 +95,126 @@
 
     <div class="search-popup">
       <div class="search-popup-container">
+        <!-- 검색 타입 선택 (웹툰, 웹소설, 도서) -->
+        <div class="search-type">
+          <span class="search-type-text" data-type="webtoon">웹툰</span>
+          <span class="search-type-text selected" data-type="webnovel">웹소설</span>
+          <span class="search-type-text" data-type="book">도서</span>
+        </div>
 
-        <form role="search" method="get" class="search-form" action="">
-          <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value=""
-                 name="s" />
-          <button type="submit" class="search-submit"><svg class="search">
-            <use xlink:href="#search"></use>
-          </svg></button>
+        <!-- 검색 폼 -->
+        <form role="search" method="get" class="search-form" id="searchForm" action="/webnovels">
+          <input type="hidden" name="sortOrder" value="latest" />
+          <input type="hidden" id="searchTypeInput" name="searchType" value="title" /> <!-- 기본값을 'title'로 설정 -->
+          <div id="filter-container">
+            <select name="searchKey" class="search-key">
+              <option value="title">제목</option>
+              <option value="writer">작가</option>
+            </select>
+            <input type="search" id="search-form" class="search-field" placeholder="검색어를 입력하세요" name="searchWord" />
+            <button type="submit" class="search-submit">
+              <svg class="search">
+                <use xlink:href="#search"></use>
+              </svg>
+            </button>
+          </div>
         </form>
 
         <h5 class="cat-list-title">Browse Categories</h5>
-
-        <ul class="cat-list">
-          <li class="cat-list-item">
-            <a href="#" title="Romance">Romance</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Thriller">Thriller</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Sci-fi">Sci-fi</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Cooking">Cooking</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Health">Health</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Lifestyle">Lifestyle</a>
-          </li>
-          <li class="cat-list-item">
-            <a href="#" title="Fiction">Fiction</a>
-          </li>
+        <ul class="cat-list" id="categoryList">
+          <!-- 웹소설 기본 카테고리 목록 -->
+          <li class="cat-list-item"><a href="/webnovels?category=판타지">판타지</a></li>
+          <li class="cat-list-item"><a href="/webnovels?category=현대판타지">현대판타지</a></li>
+          <li class="cat-list-item"><a href="/webnovels?category=무협">무협</a></li>
+          <li class="cat-list-item"><a href="/webnovels?category=드라마">드라마</a></li>
+          <li class="cat-list-item"><a href="/webnovels?category=로맨스판타지">로맨스판타지</a></li>
         </ul>
-
       </div>
     </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const categories = {
+          webtoon: [
+            { title: '판타지', link: '/wt_search?searchWord=판타지&searchType=categories' },
+            { title: '무협', link: '/wt_search?searchWord=무협&searchType=categories' },
+            { title: '드라마', link: '/wt_search?searchWord=드라마&searchType=categories' },
+            { title: '액션', link: '/wt_search?searchWord=액션&searchType=categories' },
+            { title: '추리미스터리', link: '/wt_search?searchWord=추리미스터리&searchType=categories' },
+            { title: '로맨스', link: '/wt_search?searchWord=로맨스&searchType=categories' },
+            { title: '로맨스판타지', link: '/wt_search?searchWord=로맨스판타지&searchType=categories' },
+            { title: '순정', link: '/wt_search?searchWord=순정&searchType=categories' },
+            { title: '공포', link: '/wt_search?searchWord=공포&searchType=categories' },
+            { title: '코믹', link: '/wt_search?searchWord=코믹&searchType=categories' },
+            { title: '일상', link: '/wt_search?searchWord=일상&searchType=categories' },
+            { title: '학원', link: '/wt_search?searchWord=학원&searchType=categories' },
+            { title: '스포츠', link: '/wt_search?searchWord=스포츠&searchType=categories' },
+            { title: '소년', link: '/wt_search?searchWord=소년&searchType=categories' },
+          ],
+          webnovel: [
+            { title: '판타지', link: '/webnovels?category=판타지' },
+            { title: '현대판타지', link: '/webnovels?category=현대판타지' },
+            { title: '무협', link: '/webnovels?category=무협' },
+            { title: '드라마', link: '/webnovels?category=드라마' },
+            { title: '로맨스판타지', link: '/webnovels?category=로맨스판타지' },
+          ],
+          book: [
+            { title: '판타지', link: '/books?category=판타지' },
+            { title: '무협', link: '/books?category=무협' },
+            { title: '액션', link: '/books?category=액션' },
+            { title: '추리미스터리', link: '/books?category=추리미스터리' },
+            { title: '로맨스', link: '/books?category=로맨스' },
+            { title: '공포', link: '/books?category=공포' },
+            { title: '공상과학', link: '/books?category=공상과학' },
+          ],
+        };
+
+        function selectSearchType(type, element) {
+          document.querySelectorAll('.search-type-text').forEach(item => item.classList.remove('selected'));
+          element.classList.add('selected');
+
+          updateSearchFormAction(type);
+          updateCategoryList(type);
+        }
+
+        function updateCategoryList(type) {
+          const categoryList = document.getElementById('categoryList');
+          categoryList.innerHTML = '';
+
+          categories[type].forEach(category => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('cat-list-item');
+            listItem.innerHTML = `<a href="${category.link}">${category.title}</a>`;
+            categoryList.appendChild(listItem);
+          });
+        }
+
+        function updateSearchFormAction(type) {
+          const searchForm = document.getElementById('searchForm');
+          const searchTypeInput = document.getElementById('searchTypeInput');
+
+          if (type === 'webtoon') {
+            searchForm.action = "/wt_search";
+          } else if (type === 'webnovel') {
+            searchForm.action = "/webnovels";
+          } else if (type === 'book') {
+            searchForm.action = "/books";
+          }
+        }
+
+        document.querySelectorAll('.search-type-text').forEach(item => {
+          item.addEventListener('click', function() {
+            selectSearchType(this.getAttribute('data-type'), this);
+          });
+        });
+
+        // 검색 키 드롭다운 변경 시 searchType 업데이트
+        document.querySelector('.search-key').addEventListener('change', function() {
+          const selectedValue = this.value;
+          document.getElementById('searchTypeInput').value = selectedValue; // 선택한 검색 키에 따라 searchType 업데이트
+        });
+      });
+    </script>
 
     <header id="header" class="site-header border-bottom">
       <nav id="header-nav" class="navbar navbar-expand-lg py-3">

@@ -2,12 +2,16 @@ package com.tmtb.pageon.notice.controller;
 
 import com.tmtb.pageon.notice.model.NoticeVO;
 import com.tmtb.pageon.notice.service.NoticeService;
+import com.tmtb.pageon.user.model.UserVO;
+import com.tmtb.pageon.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,22 +33,50 @@ public class NoticeController {
     @Value("${file.dir}")
     private String realPath;
 
-
-    // 공지사항 목록 조회 페이징
     @GetMapping("/notice/n_selectAll.do")
     public String selectAllSorted(
             Model model,
+            HttpSession session, // 세션 추가
             @RequestParam(defaultValue = "1") int cpage,
             @RequestParam(defaultValue = "15") int pageBlock,
-            @RequestParam(defaultValue = "newest") String sort
+            @RequestParam(defaultValue = "newest") String sort,
+            @RequestParam(defaultValue = "") String searchWord // 검색어 추가
     ) {
-        List<NoticeVO> list = service.selectAllSortedPageBlock(cpage, pageBlock, sort);
-        int totalRows = service.getTotalRows();
+
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 id: " + id);
+
+        // 세션에서 사용자 정보 가져오기
+        //userVO = (UserVO) session.getAttribute("user");
+        String user_role = (String) session.getAttribute("user_role");
+
+        //log.info("user:{}", user);
+        //boolean isAdmin = (user != null && "ADMIN".equals(user.getUser_role())); // ADMIN인지 확인
+
+        //log.info("isAdmin:{}", isAdmin);
+
+        List<NoticeVO> list;
+        int totalRows;
+
+        // 검색어가 비어있으면 전체 목록 조회
+        if (searchWord == null || searchWord.isEmpty()) {
+            list = service.selectAllSortedPageBlock(cpage, pageBlock, sort);
+            totalRows = service.getTotalRows();
+        } else {
+            // 검색어가 있을 경우 검색 목록 조회
+            list = service.searchListPageBlock("id", searchWord, cpage, pageBlock, sort);
+            totalRows = service.getSearchTotalRows("id", searchWord);
+        }
+
         int totalPageCount = (totalRows + pageBlock - 1) / pageBlock;
 
         model.addAttribute("list", list);
         model.addAttribute("totalPageCount", totalPageCount);
         model.addAttribute("currentSort", sort);
+        model.addAttribute("currentSearchWord", searchWord); // 검색어 모델에 추가
+        //model.addAttribute("isAdmin", isAdmin); // ADMIN 여부 모델에 추가
+        model.addAttribute("id", id); // admin 여부 모델에 추가
+        //model.addAttribute("user_role", user_role); // ADMIN 여부 모델에 추가
 
         return "notice/selectAll";
     }
@@ -53,34 +85,27 @@ public class NoticeController {
 
     // 공지사항 검색 조회 페이징
     @GetMapping("/notice/n_searchList.do")
-    public String searchList(Model model, @RequestParam(defaultValue = "id") String searchKey,
-                             @RequestParam(defaultValue = "ad") String searchWord,
-                             @RequestParam(defaultValue = "1") int cpage,
-                             @RequestParam(defaultValue = "15") int pageBlock) {
-        log.info("/notice/n_searchList.do");
-        log.info("searchKey:{}", searchKey);
-        log.info("searchWord:{}", searchWord);
-        log.info("cpage:{}", cpage);
-        log.info("pageBlock:{}", pageBlock);
+    public String searchList(
+            Model model,
+            @RequestParam(defaultValue = "id") String searchKey,
+            @RequestParam(defaultValue = "") String searchWord,
+            @RequestParam(defaultValue = "1") int cpage,
+            @RequestParam(defaultValue = "15") int pageBlock,
+            @RequestParam(defaultValue = "newest") String sort,
+            HttpSession session
+    ) {
+        List<NoticeVO> list = service.searchListPageBlock(searchKey, searchWord, cpage, pageBlock, sort);
+        int totalRows = service.getSearchTotalRows(searchKey, searchWord);
+        int totalPageCount = (totalRows + pageBlock - 1) / pageBlock;
 
-        List<NoticeVO> list = service.searchListPageBlock(searchKey, searchWord,cpage,pageBlock);
-        log.info("list.size():{}", list.size());
+        String id = (String) session.getAttribute("id"); // 세션에서 id 가져오기
+        model.addAttribute("id", id);
 
         model.addAttribute("list", list);
-
-        int total_rows = service.getSearchTotalRows(searchKey, searchWord);
-        log.info("total_rows:{}", total_rows);
-        int totalPageCount = 0;
-        if (total_rows / pageBlock == 0) {
-            totalPageCount = 1;
-        } else if (total_rows % pageBlock == 0) {
-            totalPageCount = total_rows / pageBlock;
-        } else {
-            totalPageCount = total_rows / pageBlock + 1;
-        }
-        log.info("totalPageCount:{}", totalPageCount);
-
         model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("currentSort", sort);
+        model.addAttribute("currentSearchKey", searchKey);
+        model.addAttribute("currentSearchWord", searchWord);
 
         return "notice/selectAll";
     }
@@ -89,15 +114,18 @@ public class NoticeController {
 
     // 공지사항 상세보기
     @GetMapping("/notice/n_selectOne.do")
-    public String selectOne(NoticeVO vo, Model model) {
+    public String selectOne(NoticeVO vo, Model model, HttpSession session) {
         log.info("/notice/n_selectOne.do");
         log.info("vo:{}", vo);
 
         NoticeVO vo2 = service.selectOne(vo);
         log.info("vo2:{}", vo2);
 
-        model.addAttribute("vo2", vo2);
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 id: " + id);
 
+        model.addAttribute("id", id); // admin 여부 모델에 추가
+        model.addAttribute("vo2", vo2);
         return "notice/selectOne";
     }
 
@@ -105,8 +133,14 @@ public class NoticeController {
 
     // 공지사항 작성 폼
     @GetMapping("/notice/n_insert.do")
-    public String insert() {
+    public String insert(Model model, HttpSession session) {
         log.info("/notice/n_insert.do");
+
+        String id = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 id: " + id);
+
+        model.addAttribute("id", id); // admin 여부 모델에 추가
+
         return "notice/insert";
     }
 

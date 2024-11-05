@@ -31,18 +31,44 @@
         from notice
     </select>
 
-    <select id="searchListPageBlockTitle"
-            resultType="com.tmtb.pageon.notice.model.NoticeVO">
+    <select id="searchListPageBlockTitle" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice
         where title like #{searchWord}
-        order by num desc limit #{startRow},#{pageBlock}
+        <choose>
+            <when test="sort == 'newest'">
+                order by wdate desc
+            </when>
+            <when test="sort == 'oldest'">
+                order by wdate asc
+            </when>
+            <when test="sort == 'mostViewed'">
+                order by hitcount desc
+            </when>
+            <otherwise>
+                order by wdate desc
+            </otherwise>
+        </choose>
+        limit #{startRow}, #{pageBlock}
     </select>
 
-    <select id="searchListPageBlockContent"
-            resultType="com.tmtb.pageon.notice.model.NoticeVO">
+    <select id="searchListPageBlockContent" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice
         where content like #{searchWord}
-        order by num desc limit #{startRow},#{pageBlock}
+        <choose>
+            <when test="sort == 'newest'">
+                order by wdate desc
+            </when>
+            <when test="sort == 'oldest'">
+                order by wdate asc
+            </when>
+            <when test="sort == 'mostViewed'">
+                order by hitcount desc
+            </when>
+            <otherwise>
+                order by wdate desc
+            </otherwise>
+        </choose>
+        limit #{startRow}, #{pageBlock}
     </select>
 
     <select id="getSearchTotalRowsTitle" resultType="int">

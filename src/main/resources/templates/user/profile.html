@@ -104,7 +104,7 @@
                             <p><strong>ID:</strong> <span th:text="${userVO.id}"></span></p>
                             <p><strong>Name:</strong> <span th:text="${userVO.name}"></span></p>
                             <p><strong>Tel:</strong> <span th:text="${userVO.tel}"></span></p>
-                            <a th:if="${session.id != 'admin'}" class="btn btn-primary mt-2" href="/user/updateProfile">수정하기</a>
+                            <a th:if="${session.id != 'admin'}" class="btn btn-info btn-sm" href="/user/updateProfile">수정하기</a>
                         </div>
                     </div>
                     <div class="user-introduce mt-auto">
@@ -155,7 +155,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- 포럼 목록 섹션 -->
             <h5 th:if="${session.id != 'admin'}">Forums
                 <a class="more-link" th:href="@{/user/profile/all/pazing/forum(type='forum', page=0)}">더보기</a>
@@ -164,15 +163,18 @@
                 <div class="col-6 col-md-4 col-lg-3" th:each="forum, iterStat : ${forumList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h6 class="card-title" th:text="${forum.title}"></h6>
+                            <h6 class="card-title">
+                                <a th:href="@{/forum/view(num=${forum.num})}" th:text="${forum.title}"></a>
+                            </h6>
                             <p class="card-text" th:text="${forum.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
                             <p class="card-text"><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
                             <p class="card-text"><small>조회수: <span th:text="${forum.hitcount}"></span></small></p>
+                            <!-- 숨겨진 num 값 -->
+                            <input type="hidden" th:value="${forum.num}" />
                         </div>
                     </div>
                 </div>
-                <!-- 데이터가 없을 경우 빈 카드 추가 -->
                 <div th:if="${forumList.size() == 0}" class="col-6 col-md-4 col-lg-3">
                     <div class="card mb-3">
                         <div class="card-body text-center">
@@ -190,10 +192,14 @@
                 <div class="col-6 col-md-4 col-lg-3" th:each="review, iterStat : ${reviewList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h6 class="card-title" th:text="${review.title}"></h6>
+                            <h6 class="card-title">
+                                <a th:href="@{/review/detail(num=${review.num})}" th:text="${review.title}"></a>
+                            </h6>
                             <p class="card-text" th:text="${review.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${review.user_id}"></span></small></p>
                             <p class="card-text"><small>날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                            <!-- 숨겨진 num 값 -->
+                            <input type="hidden" th:value="${review.num}" />
                         </div>
                     </div>
                 </div>
@@ -214,10 +220,14 @@
                 <div class="col-6 col-md-4 col-lg-3" th:each="board, iterStat : ${boardList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h6 class="card-title" th:text="${board.title}"></h6>
+                            <h6 class="card-title">
+                                <a th:href="@{/b_selectOne(num=${board.num})}" th:text="${board.title}"></a>
+                            </h6>
                             <p class="card-text" th:text="${board.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${board.user_id}"></span></small></p>
                             <p class="card-text"><small>조회수: <span th:text="${board.boardhitcount}"></span></small></p>
+                            <!-- 숨겨진 num 값 -->
+                            <input type="hidden" th:value="${board.num}" />
                         </div>
                     </div>
                 </div>
@@ -238,9 +248,28 @@
                 <div class="col-6 col-md-4 col-lg-3" th:each="comment, iterStat : ${commentList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
+                            <!-- bnum에 데이터가 있으면 board 상세보기 링크 제공 -->
+                            <h6 class="card-title" th:if="${comment.bnum != 0}">
+                                <a th:href="@{/b_selectOne(num=${comment.bnum})}" th:text="'게시판'"></a>
+                            </h6>
+
+                            <!-- rnum에 데이터가 있으면 리뷰 상세보기 링크 제공 -->
+                            <h6 class="card-title" th:if="${comment.rnum != 0}">
+                                <a th:href="@{/review/detail(num=${comment.rnum})}" th:text="'리뷰'"></a>
+                            </h6>
+
+                            <!-- fnum에 데이터가 있으면 포럼 상세보기 링크 제공 -->
+                            <h6 class="card-title" th:if="${comment.fnum != 0}">
+                                <a th:href="@{/forum/view(num=${comment.fnum})}" th:text="'포럼'"></a>
+                            </h6>
+
                             <p class="card-text" th:text="${comment.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
                             <p class="card-text"><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                            <!-- 숨겨진 rnum, bnum, fnum 값 -->
+                            <input type="hidden" th:value="${comment.bnum}" />
+                            <input type="hidden" th:value="${comment.rnum}" />
+                            <input type="hidden" th:value="${comment.fnum}" />
                         </div>
                     </div>
                 </div>
@@ -250,6 +279,8 @@
                             <p>댓글이 없습니다.</p>
                         </div>
                     </div>
+                </div>
+            </div>
                 </div>
             </div>
         </div>

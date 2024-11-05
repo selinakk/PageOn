@@ -38,12 +38,14 @@
     <!-- Forums Section -->
     <div th:if="${type == 'forum'}">
         <ul class="list-group">
+            <li class="list-group-item" th:if="${#lists.isEmpty(forumList)}">데이터 없음</li>
             <li class="list-group-item" th:each="forum : ${forumList}">
                 <h6 th:text="${forum.title}"></h6>
                 <p th:text="${forum.content}"></p>
                 <p><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
-                <p><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
+                <p><small>날짜: <span th:text="${#dates.format(forum.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
                 <p><small>조회수: <span th:text="${forum.hitcount}"></span></small></p>
+                <a th:href="@{/forum/view(num=${forum.num})}" class="btn btn-primary">상세보기</a>
             </li>
         </ul>
         <nav aria-label="Page navigation">
@@ -65,12 +67,14 @@
     <!-- Boards Section -->
     <div th:if="${type == 'board'}">
         <ul class="list-group">
+            <li class="list-group-item" th:if="${#lists.isEmpty(boardList)}">데이터 없음</li>
             <li class="list-group-item" th:each="board : ${boardList}">
                 <h6 th:text="${board.title}"></h6>
                 <p th:text="${board.content}"></p>
                 <p><small>작성자: <span th:text="${board.user_id}"></span></small></p>
                 <p><small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
                 <p><small>조회수: <span th:text="${board.boardhitcount}"></span></small></p>
+                <a th:href="@{/b_selectOne(num=${board.num})}" class="btn btn-primary">상세보기</a>
             </li>
         </ul>
         <nav aria-label="Page navigation">
@@ -92,11 +96,14 @@
     <!-- Reviews Section -->
     <div th:if="${type == 'review'}">
         <ul class="list-group">
+            <li class="list-group-item" th:if="${#lists.isEmpty(reviewList)}">데이터 없음</li>
             <li class="list-group-item" th:each="review : ${reviewList}">
                 <h6 th:text="${review.title}"></h6>
                 <p th:text="${review.content}"></p>
                 <p><small>작성자: <span th:text="${review.user_id}"></span></small></p>
                 <p><small>날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                <p><small>조회수: <span th:text="${review.hitcount}"></span></small></p>
+                <a th:href="@{/review/detail(num=${review.num})}" class="btn btn-primary">상세보기</a>
             </li>
         </ul>
         <nav aria-label="Page navigation">
@@ -118,12 +125,28 @@
     <!-- Comments Section -->
     <div th:if="${type == 'comment'}">
         <ul class="list-group">
-            <li class="list-group-item" th:each="comment : ${commentList}">
-                <h6 th:text="${comment.num}"></h6>
-                <p th:text="${comment.user_id}"></p>
-                <p th:text="${comment.report}"></p>
+            <li class="list-group-item" th:if="${#lists.isEmpty(commentList)}">데이터 없음</li>
+            <li class="list-group-item" th:each="comment : ${commentList}" th:if="${comment.bnum != 0 or comment.rnum != 0 or comment.fnum != 0}">
+                <h6 th:if="${comment.bnum != 0}">
+                    게시판: <a th:href="@{/b_selectOne(num=${comment.bnum})}" th:text="'게시판'"></a>
+                </h6>
+                <h6 th:if="${comment.rnum != 0}">
+                    리뷰: <a th:href="@{/review/detail(num=${comment.rnum})}" th:text="'리뷰'"></a>
+                </h6>
+                <h6 th:if="${comment.fnum != 0}">
+                    포럼: <a th:href="@{/forum/view(num=${comment.fnum})}" th:text="'포럼'"></a>
+                </h6>
                 <p><small>내용: <span th:text="${comment.content}"></span></small></p>
+                <p><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
                 <p><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                <div>
+                    <a th:if="${comment.bnum != 0}" th:href="@{/b_selectOne(num=${comment.bnum})}" class="btn btn-info btn-sm">상세보기</a>
+                    <a th:if="${comment.rnum != 0}" th:href="@{/review/detail(num=${comment.rnum})}" class="btn btn-info btn-sm">상세보기</a>
+                    <a th:if="${comment.fnum != 0}" th:href="@{/forum/view(num=${comment.fnum})}" class="btn btn-info btn-sm">상세보기</a>
+                </div>
+                <input type="hidden" th:value="${comment.bnum}" />
+                <input type="hidden" th:value="${comment.rnum}" />
+                <input type="hidden" th:value="${comment.fnum}" />
             </li>
         </ul>
         <nav aria-label="Page navigation">
@@ -141,6 +164,7 @@
             </ul>
         </nav>
     </div>
+
 </div>
 
 <!-- jQuery and Bootstrap JS -->
