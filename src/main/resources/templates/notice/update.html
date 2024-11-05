@@ -13,7 +13,7 @@
   <style>
     .form-label {
       font-size: 1.5rem; /* 원하는 크기로 조정 */
-      font-weight: 500; /* 굵기를 좀 덜 굵게 설정 */
+      font-weight: 510; /* 굵기를 좀 덜 굵게 설정 */
     }
   </style>
   <script>
@@ -51,7 +51,7 @@
         </div>
         <div class="form-group">
           <label for="user_id" class="form-label mb-0">작성자</label>
-          <p th:text="'admin1'" style="margin-left: 10px;"></p>
+          <p th:text="${vo2.user_id}" style="margin-left: 10px;"></p>
           <input type="hidden" id="user_id" name="user_id" th:value="${vo2.user_id}">
         </div>
         <div class="form-group">

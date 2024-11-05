@@ -40,8 +40,7 @@
 
         <div class="form-group">
           <label for="user_id" class="form-label">작성자</label> <!-- 왼쪽 여백 추가 -->
-          <input type="hidden" id="user_id" name="user_id" value="tester2" style="margin-left: 10px;">
-          <p>tester2</p>
+          <input type="text" id="user_id" name="user_id" th:value="${id}" style="margin-left: 10px;" readonly>
         </div>
         <br>
 
@@ -53,7 +52,7 @@
       <!-- 작성하기 버튼을 카드 밖으로 이동 -->
     </div>
     <div class="d-flex justify-content-end mt-3"> <!-- 버튼들을 오른쪽 끝으로 정렬하기 위해 d-flex와 justify-content-end 사용 -->
-      <button type="button" class="btn btn-dark" style="font-size: 1em" onclick="submitForm()">작성하기</button>
+      <button type="button" class="btn btn-dark" style="font-size: 1em" onclick="submitForm()">작성완료</button>
       <button type="button" class="btn btn-dark ms-2" style="font-size: 1em" onclick="cancelWork()">작성취소</button> <!-- 버튼 사이 간격 조정 -->
     </div>
   </div>
@@ -112,7 +111,7 @@
 
   function submitForm() {
     if (validateForm2()) {
-      alert("작성 완료됐습니다."); // 작성 완료 알림
+      alert("작성이 완료됐습니다."); // 작성 완료 알림
       document.getElementById('noticeForm').submit(); // 유효성 검사가 통과하면 폼 제출
     }
   }
