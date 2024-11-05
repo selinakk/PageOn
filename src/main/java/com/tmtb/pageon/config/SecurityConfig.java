@@ -1,20 +1,28 @@
 package com.tmtb.pageon.config;
 
 import com.tmtb.pageon.config.AuthSuccessHandler;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.io.IOException;
 
 @Configuration // 설정 클래스라고 알려준다
 @EnableWebSecurity // Security 를 설정하기 위한 어노테이션
 public class SecurityConfig {
+
 
 	@Bean // 메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -26,7 +34,7 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(config ->
 						config.requestMatchers("/members/**").hasRole("ADMIN")// 접근제한
-						 .anyRequest().permitAll() // 모든 요청을 허용
+								.anyRequest().permitAll() // 모든 요청을 허용
 				)
 				.formLogin(config ->
 						config
@@ -49,7 +57,8 @@ public class SecurityConfig {
 				)
 				.exceptionHandling(config ->
 						// 403 forbidden 인 경우 forward 이동 시킬 경로 설정
-						config.accessDeniedPage("/user/denied")
+						config.
+								accessDeniedPage("/user/denied")
 				)
 				.sessionManagement(config ->
 						config

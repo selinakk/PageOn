@@ -292,6 +292,5 @@ public class UserController {
         return isExist ? "해당 이메일이 존재합니다" : "해당 이메일은 사용 가능합니다";
     }
 
-
 }
 

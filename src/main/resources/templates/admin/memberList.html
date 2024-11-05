@@ -53,13 +53,10 @@
     <form th:action="@{/members}" method="get" class="mb-4 text-end">
         <div class="input-group justify-content-end">
             <input type="text" name="keyword" th:value="${keyword}" class="form-control mx-1" placeholder="검색어 입력" style="max-width: 200px;">
-
-
             <select name="sortOrder" id="sortOrder" onchange="this.form.submit()">
                 <option value="ASC" th:selected="${sortOrder == 'ASC'}">오름차순</option>
                 <option value="DESC" th:selected="${sortOrder == 'DESC'}">내림차순</option>
             </select>
-
             <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2">검색</button>
         </div>
     </form>
@@ -88,7 +85,10 @@
             <td th:text="${member.introduce}"></td>
             <td><a th:href="@{/user/userprofile(id=${member.id})}" class="btn btn-info btn-sm action-btn">프로필</a></td>
             <td><a th:href="@{/members/edit(id=${member.id})}" class="btn btn-warning btn-sm action-btn">수정</a></td>
-            <td><a th:href="@{/members/delete(id=${member.id})}" class="btn btn-danger btn-sm action-btn">삭제</a></td>
+            <td>
+                <a th:href="@{/members/delete(id=${member.id})}" class="btn btn-danger btn-sm action-btn"
+                   onclick="return confirm('삭제하시겠습니까?');">삭제</a>
+            </td>
         </tr>
         </tbody>
     </table>

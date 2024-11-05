@@ -20,14 +20,9 @@
     </div>
 
     <div class="col-md-6">
-        <label for="pw" class="form-label">비밀번호</label>
-        <input type="password" id="pw" name="pw" th:value="${userVO.pw}" class="form-control" placeholder="비밀번호를 입력하세요" required/>
-    </div>
-
-    <div class="col-md-6">
         <label for="tel" class="form-label">전화번호</label>
         <input type="tel" id="tel" name="tel" th:value="${userVO.tel}" class="form-control" required/>
-        <small class="form-text text-muted">형식: 010-1234-5678</small>
+        <small>형식: 010-1234-5678</small>
     </div>
 
     <div class="col-12">
@@ -53,51 +48,6 @@
         <a href="/user/profile" class="btn btn-secondary">회원 목록으로 돌아가기</a>
     </div>
 </form>
-
-<script>
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(String(email).toLowerCase());
-    }
-
-    let isIdAvailable = true; // 아이디 유효성 체크를 위한 변수 (실제 유효성 검사를 위한 로직 필요)
-    let isEmailAvailable = true; // 이메일 유효성 체크를 위한 변수 (실제 유효성 검사를 위한 로직 필요)
-
-    function validateForm() {
-        const id = document.getElementById("idInput") ? document.getElementById("idInput").value : "";
-        const password = document.getElementById("password") ? document.getElementById("password").value : "";
-        const name = document.getElementById("name").value;
-        const tel = document.getElementById("tel").value;
-        const email = document.getElementById("email") ? document.getElementById("email").value : "";
-
-        if (id.length < 2) {
-            alert("아이디는 최소 2자 이상이어야 합니다.");
-            return false;
-        }
-        if (password.length < 6) {
-            alert("비밀번호는 최소 6자 이상이어야 합니다.");
-            return false;
-        }
-        if (name.trim() === "") {
-            alert("이름을 입력하세요.");
-            return false;
-        }
-        if (tel.trim() === "") {
-            alert("전화번호를 입력하세요.");
-            return false;
-        }
-        if (email && !validateEmail(email)) {
-            alert("유효한 이메일을 입력하세요.");
-            return false;
-        }
-
-        if (!isIdAvailable || !isEmailAvailable) {
-            alert("아이디와 이메일이 모두 사용 가능해야 합니다.");
-            return false;
-        }
-        return true;
-    }
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
