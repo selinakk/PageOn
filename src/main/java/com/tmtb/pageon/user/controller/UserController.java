@@ -234,7 +234,7 @@ public class UserController {
     @PostMapping("/user/login_success")
     public String login_success() {
         // 로그인 성공후 보여질 페이지
-        return "redirect:/";
+        return "user/login_success";
     }
 
     //김시윤 추가
