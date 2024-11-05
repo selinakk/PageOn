@@ -91,11 +91,15 @@ public class NoticeController {
             @RequestParam(defaultValue = "") String searchWord,
             @RequestParam(defaultValue = "1") int cpage,
             @RequestParam(defaultValue = "15") int pageBlock,
-            @RequestParam(defaultValue = "newest") String sort
+            @RequestParam(defaultValue = "newest") String sort,
+            HttpSession session
     ) {
         List<NoticeVO> list = service.searchListPageBlock(searchKey, searchWord, cpage, pageBlock, sort);
         int totalRows = service.getSearchTotalRows(searchKey, searchWord);
         int totalPageCount = (totalRows + pageBlock - 1) / pageBlock;
+
+        String id = (String) session.getAttribute("id"); // 세션에서 id 가져오기
+        model.addAttribute("id", id);
 
         model.addAttribute("list", list);
         model.addAttribute("totalPageCount", totalPageCount);
