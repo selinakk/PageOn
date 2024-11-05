@@ -7,6 +7,7 @@ import com.tmtb.pageon.book.service.BookService;
 import com.tmtb.pageon.community.service.CommunityService;
 import com.tmtb.pageon.forum.model.ForumVO;
 import com.tmtb.pageon.notice.model.NoticeVO;
+import com.tmtb.pageon.review.service.ReviewService;
 import com.tmtb.pageon.user.model.ReviewVO;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.UserService;
@@ -43,6 +44,9 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -94,6 +98,8 @@ public class HomeController {
         String id = (String) session.getAttribute("id");
         log.info("세션에서 가져온 사용자 ID: {}", id);
 
+
+
         if (id != null) {
             UserVO user = userService.findById(id);
             List<String> likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
@@ -106,6 +112,21 @@ public class HomeController {
             // 선호 카테고리 기반 도서 목록 조회
             List<BookVO> likedBooks = bookService.selectBooksByCategories(likeCategories, 1, 20, "latest");
             model.addAttribute("likedBooks", likedBooks);
+
+            //리뷰카테고리에 따른 사용자 책추천
+            List<BookVO> preferBooks = reviewService.getBookRecommendation(id, 1,4);
+            log.info("preferBooks:{}", preferBooks);
+            model.addAttribute("preferBooks", preferBooks);
+
+            //리뷰카테고리에 따른 사용자 웹툰추천
+            List<WebtoonVO> preferWebtoons = reviewService.getWebtoonRecommendation(id, 1,4);
+            log.info("preferWebtoons:{}", preferWebtoons);
+            model.addAttribute("preferWebtoons", preferWebtoons);
+
+            //리뷰카테고리에 따른 사용자 웹소설추천
+            List<WebnovelVO> preferWebnovel = reviewService.getWebnovelRecommendation(id, 1,4);
+            log.info("preferWebnovel:{}", preferWebnovel);
+            model.addAttribute("preferWebnovel", preferWebnovel);
         }
 
         // 인기순으로 20개의 웹툰 조회

@@ -11,173 +11,34 @@
       <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
           <h3 class="d-flex align-items-center">사용자 추천</h3>
-          <a th:href="@{/review/bookrecommendation}" class="btn">더보기</a>
+
+          <a th:href="@{/webtoonrecommendation}" class="btn">더보기</a>
         </div>
+        <h4>웹툰</h4>
         <div class="swiper work-swiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <!-- 선호 카테고리 기반 추천 작품을 20개까지 출력 -->
+            <div class="swiper-slide" th:each="webtoon : ${preferWebtoons}">
               <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item1.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
+                <a href="#">
+                  <img th:src="@{${webtoon.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
+                </a>
+                <h6 class="mt-4 mb-0 fw-bold">
+                  <a href="#" th:text="${webtoon.title}">작품 제목</a>
+                </h6>
                 <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
+                  <p class="my-2 me-2 fs-6 text-black-50" th:text="${webtoon.writer}">작가</p>
                 </div>
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${webtoon.item_id}" />
+                    <label th:for="'read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webtoon.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webtoon.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webtoon.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item2.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item3.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item4.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item5.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item6.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
@@ -185,350 +46,72 @@
       <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
           <h3 class="d-flex align-items-center"></h3>
-          <a th:href="@{/review/webtoonrecommendation}" class="btn">더보기</a>
+          <a th:href="@{/webnovelrecommendation}" class="btn">더보기</a>
         </div>
+        <h4>웹소설</h4>
         <div class="swiper work-swiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <!-- 선호 카테고리 기반 추천 작품을 20개까지 출력 -->
+            <div class="swiper-slide" th:each="webnovel : ${preferWebnovel}">
               <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item1.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold" ><a th:href="@{/book/datail(item_id=${item_id})}"></a></h6>
+                <a th:href="@{/webnovel/detail(item_id=${webnovel.item_id})}">
+                  <img th:src="@{${webnovel.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
+                </a>
+                <h6 class="mt-4 mb-0 fw-bold">
+                  <a th:href="@{/webnovel/detail(item_id=${webnovel.item_id})}" th:text="${webnovel.title}">작품 제목</a>
+                </h6>
                 <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
+                  <p class="my-2 me-2 fs-6 text-black-50" th:text="${webnovel.writer}">작가</p>
                 </div>
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${webnovel.item_id}" />
+                    <label th:for="'read'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webnovel.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webnovel.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${webnovel.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webnovel.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item2.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item3.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item4.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item5.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item6.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
+
 
       <div class="container">
-        <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+        <div class="section-title d-flex justify-content-between align-items-center mb-4">
           <h3 class="d-flex align-items-center"></h3>
-          <a th:href="@{/review/webnovelrecommendation}" class="btn">더보기</a>
+          <a th:href="@{/bookrecommendation}" class="btn">더보기</a>
         </div>
+        <h4>책</h4>
         <div class="swiper work-swiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <!-- 선호 카테고리 기반 추천 작품을 20개까지 출력 -->
+            <div class="swiper-slide" th:each="book : ${preferBooks}">
               <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item1.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
+                <a th:href="@{/book/detail(item_id=${book.item_id})}">
+                  <img th:src="@{${book.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
+                </a>
+                <h6 class="mt-4 mb-0 fw-bold">
+                  <a th:href="@{/book/detail(item_id=${book.item_id})}" th:text="${book.title}">작품 제목</a>
+                </h6>
                 <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
+                  <p class="my-2 me-2 fs-6 text-black-50" th:text="${book.writer}">작가</p>
                 </div>
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${book.item_id}" />
+                    <label th:for="'read'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${book.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${book.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${book.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${book.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item2.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item3.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item4.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item5.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card position-relative p-4 border rounded-3">
-                <img src="images/product-item6.png" class="img-fluid shadow-sm" alt="책 표지">
-                <h6 class="mt-4 mb-0 fw-bold"><a href="#">작품 제목</a></h6>
-                <div class="review-content d-flex">
-                  <p class="my-2 me-2 fs-6 text-black-50">작가</p>
-
-                  <div class="rating text-warning d-flex align-items-center">
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                    <svg class="star star-fill">
-                      <use xlink:href="#star-fill"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
+
     </section>
 
     <section id="categories-recommend" class="position-relative padding-small" th:if="${session.id != null}">
