@@ -287,9 +287,19 @@ public class ReviewContoller {
         log.info("id:{}", id);
         log.info("review book recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
 
-        List<BookVO> books = service.getBookRecommendation(id, cpage, pageBlock);
+        List<BookVO> books = service.getBookRecommendationBycategory(id, cpage, pageBlock);
         log.info("books:{}", books);
         model.addAttribute("books", books);
+
+        int total_Row = service.bookGetRecommandationTotalRow(id);
+
+        int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
+        log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("books", books);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("pageBlock", pageBlock);
 
         return "review/bookrecommendation";
 
@@ -306,9 +316,21 @@ public class ReviewContoller {
         log.info("id:{}", id);
         log.info("review webtoons recommended cpage:{}, pageBlock:{}", cpage,pageBlock);
 
-        List<WebtoonVO> webtoons = service.getWebtoonRecommendation(id, cpage,pageBlock);
+        List<WebtoonVO> webtoons = service.getWebtoonRecommendationBycategory(id, cpage,pageBlock);
         log.info("webtoons:{}", webtoons);
         model.addAttribute("webtoons", webtoons);
+
+        int total_Row = service.webtoonGetRecommandationTotalRow(id);
+
+        int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
+        log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("webtoons", webtoons);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("pageBlock", pageBlock);
+
+
 
         return "review/webtoonrecommendation";
 
@@ -322,11 +344,19 @@ public class ReviewContoller {
 
         String id = (String) session.getAttribute("id");
         log.info("id:{}", id);
-        log.info("review webnovels recommended cpage:{}, pageBlock:{}", cpage,pageBlock);
+        log.info("review webnovels recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
 
-        List<WebnovelVO> webnovels = service.getWebnovelRecommendation(id, cpage,pageBlock);
+        List<WebnovelVO> webnovels = service.getWebnovelRecommendationBycategory(id, cpage, pageBlock);
         log.info("webnovels:{}", webnovels);
+
+        int total_Row = service.webnovelGetRecommandationTotalRow(id);
+        int totalPageCount = (int) Math.ceil((double) total_Row / pageBlock);
+        log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
+
+        model.addAttribute("totalPageCount", totalPageCount);;
         model.addAttribute("webnovels", webnovels);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("pageBlock", pageBlock);
 
         return "review/webnovelrecommendation";
 

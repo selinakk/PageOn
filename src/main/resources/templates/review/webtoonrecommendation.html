@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
-    <title>사용자 추천목록</title>
+    <title>사용자 추천</title>
 </head>
 <body>
 <section id="webnovel-list" class="position-relative padding-small">
@@ -20,5 +20,11 @@
 
     </div>
 </section>
+<div th:class="pagecount">
+    <th:block  th:each="i : ${#numbers.sequence(1, totalPageCount)}">
+        <a th:href="@{/webnovelreconmammdation(pageBlock=${pageBlock}, cpage=${i})}"
+           th:text="${i}" th:classappend="${i == pageBlock} ? 'active'"></a>
+    </th:block>
+</div>
 </body>
 </html>

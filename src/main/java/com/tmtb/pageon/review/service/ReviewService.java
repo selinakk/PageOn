@@ -106,45 +106,40 @@ public class ReviewService {
     }
 
 
-    public List<BookVO> getBookRecommendation(String id, int cpage, int pageBlock) {
+    public List<BookVO> getBookRecommendationBycategory(String id, int cpage, int pageBlock) {
         log.info("getBookRecommendation..");
         int startRow = (cpage -1)*pageBlock;
         log.info("startRow:{}", startRow);
 
-        return mapper.getBookRecommendation(id, pageBlock, startRow);
+        return mapper.getBookRecommendationBycategory(id, pageBlock, startRow);
     }
 
-    public List<WebtoonVO> getWebtoonRecommendation(String id, int cpage, int pageBlock) {
+    public List<WebtoonVO> getWebtoonRecommendationBycategory(String id, int cpage, int pageBlock) {
         log.info("getWebtoonRecommendation..");
         int startRow = (cpage -1)*pageBlock;
         log.info("startRow:{}", startRow);
 
-        return mapper.getWebtoonRecommendation(id, pageBlock, startRow);
+        return mapper.getWebtoonRecommendationBycategory(id, pageBlock, startRow);
     }
 
-    public List<WebnovelVO> getWebnovelRecommendation(String id, int cpage, int pageBlock) {
-        log.info("getWebnovelRecommendation..");
+    public List<WebnovelVO> getWebnovelRecommendationBycategory(String id, int cpage, int pageBlock) {
+        log.info("getWebnovelRecommendationBycategory..");
         int startRow = (cpage -1)*pageBlock;
         log.info("startRow:{}", startRow);
 
-        return mapper.getWebnovelRecommendation(id, pageBlock, startRow);
+        return mapper.getWebnovelRecommendationBycategory(id, pageBlock, startRow);
     }
 
-    public List<BookVO> getBookBycategories(String id, int cpage, int pageBlock) {
-        log.info("getBookBycategories..");
-        int startRow = (cpage -1)*pageBlock;
-        return mapper.getBookRecommendation(id, pageBlock, startRow );
+    public int webnovelGetRecommandationTotalRow(String id) {
+        log.info("getRecommandationTotalRow..");
+        return  mapper.webnovelGetRecommandationTotalRow(id);
     }
 
-    public List<WebtoonVO> getWebtoonBycategories(String id, int cpage, int pageBlock) {
-        log.info("getWebtoonBycategories..");
-        int startRow = (cpage - 1) * pageBlock;
-        return mapper.getWebtoonRecommendation(id, pageBlock, startRow);
+    public int webtoonGetRecommandationTotalRow(String id) {
+        return mapper.webtoonGetRecommandationTotalRow(id);
     }
 
-    public List<WebnovelVO> getWrbnovelBycategories(String id, int cpage, int pageBlock) {
-        log.info("getWrbnovelBycategories..");
-        int startRow = (cpage -1)*pageBlock;
-        return mapper.getWebnovelRecommendation(id, pageBlock, startRow );
+    public int bookGetRecommandationTotalRow(String id) {
+        return mapper.bookGetRecommandationTotalRow(id);
     }
 }

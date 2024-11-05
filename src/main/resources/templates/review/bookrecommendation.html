@@ -20,7 +20,10 @@
             </div>
         </div>
     </div>
-
 </section>
+<div class="pagecount">
+    <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+    </th:block>
+</div>
 </body>
 </html>
