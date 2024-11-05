@@ -4,306 +4,304 @@
   <meta charset="UTF-8">
 </head>
 <body>
-  <div th:fragment="header">
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-      <symbol id="search" xmlns="http://www.w3.org/2000/symbolsvg" viewBox="0 0 24 24">
-        <path fill="currentColor" fill-rule="evenodd"
-              d="M11.5 2.75a8.75 8.75 0 1 0 0 17.5a8.75 8.75 0 0 0 0-17.5M1.25 11.5c0-5.66 4.59-10.25 10.25-10.25S21.75 5.84 21.75 11.5c0 2.56-.939 4.902-2.491 6.698l3.271 3.272a.75.75 0 1 1-1.06 1.06l-3.272-3.271A10.21 10.21 0 0 1 11.5 21.75c-5.66 0-10.25-4.59-10.25-10.25"
-              clip-rule="evenodd" />
-      </symbol>
+<div th:fragment="header">
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="search" xmlns="http://www.w3.org/2000/symbolsvg" viewBox="0 0 24 24">
+      <path fill="currentColor" fill-rule="evenodd"
+            d="M11.5 2.75a8.75 8.75 0 1 0 0 17.5a8.75 8.75 0 0 0 0-17.5M1.25 11.5c0-5.66 4.59-10.25 10.25-10.25S21.75 5.84 21.75 11.5c0 2.56-.939 4.902-2.491 6.698l3.271 3.272a.75.75 0 1 1-1.06 1.06l-3.272-3.271A10.21 10.21 0 0 1 11.5 21.75c-5.66 0-10.25-4.59-10.25-10.25"
+            clip-rule="evenodd" />
+    </symbol>
 
-      <!-- 로그아웃 아이콘 추가 -->
-      <symbol id="logout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path fill="currentColor" fill-rule="evenodd"
-              d="M16 13v-2h-5V3H7v18h4v-8h5zm5 4h-2v-2h2v2zM17 8h-2V6h2v2z" />
-      </symbol>
+    <!-- 로그아웃 아이콘 추가 -->
+    <symbol id="logout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path fill="currentColor" fill-rule="evenodd"
+            d="M16 13v-2h-5V3H7v18h4v-8h5zm5 4h-2v-2h2v2zM17 8h-2V6h2v2z" />
+    </symbol>
 
 
-      <symbol id="user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path fill="currentColor" fill-rule="evenodd"
-              d="M12 1.25a4.75 4.75 0 1 0 0 9.5a4.75 4.75 0 0 0 0-9.5M8.75 6a3.25 3.25 0 1 1 6.5 0a3.25 3.25 0 0 1-6.5 0M12 12.25c-2.313 0-4.445.526-6.024 1.414C4.42 14.54 3.25 15.866 3.25 17.5v.102c-.001 1.162-.002 2.62 1.277 3.662c.629.512 1.51.877 2.7 1.117c1.192.242 2.747.369 4.773.369s3.58-.127 4.774-.369c1.19-.24 2.07-.605 2.7-1.117c1.279-1.042 1.277-2.5 1.276-3.662V17.5c0-1.634-1.17-2.96-2.725-3.836c-1.58-.888-3.711-1.414-6.025-1.414M4.75 17.5c0-.851.622-1.775 1.961-2.528c1.316-.74 3.184-1.222 5.29-1.222c2.104 0 3.972.482 5.288 1.222c1.34.753 1.961 1.677 1.961 2.528c0 1.308-.04 2.044-.724 2.6c-.37.302-.99.597-2.05.811c-1.057.214-2.502.339-4.476.339c-1.974 0-3.42-.125-4.476-.339c-1.06-.214-1.68-.509-2.05-.81c-.684-.557-.724-1.293-.724-2.601"
-              clip-rule="evenodd" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="alt-arrow-right-outline" viewBox="0 0 24 24">
-        <path fill="currentColor" fill-rule="evenodd"
-              d="M8.512 4.43a.75.75 0 0 1 1.057.082l6 7a.75.75 0 0 1 0 .976l-6 7a.75.75 0 0 1-1.138-.976L14.012 12L8.431 5.488a.75.75 0 0 1 .08-1.057"
-              clip-rule="evenodd" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="alt-arrow-left-outline" viewBox="0 0 24 24">
-        <path fill="currentColor" fill-rule="evenodd"
-              d="M15.488 4.43a.75.75 0 0 1 .081 1.058L9.988 12l5.581 6.512a.75.75 0 1 1-1.138.976l-6-7a.75.75 0 0 1 0-.976l6-7a.75.75 0 0 1 1.057-.081"
-              clip-rule="evenodd" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="star-fill" viewBox="0 0 24 24">
-        <path fill="currentColor"
-              d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182c.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506c-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452c-.347 0-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882c.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45c.28-.213.46-.536.82-1.182z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="star-empty" viewBox="0 0 16 16">
-        <path
-                d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="star-half" viewBox="0 0 16 16">
-        <path
-                d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="quote" viewBox="0 0 24 24">
-        <path fill="currentColor" d="m15 17l2-4h-4V6h7v7l-2 4h-3Zm-9 0l2-4H4V6h7v7l-2 4H6Z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="nav-icon" viewBox="0 0 16 16">
-        <path
-                d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="close" viewBox="0 0 16 16">
-        <path
-                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="navbar-icon" viewBox="0 0 16 16">
-        <path
-                d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z" />
-      </symbol>
-    </svg>
+    <symbol id="user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path fill="currentColor" fill-rule="evenodd"
+            d="M12 1.25a4.75 4.75 0 1 0 0 9.5a4.75 4.75 0 0 0 0-9.5M8.75 6a3.25 3.25 0 1 1 6.5 0a3.25 3.25 0 0 1-6.5 0M12 12.25c-2.313 0-4.445.526-6.024 1.414C4.42 14.54 3.25 15.866 3.25 17.5v.102c-.001 1.162-.002 2.62 1.277 3.662c.629.512 1.51.877 2.7 1.117c1.192.242 2.747.369 4.773.369s3.58-.127 4.774-.369c1.19-.24 2.07-.605 2.7-1.117c1.279-1.042 1.277-2.5 1.276-3.662V17.5c0-1.634-1.17-2.96-2.725-3.836c-1.58-.888-3.711-1.414-6.025-1.414M4.75 17.5c0-.851.622-1.775 1.961-2.528c1.316-.74 3.184-1.222 5.29-1.222c2.104 0 3.972.482 5.288 1.222c1.34.753 1.961 1.677 1.961 2.528c0 1.308-.04 2.044-.724 2.6c-.37.302-.99.597-2.05.811c-1.057.214-2.502.339-4.476.339c-1.974 0-3.42-.125-4.476-.339c-1.06-.214-1.68-.509-2.05-.81c-.684-.557-.724-1.293-.724-2.601"
+            clip-rule="evenodd" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="alt-arrow-right-outline" viewBox="0 0 24 24">
+      <path fill="currentColor" fill-rule="evenodd"
+            d="M8.512 4.43a.75.75 0 0 1 1.057.082l6 7a.75.75 0 0 1 0 .976l-6 7a.75.75 0 0 1-1.138-.976L14.012 12L8.431 5.488a.75.75 0 0 1 .08-1.057"
+            clip-rule="evenodd" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="alt-arrow-left-outline" viewBox="0 0 24 24">
+      <path fill="currentColor" fill-rule="evenodd"
+            d="M15.488 4.43a.75.75 0 0 1 .081 1.058L9.988 12l5.581 6.512a.75.75 0 1 1-1.138.976l-6-7a.75.75 0 0 1 0-.976l6-7a.75.75 0 0 1 1.057-.081"
+            clip-rule="evenodd" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="star-fill" viewBox="0 0 24 24">
+      <path fill="currentColor"
+            d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182c.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506c-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452c-.347 0-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882c.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45c.28-.213.46-.536.82-1.182z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="star-empty" viewBox="0 0 16 16">
+      <path
+              d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="star-half" viewBox="0 0 16 16">
+      <path
+              d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="quote" viewBox="0 0 24 24">
+      <path fill="currentColor" d="m15 17l2-4h-4V6h7v7l-2 4h-3Zm-9 0l2-4H4V6h7v7l-2 4H6Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="nav-icon" viewBox="0 0 16 16">
+      <path
+              d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="close" viewBox="0 0 16 16">
+      <path
+              d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="navbar-icon" viewBox="0 0 16 16">
+      <path
+              d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z" />
+    </symbol>
+  </svg>
 
-    <div id="preloader" class="preloader-container">
-      <div class="book">
-        <div class="inner">
-          <div class="left"></div>
-          <div class="middle"></div>
-          <div class="right"></div>
-        </div>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+  <div id="preloader" class="preloader-container">
+    <div class="book">
+      <div class="inner">
+        <div class="left"></div>
+        <div class="middle"></div>
+        <div class="right"></div>
       </div>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
+  </div>
 
-    <div class="search-popup">
-      <div class="search-popup-container">
-        <!-- 검색 타입 선택 (웹툰, 웹소설, 도서) -->
-        <div class="search-type">
-          <span class="search-type-text" data-type="webtoon">웹툰</span>
-          <span class="search-type-text selected" data-type="webnovel">웹소설</span>
-          <span class="search-type-text" data-type="book">도서</span>
-        </div>
-
-        <!-- 검색 폼 -->
-        <form role="search" method="get" class="search-form" id="searchForm" action="/webnovels">
-          <input type="hidden" name="sortOrder" value="latest" />
-          <input type="hidden" id="searchTypeInput" name="searchType" value="title" /> <!-- 기본값을 'title'로 설정 -->
-          <div id="filter-container">
-            <select name="searchKey" class="search-key">
-              <option value="title">제목</option>
-              <option value="writer">작가</option>
-            </select>
-            <input type="search" id="search-form" class="search-field" placeholder="검색어를 입력하세요" name="searchWord" />
-            <button type="submit" class="search-submit">
-              <svg class="search">
-                <use xlink:href="#search"></use>
-              </svg>
-            </button>
-          </div>
-        </form>
-
-        <h5 class="cat-list-title">Browse Categories</h5>
-        <ul class="cat-list" id="categoryList">
-          <!-- 웹소설 기본 카테고리 목록 -->
-          <li class="cat-list-item"><a href="/webnovels?category=판타지">판타지</a></li>
-          <li class="cat-list-item"><a href="/webnovels?category=현대판타지">현대판타지</a></li>
-          <li class="cat-list-item"><a href="/webnovels?category=무협">무협</a></li>
-          <li class="cat-list-item"><a href="/webnovels?category=드라마">드라마</a></li>
-          <li class="cat-list-item"><a href="/webnovels?category=로맨스판타지">로맨스판타지</a></li>
-        </ul>
+  <div class="search-popup">
+    <div class="search-popup-container">
+      <!-- 검색 타입 선택 (웹툰, 웹소설, 도서) -->
+      <div class="search-type">
+        <span class="search-type-text" data-type="webtoon">웹툰</span>
+        <span class="search-type-text selected" data-type="webnovel">웹소설</span>
+        <span class="search-type-text" data-type="book">도서</span>
       </div>
-    </div>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const categories = {
-          webtoon: [
-            { title: '판타지', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=판타지' },
-            { title: '무협', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=무협' },
-            { title: '드라마', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=드라마' },
-            { title: '액션', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=액션' },
-            { title: '추리미스터리', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=추리미스터리' },
-            { title: '로맨스', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=로맨스' },
-            { title: '로맨스판타지', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=로맨스판타지' },
-            { title: '순정', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=순정' },
-            { title: '공포', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=공포' },
-            { title: '코믹', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=코믹' },
-            { title: '일상', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=일상' },
-            { title: '학원', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=학원' },
-            { title: '스포츠', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories==스포츠' },
-            { title: '소년', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=소년' },
-          ],
-          webnovel: [
-            { title: '판타지', link: '/webnovels?category=판타지' },
-            { title: '현대판타지', link: '/webnovels?category=현대판타지' },
-            { title: '무협', link: '/webnovels?category=무협' },
-            { title: '드라마', link: '/webnovels?category=드라마' },
-            { title: '로맨스판타지', link: '/webnovels?category=로맨스판타지' },
-          ],
-          book: [
-            { title: '판타지', link: '/books?category=판타지' },
-            { title: '무협', link: '/books?category=무협' },
-            { title: '액션', link: '/books?category=액션' },
-            { title: '추리미스터리', link: '/books?category=추리미스터리' },
-            { title: '로맨스', link: '/books?category=로맨스' },
-            { title: '공포', link: '/books?category=공포' },
-            { title: '공상과학', link: '/books?category=공상과학' },
-          ],
-        };
-
-        function selectSearchType(type, element) {
-          document.querySelectorAll('.search-type-text').forEach(item => item.classList.remove('selected'));
-          element.classList.add('selected');
-
-          updateSearchFormAction(type);
-          updateCategoryList(type);
-        }
-
-        function updateCategoryList(type) {
-          const categoryList = document.getElementById('categoryList');
-          categoryList.innerHTML = '';
-
-          categories[type].forEach(category => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('cat-list-item');
-            listItem.innerHTML = `<a href="${category.link}">${category.title}</a>`;
-            categoryList.appendChild(listItem);
-          });
-        }
-
-        function updateSearchFormAction(type) {
-          const searchForm = document.getElementById('searchForm');
-          const searchTypeInput = document.getElementById('searchTypeInput');
-
-          if (type === 'webtoon') {
-            searchForm.action = "/wt_search";
-          } else if (type === 'webnovel') {
-            searchForm.action = "/webnovels";
-          } else if (type === 'book') {
-            searchForm.action = "/books";
-          }
-        }
-
-        document.querySelectorAll('.search-type-text').forEach(item => {
-          item.addEventListener('click', function() {
-            selectSearchType(this.getAttribute('data-type'), this);
-          });
-        });
-
-        // 검색 키 드롭다운 변경 시 searchType 업데이트
-        document.querySelector('.search-key').addEventListener('change', function() {
-          const selectedValue = this.value;
-          document.getElementById('searchTypeInput').value = selectedValue; // 선택한 검색 키에 따라 searchType 업데이트
-        });
-      });
-    </script>
-
-    <header id="header" class="site-header border-bottom">
-      <nav id="header-nav" class="navbar navbar-expand-lg py-3">
-        <div class="container">
-          <a class="navbar-brandd fs-2" href="/">
-            <img src="/img/main-logo.png" href="/" class="logo">
-          </a>
-          <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
-                  data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <svg class="navbar-icon">
-              <use xlink:href="#navbar-icon"></use>
+      <!-- 검색 폼 -->
+      <form role="search" method="get" class="search-form" id="searchForm" action="/webnovels">
+        <input type="hidden" name="sortOrder" value="latest" />
+        <input type="hidden" id="searchTypeInput" name="searchType" value="title" /> <!-- 기본값을 'title'로 설정 -->
+        <div id="filter-container">
+          <select name="searchKey" class="search-key">
+            <option value="title">제목</option>
+            <option value="writer">작가</option>
+          </select>
+          <input type="search" id="search-form" class="search-field" placeholder="검색어를 입력하세요" name="searchWord" />
+          <button type="submit" class="search-submit">
+            <svg class="search">
+              <use xlink:href="#search"></use>
             </svg>
           </button>
-          <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
-            <div class="offcanvas-header px-4 pb-0">
-              <a class="navbar-brand" href="/">
-                <img src="/img/main-logo.png" class="logo">
-              </a>
-              <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
-                      data-bs-target="#bdNavbar"></button>
-            </div>
-            <div class="offcanvas-body">
-              <ul id="navbar"
-                  class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1 fs-4">
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="/">홈</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                     aria-expanded="false">작품</a>
-                  <ul class="dropdown-menu animate slide border">
-                    <li>
-                      <a href="/work_index" class="dropdown-item fw-light">한 번에 보기</a>
-                    </li>
-                    <li>
-                      <a href="/wt_selectAll" class="dropdown-item fw-light">웹툰</a>
-                    </li>
-                    <li>
-                      <a href="/webnovels" class="dropdown-item fw-light">웹소설</a>
-                    </li>
-                    <li>
-                      <a href="/books" class="dropdown-item fw-light">도서</a>
-                    </li>
-                  </ul>
-                </li><li class="nav-item dropdown">
+        </div>
+      </form>
+
+      <h5 class="cat-list-title">Browse Categories</h5>
+      <ul class="cat-list" id="categoryList">
+        <!-- 웹소설 기본 카테고리 목록 -->
+        <li class="cat-list-item"><a href="/webnovels?category=판타지">판타지</a></li>
+        <li class="cat-list-item"><a href="/webnovels?category=현대판타지">현대판타지</a></li>
+        <li class="cat-list-item"><a href="/webnovels?category=무협">무협</a></li>
+        <li class="cat-list-item"><a href="/webnovels?category=드라마">드라마</a></li>
+        <li class="cat-list-item"><a href="/webnovels?category=로맨스판타지">로맨스판타지</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const categories = {
+        webtoon: [
+          { title: '판타지', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=판타지' },
+          { title: '무협', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=무협' },
+          { title: '드라마', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=드라마' },
+          { title: '액션', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=액션' },
+          { title: '추리미스터리', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=추리미스터리' },
+          { title: '로맨스', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=로맨스' },
+          { title: '로맨스판타지', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=로맨스판타지' },
+          { title: '순정', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=순정' },
+          { title: '공포', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=공포' },
+          { title: '코믹', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=코믹' },
+          { title: '일상', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=일상' },
+          { title: '학원', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=학원' },
+          { title: '스포츠', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories==스포츠' },
+          { title: '소년', link: '/wt_search?searchType=categories&sortOrder=&page=1&categories=소년' },
+        ],
+        webnovel: [
+          { title: '판타지', link: '/webnovels?category=판타지' },
+          { title: '현대판타지', link: '/webnovels?category=현대판타지' },
+          { title: '무협', link: '/webnovels?category=무협' },
+          { title: '드라마', link: '/webnovels?category=드라마' },
+          { title: '로맨스판타지', link: '/webnovels?category=로맨스판타지' },
+        ],
+        book: [
+          { title: '판타지', link: '/books?category=판타지' },
+          { title: '무협', link: '/books?category=무협' },
+          { title: '액션', link: '/books?category=액션' },
+          { title: '추리미스터리', link: '/books?category=추리미스터리' },
+          { title: '로맨스', link: '/books?category=로맨스' },
+          { title: '공포', link: '/books?category=공포' },
+          { title: '공상과학', link: '/books?category=공상과학' },
+        ],
+      };
+
+      function selectSearchType(type, element) {
+        document.querySelectorAll('.search-type-text').forEach(item => item.classList.remove('selected'));
+        element.classList.add('selected');
+
+        updateSearchFormAction(type);
+        updateCategoryList(type);
+      }
+
+      function updateCategoryList(type) {
+        const categoryList = document.getElementById('categoryList');
+        categoryList.innerHTML = '';
+
+        categories[type].forEach(category => {
+          const listItem = document.createElement('li');
+          listItem.classList.add('cat-list-item');
+          listItem.innerHTML = `<a href="${category.link}">${category.title}</a>`;
+          categoryList.appendChild(listItem);
+        });
+      }
+
+      function updateSearchFormAction(type) {
+        const searchForm = document.getElementById('searchForm');
+        const searchTypeInput = document.getElementById('searchTypeInput');
+
+        if (type === 'webtoon') {
+          searchForm.action = "/wt_search";
+        } else if (type === 'webnovel') {
+          searchForm.action = "/webnovels";
+        } else if (type === 'book') {
+          searchForm.action = "/books";
+        }
+      }
+
+      document.querySelectorAll('.search-type-text').forEach(item => {
+        item.addEventListener('click', function() {
+          selectSearchType(this.getAttribute('data-type'), this);
+        });
+      });
+
+      // 검색 키 드롭다운 변경 시 searchType 업데이트
+      document.querySelector('.search-key').addEventListener('change', function() {
+        const selectedValue = this.value;
+        document.getElementById('searchTypeInput').value = selectedValue; // 선택한 검색 키에 따라 searchType 업데이트
+      });
+    });
+  </script>
+
+  <header id="header" class="site-header border-bottom">
+    <nav id="header-nav" class="navbar navbar-expand-lg py-3">
+      <div class="container">
+        <a class="navbar-brandd fs-2" href="/">
+          <img src="/img/main-logo.png" href="/" class="logo">
+        </a>
+        <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <svg class="navbar-icon">
+            <use xlink:href="#navbar-icon"></use>
+          </svg>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
+          <div class="offcanvas-header px-4 pb-0">
+            <a class="navbar-brand" href="/">
+              <img src="/img/main-logo.png" class="logo">
+            </a>
+            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdNavbar"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul id="navbar"
+                class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1 fs-4">
+              <li class="nav-item">
+                <a class="nav-link me-4" href="/">홈</a>
+              </li>
+              <li class="nav-item dropdown">
                 <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">커뮤니티</a>
+                   aria-expanded="false">작품</a>
                 <ul class="dropdown-menu animate slide border">
                   <li>
-                    <a href="/community" class="dropdown-item fw-light">한 번에 보기</a>
+                    <a href="/work_index" class="dropdown-item fw-light">한 번에 보기</a>
                   </li>
                   <li>
-                    <a href="/notice/n_selectAll.do" class="dropdown-item fw-light">공지사항</a>
+                    <a href="/wt_selectAll" class="dropdown-item fw-light">웹툰</a>
                   </li>
                   <li>
-                    <a href="/freeboard" class="dropdown-item fw-light">자유게시판</a>
+                    <a href="/webnovels" class="dropdown-item fw-light">웹소설</a>
                   </li>
                   <li>
-                    <a href="/qnaboard" class="dropdown-item fw-light">질문게시판</a>
-                  </li>
-                  <li>
-                    <a href="/forum/list" class="dropdown-item fw-light">토론</a>
+                    <a href="/books" class="dropdown-item fw-light">도서</a>
                   </li>
                 </ul>
-              </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="/review/list">리뷰</a>
+              </li><li class="nav-item dropdown">
+              <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                 aria-expanded="false">커뮤니티</a>
+              <ul class="dropdown-menu animate slide border">
+                <li>
+                  <a href="/community" class="dropdown-item fw-light">한 번에 보기</a>
+                </li>
+                <li>
+                  <a href="/notice/n_selectAll.do" class="dropdown-item fw-light">공지사항</a>
+                </li>
+                <li>
+                  <a href="/freeboard" class="dropdown-item fw-light">자유게시판</a>
+                </li>
+                <li>
+                  <a href="/qnaboard" class="dropdown-item fw-light">질문게시판</a>
+                </li>
+                <li>
+                  <a href="/forum/list" class="dropdown-item fw-light">토론</a>
                 </li>
               </ul>
-              <div class="user-items d-flex">
-                <ul class="d-flex align-items-lg-center list-unstyled mb-0">
-                  <li class="search-item pe-3">
-                    <a href="#" class="search-button">
-                      <svg class="search">
-                        <use xlink:href="#search"></use>
-                      </svg>
-                    </a>
-                  </li>
-                  <li class="pe-3">
-                    <a th:href="${session.id == 'admin' ? '/members' : '#'}"
-                       th:text="${session.id == 'admin' ? '회원 관리' : ''}">
-                      <svg class="admin">
-                        <use xlink:href="#admin"></use> <!-- 회원 관리 아이콘 -->
-                      </svg>
-                    </a>
-                  </li>
-
-                  <li class="pe-3">
-
+            </li>
+              <li class="nav-item">
+                <a class="nav-link me-4" href="/review/list">리뷰</a>
+              </li>
+            </ul>
+            <div class="user-items d-flex">
+              <ul class="d-flex align-items-lg-center list-unstyled mb-0">
+                <li class="search-item pe-3">
+                  <a href="#" class="search-button">
+                    <svg class="search">
+                      <use xlink:href="#search"></use>
+                    </svg>
+                  </a>
+                </li>
+                <li class="pe-3">
+                  <a th:href="${session.id == 'admin' ? '/members' : '#'}"
+                     th:text="${session.id == 'admin' ? '회원 관리' : ''}">
+                    <svg class="admin">
+                      <use xlink:href="#admin"></use> <!-- 회원 관리 아이콘 -->
+                    </svg>
+                  </a>
+                </li>
+                <li class="pe-3">
                   <a th:href="${session.id != null ? '/user/profile' : '#'}"
                      th:text="${session.id != null ? '마이페이지' : '로그인 / 회원가입'}"
                      th:attr="data-bs-toggle=${session.id != null ? null : 'modal'},
@@ -312,14 +310,13 @@
                       <use xlink:href="#user"></use>
                     </svg>
                   </a>
-                  </li>
+                </li>
                 <li class="pe-3" th:if="${session.id != null}">
                   <a th:href="@{/logout}">
                     <svg class="logout" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg">
                       <use xlink:href="#logout"></use> <!-- 로그아웃 아이콘 사용 -->
                     </svg>
                   </a>
-                </li>
                 </li>
                 <li class="pe-3">
                   <a th:href="@{/bookshelf/list(userId=${session.id})}">
