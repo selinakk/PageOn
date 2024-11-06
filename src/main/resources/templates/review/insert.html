@@ -24,7 +24,7 @@
                 <div>
                     <input type="hidden" name="work_num" th:value="${work_num}">
                     <input type="hidden" name="categories" th:value="${categories}">
-                    <input type="hidden" name="user_id" id="user_id" value="admin11">//로그인id
+                    <input type="hidden" name="user_id" id="user_id" th:value="${session.id}">
                 </div>
                 <p>
                 <div class="justify-content-p">
