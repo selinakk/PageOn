@@ -23,6 +23,12 @@
     justify-content: center;
 }
 
+.padding-left-right {
+    padding-top: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .board-select-detail {
     text-align: center;
     cursor: pointer;
@@ -187,7 +193,7 @@
 }
 
 .table th:nth-child(4) {
-    width: 25px;
+    width: 40px;
 }
 
 .board-select-dropdown {
@@ -248,10 +254,6 @@
     }
 
     .board-select {
-        display: none;
-    }
-
-    .hide-div {
         display: none;
     }
 

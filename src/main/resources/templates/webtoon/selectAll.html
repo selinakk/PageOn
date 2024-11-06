@@ -14,7 +14,7 @@
            th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
         <span th:href="@{/wt_selectAll(filter='recommend')}" class="filter-option"
               th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</span>
-        <a th:href="@{/wt_like(categories=${likeCategories})}" class="filter-option"
+        <a id="prefer-link" th:href="@{/wt_like(categories=${likeCategories})}" class="filter-option"
            th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
     </div>
 
@@ -24,53 +24,8 @@
         <span th:each="category : ${categories}" th:if="${category != null}"> </span>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const categories = urlParams.getAll('categories');
-            categories.forEach(category => {
-                const element = document.querySelector(`[data-category="${category}"]`);
-                if (element) {
-                    element.classList.add('selected-category');
-                }
-            });
 
-            // wt_selectAll로 돌아갈 때 localStorage 초기화
-            if (window.location.pathname === '/wt_selectAll') {
-                localStorage.removeItem('selectedCategories');
-            }
-        });
 
-        function filterByCategory(element) {
-            const category = element.getAttribute('data-category');
-            let selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
-
-            if (selectedCategories.includes(category)) {
-                selectedCategories = selectedCategories.filter(cat => cat !== category);
-                element.classList.remove('selected-category');
-            } else {
-                selectedCategories.push(category);
-                element.classList.add('selected-category');
-            }
-
-            localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
-
-            if (selectedCategories.length === 0) {
-                // 선택된 카테고리가 없으면 wt_selectAll로 리다이렉트
-                window.location.href = '/wt_selectAll';
-            } else {
-                const url = new URL(window.location.href);
-                url.pathname = '/wt_search';
-                url.searchParams.set('searchType', 'categories');
-                url.searchParams.set('sortOrder', '');
-                url.searchParams.set('page', '1'); // 항상 첫 페이지로 이동
-                url.searchParams.delete('categories');
-                selectedCategories.forEach(cat => url.searchParams.append('categories', cat));
-
-                window.location.href = url.toString();
-            }
-        }
-    </script>
 
     <!-- 검색 폼 -->
     <div id="filter-container">
@@ -172,5 +127,72 @@
     </div>
 
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categories = urlParams.getAll('categories');
+        categories.forEach(category => {
+            const element = document.querySelector(`[data-category="${category}"]`);
+            if (element) {
+                element.classList.add('selected-category');
+            }
+        });
+
+        // wt_selectAll로 돌아갈 때 localStorage 초기화
+        if (window.location.pathname === '/wt_selectAll') {
+            localStorage.removeItem('selectedCategories');
+        }
+    });
+
+    function filterByCategory(element) {
+        const category = element.getAttribute('data-category');
+        let selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
+
+        if (selectedCategories.includes(category)) {
+            selectedCategories = selectedCategories.filter(cat => cat !== category);
+            element.classList.remove('selected-category');
+        } else {
+            selectedCategories.push(category);
+            element.classList.add('selected-category');
+        }
+
+        localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+
+        if (selectedCategories.length === 0) {
+            // 선택된 카테고리가 없으면 wt_selectAll로 리다이렉트
+            window.location.href = '/wt_selectAll';
+        } else {
+            const url = new URL(window.location.href);
+            url.pathname = '/wt_search';
+            url.searchParams.set('searchType', 'categories');
+            url.searchParams.set('sortOrder', '');
+            url.searchParams.set('page', '1'); // 항상 첫 페이지로 이동
+            url.searchParams.delete('categories');
+            selectedCategories.forEach(cat => url.searchParams.append('categories', cat));
+
+            window.location.href = url.toString();
+        }
+    }
+</script>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const sessionId = [[${session.id}]];
+
+        function openLoginModal(event) {
+            event.preventDefault();
+            var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            modal.show();
+        }
+
+        document.getElementById("prefer-link").addEventListener("click", function (event) {
+            if (!sessionId) {
+                openLoginModal(event);
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
