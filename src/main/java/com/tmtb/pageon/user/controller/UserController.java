@@ -238,10 +238,11 @@ public class UserController {
     }
 
     //김시윤 추가
-    @GetMapping("user/login")
+    @GetMapping("/user/login")
     public String login() {
         return "/user/login-form";
     }
+
     // 세션 허용갯수 초과시
     @GetMapping("/user/expired")
     public String expired() {
