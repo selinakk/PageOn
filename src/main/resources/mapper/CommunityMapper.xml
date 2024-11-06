@@ -28,7 +28,9 @@
     </select>
 
     <select id="reviewSelectList" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        select * from review order by num desc limit 4;
+        select r.*, w.title AS workTitle, w.img_name AS workImg
+        FROM review r JOIN work w ON r.work_num = w.item_id
+        ORDER BY wdate desc limit 4;
     </select>
 
     <select id="forumSelectList" resultType="com.tmtb.pageon.forum.model.ForumVO">
