@@ -69,8 +69,6 @@
         <div>
             <img th:if="${vo2.img_name != 'default.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"
                  class="img-thumbnail">
-            <p>업로드 서버용 이미지 테스트</p>
-            <img th:if="${vo2.img_name != 'default.png'}" th:src="'/home/multi26_01/uploadimgPath/' + ${vo2.img_name}" class="img-thumbnail">
             <p th:utext="${vo2.formattedContent}"></p> <!-- th:utext를 사용하여 HTML 태그를 해석 -->
         </div>
     </div>
