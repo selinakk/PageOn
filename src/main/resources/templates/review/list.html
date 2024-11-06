@@ -36,26 +36,29 @@
 </div>
 <div class="list-unstyled row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">
     <div th:each="review : ${list}" class="p-3">
-        <a th:href="|/review/detail?num=${review.num}|">
+
             <div>
                 <div class="card position-relative p-4 border rounded-3 fs-6">
+                    <a th:href="|/review/detail?num=${review.num}|">
                     <img th:src="${review.workImg}" class="w-100 shadow-sm" th:alt="${review.workTitle}">
                     <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
                     <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
-                        <div class="rating text=wrning d-flex align-item-center">
-                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                            <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+                    </div><small th:text="${review.wdate}"></small>
+                    </a>
+                    <form action="/bookshelf/insertOK"  method="post">
+                        <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                            <input type="hidden" name="work_num" th:value="${review.work_num}" />
+                            <label th:for="'read'+${review.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${review.work_num}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                            <label th:for="'to-read'+${review.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${review.work_num}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                            <label th:for="'ing'+${review.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${review.work_num}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
                         </div>
-                    </div>
-                    <small th:text="${review.wdate}"></small>
+                    </form>
                 </div>
             </div>
-        </a>
+
     </div>
 </div>
+
 
 <div class="pagecount">
     <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
