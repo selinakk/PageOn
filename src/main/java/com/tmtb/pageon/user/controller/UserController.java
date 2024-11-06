@@ -325,9 +325,8 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     public String updatePassword(@RequestParam String id, @RequestParam String pw, @RequestParam String email, Model model) {
-        // 아이디와 이메일이 맞는지 확인
         if (userService.selectfindPw(id, email)) {
-            userService.updatePassword(id, pw, email); // 새로운 비밀번호 업데이트
+            userService.updatePassword(id, pw, email);
             model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다!");
             return "user/success-pwupdate"; // 성공 페이지
         } else {

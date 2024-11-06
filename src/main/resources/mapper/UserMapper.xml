@@ -169,11 +169,11 @@
     </select>
 
 
-    <update id="selectupdatePassword">
+    <select id="selectupdatePassword"  resultType="int">
         SELECT COUNT(*)
         FROM member
         WHERE id = #{id} AND email = #{email}
-    </update>
+    </select>
 
     <update id="updatePassword">
         UPDATE member

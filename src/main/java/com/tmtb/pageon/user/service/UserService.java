@@ -118,8 +118,9 @@ public class UserService {
     }
 
     public boolean selectfindPw(String id, String email){
-        int count = mapper.selectupdatePassword(id,email);
+        int count = mapper.selectupdatePassword(id, email);
         return count > 0;
+
     }
 
 
