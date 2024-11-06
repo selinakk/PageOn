@@ -22,7 +22,7 @@
 </section>
 <div th:class="pagecount">
     <th:block  th:each="i : ${#numbers.sequence(1, totalPageCount)}">
-        <a th:href="@{/webnovelreconmammdation(pageBlock=${pageBlock}, cpage=${i})}"
+        <a th:href="@{/webtoonrecommendation(pageBlock=${pageBlock}, cpage=${i})}"
            th:text="${i}" th:classappend="${i == pageBlock} ? 'active'"></a>
     </th:block>
 </div>

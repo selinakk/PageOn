@@ -21,8 +21,10 @@
         </div>
     </div>
 </section>
-<div class="pagecount">
-    <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+<div th:class="pagecount">
+    <th:block  th:each="i : ${#numbers.sequence(1, totalPageCount)}">
+        <a th:class="pagecount" th:href="@{/bookrecommendation(pageBlock=${pageBlock}, cpage=${i})}"
+           th:text="${i}" th:classappend="${i == pageBlock} ? 'active'"></a>
     </th:block>
 </div>
 </body>
