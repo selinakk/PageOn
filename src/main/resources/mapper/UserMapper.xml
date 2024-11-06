@@ -25,37 +25,80 @@
     </select>
 
     <select id="findByforumPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.ForumVO">
-        SELECT *
+        SELECT  forum.num,
+        forum.work_num,
+        forum.title,
+        forum.content,
+        forum.user_id,
+        member.name,
+        forum.wdate,
+        forum.report,
+        forum.hitcount,
+        forum.comment_count
         FROM forum
-        WHERE user_id = #{id}
-        ORDER BY wdate DESC
-            LIMIT #{offset}, #{size}
+        JOIN member ON forum.user_id = member.id
+        WHERE forum.user_id = #{id}  <!-- forum 테이블의 user_id를 사용 -->
+        ORDER BY forum.wdate DESC
+        LIMIT #{offset}, #{size}
     </select>
 
 
     <select id="findBoardsByUserPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.BoardVO">
-        SELECT *
-        FROM pageon.board
-        WHERE user_id = #{id}
-        ORDER BY wdate DESC
+        SELECT board.num,
+               board.title,
+               board.content,
+               board.user_id,
+               member.name,
+               board.wdate,
+               board.img_name,
+               board.report,
+               board.category,
+               board.boardhitcount
+        FROM board
+                 JOIN member ON board.user_id = member.id
+        WHERE board.user_id = #{id}
+        ORDER BY board.wdate DESC
             LIMIT #{offset}, #{size}
     </select>
 
     <!-- 사용자가 작성한 리뷰 조회 쿼리 -->
     <select id="findByReviewsPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.ReviewVO">
-        SELECT *
-        FROM pageon.review
-        WHERE user_id = #{id}
-        ORDER BY wdate DESC
+        SELECT review.num,
+               review.work_num,
+               review.title,
+               review.content,
+               review.user_id,
+               member.name,
+               review.wdate,
+               review.rating,
+               review.report,
+               review.hate,
+               review.like,
+               review.categories
+        FROM review
+                 JOIN member ON review.user_id = member.id
+        WHERE review.user_id = #{id}
+        ORDER BY review.wdate DESC
             LIMIT #{offset}, #{size}
     </select>
 
 
     <select id="findCommentsByUserPazing" parameterType="map" resultType="com.tmtb.pageon.user.model.CommentVO">
-        SELECT *
-        FROM pageon.comment
-        WHERE user_id = #{id}
-        ORDER BY wdate DESC
+        SELECT comment.num,
+               comment.type,
+               comment.bnum,
+               comment.fnum,
+               comment.rnum,
+               comment.cnum,
+               comment.content,
+               comment.wdate,
+               comment.user_id,
+               member.name,
+               comment.report
+        FROM comment
+                 JOIN member ON comment.user_id = member.id
+        WHERE comment.user_id = #{id}
+        ORDER BY comment.wdate DESC
             LIMIT #{offset}, #{size}
     </select>
 
@@ -137,6 +180,34 @@
         SET pw = #{pw}
         WHERE id = #{id} AND email = #{email}
     </update>
+
+
+    <select id="countCommentsByUser" resultType="int">
+        SELECT COUNT(*)
+        FROM comment
+        WHERE user_id = #{id}
+    </select>
+
+
+    <select id="countForumsByUser" resultType="int">
+        SELECT COUNT(*)
+        FROM forum
+        WHERE user_id = #{id}
+    </select>
+
+
+    <select id="countBoardsByUser" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE user_id = #{id}
+    </select>
+
+
+    <select id="countReviewsByUser" resultType="int">
+        SELECT COUNT(*)
+        FROM review
+        WHERE user_id = #{id}
+    </select>
 
 
 </mapper>

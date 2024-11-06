@@ -39,8 +39,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 			log.info("authority.getAuthority():{}",authority.getAuthority());
 		}
 		//Spring Security 가 제공하는 User 클래스는 UserDetails 인터페이스를 구현한 클래스 이다.
-		UserDetails ud=new User(vo.getId(), vo.getPw(), authList);
+		// CustomUser 객체 생성 (UserVO를 포함시킨 커스터마이즈된 UserDetails)
+		CustomUser customUser = new CustomUser(vo, vo.getId(), vo.getPw(), authList);
 
-		return ud;
+		// UserVO 객체를 Principal로 설정
+		log.info("로그인된 사용자: " + vo.getName());  // 이름 로그 출력
+
+		return customUser;
 	}
 }

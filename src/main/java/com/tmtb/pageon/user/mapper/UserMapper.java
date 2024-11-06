@@ -47,4 +47,12 @@ public interface UserMapper {
 
     int selectupdatePassword(String id, String email) ;
 
+    int countCommentsByUser(String id);
+
+    int countForumsByUser(String id);
+
+    int countReviewsByUser(String id);
+
+    int countBoardsByUser(String id);
+
 }

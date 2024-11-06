@@ -5,7 +5,7 @@
 
     <select id="findById"
             resultType="com.tmtb.pageon.user.model.UserVO">
-        select * from member where id=#{id}
+        select  id, pw, name, user_role from member where id=#{id}
     </select>
 
 </mapper>

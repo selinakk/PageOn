@@ -133,7 +133,21 @@ public class UserService {
         return count > 0; // 중복 아이디 체크
     }
 
+    public  int countCommentsByUser(String id){
+        return mapper.countCommentsByUser(id);
+    }
 
+    public  int countForumsByUser(String id){
+        return mapper.countForumsByUser(id);
+    }
+
+    public  int countReviewsByUser(String id){
+        return mapper.countReviewsByUser(id);
+    }
+
+    public  int countBoardsByUser(String id){
+        return mapper.countBoardsByUser(id);
+    }
 
 
 }

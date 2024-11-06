@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -139,33 +140,94 @@ public class UserController {
         int offset = Math.max(0, page * size); // 오프셋 계산: 음수일 경우 0으로 설정
 
         if (id != null) {
+            int totalComments = 0;
             switch (type) {
                 case "forum":
                     List<ForumVO> forumList = userService.findByForumPazing(id, offset, size); // 포럼 데이터 조회
                     model.addAttribute("forumList", forumList);
+                    totalComments = userService.countForumsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 case "board":
                     List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size); // 게시판 데이터 조회
                     model.addAttribute("boardList", boardList);
+                    totalComments = userService.countBoardsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 case "review":
                     List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size); // 리뷰 데이터 조회
                     model.addAttribute("reviewList", reviewList);
+                    totalComments = userService.countReviewsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 case "comment":
-                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size); // 리뷰 데이터 조회
+                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size); // 댓글 데이터 조회
                     model.addAttribute("commentList", commentList);
+                    totalComments = userService.countCommentsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 default:
                     return "redirect:/";
             }
+
+            // 전체 페이지 수 계산
+            int commentTotalPages = (int) Math.ceil((double) totalComments / size);
+
             model.addAttribute("type", type);
             model.addAttribute("currentPage", page);
+            model.addAttribute("commentTotalPages", commentTotalPages); // 전체 페이지 수 전달
         } else {
             return "redirect:/";
         }
+
         return "user/allProfile"; // 전체보기 페이지로 이동
     }
+
+
+
+    @GetMapping("/user/profile/id/pazing/{type}/{id}")
+    public String paramviewAllPazing(@PathVariable String type, @PathVariable String id,
+                                     Model model,
+                                     @RequestParam(defaultValue = "0") int page) {
+        int size = 4; // 페이지당 항목 수
+        int offset = Math.max(0, page * size); // 오프셋 계산: 음수일 경우 0으로 설정
+
+        if (id != null) {
+            int totalComments = 0;
+            switch (type) {
+                case "forum":
+                    List<ForumVO> forumList = userService.findByForumPazing(id, offset, size); // 포럼 데이터 조회
+                    model.addAttribute("forumList", forumList);
+                    totalComments = userService.countForumsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    break;
+                case "board":
+                    List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size); // 게시판 데이터 조회
+                    model.addAttribute("boardList", boardList);
+                    totalComments = userService.countBoardsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    break;
+                case "review":
+                    List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size); // 리뷰 데이터 조회
+                    model.addAttribute("reviewList", reviewList);
+                    totalComments = userService.countReviewsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    break;
+                case "comment":
+                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size); // 댓글 데이터 조회
+                    model.addAttribute("commentList", commentList);
+                    totalComments = userService.countCommentsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    break;
+                default:
+                    return "redirect:/";
+            }
+
+            // 전체 페이지 수 계산
+            int commentTotalPages = (int) Math.ceil((double) totalComments / size);
+
+            model.addAttribute("type", type);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("commentTotalPages", commentTotalPages); // 전체 페이지 수 전달
+        } else {
+            return "redirect:/";
+        }
+
+        return "user/allNameProfile"; // 전체보기 페이지로 이동
+    }
+
 
 
     // 사용자 정보 업데이트
@@ -183,12 +245,17 @@ public class UserController {
         }
     }
 
-    // 카테고리 업데이트
     @PostMapping("/user/updateCategories")
-    public String updateUserCategories(@RequestParam List<String> likeCategories, HttpSession session) {
+    public String updateUserCategories(@RequestParam(name = "likeCategories", required = false) List<String> likeCategories, HttpSession session) {
+        // 파라미터가 없으면 빈 리스트로 처리
+        if (likeCategories == null) {
+            likeCategories = new ArrayList<>();
+        }
+
         String id = (String) session.getAttribute("id");
         log.info("Received categories: {}", likeCategories);
         userService.updateUserCategories(id, String.join(",", likeCategories));
+
         return "redirect:/user/profile";
     }
 

@@ -1,5 +1,7 @@
+// AuthSuccessHandler.java
 package com.tmtb.pageon.config;
 
+import com.tmtb.pageon.user.model.UserVO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,49 +19,47 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
-	//1. 요청캐쉬 객체를 직접 생성해서
+public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private RequestCache requestCache = new HttpSessionRequestCache();
 
-    //2. 생성자에서 부모객체에 전달
     public AuthSuccessHandler() {
         super.setRequestCache(requestCache);
     }
 
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws ServletException, IOException {
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(60 * 20); // 세션 유지 시간 설정
 
-		//세션 유지 시간 설정
-    	HttpSession session=request.getSession();
-        session.setMaxInactiveInterval(60*20);//초단위로 설정
-        //Authentication 객체의 메소드를 이용해서 지금 로그인된 사용자에 대한 자세한 정보를 얻어낼수 있다.
-        String id=authentication.getName();
-        log.info("로그인된 사용자:"+id);
-		//세션에 필요한 정보 담기
+        // 로그인한 사용자 정보를 로그로 출력
+        String id = authentication.getName();
+        log.info("로그인된 사용자: " + id);
+        // 세션에 사용자 ID 담기
         session.setAttribute("id", id);
-		//3. 로그인 성공이후 미리 저장된 요청이 있었는지 읽어와서
-    	SavedRequest cashed=requestCache.getRequest(request, response);
-    	//4. 만일 미리 저장된 요청이 없다면 (로그인 하지 않은 상태로 인증이 필요한 경로를 요청하지 않았다면)
-        if(cashed==null) {
-        	//5. 로그인 환영 페이지로 foward 이동
-        	RequestDispatcher rd=request.getRequestDispatcher("/user/login_success");
-        	rd.forward(request, response);
-        }else {
-        	//6. 원래 가려던 목적지 경로로 리다일렉트 이동 시킨다 (GET 방식 요청 파라미터도 자동으로 같이 가지고 간다)
-            session.setAttribute("cashed",cashed.getRedirectUrl());
-        	super.onAuthenticationSuccess(request, response, authentication);
+
+        // CustomUser 객체로부터 UserVO 추출
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        UserVO userVO = customUser.getUserVO();
+
+        // 세션에 name 저장
+        String name = userVO.getName();
+        session.setAttribute("name", name);
+
+        log.info("로그인된 사용자 name: " + name);
+
+
+        // 요청 캐시 확인
+        SavedRequest cashed = requestCache.getRequest(request, response);
+
+        if (cashed == null) {
+            // 로그인 환영 페이지로 forward 이동
+            RequestDispatcher rd = request.getRequestDispatcher("/user/login_success");
+            rd.forward(request, response);
+        } else {
+            // 원래 가려던 목적지로 리다이렉트
+            session.setAttribute("cashed", cashed.getRedirectUrl());
+            super.onAuthenticationSuccess(request, response, authentication);
         }
-	}
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
