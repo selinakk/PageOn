@@ -33,7 +33,7 @@
             </div>
 
           </div>
-          <a th:href="@{/bookshelf/list(userId=${vo2.user_id})}" class="d-inline-flex align-items-center">
+          <a th:href="@{/user/userprofile(id=${vo2.user_id})}" class="d-inline-flex align-items-center">
                       <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
                         <img class="w-100 h-100" th:src="${vo2.imgDataAsBase64}" th:alt="|${vo2.userName}님 프로필 이미지|">
                       </span>
