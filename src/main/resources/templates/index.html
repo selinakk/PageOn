@@ -166,23 +166,27 @@
             <h3 class="d-flex align-items-center">최근 리뷰글</h3>
             <a href="/review/list" class="btn">더보기</a>
         </div>
-
-        <div class="row">
-            <th:block th:each="vo : ${reviewVO}">
-                <div class="col-md-3 posts mb-4">
-                    <h4 class="card-title mb-2 text-capitalize text-dark">
-                        <a th:href="|/review/detail?num=${vo.num}|">[[${vo.title}]]</a>
-                    </h4>
-
-                    <p class="mb-2">
-                        <span th:text="${vo.content.length() > 100 ? vo.content.substring(0, 100) + '...' : vo.content}">짧은 내용...</span>
-                        <span class="text-decoration-underline text-black-50">
-                            <a th:href="|/review/detail?num=${vo.num}|" style="color: blue; text-decoration: underline;">자세히 보기...</a>
-                        </span>
-                    </p>
+        <ul class="list-unstyled row-cols-md-4 row-cols-2 padding-small d-flex flex-wrap" >
+            <li class="p-3" th:each="vo : ${reviewVO}">
+                <div class="card position-relative p-4 border rounded-3 fs-6">
+                    <a th:href="|/review/detail?num=${vo.num}|">
+                        <img class="w-100 shadow-sm" th:src="@{${vo.workImg}}" th:alt="|${vo.workTitle} 작품 이미지|"/>
+                        <p class="mt-4" th:text="${vo.workTitle}"></p>
+                        <h6 class="py-2 fw-bold" th:text="${vo.title}"></h6>
+                        <p class="text-black-50" th:text="${vo.content.length() > 50 ? vo.content.substring(0, 50) + '...' : vo.content}"></p>
+                        <p th:text="${vo.wdate}"></p>
+                    </a>
+                    <form action="/bookshelf/insertOK"  method="post">
+                        <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                            <input type="hidden" name="work_num" th:value="${vo.work_num}" />
+                            <label th:for="'read'+${vo.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${vo.work_num}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                            <label th:for="'to-read'+${vo.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${vo.work_num}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                            <label th:for="'ing'+${vo.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${vo.work_num}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                        </div>
+                    </form>
                 </div>
-            </th:block>
-        </div>
+            </li>
+        </ul>
     </div>
 </section>
 
