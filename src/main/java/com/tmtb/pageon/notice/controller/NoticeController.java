@@ -4,6 +4,8 @@ import com.tmtb.pageon.notice.model.NoticeVO;
 import com.tmtb.pageon.notice.service.NoticeService;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.UserService;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 
 @Slf4j
@@ -31,7 +36,11 @@ public class NoticeController {
     NoticeService service;
 
     @Value("${file.dir}")
-    private String realPath;
+    private String uploadDir;
+
+    @Autowired
+    ServletContext context;
+
 
     @GetMapping("/notice/n_selectAll.do")
     public String selectAllSorted(
@@ -148,46 +157,30 @@ public class NoticeController {
 
     // 공지사항 작성
     @PostMapping("/notice/n_insertOK.do")
-    public String insertOK(NoticeVO vo) throws IllegalStateException, IOException {
+    public String insertOK(NoticeVO vo,  HttpServletRequest request) throws IllegalStateException, IOException {
         log.info("/notice/n_insertOK.do");
         log.info("vo:{}", vo);
 
-        // 설정된 업로드 디렉터리 경로 가져오기
-        String uploadPath = realPath;
-        File uploadDir = new File(uploadPath);
+        // 이미지 파일 업로드 처리
+        MultipartFile file = vo.getFile(); // NoticeVO에 MultipartFile 필드 추가 필요
+        if (file != null && !file.isEmpty()) {
+            // 저장할 경로 설정 (서버의 절대 경로를 지정)
+            String uploadDir = request.getServletContext().getRealPath("/upload/");
+            File uploadDirPath = new File(uploadDir);
+            if (!uploadDirPath.exists()) {
+                uploadDirPath.mkdirs(); // 디렉토리 없을 시 생성
+            }
 
-        // 디렉터리가 존재하지 않으면 생성
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+            // 파일 저장
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            File uploadFile = new File(uploadDir, fileName);
+            file.transferTo(uploadFile);
+
+            // VO에 이미지 파일 이름 설정
+            vo.setImg_name(fileName);
         }
 
-        log.info(realPath);
-
-        String originName = vo.getFile().getOriginalFilename();
-        log.info("originName:{}", originName);
-
-        if (originName.length() == 0) {
-            vo.setImg_name("default.png");
-        } else {
-            String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
-            log.info("save_name:{}", save_name);
-            vo.setImg_name(save_name);
-
-            File f = new File(realPath, save_name);
-            vo.getFile().transferTo(f);
-
-            // create thumbnail image//
-            BufferedImage original_buffer_img = ImageIO.read(f);
-            BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
-            Graphics2D graphic = thumb_buffer_img.createGraphics();
-            graphic.drawImage(original_buffer_img, 0, 0, 50, 50, null);
-
-            File thumb_file = new File(realPath, "thumb_" + save_name);
-
-            ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
-
-        }
-
+        // 서비스 호출 및 결과 처리
         int result = service.insertOK(vo);
         log.info("result:{}", result);
         if (result == 1) {
@@ -217,43 +210,28 @@ public class NoticeController {
 
     // 공지사항 수정
     @PostMapping("/notice/n_updateOK.do")
-    public String updateOK(NoticeVO vo) throws IllegalStateException, IOException {
+    public String updateOK(NoticeVO vo, HttpServletRequest request) throws IllegalStateException, IOException {
         log.info("/notice/n_updateOK.do");
         log.info("vo:{}", vo);
 
-        log.info(realPath);
+        MultipartFile file = vo.getFile();
+        if (file != null && !file.isEmpty()) {
+            String uploadDir = request.getServletContext().getRealPath("/upload/");
+            File uploadDirPath = new File(uploadDir);
+            if (!uploadDirPath.exists()) {
+                uploadDirPath.mkdirs();
+            }
 
-        String originName = vo.getFile().getOriginalFilename();
-        log.info("originName:{}", originName);
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            File uploadFile = new File(uploadDir, fileName);
+            file.transferTo(uploadFile);
 
-        if (originName.length() == 0) {
-            vo.setImg_name(vo.getImg_name());
-        } else {
-            String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
-            log.info("save_name:{}", save_name);
-            vo.setImg_name(save_name);
-
-            File f = new File(realPath, save_name);
-            vo.getFile().transferTo(f);
-
-            // create thumbnail image//
-            BufferedImage original_buffer_img = ImageIO.read(f);
-            BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
-            Graphics2D graphic = thumb_buffer_img.createGraphics();
-            graphic.drawImage(original_buffer_img, 0, 0, 50, 50, null);
-
-            File thumb_file = new File(realPath, "thumb_" + save_name);
-
-            ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
+            vo.setImg_name(fileName);
         }
 
         int result = service.updateOK(vo);
         log.info("result:{}", result);
-        if (result == 1) {
-            return "redirect:/notice/n_selectOne.do?num=" + vo.getNum();
-        } else {
-            return "redirect:/notice/n_update.do?num=" + vo.getNum();
-        }
+        return result == 1 ? "redirect:/notice/n_selectOne.do?num=" + vo.getNum() : "redirect:/notice/n_update.do?num=" + vo.getNum();
     }
 
 
