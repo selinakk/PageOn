@@ -45,6 +45,12 @@
     height: 100px;
 }
 
+.board-section-box {
+    margin: auto;
+    max-width: 1200px;
+    padding-bottom: 0px;
+}
+
 .pagination .page-padding{
     padding-left: 5px;
     padding-right: 5px;
@@ -242,8 +248,8 @@
         padding: 0.75rem;
     }
 
-    .pagination .page-link {
-        padding: 0.75rem;
+    .pagination-width{
+        width: 100px;
     }
 
     .table th:nth-child(1),
@@ -274,7 +280,36 @@
 
     }
 
+    .pagination .page-link {
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 0.9rem; /* 폰트 크기를 줄임 */
+    }
 
+    .pagination .page-link.prev-text::before {
+        content: "<";
+        visibility: visible; /* 화살표 표시 */
+    }
+
+    .pagination .page-link.next-text::before {
+        content: ">";
+        visibility: visible; /* 화살표 표시 */
+    }
+
+    .pagination .page-link.prev-text,
+    .pagination .page-link.next-text {
+        visibility: hidden; /* 텍스트 숨기기 */
+    }
+
+    .pagination .page-link.prev-text::before,
+    .pagination .page-link.next-text::before {
+        visibility: visible; /* 화살표 표시 */
+    }
+
+    .padding-left-right {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 
 }
 
@@ -318,8 +353,8 @@
         padding: 0.75rem;
     }
 
-    .pagination .page-link {
-        padding: 0.75rem;
+    .pagination-width{
+        width: 100px;
     }
 
     .table th:nth-child(1),

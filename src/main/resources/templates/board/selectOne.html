@@ -5,10 +5,10 @@
     <title>자유게시판</title>
 </head>
 <body>
-<section class="container mt-5  board-width">
+<section class="position-relative padding-small board-section-box">
     <h4 class="text-center" th:text="${category == 'free' ? '자유 게시판' : '질문 게시판'}">게시판</h4>
 
-    <div class="position-relative board-select-div">
+    <div class="board-select-div">
         <div class="board-select-detail">
             <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
                  onclick="location.href='/freeboard'">
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-</section> <!-- 여기서 section 태그를 닫습니다 -->
+</section>
 
 <section id="comment" class="position-relative padding-small">
     <h3>댓글</h3>

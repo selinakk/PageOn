@@ -11,8 +11,8 @@
     <div id="filter-options">
         <a th:href="@{/wt_selectAll(filter='all')}" class="filter-option"
            th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
-        <span th:href="@{/wt_selectAll(filter='recommend')}" class="filter-option"
-              th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</span>
+        <a th:href="@{/webtoonrecommendation}" class="filter-option"
+           th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
         <a id="prefer-link" th:href="@{/wt_like(categories=${likeCategories})}" class="filter-option"
            th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
     </div>
@@ -22,8 +22,6 @@
           th:text="' #' + ${category}" th:data-category="${category}" onclick="filterByCategory(this)"></span>
         <span th:each="category : ${categories}" th:if="${category != null}"> </span>
     </div>
-
-
 
 
     <!-- 검색 폼 -->
@@ -90,7 +88,7 @@
     <div class="pagination" th:if="${filter != 'prefer'}">
         <ul class="pagination">
             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link"
+                <a class="page-link prev-text"
                    th:href="@{/wt_search(page=${currentPage - 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">이전</a>
             </li>
             <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
@@ -100,16 +98,16 @@
                    th:text="${pageNum}">1</a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link"
+                <a class="page-link next-text"
                    th:href="@{/wt_search(page=${currentPage + 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">다음</a>
             </li>
         </ul>
     </div>
 
-    <div class="pagination" th:if="${filter == 'prefer'}">
+    <div class="pagination pagination-width" th:if="${filter == 'prefer'}">
         <ul class="pagination">
             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link"
+                <a class="page-link prev-text"
                    th:href="@{/wt_like(page=${currentPage - 1}, categories=${categories}, sortOrder=${sortOrder})}">이전</a>
             </li>
             <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
@@ -119,7 +117,7 @@
                    th:text="${pageNum}">1</a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link"
+                <a class="page-link next-text"
                    th:href="@{/wt_like(page=${currentPage + 1}, categories=${categories}, sortOrder=${sortOrder})}">다음</a>
             </li>
         </ul>
