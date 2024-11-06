@@ -21,9 +21,10 @@
                     <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
                     <button th:class="btn-deco" type="button" onclick="confirmReport()">신고</button>
                     </form>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal"> 신고</a>
                     <div th:if="${vo2.user_id} == ${session.id}">
                         <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
-                        <a th:href="@{/review/deleteOK(num=${vo2.num})}" th:text="삭제"></a>
+                         <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
                     </div>
 
                 </span>
@@ -142,21 +143,7 @@
 
 
 
-function confirmReport() {
-    if (confirm("정말 신고 하시겠습니까?")){
-        console.log("report click..");
-        const form = document.getElementById("reportForm");
 
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body : formData
-        })
-        console.log("report end..")
-    }
-
-}
 
 //좋아요 새로고침 없이 바로 view
 $(document).ready(function() {
@@ -511,5 +498,39 @@ function reportComment(commentId) {
         }
     });
 </script>
+    <div class="modal modal-md fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center" th:text=" '정말 삭제하시겠습니까? '"></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-dark">닫기</button>
+                    <a th:href="@{/review/deleteOK(num=${vo2.num})}" class="btn btn-danger">삭제</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-md fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center" th:text="${vo2.title}+' 을 정말 신고하시겠습니까?'"></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-dark">닫기</button>
+                    <a th:href="@{/r_reportOK(num=${vo2.num})}" class="btn btn-danger">신고</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

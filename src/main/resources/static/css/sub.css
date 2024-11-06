@@ -1116,7 +1116,7 @@ a.text-danger .svg-icon {
 
 #analyzeButton{
     border-radius: 5px;
-    background-color: #ff9697;
+    background-color: #FFE8F0;
     border: #f8f9fa;
     margin: 10px;
 }
@@ -1137,8 +1137,22 @@ a.text-danger .svg-icon {
     font-size: 25px;
 
 }
+
+#save-btn-justify-content {
+    text-align: center;
+}
+.label {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
 .btn-st {
     margin: 0 auto;
+}
+#ratingInput{
+    margin: 10px;
+    width: 50px;
+    text-align: center;
 }
 
 /* 헤더 검색 팝업 */
