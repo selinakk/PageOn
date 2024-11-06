@@ -124,7 +124,7 @@
     </div>
 </section>
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script>
+<script th:inline="javascript">
     function displayRating(rating) {
         const fullStars = Math.floor(rating);
         const halfStar = rating % 1 >= 0.5 ? 1 : 0;
