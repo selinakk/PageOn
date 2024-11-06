@@ -198,6 +198,13 @@ public class BookController {
         //사용자가 작성한 리뷰카테고리 리스트로 가져옴
         String id = (String) session.getAttribute("id");
         log.info("id:{}", id);
+
+        // id로 사용자 정보 조회 후 like_categories 가져오기
+        UserVO user = userService.findById(id);
+        List<String> likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
+        log.info("likeCategories: {}", likeCategories);
+        model.addAttribute("likeCategories", likeCategories);
+
         log.info("review book recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
 
         String filter = "recommend";
