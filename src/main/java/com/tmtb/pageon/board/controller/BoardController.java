@@ -230,8 +230,8 @@ public class BoardController {
     public String b_updateOK(BoardVO vo) throws IOException {
         log.info("수정완료 페이지");
 
-        String realPath = context.getRealPath("resources/upload_img");
-        log.info(realPath);
+        // 상대 경로를 절대 경로로 변환
+        String realPath = Paths.get(uploadDir).toAbsolutePath().toString();
 
         File uploadDir = new File(realPath);
         if (!uploadDir.exists()) {
