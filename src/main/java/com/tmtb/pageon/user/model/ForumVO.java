@@ -12,7 +12,7 @@ public class ForumVO {
     private String title;
     private String content;
     private String user_id;
-    private LocalDateTime wdate;
+    private Date wdate;
     private boolean report;
     private int hitcount;
     private int comment_count;

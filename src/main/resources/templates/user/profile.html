@@ -163,15 +163,13 @@
                 <div class="col-6 col-md-4 col-lg-3" th:each="forum, iterStat : ${forumList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h6 class="card-title">
-                                <a th:href="@{/forum/view(num=${forum.num})}" th:text="${forum.title}"></a>
-                            </h6>
-                            <p class="card-text" th:text="${forum.content}"></p>
-                            <p class="card-text"><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
-                            <p class="card-text"><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
-                            <p class="card-text"><small>조회수: <span th:text="${forum.hitcount}"></span></small></p>
-                            <!-- 숨겨진 num 값 -->
                             <input type="hidden" th:value="${forum.num}" />
+                            <a th:href="|/forum/view?num=${forum.num}|">
+                                <p th:text="${forum.workTitle}"></p>
+                                <h6 class="py-2 fw-bold" th:text="${forum.title}"></h6>
+                                <p class="text-black-50" th:text="${forum.content.length() > 50 ? forum.content.substring(0, 50) + '...' : forum.content}"></p>
+                                <small class="text-black-50" th:text="${forum.wdate}"></small>
+                            </a>
                         </div>
                     </div>
                 </div>

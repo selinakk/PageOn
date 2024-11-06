@@ -23,9 +23,7 @@ public class InsertInterceptor implements HandlerInterceptor {
         log.info("session 로그인 아이디:{}", session.getAttribute("id"));
 
         if (sPath.equals("/bookshelf/insertOK") ||
-                sPath.equals("/forum/insertOK") ||
-                sPath.equals("/bookshelf/updateSortOK")||
-                sPath.equals("/forum/updateOK")
+                sPath.equals("/forum/write")
         ) {
             if (session.getAttribute("id") == null) {
                 requestCache.saveRequest(request, response);

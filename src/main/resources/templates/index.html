@@ -198,26 +198,26 @@
             <a href="/forum/list" class="btn">더보기</a>
         </div>
         <ul class="list-unstyled row-cols-md-4 row-cols-2 padding-small d-flex flex-wrap" id="forumList">
-        <li class="p-3" th:each="forum : ${forumVO}">
-            <div class="card position-relative p-4 border rounded-3 fs-6">
-                <a th:href="|/forum/view?num=${forum.num}|">
-                <img class="w-100 shadow-sm" th:src="@{${forum.workImgName}}" th:alt="|${forum.workTitle} 작품 이미지|"/>
-                    <p class="mt-4" th:text="${forum.workTitle}"></p>
-                    <h6 class="py-2 fw-bold" th:text="${forum.title}"></h6>
-                    <p class="text-black-50" th:text="${forum.content.length() > 50 ? forum.content.substring(0, 50) + '...' : forum.content}"></p>
-                    <p th:text="${forum.wdate}"></p>
-                </a>
-                <form action="/bookshelf/insertOK"  method="post">
-                    <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
-                        <input type="hidden" name="work_num" th:value="${forum.work_num}" />
-                        <label th:for="'read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${forum.work_num}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                        <label th:for="'to-read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${forum.work_num}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                        <label th:for="'ing'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${forum.work_num}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
-                    </div>
-                </form>
-            </div>
-        </li>
-    </ul>
+            <li class="p-3" th:each="forum : ${forumVO}">
+                <div class="card position-relative p-4 border rounded-3 fs-6">
+                    <a th:href="|/forum/view?num=${forum.num}|">
+                    <img class="w-100 shadow-sm" th:src="@{${forum.workImgName}}" th:alt="|${forum.workTitle} 작품 이미지|"/>
+                        <p class="mt-4" th:text="${forum.workTitle}"></p>
+                        <h6 class="py-2 fw-bold" th:text="${forum.title}"></h6>
+                        <p class="text-black-50" th:text="${forum.content.length() > 50 ? forum.content.substring(0, 50) + '...' : forum.content}"></p>
+                        <p th:text="${forum.wdate}"></p>
+                    </a>
+                    <form action="/bookshelf/insertOK"  method="post">
+                        <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                            <input type="hidden" name="work_num" th:value="${forum.work_num}" />
+                            <label th:for="'read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${forum.work_num}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                            <label th:for="'to-read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${forum.work_num}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                            <label th:for="'ing'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${forum.work_num}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                        </div>
+                    </form>
+                </div>
+            </li>
+        </ul>
 
 
     </div>

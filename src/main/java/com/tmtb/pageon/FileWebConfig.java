@@ -20,7 +20,7 @@ public class FileWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(insertIntercept).addPathPatterns("/bookshelf/insertOK","/bookshelf/updateSortOK", "/forum/insertOK","/forum/updateOK");
+        registry.addInterceptor(insertIntercept).addPathPatterns("/bookshelf/insertOK","/forum/write");
     }
 
 

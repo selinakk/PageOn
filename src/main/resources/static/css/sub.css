@@ -10,8 +10,10 @@ i.svg-icon{width:0.9rem;}
 i.svg-icon--lg{width:1.25rem;}
 input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{opacity:.5 !important;}
 .search-item .search-button > svg {margin-top: -3px;}
+.table-wrapper {overflow-x: auto;}
+.table-wrapper table {min-width: 770px;}
 .login-container{
-    width: 96%;
+    width: 90%;
     max-width: 40rem;
     margin: 0 auto;
 }
@@ -385,6 +387,7 @@ a.text-danger .svg-icon {
 }
 
 @media (max-width: 767px) {
+    .custom-category.fs-5 li{font-size: 1rem;}
     /* 2열 */
     #book-list .book-grid, #webnovel-list .webnovel-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -853,7 +856,6 @@ a.text-danger .svg-icon {
 }
 @media screen and (min-width:576px){
     .container{max-width:96%;}
-    #latest-forum .list-unstyled li.p-3, #latest-review .list-unstyled li.p-3{padding: 0.5rem!important;}
 }
 @media (max-width: 767px) {
     .navbar-toggler svg.navbar-icon {
@@ -1225,4 +1227,11 @@ a.text-danger .svg-icon {
 }
 /* 헤더 검색 팝업 끝 */
 
+@media screen and (max-width:576px){
+    main {
+        width: 96%;
+        margin: 0 auto;
+    }
+    #latest-forum .list-unstyled li.p-3, #latest-review .list-unstyled li.p-3{padding: 0.5rem!important;}
+}
 /***** //custom sub style 끝 *****/

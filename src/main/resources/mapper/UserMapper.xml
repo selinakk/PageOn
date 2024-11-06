@@ -61,12 +61,11 @@
 
     <!-- 특정 회원의 forum 정보를 조회하는 쿼리 -->
     <select id="findByForum" parameterType="String" resultType="com.tmtb.pageon.user.model.ForumVO">
-        SELECT *
-        FROM forum
+        SELECT f.*, w.title AS workTitle, w.img_name AS workImgName
+        FROM forum f JOIN work w ON f.work_num = w.item_id
         WHERE user_id = #{id}
         ORDER BY wdate DESC
     </select>
-
     <select id="findByBoard" parameterType="String" resultType="com.tmtb.pageon.user.model.BoardVO">
         SELECT *
         FROM pageon.board
