@@ -43,10 +43,6 @@ public interface WebtoonMapper {
     WebtoonVO selectOne(WebtoonVO vo);
 
 
-    //필터링 관련
-    List<WebtoonVO> filterByCategories(@Param("categories") List<String> categories, @Param("offset") int offset, @Param("pageSize") int pageSize);
-    //필터된값 카운트
-    int getTotalCountByFilteredCategories(@Param("categories") List<String> categories);
 
     //API - DB 관련
     WebtoonVO findByTitle(String title);

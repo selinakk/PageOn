@@ -38,6 +38,14 @@ public class BoardService {
         return boardMapper.getTotalCount();
     }
 
+    public int getTotalCountFreeBoard() {
+        return boardMapper.getTotalCountByFreeBoard();
+    }
+
+    public int getTotalCountQnaBoard() {
+        return boardMapper.getTotalCountByQnaBoard();
+    }
+
     public int insertOK(BoardVO vo) {
         return boardMapper.insertOK(vo);
     }

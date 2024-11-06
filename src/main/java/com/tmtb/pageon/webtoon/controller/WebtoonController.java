@@ -226,44 +226,6 @@ public class WebtoonController {
         return "webtoon/selectOne";
     }
 
-    //필터링
-    @GetMapping("/wt_filter")
-    @ResponseBody
-    public Map<String, Object> filterByCategories(@RequestParam(value = "categories", required = false) List<String> categories, Model model, @RequestParam(defaultValue = "1") int page, HttpSession session) {
-        log.info("카테고리 필터링: {}, 페이지: {}", categories, page);
-
-        int pageSize = 20;
-        int offset = (page - 1) * pageSize;
-
-        List<WebtoonVO> webtoons;
-        int totalCount;
-
-
-        if (categories == null || categories.isEmpty()) {
-            webtoons = webtoonService.getWebtoonList(page, pageSize);
-            totalCount = webtoonService.getTotalCount();
-        } else {
-            webtoons = webtoonService.filterByCategories(categories, offset, pageSize);
-            totalCount = webtoonService.getTotalCountByFilteredCategories(categories);
-        }
-        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-
-        // 페이지 번호 그룹화
-        int pageGroupSize = 10;
-        int currentPageGroup = (page - 1) / pageGroupSize;
-        int startPage = currentPageGroup * pageGroupSize + 1;
-        int endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
-
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("webtoons", webtoons);
-        response.put("totalPages", totalPages);
-        response.put("startPage", startPage);
-        response.put("endPage", endPage);
-
-        return response;
-    }
-
 
     //리뷰 작성 시 카테고리 추천
     @GetMapping("/webtoonrecommendation")

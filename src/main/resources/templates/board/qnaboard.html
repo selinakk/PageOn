@@ -79,23 +79,22 @@
                     <li class="page-item" th:if="${currentPage > 1}">
                         <a class="page-link" th:href="@{/qnaboard(page=${currentPage - 1}, sort=${sort})}"
                            aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
+                            이전
                         </a>
                     </li>
-                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                    <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
                         th:classappend="${i == currentPage} ? 'active'">
                         <a class="page-link" th:href="@{/qnaboard(page=${i}, sort=${sort})}" th:text="${i}"></a>
                     </li>
                     <li class="page-item" th:if="${currentPage < totalPages}">
                         <a class="page-link" th:href="@{/qnaboard(page=${currentPage + 1}, sort=${sort})}"
                            aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
+                            다음
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
-    </div>
 
     <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {

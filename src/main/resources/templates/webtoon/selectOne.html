@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
     <title>웹툰 상세</title>
@@ -23,8 +24,7 @@
                 <p><span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
                     <button id="toggleButton" onclick="toggleText()" class="btn btn-link">더 보기</button>
                 </p>
-                <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
-                                        th:text="${vo2.categories}"></a></p>
+                <p><strong >장르 :<span  th:text="${vo2.categories}"></span> </strong></p>
             </div>
         </div>
 

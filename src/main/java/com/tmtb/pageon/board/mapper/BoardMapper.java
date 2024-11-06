@@ -30,10 +30,10 @@ public interface BoardMapper {
     List<BoardVO> getFreeBoardListByHitCount(@Param("offset") int offset, @Param("pageSize") int pageSize);
     List<BoardVO> getQnaBoardListByHitCount(@Param("offset") int offset, @Param("pageSize") int pageSize);
 
-    //페이징 관련
+    //자유 + 질문 게시판 리스트
     List<BoardVO> getFreeBoardList(@Param("offset") int offset, @Param("pageSize") int pageSize);
     List<BoardVO> getQnaBoardList(@Param("offset") int offset, @Param("pageSize") int pageSize);
-    int getTotalCount();
+
 
     //검색 관련 + 페이징
     List<BoardVO> searchBoardByTitle(@Param("searchWord") String searchWord, @Param("category") String category,
@@ -43,6 +43,8 @@ public interface BoardMapper {
 
     int getTotalCountByTitle(@Param("searchWord") String searchWord, @Param("category") String category);
     int getTotalCountByContent(@Param("searchWord") String searchWord, @Param("category") String category);
-
+    int getTotalCount();
+    int getTotalCountByFreeBoard();
+    int getTotalCountByQnaBoard();
 
 }

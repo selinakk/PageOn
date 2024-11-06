@@ -52,7 +52,7 @@ public class BoardController {
         log.info("자유게시판 페이지");
 
         int pageSize = 20;
-        int totalCount = boardService.getTotalCount();
+        int totalCount = boardService.getTotalCountFreeBoard();
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         List<BoardVO> boardList;
@@ -77,7 +77,7 @@ public class BoardController {
         log.info("QnA게시판 페이지");
 
         int pageSize = 20;
-        int totalCount = boardService.getTotalCount();
+        int totalCount = boardService.getTotalCountQnaBoard();
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         List<BoardVO> boardList;

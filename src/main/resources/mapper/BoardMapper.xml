@@ -127,6 +127,18 @@
         WHERE (category = #{category} OR #{category} = 'all') AND content LIKE CONCAT('%', #{searchWord}, '%')
     </select>
 
+    <select id="getTotalCountByFreeBoard" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE category = 'free'
+    </select>
+
+    <select id="getTotalCountByQnaBoard" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE category = 'qna'
+    </select>
+
 
 
 

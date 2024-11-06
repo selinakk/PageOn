@@ -91,15 +91,6 @@ public class WebtoonService {
         return webtoonMapper.selectOne(vo);
     }
 
-    // 필터링 관련
-    public List<WebtoonVO> filterByCategories(List<String> categories, int offset, int pageSize) {
-        return webtoonMapper.filterByCategories(categories, offset, pageSize);
-    }
-
-    public int getTotalCountByFilteredCategories(List<String> categories) {
-        return webtoonMapper.getTotalCountByFilteredCategories(categories);
-    }
-
 
 
 
