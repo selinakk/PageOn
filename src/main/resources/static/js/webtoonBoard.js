@@ -411,10 +411,12 @@ function confirmDelete() {
 }
 
 //제목 입력 확인
-function validateForm() {
+function validateTitleContentForm() {
     var title = document.getElementById("title").value;
-    if (title.trim() === "") {
-        alert("제목은 필수입니다!");
+    var content = document.getElementById("content").value;
+
+    if (title.trim() === "" || content.trim() === "") {
+        alert("제목과 내용은 필수입니다!");
         return false; // 폼 제출을 막음
     }
     return true; // 폼 제출을 허용

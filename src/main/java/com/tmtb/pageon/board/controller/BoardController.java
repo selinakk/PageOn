@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -227,7 +228,9 @@ public class BoardController {
 
     //게시글 수정 완료
     @PostMapping("/b_updateOK")
-    public String b_updateOK(BoardVO vo) throws IOException {
+    public String b_updateOK(@RequestParam("file") MultipartFile file,
+                             @RequestParam("existingFile") String existingFile,
+                             BoardVO vo) throws IOException {
         log.info("수정완료 페이지");
 
         // 상대 경로를 절대 경로로 변환
@@ -238,18 +241,16 @@ public class BoardController {
             uploadDir.mkdirs();
         }
 
-        String originName = vo.getFile().getOriginalFilename();
-        log.info("originName:{}", originName);
+        if (!file.isEmpty()) {
+            String originName = file.getOriginalFilename();
+            log.info("originName:{}", originName);
 
-        if (originName.length() == 0) {
-            vo.setImg_name("default.png");
-        } else {
             String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
             log.info("save_name:{}", save_name);
             vo.setImg_name(save_name);
 
             File f = new File(realPath, save_name);
-            vo.getFile().transferTo(f);
+            file.transferTo(f);
 
             BufferedImage original_buffer_img = ImageIO.read(f);
             BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
@@ -259,6 +260,8 @@ public class BoardController {
             File thumb_file = new File(realPath, "thumb_" + save_name);
 
             ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
+        } else {
+            vo.setImg_name(existingFile);
         }
 
         int result = boardService.updateBoard(vo);

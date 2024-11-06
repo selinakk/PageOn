@@ -25,7 +25,6 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
 .logo {width: 100px;}
 .navbar-toggler
 /* Global 끝 */
-
 /* 토론 */
 .search-list--custom{
     max-width: 340px;
@@ -852,8 +851,15 @@ a.text-danger .svg-icon {
         left: unset;
     }
 }
-@media screen and (min-width:576px){.container{max-width:96%;}}
+@media screen and (min-width:576px){
+    .container{max-width:96%;}
+    #latest-forum .list-unstyled li.p-3, #latest-review .list-unstyled li.p-3{padding: 0.5rem!important;}
+}
 @media (max-width: 767px) {
+    .navbar-toggler svg.navbar-icon {
+        width: 40px;
+        height: 40px;
+    }
     #best-work ~ .padding-medium {
         padding-top:2em;
         padding-bottom: 2em;
