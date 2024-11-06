@@ -21,8 +21,11 @@
                     <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
                     <button th:class="btn-deco" type="button" onclick="confirmReport()">신고</button>
                     </form>
-                    <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
-                <a th:href="@{/review/deleteOK(num=${vo2.num})}" th:text="삭제">삭제</a>
+                    <div th:if="${vo2.user_id} == ${session.id}">
+                        <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
+                        <a th:href="@{/review/deleteOK(num=${vo2.num})}" th:text="삭제"></a>
+                    </div>
+
                 </span>
 
 
