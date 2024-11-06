@@ -204,7 +204,7 @@
     </update>
 
     <!--   사용자 리뷰 작성 추천- 웹툰 -->
-    <select id="getWebtoonRecommendationBycategory" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO" parameterType="map">
+    <select id="getWebtoonRecommendationBycategory" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO" >
         SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, w.writer, r.categories
         FROM work w
                  JOIN review r ON r.categories = w.categories
