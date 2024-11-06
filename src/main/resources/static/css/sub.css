@@ -963,6 +963,16 @@ a.text-danger .svg-icon {
     margin: 0 auto; /* 좌우 중앙 정렬 */
     margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
 }
+
+@media (max-width: 1400px) {
+    #work-index #user-recommend, #work-index #categories-recommend {
+        flex: 1 1 100%; /* 너비를 100%로 설정하여 세로로 배치되도록 */
+        max-width: 100%; /* 최대 너비를 100%로 설정 */
+    }
+    #work-index #recommendation-container {
+        justify-content: center; /* 중앙 정렬로 변경 */
+    }
+}
 /* 작품 메인 끝 */
 
 /* 메인화면 작품 스와이프 */
