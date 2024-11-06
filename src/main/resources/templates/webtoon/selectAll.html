@@ -11,7 +11,7 @@
     <div id="filter-options">
         <a th:href="@{/wt_selectAll(filter='all')}" class="filter-option"
            th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
-        <a th:href="@{/webtoonrecommendation}" class="filter-option"
+        <a id="recommend-link" th:href="@{/webtoonrecommendation}" class="filter-option"
            th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
         <a id="prefer-link" th:href="@{/wt_like(categories=${likeCategories})}" class="filter-option"
            th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
@@ -85,7 +85,7 @@
 
 
     <!-- 페이징 기능 추가 -->
-    <div class="pagination" th:if="${filter != 'prefer'}">
+    <div class="pagination" th:if="${filter != 'prefer' and filter != 'recommend'}">
         <ul class="pagination">
             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
                 <a class="page-link prev-text"
@@ -122,6 +122,26 @@
             </li>
         </ul>
     </div>
+
+    <div class="pagination pagination-width" th:if="${filter == 'recommend'}">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                <a class="page-link prev-text"
+                   th:href="@{/webtoonrecommendation(page=${currentPage - 1})}">이전</a>
+            </li>
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${pageNum == currentPage} ? 'active'">
+                <a class="page-link"
+                   th:href="@{/webtoonrecommendation(page=${pageNum})}"
+                   th:text="${pageNum}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                <a class="page-link next-text"
+                   th:href="@{/webtoonrecommendation(page=${currentPage + 1})}">다음</a>
+            </li>
+        </ul>
+    </div>
+
 
 </section>
 
@@ -183,11 +203,16 @@
             modal.show();
         }
 
-        document.getElementById("prefer-link").addEventListener("click", function (event) {
-            if (!sessionId) {
-                openLoginModal(event);
-            }
-        });
+        function addLoginCheckListener(linkId) {
+            document.getElementById(linkId).addEventListener("click", function (event) {
+                if (!sessionId) {
+                    openLoginModal(event);
+                }
+            });
+        }
+
+        addLoginCheckListener("prefer-link");
+        addLoginCheckListener("recommend-link");
     });
 </script>
 

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -229,35 +230,34 @@ public class WebtoonController {
 
     //리뷰 작성 시 카테고리 추천
     @GetMapping("/webtoonrecommendation")
-    public String webtoonrecommendation(HttpSession session, Model model,
-                                        @RequestParam(defaultValue = "1")int cpage,
-                                        @RequestParam(defaultValue = "20")int pageBlock){
-
-        log.info("웹툰 추천.." );
-
-        //사용자 id 가져오기
+    public String webtoonrecommendation(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
+        // 사용자 id 가져오기
         String id = (String) session.getAttribute("id");
-        log.info("id:{}", id);
-        log.info("review webtoons recommended cpage:{}, pageBlock:{}", cpage,pageBlock);
+        int pageSize = 20;
+        int offset = (page - 1) * pageSize;
+        int totalCount = webtoonService.webtoonGetRecommandationTotalCount(id);
+        List<WebtoonVO> webtoonList = webtoonService.getWebtoonRecommendationBycategory(id, offset, pageSize);
 
-        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
-        List<WebtoonVO> webtoons = webtoonService.getWebtoonRecommendationBycategory(id, cpage,pageBlock);
-        log.info("webtoons:{}", webtoons);
-        model.addAttribute("webtoons", webtoons);
+        // 페이지 번호 그룹화
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        int pageGroupSize = 10;
+        int currentPageGroup = (page - 1) / pageGroupSize;
+        int startPage = currentPageGroup * pageGroupSize + 1;
+        int endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
 
-        int total_Row = webtoonService.webtoonGetRecommandationTotalRow(id);
-        int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
-        log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
+        model.addAttribute("webtoonList", webtoonList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("filter", "recommend");
 
-        model.addAttribute("totalPageCount", totalPageCount);
-        model.addAttribute("webtoons", webtoons);
-        model.addAttribute("cpage", cpage);
-        model.addAttribute("pageBlock", pageBlock);
+        // 페이지네이션 링크 생성
+        String baseUrl = "/webtoonrecommendation?page=";
+        model.addAttribute("baseUrl", baseUrl);
 
-
-
-        return "review/webtoonrecommendation";
-
+        return "webtoon/selectAll";
     }
+
 
 }
