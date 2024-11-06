@@ -2,6 +2,7 @@ package com.tmtb.pageon.book.mapper;
 
 import com.tmtb.pageon.book.model.BookVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -30,5 +31,12 @@ public interface BookMapper {
     public BookVO selectOne(BookVO vo);
 
     List<BookVO> selectLimitedBooksByCategory(Map<String, Object> params);
+
+
+    List<BookVO> getBookRecommendationBycategory(@Param("id") String id,
+                                                 @Param("pageBlock") int pageBlock,
+                                                 @Param("startRow") int startRow);
+
+    int bookGetRecommandationTotalRow(String id);
 
 }

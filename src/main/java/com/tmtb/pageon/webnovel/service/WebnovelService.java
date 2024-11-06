@@ -2,6 +2,7 @@ package com.tmtb.pageon.webnovel.service;
 
 import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webnovel.mapper.WebnovelMapper;
+import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +93,21 @@ public class WebnovelService {
     public void updateAddedBs(int item_id) {
         mapper.updateAddedBs(item_id);
     }
+
+
+    public List<WebnovelVO> getWebnovelRecommendationBycategory(String id, int cpage, int pageBlock) {
+        log.info("getWebnovelRecommendationBycategory..");
+        int startRow = (cpage -1)*pageBlock;
+        log.info("startRow:{}", startRow);
+
+        return mapper.getWebnovelRecommendationBycategory(id, pageBlock, startRow);
+    }
+
+    public int webnovelGetRecommandationTotalRow(String id) {
+        return  mapper.webnovelGetRecommandationTotalRow(id);
+    }
+
+
+
 
 }

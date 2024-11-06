@@ -265,4 +265,37 @@ public class WebtoonController {
     }
 
 
+    //리뷰 작성 시 카테고리 추천
+    @GetMapping("/webtoonrecommendation")
+    public String webtoonrecommendation(HttpSession session, Model model,
+                                        @RequestParam(defaultValue = "1")int cpage,
+                                        @RequestParam(defaultValue = "20")int pageBlock){
+
+        log.info("웹툰 추천.." );
+
+        //사용자 id 가져오기
+        String id = (String) session.getAttribute("id");
+        log.info("id:{}", id);
+        log.info("review webtoons recommended cpage:{}, pageBlock:{}", cpage,pageBlock);
+
+        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
+        List<WebtoonVO> webtoons = webtoonService.getWebtoonRecommendationBycategory(id, cpage,pageBlock);
+        log.info("webtoons:{}", webtoons);
+        model.addAttribute("webtoons", webtoons);
+
+        int total_Row = webtoonService.webtoonGetRecommandationTotalRow(id);
+        int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
+        log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("webtoons", webtoons);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("pageBlock", pageBlock);
+
+
+
+        return "review/webtoonrecommendation";
+
+    }
+
 }

@@ -106,40 +106,7 @@ public class ReviewService {
     }
 
 
-    public List<BookVO> getBookRecommendationBycategory(String id, int cpage, int pageBlock) {
-        log.info("getBookRecommendation..");
-        int startRow = (cpage -1)*pageBlock;
-        log.info("startRow:{}", startRow);
 
-        return mapper.getBookRecommendationBycategory(id, pageBlock, startRow);
-    }
 
-    public List<WebtoonVO> getWebtoonRecommendationBycategory(String id, int cpage, int pageBlock) {
-        log.info("getWebtoonRecommendation..");
-        int startRow = (cpage -1)*pageBlock;
-        log.info("startRow:{}", startRow);
 
-        return mapper.getWebtoonRecommendationBycategory(id, pageBlock, startRow);
-    }
-
-    public List<WebnovelVO> getWebnovelRecommendationBycategory(String id, int cpage, int pageBlock) {
-        log.info("getWebnovelRecommendationBycategory..");
-        int startRow = (cpage -1)*pageBlock;
-        log.info("startRow:{}", startRow);
-
-        return mapper.getWebnovelRecommendationBycategory(id, pageBlock, startRow);
-    }
-
-    public int webnovelGetRecommandationTotalRow(String id) {
-        log.info("getRecommandationTotalRow..");
-        return  mapper.webnovelGetRecommandationTotalRow(id);
-    }
-
-    public int webtoonGetRecommandationTotalRow(String id) {
-        return mapper.webtoonGetRecommandationTotalRow(id);
-    }
-
-    public int bookGetRecommandationTotalRow(String id) {
-        return mapper.bookGetRecommandationTotalRow(id);
-    }
 }

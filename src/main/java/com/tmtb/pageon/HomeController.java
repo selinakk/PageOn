@@ -118,17 +118,17 @@ public class HomeController {
             model.addAttribute("likedWebtoons", likedWebtoons);
 
             //리뷰카테고리에 따른 사용자 책추천
-            List<BookVO> preferBooks = reviewService.getBookRecommendationBycategory(id, 1,4);
+            List<BookVO> preferBooks = bookService.getBookRecommendationBycategory(id, 1,10);
             log.info("preferBooks:{}", preferBooks);
             model.addAttribute("preferBooks", preferBooks);
 
             //리뷰카테고리에 따른 사용자 웹툰추천
-            List<WebtoonVO> preferWebtoons = reviewService.getWebtoonRecommendationBycategory(id, 1,4);
+            List<WebtoonVO> preferWebtoons = webtoonService.getWebtoonRecommendationBycategory(id, 1,10);
             log.info("preferWebtoons:{}", preferWebtoons);
             model.addAttribute("preferWebtoons", preferWebtoons);
 
             //리뷰카테고리에 따른 사용자 웹소설추천
-            List<WebnovelVO> preferWebnovel = reviewService.getWebnovelRecommendationBycategory(id, 1,4);
+            List<WebnovelVO> preferWebnovel = webnovelService.getWebnovelRecommendationBycategory(id, 1,10);
             log.info("preferWebnovel:{}", preferWebnovel);
             model.addAttribute("preferWebnovel", preferWebnovel);
         }

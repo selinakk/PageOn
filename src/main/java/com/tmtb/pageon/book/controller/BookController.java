@@ -187,4 +187,34 @@ public class BookController {
         return "book/list";
     }
 
+    //리뷰 작성 시 카테고리 추천
+    @GetMapping("/bookrecommendation")
+    public String bookrecommendation(HttpSession session, Model model,
+                                     @RequestParam(defaultValue = "1")int cpage,
+                                     @RequestParam(defaultValue = "20")int pageBlock){
+        log.info("책 추천.." );
+
+        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
+        String id = (String) session.getAttribute("id");
+        log.info("id:{}", id);
+        log.info("review book recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
+
+        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
+        List<BookVO> books = service.getBookRecommendationBycategory(id, cpage, pageBlock);
+        log.info("books:{}", books);
+        model.addAttribute("books", books);
+
+        int total_Row = service.bookGetRecommandationTotalRow(id);
+        int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
+        log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
+
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("books", books);
+        model.addAttribute("cpage", cpage);
+        model.addAttribute("pageBlock", pageBlock);
+
+        return "review/bookrecommendation";
+
+    }
+
 }

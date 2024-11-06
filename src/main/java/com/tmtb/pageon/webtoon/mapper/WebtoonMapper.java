@@ -1,6 +1,7 @@
 package com.tmtb.pageon.webtoon.mapper;
 
 import com.tmtb.pageon.board.model.BoardVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -52,6 +53,14 @@ public interface WebtoonMapper {
     void updateWebtoon(WebtoonVO vo);
     void saveWebtoon(WebtoonVO vo);
     void updateWebtoonUpdateDays(WebtoonVO vo);
+
+
+    List<WebtoonVO> getWebtoonRecommendationBycategory(@Param("id")String id,
+                                                       @Param("pageBlock") int pageBlock,
+                                                       @Param("startRow") int startRow);
+
+
+    int webtoonGetRecommandationTotalRow(String id);
 
 
 }

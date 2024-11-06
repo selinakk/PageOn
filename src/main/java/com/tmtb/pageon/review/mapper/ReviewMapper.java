@@ -48,22 +48,4 @@ public interface ReviewMapper {
 
 
 
-
-    List<BookVO> getBookRecommendationBycategory(@Param("id") String id,
-                                                 @Param("pageBlock") int pageBlock,
-                                                 @Param("startRow") int startRow);
-
-    List<WebnovelVO> getWebnovelRecommendationBycategory(@Param("id")String id,
-                                                         @Param("pageBlock") int pageBlock,
-                                                         @Param("startRow") int startRow);
-
-    List<WebtoonVO> getWebtoonRecommendationBycategory(@Param("id")String id,
-                                                       @Param("pageBlock") int pageBlock,
-                                                       @Param("startRow") int startRow);
-
-    int webnovelGetRecommandationTotalRow(String id);
-
-    int webtoonGetRecommandationTotalRow(String id);
-
-    int bookGetRecommandationTotalRow(String id);
 }
