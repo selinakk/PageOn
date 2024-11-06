@@ -32,10 +32,7 @@ public interface BookMapper {
 
     List<BookVO> selectLimitedBooksByCategory(Map<String, Object> params);
 
-
-    List<BookVO> getBookRecommendationBycategory(@Param("id") String id,
-                                                 @Param("pageBlock") int pageBlock,
-                                                 @Param("startRow") int startRow);
+    List<BookVO> getBookRecommendationBycategory(@Param("id") String id, @Param("pageBlock") int pageBlock, @Param("startRow") int startRow, String sortOrder);
 
     int bookGetRecommandationTotalRow(String id);
 

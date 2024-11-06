@@ -35,11 +35,7 @@ public interface WebnovelMapper {
     // added_bs 추가 테스트를 위해 넣어두었음 추후 서재쪽 패키지 확인하고 수정 예정
     void updateAddedBs(int item_id);
 
-
-
-    List<WebnovelVO> getWebnovelRecommendationBycategory(@Param("id")String id,
-                                                         @Param("pageBlock") int pageBlock,
-                                                         @Param("startRow") int startRow);
+    List<WebnovelVO> getWebnovelRecommendationBycategory(@Param("id")String id, @Param("pageBlock") int pageBlock, @Param("startRow") int startRow, String sortOrder);
 
     int webnovelGetRecommandationTotalRow(String id);
 

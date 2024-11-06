@@ -94,20 +94,16 @@ public class WebnovelService {
         mapper.updateAddedBs(item_id);
     }
 
-
-    public List<WebnovelVO> getWebnovelRecommendationBycategory(String id, int cpage, int pageBlock) {
+    public List<WebnovelVO> getWebnovelRecommendationBycategory(String id, int cpage, int pageBlock, String sortOrder) {
         log.info("getWebnovelRecommendationBycategory..");
         int startRow = (cpage -1)*pageBlock;
         log.info("startRow:{}", startRow);
 
-        return mapper.getWebnovelRecommendationBycategory(id, pageBlock, startRow);
+        return mapper.getWebnovelRecommendationBycategory(id, pageBlock, startRow, sortOrder);
     }
 
     public int webnovelGetRecommandationTotalRow(String id) {
         return  mapper.webnovelGetRecommandationTotalRow(id);
     }
-
-
-
 
 }

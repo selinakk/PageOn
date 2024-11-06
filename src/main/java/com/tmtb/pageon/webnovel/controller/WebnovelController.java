@@ -183,12 +183,12 @@ public class WebnovelController {
         return "webnovel/list";
     }
 
-
     //리뷰 작성 시 카테고리 추천
     @GetMapping("/webnovelrecommendation")
     public String webnovelrecommendation(HttpSession session, Model model,
                                          @RequestParam(defaultValue = "1")int cpage,
-                                         @RequestParam(defaultValue = "20")int pageBlock){
+                                         @RequestParam(defaultValue = "20")int pageBlock,
+                                         @RequestParam(required = false, defaultValue = "latest") String sortOrder){
         log.info("웹소설 추천.." );
 
         //사용자 id 가져오기
@@ -196,20 +196,24 @@ public class WebnovelController {
         log.info("id:{}", id);
         log.info("review webnovels recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
 
+        String filter = "recommend";
+        model.addAttribute("filter", filter);
+
         //사용자가 작성한 리뷰카테고리 리스트로 가져옴
-        List<WebnovelVO> webnovels = service.getWebnovelRecommendationBycategory(id, cpage, pageBlock);
-        log.info("webnovels:{}", webnovels);
+        List<WebnovelVO> list = service.getWebnovelRecommendationBycategory(id, cpage, pageBlock, sortOrder);
+        log.info("list:{}", list);
 
         int total_Row = service.webnovelGetRecommandationTotalRow(id);
         int totalPageCount = (int) Math.ceil((double) total_Row / pageBlock);
         log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
 
         model.addAttribute("totalPageCount", totalPageCount);;
-        model.addAttribute("webnovels", webnovels);
+        model.addAttribute("list", list);
         model.addAttribute("cpage", cpage);
         model.addAttribute("pageBlock", pageBlock);
+        model.addAttribute("sortOrder", sortOrder);
 
-        return "review/webnovelrecommendation";
+        return "webnovel/list";
 
     }
 

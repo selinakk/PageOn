@@ -191,7 +191,8 @@ public class BookController {
     @GetMapping("/bookrecommendation")
     public String bookrecommendation(HttpSession session, Model model,
                                      @RequestParam(defaultValue = "1")int cpage,
-                                     @RequestParam(defaultValue = "20")int pageBlock){
+                                     @RequestParam(defaultValue = "20")int pageBlock,
+                                     @RequestParam(required = false, defaultValue = "latest") String sortOrder){
         log.info("책 추천.." );
 
         //사용자가 작성한 리뷰카테고리 리스트로 가져옴
@@ -199,21 +200,24 @@ public class BookController {
         log.info("id:{}", id);
         log.info("review book recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
 
+        String filter = "recommend";
+        model.addAttribute("filter", filter);
+
         //사용자가 작성한 리뷰카테고리 리스트로 가져옴
-        List<BookVO> books = service.getBookRecommendationBycategory(id, cpage, pageBlock);
-        log.info("books:{}", books);
-        model.addAttribute("books", books);
+        List<BookVO> list = service.getBookRecommendationBycategory(id, cpage, pageBlock, sortOrder);
+        log.info("list:{}", list);
 
         int total_Row = service.bookGetRecommandationTotalRow(id);
         int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
         log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
 
         model.addAttribute("totalPageCount", totalPageCount);
-        model.addAttribute("books", books);
+        model.addAttribute("list", list);
         model.addAttribute("cpage", cpage);
         model.addAttribute("pageBlock", pageBlock);
+        model.addAttribute("sortOrder", sortOrder);
 
-        return "review/bookrecommendation";
+        return "book/list";
 
     }
 

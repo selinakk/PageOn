@@ -10,7 +10,7 @@
     <!-- '전체', '인기', '사용자 추천', '선호' 선택 -->
     <div id="filter-options">
         <a th:href="@{/webnovels(filter='all')}" class="filter-option" th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
-        <a th:href="@{/webnovels(filter='recommend')}" class="filter-option" th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
+        <a th:href="@{/webnovelrecommendation}" class="filter-option" th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
         <a th:href="@{/webnovels/liked(category=${likeCategories})}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
     </div>
 
@@ -147,6 +147,13 @@
                 </a>
             </th:block>
 
+            <th:block th:if="${filter == 'recommend'}">
+                <a th:href="@{/webnovelrecommendation(sortOrder='latest', cpage=${cpage})}"
+                   th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">
+                    최신순
+                </a>
+            </th:block>
+
             <!-- 인기순 정렬 -->
             <th:block th:if="${filter == 'all' || filter == null}">
                 <a th:href="@{/webnovels(sortOrder='popular', category=${category}, cpage=${cpage}, searchKey=${searchKey}, searchWord=${searchWord})}"
@@ -157,6 +164,13 @@
 
             <th:block th:if="${filter == 'prefer'}">
                 <a th:href="@{/webnovels/liked(category=${likeCategories}, sortOrder='popular', cpage=${cpage})}"
+                   th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">
+                    인기순
+                </a>
+            </th:block>
+
+            <th:block th:if="${filter == 'recommend'}">
+                <a th:href="@{/webnovelrecommendation(sortOrder='popular', cpage=${cpage})}"
                    th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">
                     인기순
                 </a>
@@ -188,6 +202,15 @@
             <!-- filter가 'prefer'일 경우의 URL -->
             <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
                th:href="@{/webnovels/liked(category=${likeCategories}, cpage=${i}, sortOrder=${sortOrder})}"
+               th:text="${i}"
+               th:classappend="${cpage == i} ? 'active' : ''">
+            </a>
+        </th:block>
+
+        <th:block th:if="${filter == 'recommend'}">
+            <!-- filter가 'prefer'일 경우의 URL -->
+            <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+               th:href="@{/webnovelrecommendation(cpage=${i}, sortOrder=${sortOrder})}"
                th:text="${i}"
                th:classappend="${cpage == i} ? 'active' : ''">
             </a>

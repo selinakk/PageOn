@@ -127,12 +127,12 @@ public class BookService {
         return books;
     }
 
-    public List<BookVO> getBookRecommendationBycategory(String id, int cpage, int pageBlock) {
+    public List<BookVO> getBookRecommendationBycategory(String id, int cpage, int pageBlock, String sortOrder) {
         log.info("getBookRecommendation..");
         int startRow = (cpage -1)*pageBlock;
         log.info("startRow:{}", startRow);
 
-        return mapper.getBookRecommendationBycategory(id, pageBlock, startRow);
+        return mapper.getBookRecommendationBycategory(id, pageBlock, startRow, sortOrder);
     }
 
     public int bookGetRecommandationTotalRow(String id) {
