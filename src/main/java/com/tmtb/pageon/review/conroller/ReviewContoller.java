@@ -280,19 +280,20 @@ public class ReviewContoller {
     @GetMapping("/bookrecommendation")
     public String bookrecommendation(HttpSession session, Model model,
                                      @RequestParam(defaultValue = "1")int cpage,
-                                     @RequestParam(defaultValue = "10")int pageBlock){
+                                     @RequestParam(defaultValue = "20")int pageBlock){
         log.info("책 추천.." );
 
+        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
         String id = (String) session.getAttribute("id");
         log.info("id:{}", id);
         log.info("review book recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
 
+        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
         List<BookVO> books = service.getBookRecommendationBycategory(id, cpage, pageBlock);
         log.info("books:{}", books);
         model.addAttribute("books", books);
 
         int total_Row = service.bookGetRecommandationTotalRow(id);
-
         int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
         log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
 
@@ -308,20 +309,21 @@ public class ReviewContoller {
     @GetMapping("/webtoonrecommendation")
     public String webtoonrecommendation(HttpSession session, Model model,
                                      @RequestParam(defaultValue = "1")int cpage,
-                                     @RequestParam(defaultValue = "10")int pageBlock){
+                                     @RequestParam(defaultValue = "20")int pageBlock){
 
         log.info("웹툰 추천.." );
 
+        //사용자 id 가져오기
         String id = (String) session.getAttribute("id");
         log.info("id:{}", id);
         log.info("review webtoons recommended cpage:{}, pageBlock:{}", cpage,pageBlock);
 
+        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
         List<WebtoonVO> webtoons = service.getWebtoonRecommendationBycategory(id, cpage,pageBlock);
         log.info("webtoons:{}", webtoons);
         model.addAttribute("webtoons", webtoons);
 
         int total_Row = service.webtoonGetRecommandationTotalRow(id);
-
         int totalPageCount= (int) Math.ceil((double) total_Row / pageBlock);
         log.info("total_Row:{}, totalPageCount:{}", total_Row, totalPageCount);
 
@@ -339,13 +341,15 @@ public class ReviewContoller {
     @GetMapping("/webnovelrecommendation")
     public String webnovelrecommendation(HttpSession session, Model model,
                                      @RequestParam(defaultValue = "1")int cpage,
-                                     @RequestParam(defaultValue = "10")int pageBlock){
+                                     @RequestParam(defaultValue = "20")int pageBlock){
         log.info("웹소설 추천.." );
 
+        //사용자 id 가져오기
         String id = (String) session.getAttribute("id");
         log.info("id:{}", id);
         log.info("review webnovels recommended cpage:{}, pageBlock:{}", cpage, pageBlock);
 
+        //사용자가 작성한 리뷰카테고리 리스트로 가져옴
         List<WebnovelVO> webnovels = service.getWebnovelRecommendationBycategory(id, cpage, pageBlock);
         log.info("webnovels:{}", webnovels);
 
