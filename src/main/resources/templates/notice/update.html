@@ -78,7 +78,7 @@
       return byteSize;
     }
 
-    function validateForm() {
+    function validateFormss() {
       const title = document.getElementById("title").value;
       const content = document.getElementById("content").value;
       const fileInput = document.getElementById("file");
@@ -111,7 +111,7 @@
     }
 
     function handleFormSubmit() {
-      if (validateForm()) {
+      if (validateFormss()) {
         showUpdateAlert(); // 유효성 검사 통과 시 알림 표시
         return true; // 폼 제출
       }
