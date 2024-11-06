@@ -59,7 +59,7 @@
                 <p class="mb-0">조회수 <span th:text="${forum.hitcount}"></span></p>
                 <div class="w-100 d-flex justify-content-between align-items-center">
                   <p class="mb-0">
-                    <a th:href="@{/bookshelf/list(userId=${forum.user_id})}" class="d-flex align-items-center">
+                    <a th:href="@{/user/userprofile(id=${forum.user_id})}" class="d-flex align-items-center">
                       <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
                         <img class="w-100 h-100" th:src="${forum.imgDataAsBase64}" th:alt="|${forum.userName}님 프로필 이미지|">
                       </span>
