@@ -35,8 +35,11 @@ public class NoticeController {
     @Autowired
     NoticeService service;
 
+//    @Value("${file.dir}")
+//    private String uploadDir;
+
     @Value("${file.dir}")
-    private String uploadDir;
+    private String realPath;
 
     @Autowired
     ServletContext context;
@@ -161,24 +164,54 @@ public class NoticeController {
         log.info("/notice/n_insertOK.do");
         log.info("vo:{}", vo);
 
-        // 이미지 파일 업로드 처리
-        MultipartFile file = vo.getFile(); // NoticeVO에 MultipartFile 필드 추가 필요
-        if (file != null && !file.isEmpty()) {
-            // 저장할 경로 설정 (서버의 절대 경로를 지정)
-            String uploadDir = request.getServletContext().getRealPath("/upload/");
-            File uploadDirPath = new File(uploadDir);
-            if (!uploadDirPath.exists()) {
-                uploadDirPath.mkdirs(); // 디렉토리 없을 시 생성
-            }
+//        // 이미지 파일 업로드 처리
+//        MultipartFile file = vo.getFile(); // NoticeVO에 MultipartFile 필드 추가 필요
+//        if (file != null && !file.isEmpty()) {
+//            // 저장할 경로 설정 (서버의 절대 경로를 지정)
+//            String uploadDir = request.getServletContext().getRealPath("/upload/");
+//            File uploadDirPath = new File(uploadDir);
+//            if (!uploadDirPath.exists()) {
+//                uploadDirPath.mkdirs(); // 디렉토리 없을 시 생성
+//            }
+//
+//            // 파일 저장
+//            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+//            File uploadFile = new File(uploadDir, fileName);
+//            file.transferTo(uploadFile);
+//
+//            // VO에 이미지 파일 이름 설정
+//            vo.setImg_name(fileName);
+//        }
 
-            // 파일 저장
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            File uploadFile = new File(uploadDir, fileName);
-            file.transferTo(uploadFile);
 
-            // VO에 이미지 파일 이름 설정
-            vo.setImg_name(fileName);
+        log.info(realPath);
+
+        String originName = vo.getFile().getOriginalFilename();
+        log.info("originName:{}", originName);
+
+        if (originName.length() == 0) {// 넘어온 파일이 없을때 default.png 할당
+            vo.setImg_name("default.png");
+        } else {
+            // 중복이미지 이름을 배제하기위한 처리
+            String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
+            log.info("save_name:{}", save_name);
+            vo.setImg_name(save_name);
+
+            File f = new File(realPath, save_name);
+            vo.getFile().transferTo(f);
+
+            //// create thumbnail image/////////
+            BufferedImage original_buffer_img = ImageIO.read(f);
+            BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
+            Graphics2D graphic = thumb_buffer_img.createGraphics();
+            graphic.drawImage(original_buffer_img, 0, 0, 50, 50, null);
+
+            File thumb_file = new File(realPath, "thumb_" + save_name);
+
+            ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
+
         }
+
 
         // 서비스 호출 및 결과 처리
         int result = service.insertOK(vo);
@@ -214,20 +247,50 @@ public class NoticeController {
         log.info("/notice/n_updateOK.do");
         log.info("vo:{}", vo);
 
-        MultipartFile file = vo.getFile();
-        if (file != null && !file.isEmpty()) {
-            String uploadDir = request.getServletContext().getRealPath("/upload/");
-            File uploadDirPath = new File(uploadDir);
-            if (!uploadDirPath.exists()) {
-                uploadDirPath.mkdirs();
-            }
+//        MultipartFile file = vo.getFile();
+//        if (file != null && !file.isEmpty()) {
+//            String uploadDir = request.getServletContext().getRealPath("/upload/");
+//            File uploadDirPath = new File(uploadDir);
+//            if (!uploadDirPath.exists()) {
+//                uploadDirPath.mkdirs();
+//            }
+//
+//            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+//            File uploadFile = new File(uploadDir, fileName);
+//            file.transferTo(uploadFile);
+//
+//            vo.setImg_name(fileName);
+//        }
 
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            File uploadFile = new File(uploadDir, fileName);
-            file.transferTo(uploadFile);
 
-            vo.setImg_name(fileName);
+        log.info(realPath);
+
+        String originName = vo.getFile().getOriginalFilename();
+        log.info("originName:{}", originName);
+
+        if (originName.length() == 0) {// 넘어온 파일이 없을때 default.png 할당
+            vo.setImg_name(vo.getImg_name());
+        } else {
+            // 중복이미지 이름을 배제하기위한 처리
+            String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
+            log.info("save_name:{}", save_name);
+            vo.setImg_name(save_name);
+
+            File f = new File(realPath, save_name);
+            vo.getFile().transferTo(f);
+
+            //// create thumbnail image/////////
+            BufferedImage original_buffer_img = ImageIO.read(f);
+            BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
+            Graphics2D graphic = thumb_buffer_img.createGraphics();
+            graphic.drawImage(original_buffer_img, 0, 0, 50, 50, null);
+
+            File thumb_file = new File(realPath, "thumb_" + save_name);
+
+            ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
+
         }
+
 
         int result = service.updateOK(vo);
         log.info("result:{}", result);
