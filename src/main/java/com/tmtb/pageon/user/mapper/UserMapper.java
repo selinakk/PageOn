@@ -23,13 +23,17 @@ public interface UserMapper {
     UserVO findById(String id);
 
 
-    List<ForumVO> findByforumPazing(String id, int offset, int size);
+    // 포럼 데이터 조회 (제목 검색 추가)
+    List<ForumVO>findByforumPazing(String id, int offset,  int size,  String searchKeyword);
 
-    List<BoardVO> findBoardsByUserPazing(String id, int offset, int size);
+    // 게시판 데이터 조회 (제목 검색 추가)
+    List<BoardVO> findBoardsByUserPazing(String id, int offset,  int size,  String searchKeyword);
 
-    List<ReviewVO> findByReviewsPazing(String id, int offset, int size);
+    // 리뷰 데이터 조회 (제목 검색 추가)
+    List<ReviewVO> findByReviewsPazing( String id,  int offset, int size, String searchKeyword);
 
-    List<CommentVO> findCommentsByUserPazing(String id, int offset, int size);
+    // 댓글 데이터 조회 (제목 검색 추가)
+    List<CommentVO> findCommentsByUserPazing(String id,int offset,int size,String searchKeyword);
 
     List<ForumVO> findByForum(String id);
     List<BoardVO> findByBoard(String id);
@@ -47,12 +51,12 @@ public interface UserMapper {
 
     int selectupdatePassword(String id, String email) ;
 
-    int countCommentsByUser(String id);
+    int countCommentsByUser(String id,String searchKeyword);
 
-    int countForumsByUser(String id);
+    int countForumsByUser(String id,String searchKeyword);
 
-    int countReviewsByUser(String id);
+    int countReviewsByUser(String id,String searchKeyword);
 
-    int countBoardsByUser(String id);
+    int countBoardsByUser(String id,String searchKeyword);
 
 }

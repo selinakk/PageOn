@@ -60,20 +60,6 @@
         text-decoration: underline;
         color: #007bff;
     }
-    /* 리스트와 버튼 스타일 */
-    .list-group-item {
-        transition: background-color 0.3s;
-        color: black;
-    }
-    .btn {
-        transition: background-color 0.3s;
-    }
-    .btn-primary {
-        background-color: #007bff;
-    }
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
     .btn-secondary {
         background-color: #6c757d;
     }
@@ -164,6 +150,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- 포럼 목록 섹션 -->
             <h5>토론
                 <a th:if="${session.id == userVO.id}"
@@ -174,16 +161,16 @@
                    class="more-link"
                    th:href="@{/user/profile/id/pazing/{type}/{id}(type='forum', id=${userVO.id}, page=0)}">더보기</a>
             </h5>
-            <div class="row" >
+            <div class="row mb-4">
                 <div class="col-6 col-md-4 col-lg-3" th:each="forum, iterStat : ${forumList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <input type="hidden" th:value="${forum.num}" />
+                            <h6>작품명: <span th:text="${forum.workTitle}"></span></h6>
                             <a th:href="|/forum/view?num=${forum.num}|">
-                                <p th:text="${forum.workTitle}"></p>
-                                <h6 class="py-2 fw-bold" th:text="${forum.title}"></h6>
-                                <p class="text-black-50" th:text="${forum.content.length() > 50 ? forum.content.substring(0, 50) + '...' : forum.content}"></p>
-                                <small class="text-black-50" th:text="${forum.wdate}"></small>
+                            <input type="hidden" th:value="${forum.num}" />
+                                <h6 class="py-2 fw-bold">제목: <span th:text="${forum.title}"></span></h6>
+                                <p class="text-black-50">내용: <span th:text="${forum.content.length() > 50 ? forum.content.substring(0, 50) + '...' : forum.content}"></span></p>
+                                <small class="text-black-50">날짜: <span th:text="${forum.wdate}"></span></small>
                             </a>
                         </div>
                     </div>
@@ -207,7 +194,7 @@
                    class="more-link"
                    th:href="@{/user/profile/id/pazing/{type}/{id}(type='review', id=${userVO.id}, page=0)}">더보기</a>
             </h5>
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-6 col-md-4 col-lg-3" th:each="review, iterStat : ${reviewList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -217,7 +204,6 @@
                             <p class="card-text" th:text="${review.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${review.user_id}"></span></small></p>
                             <p class="card-text"><small>날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                            <!-- 숨겨진 num 값 -->
                             <input type="hidden" th:value="${review.num}" />
                         </div>
                     </div>
@@ -241,7 +227,7 @@
                    class="more-link"
                    th:href="@{/user/profile/id/pazing/{type}/{id}(type='board', id=${userVO.id}, page=0)}">더보기</a>
             </h5>
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-6 col-md-4 col-lg-3" th:each="board, iterStat : ${boardList}" th:if="${iterStat.index < 4}">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -251,7 +237,6 @@
                             <p class="card-text" th:text="${board.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${board.user_id}"></span></small></p>
                             <p class="card-text"><small>조회수: <span th:text="${board.boardhitcount}"></span></small></p>
-                            <!-- 숨겨진 num 값 -->
                             <input type="hidden" th:value="${board.num}" />
                         </div>
                     </div>
@@ -297,7 +282,6 @@
                             <p class="card-text" th:text="${comment.content}"></p>
                             <p class="card-text"><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
                             <p class="card-text"><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                            <!-- 숨겨진 rnum, bnum, fnum 값 -->
                             <input type="hidden" th:value="${comment.bnum}" />
                             <input type="hidden" th:value="${comment.rnum}" />
                             <input type="hidden" th:value="${comment.fnum}" />
@@ -312,9 +296,6 @@
                     </div>
                 </div>
             </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

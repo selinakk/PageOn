@@ -75,20 +75,24 @@ public class UserService {
 
 
 
-    public List<ForumVO> findByForumPazing(String id, int offset, int size) {
-        return mapper.findByforumPazing(id, offset, size);
+
+    public List<ForumVO> findByForumPazing(String id, int offset, int size, String searchKeyword) {
+        return mapper.findByforumPazing(id,offset,size,searchKeyword); // searchKeyword 추가
     }
 
-    public List<BoardVO> findByBoardPazing(String id, int offset, int size) {
-        return mapper.findBoardsByUserPazing(id, offset, size);
+
+    public List<BoardVO> findByBoardPazing(String id, int offset, int size, String searchKeyword) {
+        return mapper.findBoardsByUserPazing(id, offset, size, searchKeyword);  // searchKeyword 추가
     }
 
-    public List<ReviewVO> findByReviewsPazing(String id, int offset, int size) {
-        return mapper.findByReviewsPazing(id, offset, size);
+
+    public List<ReviewVO> findByReviewsPazing(String id, int offset, int size, String searchKeyword) {
+        return mapper.findByReviewsPazing(id, offset, size, searchKeyword);  // searchKeyword 추가
     }
 
-    public List<CommentVO> findCommentsByUserPazing(String id, int offset, int size) {
-        return mapper.findCommentsByUserPazing(id, offset, size);
+
+    public List<CommentVO> findCommentsByUserPazing(String id, int offset, int size, String searchKeyword) {
+        return mapper.findCommentsByUserPazing(id, offset, size, searchKeyword);  // searchKeyword 추가
     }
 
 
@@ -134,20 +138,20 @@ public class UserService {
         return count > 0; // 중복 아이디 체크
     }
 
-    public  int countCommentsByUser(String id){
-        return mapper.countCommentsByUser(id);
+    public  int countCommentsByUser(String id,String searchKeyword){
+        return mapper.countCommentsByUser(id,searchKeyword);
     }
 
-    public  int countForumsByUser(String id){
-        return mapper.countForumsByUser(id);
+    public  int countForumsByUser(String id,String searchKeyword){
+        return mapper.countForumsByUser(id,searchKeyword);
     }
 
-    public  int countReviewsByUser(String id){
-        return mapper.countReviewsByUser(id);
+    public  int countReviewsByUser(String id,String searchKeyword){
+        return mapper.countReviewsByUser(id,searchKeyword);
     }
 
-    public  int countBoardsByUser(String id){
-        return mapper.countBoardsByUser(id);
+    public  int countBoardsByUser(String id,String searchKeyword){
+        return mapper.countBoardsByUser(id,searchKeyword);
     }
 
 

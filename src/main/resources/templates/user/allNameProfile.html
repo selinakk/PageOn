@@ -34,69 +34,105 @@
 <body>
 <div class="container">
 
-    <!-- Forum Section -->
-    <div th:if="${type == 'forum'}">
+
+<div th:if="${type == 'forum'}" class="mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <!-- forumList가 비어있지 않으면 -->
-        <h3 th:if="${not #lists.isEmpty(forumList)}" th:text="${forumList[0].name} + '의 포럼'"></h3>
+        <h3 th:if="${not #lists.isEmpty(forumList)}" th:text="${forumList[0].name} + '의 포럼'" style="white-space: nowrap;"></h3>
 
-        <!-- forumList가 비어있으면 -->
-        <div th:if="${#lists.isEmpty(forumList)}">
-            <p>데이터 없음</p>
-        </div>
 
-        <ul class="list-group">
-            <!-- 포럼 목록 출력 -->
-            <li class="list-group-item" th:each="forum : ${forumList}">
-                <h6 th:text="${forum.title}"></h6>
-                <p th:text="${forum.content}"></p>
-                <p><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
-                <p><small>날짜: <span th:text="${forum.wdate}"></span></small></p>
-                <p><small>조회수: <span th:text="${forum.hitcount}"></span></small></p>
-                <a th:href="@{/forum/view(num=${forum.num})}" class="btn btn-primary">상세보기</a> <!-- 상세보기 링크 추가 -->
+
+        <!-- Search Form -->
+        <form th:action="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList != null and forumList.size() > 0 ? forumList[0].user_id : ''})}" method="get" class="input-group justify-content-end">
+            <input type="text" name="searchKeyword" class="form-control mx-1" placeholder="검색어 입력"
+                   th:value="${searchKeyword}" style="max-width: 200px;">
+            <button class="btn btn-outline-primary btn-dark rounded-0 p-2" type="submit">검색</button>
+        </form>
+    </div>
+
+    <ul class="list-group">
+        <div class="list-group-item" th:if="${#lists.isEmpty(forumList)}">데이터 없음</div>
+        <li class="list-group-item" th:each="forum : ${forumList}">
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="ml-2">
+                            <div class="h5 m-0" th:text="${forum.user_id}"></div>
+                            <div class="h5 m-0" th:text="${forum.name}"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h6>작품제목: <span th:text="${forum.workTitle}"></span></h6>
+                    <p><small>제목: <span th:text="${forum.title}"></span></small></p>
+                    <p><small>내용: <span th:text="${forum.content}"></span></small></p>
+                    <p><small>작성자: <span th:text="${forum.user_id}"></span></small></p>
+                    <p><small>날짜: <span th:text="${#dates.format(forum.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                    <p><small>조회수: <span th:text="${forum.hitcount}"></span></small></p>
+                    <a th:href="@{/forum/view(num=${forum.num})}" class="btn btn-info btn-sm">상세보기</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination" th:if="${!#lists.isEmpty(forumList)}">
+        <ul class="pagination">
+            <!-- 이전 페이지 버튼 -->
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList != null and forumList.size() > 0 ? forumList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+            </li>
+
+            <!-- 페이지 번호 링크들 -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList != null and forumList.size() > 0 ? forumList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
+            </li>
+
+            <!-- 다음 페이지 버튼 -->
+            <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList != null and forumList.size() > 0 ? forumList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
             </li>
         </ul>
-
-        <!-- 페이지네이션 -->
-        <div class="pagination" th:if="${!#lists.isEmpty(forumList)}">
-            <ul class="pagination">
-                <!-- 이전 페이지 버튼 -->
-                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList[0]?.user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
-                </li>
-
-                <!-- 페이지 번호 링크들 -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
-                    th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList[0]?.user_id}, page=${i})}" th:text="${i + 1}"></a>
-                </li>
-
-                <!-- 다음 페이지 버튼 -->
-                <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList[0]?.user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
-                </li>
-            </ul>
-        </div>
     </div>
+</div>
 
     <!-- Board Section -->
     <div th:if="${type == 'board'}">
-        <ul class="list-group">
-            <!-- 데이터 없음 메시지 -->
-            <h3 th:if="${not #lists.isEmpty(boardList)}" th:text="${boardList[0].name} + '의 게시물'"></h3>
-
-            <!-- forumList가 비어있으면 -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 th:if="${not #lists.isEmpty(boardList)}" th:text="${boardList[0].name} + '의 게시판'" style="white-space: nowrap;"></h3>
+            <!-- boardList가 비어있으면 -->
             <div th:if="${#lists.isEmpty(boardList)}">
-                <p>데이터 없음</p>
+                <div>데이터 없음</div>
             </div>
+            <!-- Search Form -->
+            <form th:action="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList.size() > 0 ? boardList[0].user_id : ''})}" method="get" class="input-group justify-content-end">
+                <input type="text" name="searchKeyword" class="form-control mx-1" placeholder="검색어 입력"
+                       th:value="${searchKeyword}" style="max-width: 200px;">
+                <button class="btn btn-outline-primary btn-dark rounded-0 p-2" type="submit">검색</button>
+            </form>
+        </div>
 
-            <!-- 게시판 목록 출력 -->
+        <ul class="list-group">
             <li class="list-group-item" th:each="board : ${boardList}">
-                <h6 th:text="${board.title}"></h6>
-                <p th:text="${board.content}"></p>
-                <p><small>작성자: <span th:text="${board.user_id}"></span></small></p>
-                <p><small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                <p><small>조회수: <span th:text="${board.boardhitcount}"></span></small></p>
-                <a th:href="@{/b_selectOne(num=${board.num})}" class="btn btn-primary">상세보기</a>
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="ml-2">
+                                <div class="h5 m-0" th:text="${board.user_id}"></div>
+                                <div class="h5 m-0" th:text="${board.name}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 th:text="${board.title}"></h6>
+                        <p th:text="${board.content}"></p>
+                        <p><small>작성자: <span th:text="${board.user_id}"></span></small></p>
+                        <p><small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                        <p><small>조회수: <span th:text="${board.boardhitcount}"></span></small></p>
+                        <a th:href="@{/b_selectOne(num=${board.num})}" class="btn btn-primary">상세보기</a>
+                    </div>
+                </div>
             </li>
         </ul>
 
@@ -105,18 +141,18 @@
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList[0]?.user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList.size() > 0 ? boardList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
                 </li>
 
                 <!-- 페이지 번호 링크들 -->
                 <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList[0]?.user_id}, page=${i})}" th:text="${i + 1}"></a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList.size() > 0 ? boardList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
                 </li>
 
                 <!-- 다음 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList[0]?.user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList.size() > 0 ? boardList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
                 </li>
             </ul>
         </div>
@@ -124,79 +160,109 @@
 
     <!-- Reviews -->
     <div th:if="${type == 'review'}">
-        <ul class="list-group">
-            <!-- 데이터 없음 메시지 -->
-            <h3 th:if="${not #lists.isEmpty(reviewList)}" th:text="${reviewList[0].name} + '의 리뷰'"></h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- reviewList가 비어 있지 않으면 첫 번째 리뷰의 이름을 출력 -->
+            <h3 th:if="${not #lists.isEmpty(reviewList)}" th:text="${reviewList[0].name} + '의 리뷰'" style="white-space: nowrap;"></h3>
 
-            <!-- forumList가 비어있으면 -->
+            <!-- reviewList가 비어 있으면 -->
             <div th:if="${#lists.isEmpty(reviewList)}">
-                <p>데이터 없음</p>
+                <div>데이터 없음</div>
             </div>
 
-            <!-- 리뷰 목록 출력 -->
+            <!-- Search Form -->
+            <form th:action="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList.size() > 0 ? reviewList[0].user_id : ''})}" method="get" class="input-group justify-content-end">
+                <input type="text" name="searchKeyword" class="form-control mx-1" placeholder="검색어 입력"
+                       th:value="${searchKeyword}" style="max-width: 200px;">
+                <button class="btn btn-outline-primary btn-dark rounded-0 p-2" type="submit">검색</button>
+            </form>
+        </div>
+
+        <ul class="list-group">
             <li class="list-group-item" th:each="review : ${reviewList}">
-                <h6 th:text="${review.title}"></h6>
-                <p th:text="${review.content}"></p>
-                <p><small>작성자: <span th:text="${review.user_id}"></span></small></p>
-                <p><small>날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                <p><small>좋아요: <span th:text="${review.like}"></span></small></p>
-                <p><small>싫어요: <span th:text="${review.hate}"></span></small></p>
-                <a th:href="@{/review/detail(num=${review.num})}" class="btn btn-primary">상세보기</a>
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="ml-2">
+                                <div class="h5 m-0" th:text="${review.user_id}"></div>
+                                <!-- reviewList가 비어 있지 않으면 첫 번째 리뷰의 이름을 출력 -->
+                                <div class="h5 m-0" th:if="${not #lists.isEmpty(reviewList)}" th:text="${reviewList[0].name}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 th:text="${review.title}"></h6>
+                        <p th:text="${review.content}"></p>
+                        <p><small>작성자: <span th:text="${review.user_id}"></span></small></p>
+                        <p><small>날짜: <span th:text="${#dates.format(review.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                        <p><small>좋아요: <span th:text="${review.like}"></span></small></p>
+                        <p><small>싫어요: <span th:text="${review.hate}"></span></small></p>
+                        <a th:href="@{/review/detail(num=${review.num})}" class="btn btn-primary">상세보기</a>
+                    </div>
+                </div>
             </li>
         </ul>
 
         <!-- 페이지네이션 -->
-        <div class="pagination" th:if="${!#lists.isEmpty(reviewList)}">
+        <div class="pagination" th:if="${not #lists.isEmpty(reviewList)}">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList[0]?.user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList.size() > 0 ? reviewList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
                 </li>
 
                 <!-- 페이지 번호 링크들 -->
                 <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList[0]?.user_id}, page=${i})}" th:text="${i + 1}"></a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList.size() > 0 ? reviewList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
                 </li>
 
                 <!-- 다음 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList[0]?.user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList.size() > 0 ? reviewList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
                 </li>
             </ul>
         </div>
     </div>
 
-    <!-- Comments  -->
+    <!-- Comments -->
     <div th:if="${type == 'comment'}">
-        <ul class="list-group">
-            <!-- 데이터 없음 메시지 -->
-            <h3 th:if="${not #lists.isEmpty(commentList)}" th:text="${commentList[0].name} + '의 댓글'"></h3>
-
-            <!-- forumList가 비어있으면 -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- 댓글이 있을 때만 제목 표시 -->
+            <h3 th:if="${not #lists.isEmpty(commentList)}" th:text="${commentList[0].name} + '의 댓글'" style="white-space: nowrap;"></h3>
             <div th:if="${#lists.isEmpty(commentList)}">
-                <p>데이터 없음</p>
+                <div>데이터 없음</div>
             </div>
 
-            <!-- 댓글 목록 출력 -->
+            <!-- 검색 폼 -->
+            <form th:action="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList != null and !#lists.isEmpty(commentList) ? commentList[0].user_id : ''})}" method="get" class="input-group justify-content-end">
+                <input type="text" name="searchKeyword" class="form-control mx-1" placeholder="검색어 입력" th:value="${searchKeyword}" style="max-width: 200px;">
+                <button class="btn btn-outline-primary btn-dark rounded-0 p-2" type="submit">검색</button>
+            </form>
+        </div>
+
+        <!-- 댓글 목록 -->
+        <ul class="list-group">
             <li class="list-group-item" th:each="comment : ${commentList}"
                 th:if="${!#lists.isEmpty(commentList) and (comment.bnum != 0 or comment.rnum != 0 or comment.fnum != 0)}">
-                <h6 th:if="${comment.bnum != 0}">
-                    게시판: <a th:href="@{/b_selectOne(num=${comment.bnum})}" th:text="'게시판'"></a>
-                </h6>
-                <h6 th:if="${comment.rnum != 0}">
-                    리뷰: <a th:href="@{/review/detail(num=${comment.rnum})}" th:text="'리뷰'"></a>
-                </h6>
-                <h6 th:if="${comment.fnum != 0}">
-                    포럼: <a th:href="@{/forum/view(num=${comment.fnum})}" th:text="'포럼'"></a>
-                </h6>
-                <p><small>내용: <span th:text="${comment.content}"></span></small></p>
-                <p><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
-                <p><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
-                <div>
-                    <a th:if="${comment.bnum != 0}" th:href="@{/b_selectOne(num=${comment.bnum})}" class="btn btn-info btn-sm">상세보기</a>
-                    <a th:if="${comment.rnum != 0}" th:href="@{/review/detail(num=${comment.rnum})}" class="btn btn-info btn-sm">상세보기</a>
-                    <a th:if="${comment.fnum != 0}" th:href="@{/forum/view(num=${comment.fnum})}" class="btn btn-info btn-sm">상세보기</a>
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="ml-2">
+                                <div class="h5 m-0" th:text="${comment.user_id}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p><small>내용: <span th:text="${comment.type}"></span></small></p>
+                        <p><small>제목: <span th:text="${comment.content}"></span></small></p>
+                        <p><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
+                        <p><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd HH:mm:ss')}"></span></small></p>
+                        <div>
+                            <a th:if="${comment.bnum != 0}" th:href="@{/b_selectOne(num=${comment.bnum})}" class="btn btn-info btn-sm">상세보기</a>
+                            <a th:if="${comment.rnum != 0}" th:href="@{/review/detail(num=${comment.rnum})}" class="btn btn-info btn-sm">상세보기</a>
+                            <a th:if="${comment.fnum != 0}" th:href="@{/forum/view(num=${comment.fnum})}" class="btn btn-info btn-sm">상세보기</a>
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -206,18 +272,18 @@
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList[0].user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList != null and !#lists.isEmpty(commentList) ? commentList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
                 </li>
 
                 <!-- 페이지 번호 링크들 -->
                 <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList[0].user_id}, page=${i})}" th:text="${i + 1}"></a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList != null and !#lists.isEmpty(commentList) ? commentList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
                 </li>
 
                 <!-- 다음 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList[0].user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList != null and !#lists.isEmpty(commentList) ? commentList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
                 </li>
             </ul>
         </div>

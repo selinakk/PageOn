@@ -134,33 +134,36 @@ public class UserController {
 
     @GetMapping("/user/profile/all/pazing/{type}")
     public String viewAllPazing(@PathVariable String type, HttpSession session, Model model,
-                                @RequestParam(defaultValue = "0") int page) {
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "") String searchKeyword) {
         String id = (String) session.getAttribute("id");
         int size = 4; // 페이지당 항목 수
-        int offset = Math.max(0, page * size); // 오프셋 계산: 음수일 경우 0으로 설정
+        int pageSize = 5; // 페이지네이션에서 한 번에 표시할 페이지 번호 수
+        int offset = Math.max(0, page * size); // 오프셋 계산
 
         if (id != null) {
             int totalComments = 0;
+
             switch (type) {
                 case "forum":
-                    List<ForumVO> forumList = userService.findByForumPazing(id, offset, size); // 포럼 데이터 조회
+                    List<ForumVO> forumList = userService.findByForumPazing(id, offset, size, searchKeyword);
                     model.addAttribute("forumList", forumList);
-                    totalComments = userService.countForumsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countForumsByUser(id, searchKeyword);
                     break;
                 case "board":
-                    List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size); // 게시판 데이터 조회
+                    List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size, searchKeyword);
                     model.addAttribute("boardList", boardList);
-                    totalComments = userService.countBoardsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countBoardsByUser(id, searchKeyword);
                     break;
                 case "review":
-                    List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size); // 리뷰 데이터 조회
+                    List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size, searchKeyword);
                     model.addAttribute("reviewList", reviewList);
-                    totalComments = userService.countReviewsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countReviewsByUser(id, searchKeyword);
                     break;
                 case "comment":
-                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size); // 댓글 데이터 조회
+                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size, searchKeyword);
                     model.addAttribute("commentList", commentList);
-                    totalComments = userService.countCommentsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countCommentsByUser(id, searchKeyword);
                     break;
                 default:
                     return "redirect:/";
@@ -169,9 +172,16 @@ public class UserController {
             // 전체 페이지 수 계산
             int commentTotalPages = (int) Math.ceil((double) totalComments / size);
 
+            // 현재 페이지 그룹 계산
+            int currentPageGroup = page / pageSize;
+            int totalPageGroups = (int) Math.ceil((double) commentTotalPages / pageSize);
+
             model.addAttribute("type", type);
             model.addAttribute("currentPage", page);
-            model.addAttribute("commentTotalPages", commentTotalPages); // 전체 페이지 수 전달
+            model.addAttribute("commentTotalPages", commentTotalPages);
+            model.addAttribute("currentPageGroup", currentPageGroup); // 현재 페이지 그룹
+            model.addAttribute("totalPageGroups", totalPageGroups);   // 전체 페이지 그룹 수
+            model.addAttribute("searchKeyword", searchKeyword);
         } else {
             return "redirect:/";
         }
@@ -184,32 +194,34 @@ public class UserController {
     @GetMapping("/user/profile/id/pazing/{type}/{id}")
     public String paramviewAllPazing(@PathVariable String type, @PathVariable String id,
                                      Model model,
+                                     @RequestParam(defaultValue = "") String searchKeyword,
                                      @RequestParam(defaultValue = "0") int page) {
         int size = 4; // 페이지당 항목 수
+        int pageSize = 5; // 페이지네이션에서 한 번에 표시할 페이지 번호 수
         int offset = Math.max(0, page * size); // 오프셋 계산: 음수일 경우 0으로 설정
 
         if (id != null) {
             int totalComments = 0;
             switch (type) {
                 case "forum":
-                    List<ForumVO> forumList = userService.findByForumPazing(id, offset, size); // 포럼 데이터 조회
+                    List<ForumVO> forumList = userService.findByForumPazing(id, offset, size,searchKeyword); // 포럼 데이터 조회
                     model.addAttribute("forumList", forumList);
-                    totalComments = userService.countForumsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countForumsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 case "board":
-                    List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size); // 게시판 데이터 조회
+                    List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size,searchKeyword); // 게시판 데이터 조회
                     model.addAttribute("boardList", boardList);
-                    totalComments = userService.countBoardsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countBoardsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 case "review":
-                    List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size); // 리뷰 데이터 조회
+                    List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size,searchKeyword); // 리뷰 데이터 조회
                     model.addAttribute("reviewList", reviewList);
-                    totalComments = userService.countReviewsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countReviewsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 case "comment":
-                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size); // 댓글 데이터 조회
+                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size,searchKeyword); // 댓글 데이터 조회
                     model.addAttribute("commentList", commentList);
-                    totalComments = userService.countCommentsByUser(id); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countCommentsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
                     break;
                 default:
                     return "redirect:/";
@@ -218,9 +230,16 @@ public class UserController {
             // 전체 페이지 수 계산
             int commentTotalPages = (int) Math.ceil((double) totalComments / size);
 
+            // 현재 페이지 그룹 계산
+            int currentPageGroup = page / pageSize;
+            int totalPageGroups = (int) Math.ceil((double) commentTotalPages / pageSize);
+
             model.addAttribute("type", type);
             model.addAttribute("currentPage", page);
-            model.addAttribute("commentTotalPages", commentTotalPages); // 전체 페이지 수 전달
+            model.addAttribute("commentTotalPages", commentTotalPages);
+            model.addAttribute("currentPageGroup", currentPageGroup); // 현재 페이지 그룹
+            model.addAttribute("totalPageGroups", totalPageGroups);   // 전체 페이지 그룹 수
+            model.addAttribute("searchKeyword", searchKeyword);
         } else {
             return "redirect:/";
         }
@@ -272,7 +291,7 @@ public class UserController {
         }
     }
 
-    // 카테고리 수정 페이지 이동
+
     @GetMapping("/user/updateCategoriesPage")
     public String updateUserCategoriesPage(HttpSession session, Model model) {
         String id = (String) session.getAttribute("id");
@@ -291,7 +310,7 @@ public class UserController {
         return "/user/required_login";
     }
 
-    // 로그인 폼을 제출(post) 한 로그인 프로세즈 중에 forward 되는 경로이기 때문에 @PostMapping 임에 주의!
+
     @PostMapping("/user/login_fail")
     public String login_fail() {
         // 로그인 실패임을 알릴 페이지
