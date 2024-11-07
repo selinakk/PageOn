@@ -283,7 +283,7 @@
     .pagination .page-link {
         margin-left: 5px;
         margin-right: 5px;
-        font-size: 0.9rem; /* 폰트 크기를 줄임 */
+        font-size: 1rem; /* 폰트 크기를 줄임 */
     }
 
     .pagination .page-link.prev-text::before {

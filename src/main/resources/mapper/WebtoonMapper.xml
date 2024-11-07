@@ -191,9 +191,10 @@
           AND w.item_id != r.work_num
         AND w.type = 'webtoon'
         ORDER BY item_id DESC
-            Limit #{pageBlock} OFFSET #{startRow}
+            LIMIT #{pageSize} OFFSET #{offset}
     </select>
-    <select id="webtoonGetRecommandationTotalRow" resultType="int">
+
+    <select id="webtoonGetRecommandationTotalCount" resultType="int">
         SELECT COUNT(DISTINCT w.item_id)
         FROM work w
                  JOIN review r ON r.categories = w.categories
@@ -204,6 +205,13 @@
     </select>
 
 
+
+<!--임시추가-->
+    <update id="incrementAddedBs">
+        UPDATE Webtoon
+        SET added_bs = added_bs + 1
+        WHERE item_id = #{workNum}
+    </update>
 
 
 </mapper>

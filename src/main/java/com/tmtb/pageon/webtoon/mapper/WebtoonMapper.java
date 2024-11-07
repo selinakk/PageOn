@@ -17,12 +17,15 @@ public interface WebtoonMapper {
 
     //검색 관련 + 페이징
     List<WebtoonVO> searchWebtoonByTitle(@Param("searchWord") String searchWord,
-                                     @Param("offset") int offset, @Param("pageSize") int pageSize);
+                                         @Param("offset") int offset, @Param("pageSize") int pageSize);
+
     List<WebtoonVO> searchWebtoonByWriter(@Param("searchWord") String searchWord,
-                                       @Param("offset") int offset, @Param("pageSize") int pageSize);
+                                          @Param("offset") int offset, @Param("pageSize") int pageSize);
+
     List<WebtoonVO> searchWebtoonByCategories(@Param("searchWord") String searchWord,
                                               @Param("offset") int offset, @Param("pageSize") int pageSize);
-    List<WebtoonVO> selectPopularWebtoons (@Param("offset") int offset, @Param("pageSize") int pageSize);
+
+    List<WebtoonVO> selectPopularWebtoons(@Param("offset") int offset, @Param("pageSize") int pageSize);
 
     List<WebtoonVO> getCategories();
 
@@ -31,33 +34,37 @@ public interface WebtoonMapper {
     List<WebtoonVO> searchMultiCategories(@Param("categories") List<String> categories, @Param("offset") int offset, @Param("pageSize") int pageSize);
 
     int getTotalCountByMultiCategories(List<String> categories);
+
     int getTotalCountByLikeCategories(List<String> likeCategories);
+
     int getTotalCountByTitle(@Param("searchWord") String searchWord);
+
     int getTotalCountByWriter(@Param("searchWord") String searchWord);
+
     int getTotalCountByCategories(@Param("searchWord") String searchWord);
 
 
     int getTotalCountByPopular();
+
     int getTotalCount();
 
     WebtoonVO selectOne(WebtoonVO vo);
 
 
-
     //API - DB 관련
     WebtoonVO findByTitle(String title);
+
     void updateWebtoon(WebtoonVO vo);
+
     void saveWebtoon(WebtoonVO vo);
+
     void updateWebtoonUpdateDays(WebtoonVO vo);
 
 
-    List<WebtoonVO> getWebtoonRecommendationBycategory(@Param("id")String id,
-                                                       @Param("pageBlock") int pageBlock,
-                                                       @Param("startRow") int startRow);
+    List<WebtoonVO> getWebtoonRecommendationBycategory(@Param("id") String id,
+                                                       @Param("offset") int offset, @Param("pageSize") int pageSize);
 
-
-    int webtoonGetRecommandationTotalRow(String id);
-
+    int webtoonGetRecommandationTotalCount(String id);
 
 }
 

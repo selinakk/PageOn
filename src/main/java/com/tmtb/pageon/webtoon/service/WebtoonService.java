@@ -280,20 +280,14 @@ public class WebtoonService {
         }
     }
 
-
-    public List<WebtoonVO> getWebtoonRecommendationBycategory(String id, int cpage, int pageBlock) {
-        log.info("getWebtoonRecommendation..");
-        int startRow = (cpage -1)*pageBlock;
-        log.info("startRow:{}", startRow);
-
-        return webtoonMapper.getWebtoonRecommendationBycategory(id, pageBlock, startRow);
-    }
-
-    public int webtoonGetRecommandationTotalRow(String id) {
-        return webtoonMapper.webtoonGetRecommandationTotalRow(id);
+    public List<WebtoonVO> getWebtoonRecommendationBycategory(String id, int offset, int pageSize) {
+        return webtoonMapper.getWebtoonRecommendationBycategory(id, offset, pageSize);
     }
 
 
+    public int webtoonGetRecommandationTotalCount(String id) {
+        return webtoonMapper.webtoonGetRecommandationTotalCount(id);
+    }
 
 
 
