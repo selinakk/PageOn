@@ -1163,6 +1163,7 @@ a.text-danger .svg-icon {
     margin: 10px;
     width: 50px;
     text-align: center;
+    border: none;
 }
 
 /* 헤더 검색 팝업 */
