@@ -102,7 +102,7 @@ public class WebtoonController {
                             @RequestParam String searchType,
                             @RequestParam(defaultValue = "1") int page,
                             @RequestParam(required = false) List<String> categories,
-                            Model model) {
+                            Model model, HttpSession session) {
         log.info("웹툰 검색 페이지");
 
         int pageSize = 20;
@@ -111,6 +111,16 @@ public class WebtoonController {
         List<WebtoonVO> webtoonList;
         List<WebtoonVO> allCategories = webtoonService.getCategories();
         int totalCount;
+        String id = (String) session.getAttribute("id");
+        List<String> likeCategories = new ArrayList<>();
+        if (id != null) {
+            // id로 사용자 정보 조회 후 like_categories 가져오기
+            UserVO user = userService.findById(id);
+            if (user.getLike_categories() != null && !user.getLike_categories().isEmpty()) {
+                likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
+            }
+        }
+
         // 제목 검색
         if ("title".equals(searchType)) {
             webtoonList = webtoonService.searchWebtoonByTitle(searchWord, offset, pageSize);
@@ -135,6 +145,7 @@ public class WebtoonController {
 
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
+        model.addAttribute("likeCategories", likeCategories);
         model.addAttribute("webtoonList", webtoonList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -245,12 +256,25 @@ public class WebtoonController {
         int startPage = currentPageGroup * pageGroupSize + 1;
         int endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
 
+        List<String> likeCategories = new ArrayList<>();
+        if (id != null) {
+            // id로 사용자 정보 조회 후 like_categories 가져오기
+            UserVO user = userService.findById(id);
+            if (user.getLike_categories() != null && !user.getLike_categories().isEmpty()) {
+                likeCategories = Arrays.asList(user.getLike_categories().split(",\\s*"));
+            }
+        }
+
+        List<WebtoonVO> allCategories = webtoonService.getCategories();
+
         model.addAttribute("webtoonList", webtoonList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("filter", "recommend");
+        model.addAttribute("allCategories", allCategories);
+        model.addAttribute("likeCategories", likeCategories);
 
         // 페이지네이션 링크 생성
         String baseUrl = "/webtoonrecommendation?page=";
