@@ -22,4 +22,7 @@ public class ReviewVO {
     //작품이미지
     private String workTitle;
     private String workImg;
+
+    private  String userName;
+    private  String userImg;
 }

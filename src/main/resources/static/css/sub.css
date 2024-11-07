@@ -1117,17 +1117,9 @@ a.text-danger .svg-icon {
     line-height: 1.5;
 }
 .side-bar{
-    position: fixed;
-    right: 50px;
-    top: 200px;
+    float: right;
     text-decoration-color: #888888;
 }
-.btn-deco{
-    border: none;
-    background-color: transparent;
-    font-size: 19px;
-}
-
 #analyzeButton{
     border-radius: 5px;
     background-color: #FFE8F0;
@@ -1169,7 +1161,6 @@ a.text-danger .svg-icon {
     text-align: center;
     border: none;
 }
-
 /* 헤더 검색 팝업 */
 .search-type {
     display: flex;

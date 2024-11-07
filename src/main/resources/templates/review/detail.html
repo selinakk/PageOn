@@ -1,5 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,15 +21,16 @@
             <div class="side-bar">
                 <span>
                     <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
-                    <button th:class="btn-deco" type="button" onclick="confirmReport()">신고</button>
+                    <a th:class="like-btn" type="button" onclick="confirmReport()">🚨
+                    </a>
                     </form>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal"> 신고</a>
-                    <div th:if="${vo2.user_id} == ${session.id}">
+                    <span th:if="${vo2.user_id} == ${session.id}">
                         <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
-                         <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
-                    </div>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
 
                 </span>
+
+
 
 
             </div>
@@ -36,10 +39,16 @@
         <div class="review-container">
             <img class="img-view" th:src="@{${vo2.workImg}}" th:alt="|${vo2.workTitle} 작품 이미지|">
             <div th:class="review-position" >
-                <p><h4 class="text-auto" th:text="'[ ' + ${vo2.workTitle}+'에 대한 리뷰 ]'"></h4></p>
+                <p><h4 class="text-auto" th:text="'[ ' + ${vo2.workTitle}+' ] 에 대한 리뷰'"></h4></p>
 
                 <p ><small th:text="'작성일: '+${vo2.wdate}"></small></p>
                 <p ><h3 th:text="${vo2.title}"></h3></p>
+                <a th:href="@{/user/userprofile(id=${vo2.user_id})}" class="d-inline-flex align-items-center">
+                      <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
+                        <img class="w-100 h-100" th:src="${vo2.userImg}" th:alt="|${vo2.userName}님 프로필 이미지|">
+                      </span>
+                <strong th:text="${vo2.userName}"></strong>
+            </a>
                 <p  id="reviewContent" ><h7 th:text="'내용: '+${vo2.content}"></h7></p>
                 <p ><h7  th:text="'★ '+${vo2.rating}"></h7></p>
                 <div id="review-detail" th:data-num="${vo2.num}">
@@ -497,40 +506,46 @@ function reportComment(commentId) {
             }
         }
     });
+
+
+    function confirmReport() {
+        // 사용자에게 신고 확인 메시지를 표시하고, "확인"을 누르면 true를 반환
+        if (confirm("정말 신고하시겠습니까? 해당 신고글을 관리자가 관리합니다")) {
+            // 폼 요소를 가져옴
+            const form = document.getElementById("reportForm");
+            // 폼 데이터를 FormData 객체로 생성
+            const formData = new FormData(form);
+
+            // fetch API를 사용하여 비동기 POST 요청을 보냄
+            fetch(form.action, {
+                method: 'POST', // HTTP 메서드를 POST로 설정
+                body: formData  // 요청 본문에 폼 데이터를 포함
+            })
+                // 서버 응답을 텍스트로 변환
+                .then(response => response.text())
+                // 변환된 텍스트를 alert로 표시
+                .then(data => {
+                    alert(data);
+                })
+                // 요청 중 에러가 발생하면 콘솔에 에러 메시지를 출력
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
 </script>
-    <div class="modal modal-md fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-center" th:text=" '정말 삭제하시겠습니까? '"></p>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-dark">닫기</button>
-                    <a th:href="@{/review/deleteOK(num=${vo2.num})}" class="btn btn-danger">삭제</a>
-                </div>
+</div>
+<<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                정말 해당 리뷰를 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary" data-bs-dismiss="modal">취소</a>
+                <a class="btn btn-danger" th:href="@{/review/deleteOK(num=${vo2.num})}">삭제</a>
             </div>
         </div>
     </div>
-    <div class="modal modal-md fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-center" th:text="${vo2.title}+' 을 정말 신고하시겠습니까?'"></p>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-dark">닫기</button>
-                    <a th:href="@{/r_reportOK(num=${vo2.num})}" class="btn btn-danger">신고</a>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 </body>
 </html>

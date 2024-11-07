@@ -176,13 +176,6 @@ public class ReviewContoller {
         return "review/update";
 
     }
-    //리뷰 삭제
-    @GetMapping("/review/delete")
-    public String delete() {
-        log.info("리뷰 삭제");
-        return "review/delete";
-
-    }
     @PostMapping("/review/insertOK")
     public String insertOK(ReviewVO vo) {
         log.info("리뷰 입력");
@@ -228,7 +221,7 @@ public class ReviewContoller {
         log.info("report ..start");
 
         service.updateReport(vo);
-        return new ResponseEntity<>("신고 완료", HttpStatus.OK) ;
+        return new ResponseEntity<>("신고가 완료 되었습니다", HttpStatus.OK) ;
     }
 
     //좋아요 기능
