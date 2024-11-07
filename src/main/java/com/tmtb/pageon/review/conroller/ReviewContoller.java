@@ -151,7 +151,7 @@ public class ReviewContoller {
         log.info("categories:{} ", categories);
 
         String work_title = service.getWorkdata(work_num);
-        log.info("list:{}", work_title);
+        log.info("work_title:{}", work_title);
 
         model.addAttribute("work_num", work_num);
         model.addAttribute("categories", categories);
@@ -167,6 +167,10 @@ public class ReviewContoller {
         ReviewVO vo2 = service.selectOne(vo);
         log.info("vo2:{}", vo2);
 
+        String work_title = service.getWorkdata(vo2.getWork_num());
+        log.info("work_title:{}", work_title);
+
+        model.addAttribute("work_title", work_title);
         model.addAttribute("vo2", vo2);
 
         return "review/update";

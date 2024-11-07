@@ -12,7 +12,7 @@
 <div class="position-relative padding-medium">
   <div class="container">
     <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-      <h3 class="d-flex align-items-center">리뷰 수정페이지</h3>
+      <h3 class="d-flex align-items-center" th:text="'[ '+${work_title} +' ]의 리뷰 수정'"></h3>
     </div>
   </div>
   <form th:action="@{/review/updateOK}" method="POST">
@@ -24,13 +24,16 @@
       </p>
       <p>
       <div>
+      <label for="content" th:class="label" >제목: </label>
         <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력" th:value="${vo2.title}">
       </div>
       </p>
       <p>
       <div>
-        <label for="content"></label>
-        <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.. 500자 내.">[[${vo2.content}]]</textarea>
+        <label for="content" th:class="label" >내용: </label>
+        <p>
+          <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.. 500자 내.">[[${vo2.content}]]</textarea>
+        </p>
       </div>
       </p>
       <p>
@@ -43,12 +46,12 @@
       <input type="text" id="ratingInput" name="rating" value="0.0" readonly>
       </div>
       </p>
-      <p>
-      <div><button class="save-btn" type="submit">등록</button>
-      <button class="save-btn" type="button" onclick="location.href='/review/list'">취소</button>
-      </div>
-      </p>
     </div>
+    <div id="save-btn-justify-content">
+      <button class="save-btn" type="submit">등록</button>
+      <button class="save-btn" type="button" onclick="location.href='/review/list'">취소</button>
+    </div>
+
   </form>
 </div>
 </div>
