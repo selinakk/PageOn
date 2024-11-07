@@ -143,6 +143,13 @@
         FROM work
         WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
           AND type = 'webtoon'
+        <if test="categories != null and !categories.isEmpty()">
+            AND (
+            <foreach item="category" collection="categories" separator=" OR ">
+                categories LIKE CONCAT('%', #{category}, '%')
+            </foreach>
+            )
+        </if>
     </select>
 
     <select id="getTotalCountByCategories" resultType="int">
