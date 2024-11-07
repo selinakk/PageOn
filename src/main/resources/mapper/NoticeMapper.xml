@@ -3,10 +3,12 @@
 <mapper namespace="com.tmtb.pageon.notice.mapper.NoticeMapper">
 
 
+    <!--공지사항 목록 조회-->
     <select id="selectAll" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice order by num desc
     </select>
 
+    <!--공지사항 목록 페이징 조회-->
     <select id="selectAllSortedPageBlock" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         SELECT * FROM notice
         <choose>
@@ -26,11 +28,13 @@
         LIMIT #{startRow}, #{pageBlock}
     </select>
 
+    <!--공지사항 목록 전체 행 조회-->
     <select id="getTotalRows" resultType="int">
         select count(*) total_rows
         from notice
     </select>
 
+    <!--공지사항 제목으로 최신순, 오래된순, 조회순 조회-->
     <select id="searchListPageBlockTitle" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice
         where title like #{searchWord}
@@ -51,6 +55,7 @@
         limit #{startRow}, #{pageBlock}
     </select>
 
+    <!-- 공지사항 내용으로 최신순, 오래된순, 조회순 조회 -->
     <select id="searchListPageBlockContent" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice
         where content like #{searchWord}
@@ -71,43 +76,47 @@
         limit #{startRow}, #{pageBlock}
     </select>
 
+    <!--공지사항 제목 검색 행 조회-->
     <select id="getSearchTotalRowsTitle" resultType="int">
         select count(*) total_rows
         from notice where title like #{searchWord}
     </select>
 
+    <!--공지사항 내용 검색 행 조회-->
     <select id="getSearchTotalRowsContent" resultType="int">
         select count(*) total_rows
         from notice where content like #{searchWord}
     </select>
 
+    <!--공지사항 목록 단건 조회-->
     <select id="selectOne" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice where num=#{num}
     </select>
 
-
+    <!--공지사항 작성-->
     <insert id="insertOK">
         insert into notice(title,content,user_id,img_name)
         values(#{title},#{content},#{user_id},#{img_name})
     </insert>
 
-
+    <!--공지사항 수정-->
     <update id="updateOK">
         update notice set title=#{title},content=#{content},user_id=#{user_id},img_name=#{img_name}
         where num=#{num}
     </update>
 
-
+    <!--공지사항 삭제-->
     <delete id="deleteOK">
         delete from notice where num=#{num}
     </delete>
 
-
+    <!--공지사항 조회수 카운트-->
     <update id="hitcountUpdate">
         update notice set hitcount=hitcount+1
         where num=#{num}
     </update>
 
+    <!--최근 3개의 공지사항 목록 조회 -->
     <select id="noticeCommunity" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select title from notice order by num desc limit 3;
     </select>
