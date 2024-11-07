@@ -25,16 +25,19 @@
                     <input type="hidden" name="user_id" id="user_id" th:value="${session.id}">
                 </div>
                 <p>
-                <div class="justify-content-p">
-                    <label for="title" th:class="text"></label>
-                    <input class="review-title_box" type="text" id="title" name="title" placeholder="제목을 입력해주세요" value="강추!...">
+                <div>
+                    <label for="content" th:class="label" >제목: </label>
+                    <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력해주세요" >
                 </div>
                 </p>
                 <p>
-                <div class="justify-content-p">
-                    <label for="content"></label>
-                    <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요...500자 내" th:text="재밌다" ></textarea>
+                <div>
+                    <label for="content" th:class="label" >내용: </label>
+                    <p>
+                        <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.. 500자 내."></textarea>
+                    </p>
                 </div>
+                </p>
                 </p>
                 <p>
                 <div class="stars">
