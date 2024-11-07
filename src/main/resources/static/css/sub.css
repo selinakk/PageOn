@@ -388,6 +388,10 @@ a.text-danger .svg-icon {
 
 @media (max-width: 767px) {
     .custom-category.fs-5 li{font-size: 1rem;}
+    .table-wrapper table {margin-top: 0 !important;}
+    .table-wrapper * {font-size: 1rem;}
+    .table-wrapper table thead tr th {padding: .5rem .25rem;}
+    .table-wrapper table tbody tr td {padding: 2px;}
     /* 2열 */
     #book-list .book-grid, #webnovel-list .webnovel-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1258,5 +1262,8 @@ a.text-danger .svg-icon {
         margin: 0 auto;
     }
     #latest-forum .list-unstyled li.p-3, #latest-review .list-unstyled li.p-3{padding: 0.5rem!important;}
+    .forum-view-info {padding-top: 1rem;}
+    .forum-view-info > div:first-of-type{margin-bottom: 1rem;}
+    .forum__textarea{min-height: unset;}
 }
 /***** //custom sub style 끝 *****/
