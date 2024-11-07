@@ -181,6 +181,33 @@
             localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
             console.log(selectedCategories);
         });
+
+        // /wt_like 페이지에서 실행될 코드
+        if (window.location.pathname === '/wt_like') {
+            const selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
+            console.log('Selected Categories from LocalStorage:', selectedCategories); // 로컬스토리지 값 로그 출력
+
+            const existingCategories = urlParams.getAll('categories');
+            console.log('Existing Categories from URL:', existingCategories); // URL에서 가져온 값 로그 출력
+
+            // 기존 카테고리와 로컬스토리지의 카테고리를 합칩니다.
+            const allCategories = [...new Set([...existingCategories, ...selectedCategories])];
+            console.log('All Categories:', allCategories); // 합쳐진 카테고리 값 로그 출력
+
+            // 카테고리에 값이 추가되면
+            if (selectedCategories.length > 0) {
+                const url = new URL('/wt_search', window.location.origin);
+                url.searchParams.set('filter', 'all');
+                url.searchParams.set('searchType', 'categories');
+                url.searchParams.set('sortOrder', '');
+                url.searchParams.set('page', '1');
+                allCategories.forEach(category => url.searchParams.append('categories', category));
+
+                console.log('Redirecting to URL:', url.toString()); // 리다이���트 URL 로그 출력
+
+                window.location.href = url.toString();
+            }
+        }
     });
 
     function filterByCategory(element) {
@@ -197,12 +224,27 @@
 
         localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
 
+        console.log(localStorage.getItem('selectedCategories'));
+
         const url = new URL(window.location.href);
         const currentPath = url.pathname;
 
-        console.log(selectedCategories);
+        const urlParams = new URLSearchParams(window.location.search);
+        let existingCategories = urlParams.getAll('categories');
 
-        if (selectedCategories.length === 0) {
+        console.log(urlParams.getAll('categories'));
+
+        // 기존 카테고리에서 선택된 카테고리를 제거하거나 추가합니다.
+        if (existingCategories.includes(category)) {
+            existingCategories = existingCategories.filter(cat => cat !== category);
+        } else {
+            existingCategories.push(category);
+        }
+
+        // 기존 카테고리와 선택된 카테고리를 합칩니다.
+        const allCategories = [...new Set([...existingCategories, ...selectedCategories])];
+
+        if (allCategories.length === 0) {
             // 선택된 카테고리가 없으면 wt_selectAll로 리다이렉트
             window.location.href = '/wt_selectAll';
         } else {
@@ -215,7 +257,7 @@
                 url.searchParams.set('page', '1'); // 항상 첫 페이지로 이동
             }
             url.searchParams.delete('categories');
-            selectedCategories.forEach(cat => url.searchParams.append('categories', cat));
+            allCategories.forEach(cat => url.searchParams.append('categories', cat));
 
             window.location.href = url.toString();
         }
@@ -229,26 +271,25 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
-        document.getElementById('prefer-link').addEventListener('click', function(event) {
-            event.preventDefault(); // 기본 동작을 막습니다.
+        const searchForm = document.querySelector('form.webnovel-search');
 
-            // 로컬스토리지에서 선택된 카테고리 값을 가져옵니다.
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // 기본 폼 제출 동작을 막습니다.
+
             const selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
+            const url = new URL(searchForm.action, window.location.origin);
 
-            // 선택된 카테고리 값이 없으면 기본 카테고리를 추가합니다.
-            if (selectedCategories.length === 0) {
-                selectedCategories.push('미스터리', '로맨스', '로맨스판타지');
-            }
+            // 폼의 기존 입력 값을 URL에 추가합니다.
+            new FormData(searchForm).forEach((value, key) => {
+                url.searchParams.set(key, value);
+            });
 
-            // 로컬스토리지에 선택된 카테고리 값을 저장합니다.
-            localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+            // 로컬스토리지의 categories 값을 URL에 추가합니다.
+            selectedCategories.forEach(category => {
+                url.searchParams.append('categories', category);
+            });
 
-            // URL을 생성하여 리다이렉트합니다.
-            const url = new URL('/wt_like', window.location.origin);
-            selectedCategories.forEach(category => url.searchParams.append('categories', category));
-
-            console.log(localStorage.getItem('selectedCategories'));
-
+            // URL로 리���이렉트합니다.
             window.location.href = url.toString();
         });
     });

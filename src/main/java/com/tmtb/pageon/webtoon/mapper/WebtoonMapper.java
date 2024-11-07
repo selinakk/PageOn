@@ -17,10 +17,10 @@ public interface WebtoonMapper {
 
     //검색 관련 + 페이징
     List<WebtoonVO> searchWebtoonByTitle(@Param("searchWord") String searchWord,
-                                         @Param("offset") int offset, @Param("pageSize") int pageSize);
+                                         @Param("offset") int offset, @Param("pageSize") int pageSize ,@Param("categories")List<String> categories);
 
     List<WebtoonVO> searchWebtoonByWriter(@Param("searchWord") String searchWord,
-                                          @Param("offset") int offset, @Param("pageSize") int pageSize);
+                                          @Param("offset") int offset, @Param("pageSize") int pageSize,@Param("categories")List<String> categories);
 
     List<WebtoonVO> searchWebtoonByCategories(@Param("searchWord") String searchWord,
                                               @Param("offset") int offset, @Param("pageSize") int pageSize);
@@ -37,9 +37,9 @@ public interface WebtoonMapper {
 
     int getTotalCountByLikeCategories(List<String> likeCategories);
 
-    int getTotalCountByTitle(@Param("searchWord") String searchWord);
+    int getTotalCountByTitle(@Param("searchWord") String searchWord,@Param("categories")List<String> categories);
 
-    int getTotalCountByWriter(@Param("searchWord") String searchWord);
+    int getTotalCountByWriter(@Param("searchWord") String searchWord,@Param("categories")List<String> categories);
 
     int getTotalCountByCategories(@Param("searchWord") String searchWord);
 

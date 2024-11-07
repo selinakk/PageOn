@@ -45,9 +45,16 @@
         SELECT *
         FROM work
         WHERE title LIKE CONCAT('%', #{searchWord}, '%')
-          AND type = 'webtoon'
+        AND type = 'webtoon'
+        <if test="categories != null and !categories.isEmpty()">
+            AND (
+            <foreach item="category" collection="categories" separator=" OR ">
+                categories LIKE CONCAT('%', #{category}, '%')
+            </foreach>
+            )
+        </if>
         ORDER BY item_id DESC
-            LIMIT #{pageSize} OFFSET #{offset}
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
     <select id="searchWebtoonByWriter" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
@@ -121,7 +128,14 @@
         SELECT COUNT(*)
         FROM work
         WHERE title LIKE CONCAT('%', #{searchWord}, '%')
-          AND type = 'webtoon'
+        AND type = 'webtoon'
+        <if test="categories != null and !categories.isEmpty()">
+            AND (
+            <foreach item="category" collection="categories" separator=" OR ">
+                categories LIKE CONCAT('%', #{category}, '%')
+            </foreach>
+            )
+        </if>
     </select>
 
     <select id="getTotalCountByWriter" resultType="int">
