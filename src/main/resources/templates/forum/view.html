@@ -18,13 +18,12 @@
             <img class="img-fluid w-100 shadow-sm" th:src="@{${vo2.workImgName}}" th:alt="|${vo2.workTitle} 작품 이미지|"/>
           </a>
         <div class="col-md-8 col-12">
-          <div class="d-md-flex justify-content-between mb-4 text-black-50">
+          <div class="forum-view-info d-md-flex justify-content-between mb-4 text-black-50">
             <div>
               <small th:text="'조회수 '+${vo2.hitcount} "></small>
-              <small th:text="' 게시일 '+${vo2.wdate}"></small>
+              <small class="text-nowrap" th:text="' 게시일 '+${vo2.wdate}"></small>
             </div>
             <div>
-
               <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">신고🚫</a>
               <span th:if="${vo2.user_id == session.id}">
                   |&nbsp;<a th:href="@{/forum/update(num=${vo2.num})}">수정</a>
@@ -41,7 +40,7 @@
           </a>
           <span class="align-super" th:text="'님이 게시한 '+${vo2.workTitle} + '에 대한 토론'"></span>
           <h6 class="mt-2 mb-3 py-2 fw-bold fs-3" th:text="'Q. '+${vo2.title}"></h6>
-          <textarea th:text="${vo2.content}" rows="12" readonly disabled class="forum__textarea w-100 border-0"></textarea>
+          <textarea th:text="${vo2.content}" readonly disabled class="forum__textarea w-100 border-0"></textarea>
         </div>
       </div>
       <!-- 여기가 댓글 관련 내용입니다. 이부분을 부모글의 상세보기와 추가해주시면 됩니다. -->
