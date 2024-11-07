@@ -36,6 +36,8 @@
             if (!sessionId) { // 세션 ID가 null인 경우
                 // 선호 버튼
                 document.querySelector("a[href*='/webnovels/liked']").addEventListener("click", openLoginModal);
+                // 사용자 추천
+                document.querySelector("a[href*='/webnovelrecommendation']").addEventListener("click", openLoginModal);
             }
         });
     </script>
