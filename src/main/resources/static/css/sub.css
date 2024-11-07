@@ -6,6 +6,7 @@ body {
     font-family: "Nanum Gothic",-apple-system,system-ui,sans-serif;
     letter-spacing: -0.01em;
 }
+input::placeholder, input::-webkit-input-placeholder, textarea::placeholder ,textarea::-webkit-input-placeholder {color:#7e7e7e !important;}
 i.svg-icon{width:0.9rem;}
 i.svg-icon--lg{width:1.25rem;}
 input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{opacity:.5 !important;}
@@ -442,6 +443,7 @@ a.text-danger .svg-icon {
     #book-list .book-grid, #webnovel-list .webnovel-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    .search-list--custom .form-control {min-width: 12rem}
 }
 
 /* 이미지 크기 */

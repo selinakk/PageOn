@@ -11,11 +11,11 @@
         <h3 class="d-flex align-items-center"><span class="text-primary" th:text="${userName}"></span>님의 서재</h3>
         <p class="f-3" th:text="|총 ${totalList}건|"></p>
       </div>
-      <ul class="custom-category flex-wrap list-unstyled d-flex justify-content-center py-4 fs-5">
-        <li class="mx-2"><a th:href="@{/bookshelf/list(sort='all', userId=${userId})}" th:class="${currentSort == 'all'? 'active' : ''}">전체보기</a></li>
-        <li class="mx-2"><a th:href="@{/bookshelf/list(sort='to-read', userId=${userId})}" th:class="${currentSort == 'to-read'? 'active' : ''}">읽고 싶은 작품</a></li>
-        <li class="mx-2"><a th:href="@{/bookshelf/list(sort='ing', userId=${userId})}" th:class="${currentSort == 'ing'? 'active' : ''}">읽고 있는 작품</a></li>
-        <li class="mx-2"><a th:href="@{/bookshelf/list(sort='read', userId=${userId})}" th:class="${currentSort == 'read'? 'active' : ''}">읽은 작품</a></li>
+      <ul class="custom-category list-unstyled d-flex justify-content-center py-4 fs-5">
+        <li class="mx-2 text-nowrap"><a th:href="@{/bookshelf/list(sort='all', userId=${userId})}" th:class="${currentSort == 'all'? 'active' : ''}">전체보기</a></li>
+        <li class="mx-2 text-nowrap"><a th:href="@{/bookshelf/list(sort='to-read', userId=${userId})}" th:class="${currentSort == 'to-read'? 'active' : ''}">읽고 싶은 작품</a></li>
+        <li class="mx-2 text-nowrap"><a th:href="@{/bookshelf/list(sort='ing', userId=${userId})}" th:class="${currentSort == 'ing'? 'active' : ''}">읽고 있는 작품</a></li>
+        <li class="mx-2 text-nowrap"><a th:href="@{/bookshelf/list(sort='read', userId=${userId})}" th:class="${currentSort == 'read'? 'active' : ''}">읽은 작품</a></li>
       </ul>
       <div class="table-wrapper">
        <table class="table table-border text-center my-5">
