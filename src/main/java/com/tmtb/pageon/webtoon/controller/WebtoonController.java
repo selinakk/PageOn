@@ -123,12 +123,12 @@ public class WebtoonController {
 
         // 제목 검색
         if ("title".equals(searchType)) {
-            webtoonList = webtoonService.searchWebtoonByTitle(searchWord, offset, pageSize);
-            totalCount = webtoonService.getTotalCountByTitle(searchWord);
+            webtoonList = webtoonService.searchWebtoonByTitle(searchWord, offset, pageSize,categories);
+            totalCount = webtoonService.getTotalCountByTitle(searchWord,categories);
             //작가 검색
         } else if ("writer".equals(searchType)) {
-            webtoonList = webtoonService.searchWebtoonByWriter(searchWord, offset, pageSize);
-            totalCount = webtoonService.getTotalCountByContent(searchWord);
+            webtoonList = webtoonService.searchWebtoonByWriter(searchWord, offset, pageSize,categories);
+            totalCount = webtoonService.getTotalCountByWriter(searchWord,categories);
             //장르 검색
         } else if ("categories".equals(searchType)) {
             webtoonList = webtoonService.searchMultiCategories(categories, offset, pageSize);
@@ -164,7 +164,8 @@ public class WebtoonController {
     }
 
     @GetMapping("/wt_like")
-    public String searchLikeCategories(@RequestParam(defaultValue = "1") int page, @RequestParam(required = false) List<String> categories, Model model, HttpSession session) {
+    public String searchLikeCategories(@RequestParam(defaultValue = "1") int page, @RequestParam(required = false) List<String> categories,
+                                       Model model, HttpSession session,@RequestParam(required = false) String searchWord,@RequestParam(required = false) String searchType) {
 
         int pageSize = 20;
         int offset = (page - 1) * pageSize;
@@ -193,6 +194,9 @@ public class WebtoonController {
         totalCount = webtoonService.getTotalCountByLikeCategories(likeCategories);
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
+
+        model.addAttribute("searchWord", searchWord);
+        model.addAttribute("searchType", searchType);
         model.addAttribute("webtoonList", webtoonList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);

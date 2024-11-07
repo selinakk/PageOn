@@ -35,12 +35,12 @@ public class WebtoonService {
         return webtoonMapper.selectPopularWebtoons(offset, pageSize);
     }
     //제목 검색
-    public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize) {
-        return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize);
+    public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize, List<String> categories) {
+        return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize, categories);
     }
     //작가 검색
-    public List<WebtoonVO> searchWebtoonByWriter(String searchWord, int offset, int pageSize) {
-        return webtoonMapper.searchWebtoonByWriter(searchWord, offset, pageSize);
+    public List<WebtoonVO> searchWebtoonByWriter(String searchWord, int offset, int pageSize,  List<String> categories) {
+        return webtoonMapper.searchWebtoonByWriter(searchWord, offset, pageSize,categories);
     }
     //장르 검색
     public List<WebtoonVO> searchWebtoonByCategories(String searchWord, int offset, int pageSize) {
@@ -66,12 +66,12 @@ public class WebtoonService {
         return webtoonMapper.getTotalCountByPopular();
     }
 
-    public int getTotalCountByTitle(String searchWord) {
-        return webtoonMapper.getTotalCountByTitle(searchWord);
+    public int getTotalCountByTitle(String searchWord,List<String> categories) {
+        return webtoonMapper.getTotalCountByTitle(searchWord,categories);
     }
 
-    public int getTotalCountByContent(String searchWord) {
-        return webtoonMapper.getTotalCountByWriter(searchWord);
+    public int getTotalCountByWriter(String searchWord, List<String> categories) {
+        return webtoonMapper.getTotalCountByWriter(searchWord, categories);
     }
 
     public int getTotalCountByCategories(String searchWord) {
