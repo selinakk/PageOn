@@ -8,7 +8,6 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
 
-
     public List<NoticeVO> selectAll();
 
     public List<NoticeVO> selectAllSortedPageBlock(int startRow, int pageBlock, String sort);

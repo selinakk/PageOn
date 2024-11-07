@@ -27,7 +27,7 @@ public class CommunityController {
     // 커뮤니티 페이지
     @GetMapping("/community")
     public String communityMain(Model model) {
-        log.info("/community");
+        log.info("커뮤니티 페이지");
 
         //최근 3개의 게시글, 공지사항글, 리뷰글, 토론글 불러오기
         List<BoardVO> list1 = service.boardCommunity();
@@ -49,11 +49,13 @@ public class CommunityController {
     }
 
 
+    //공지사항 상세 조회는 notice에 있음
+
 
     // 게시글 상세 조회
     @GetMapping("/board/b_selectOne.do")
     public String selectOne(BoardVO vo, Model model) {
-        log.info("/board/b_selectOne.do");
+        log.info("게시글 상세 조회");
         log.info("vo:{}", vo);
 
         BoardVO vo2 = service.boardSelectOne(vo);
@@ -69,7 +71,7 @@ public class CommunityController {
     // 리뷰글 상세 조회
     @GetMapping("/review/r_selectOne.do")
     public String selectOne(ReviewVO vo, Model model) {
-        log.info("/review/r_selectOne.do");
+        log.info("리뷰글 상세 조회");
         log.info("vo:{}", vo);
 
         ReviewVO vo2 = service.reviewSelectOne(vo);
@@ -85,7 +87,7 @@ public class CommunityController {
     // 토론글 상세 조회
     @GetMapping("/forum/f_selectOne.do")
     public String selectOne(ForumVO vo, Model model) {
-        log.info("/forum/f_selectOne.do");
+        log.info("토론글 상세 조회");
         log.info("vo:{}", vo);
 
         ForumVO vo2 = service.forumSelectOne(vo);
@@ -96,6 +98,3 @@ public class CommunityController {
         return "community/community_main";
     }
 }
-
-
-

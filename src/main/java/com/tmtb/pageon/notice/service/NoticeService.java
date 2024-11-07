@@ -44,7 +44,6 @@ public class NoticeService {
     }
 
 
-
     public int getSearchTotalRows(String searchKey, String searchWord) {
         if (searchKey.equals("title")) {
             return mapper.getSearchTotalRowsTitle("%" + searchWord + "%");

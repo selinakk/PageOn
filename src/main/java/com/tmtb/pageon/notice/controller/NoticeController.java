@@ -35,9 +35,11 @@ public class NoticeController {
     @Autowired
     NoticeService service;
 
+    //mysql 서버에서의 이미지 경로
 //    @Value("${file.dir}")
 //    private String uploadDir;
 
+    //배포 환경에서의 이미지 경로
     @Value("${file.dir}")
     private String realPath;
 
@@ -55,16 +57,17 @@ public class NoticeController {
             @RequestParam(defaultValue = "") String searchWord // 검색어 추가
     ) {
 
+        log.info("공지사항 목록 페이지");
+
+        //세션에서 id 가져오기
         String id = (String) session.getAttribute("id");
         log.info("세션에서 가져온 id: " + id);
 
-        // 세션에서 사용자 정보 가져오기
+        //세션에서 사용자 정보 가져오기 user_role로 사용자 정보 가져오기
         //userVO = (UserVO) session.getAttribute("user");
         String user_role = (String) session.getAttribute("user_role");
-
         //log.info("user:{}", user);
         //boolean isAdmin = (user != null && "ADMIN".equals(user.getUser_role())); // ADMIN인지 확인
-
         //log.info("isAdmin:{}", isAdmin);
 
         List<NoticeVO> list;
@@ -87,8 +90,8 @@ public class NoticeController {
         model.addAttribute("currentSort", sort);
         model.addAttribute("currentSearchWord", searchWord); // 검색어 모델에 추가
         //model.addAttribute("isAdmin", isAdmin); // ADMIN 여부 모델에 추가
-        model.addAttribute("id", id); // admin 여부 모델에 추가
         //model.addAttribute("user_role", user_role); // ADMIN 여부 모델에 추가
+        model.addAttribute("id", id); // admin 여부 모델에 추가
 
         return "notice/selectAll";
     }
@@ -106,11 +109,15 @@ public class NoticeController {
             @RequestParam(defaultValue = "newest") String sort,
             HttpSession session
     ) {
+
+        log.info("공지사항 검색");
+
         List<NoticeVO> list = service.searchListPageBlock(searchKey, searchWord, cpage, pageBlock, sort);
         int totalRows = service.getSearchTotalRows(searchKey, searchWord);
         int totalPageCount = (totalRows + pageBlock - 1) / pageBlock;
 
-        String id = (String) session.getAttribute("id"); // 세션에서 id 가져오기
+        //세션에서 id 가져오기
+        String id = (String) session.getAttribute("id");
         model.addAttribute("id", id);
 
         model.addAttribute("list", list);
@@ -127,12 +134,13 @@ public class NoticeController {
     // 공지사항 상세보기
     @GetMapping("/notice/n_selectOne.do")
     public String selectOne(NoticeVO vo, Model model, HttpSession session) {
-        log.info("/notice/n_selectOne.do");
+        log.info("공지사항 상세보기 페이지");
         log.info("vo:{}", vo);
 
         NoticeVO vo2 = service.selectOne(vo);
         log.info("vo2:{}", vo2);
 
+        //세션에서 id 가져오기
         String id = (String) session.getAttribute("id");
         log.info("세션에서 가져온 id: " + id);
 
@@ -146,8 +154,9 @@ public class NoticeController {
     // 공지사항 작성 폼
     @GetMapping("/notice/n_insert.do")
     public String insert(Model model, HttpSession session) {
-        log.info("/notice/n_insert.do");
+        log.info("공지사항 작성 페이지");
 
+        //세션에서 id가져오기
         String id = (String) session.getAttribute("id");
         log.info("세션에서 가져온 id: " + id);
 
@@ -161,10 +170,10 @@ public class NoticeController {
     // 공지사항 작성
     @PostMapping("/notice/n_insertOK.do")
     public String insertOK(NoticeVO vo,  HttpServletRequest request) throws IllegalStateException, IOException {
-        log.info("/notice/n_insertOK.do");
+        log.info("공지사항 작성");
         log.info("vo:{}", vo);
 
-//        // 이미지 파일 업로드 처리
+//        // 이미지 파일 업로드 처리(mysql 서버에서의 이미지 업로드 처리)
 //        MultipartFile file = vo.getFile(); // NoticeVO에 MultipartFile 필드 추가 필요
 //        if (file != null && !file.isEmpty()) {
 //            // 저장할 경로 설정 (서버의 절대 경로를 지정)
@@ -183,13 +192,13 @@ public class NoticeController {
 //            vo.setImg_name(fileName);
 //        }
 
-
         log.info(realPath);
 
         String originName = vo.getFile().getOriginalFilename();
         log.info("originName:{}", originName);
 
-        if (originName.length() == 0) {// 넘어온 파일이 없을때 default.png 할당
+        // 넘어온 파일이 없을때 default.png 할당
+        if (originName.length() == 0) {
             vo.setImg_name("default.png");
         } else {
             // 중복이미지 이름을 배제하기위한 처리
@@ -200,7 +209,7 @@ public class NoticeController {
             File f = new File(realPath, save_name);
             vo.getFile().transferTo(f);
 
-            //// create thumbnail image/////////
+            // 섬네일 이미지 만들기
             BufferedImage original_buffer_img = ImageIO.read(f);
             BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
             Graphics2D graphic = thumb_buffer_img.createGraphics();
@@ -211,7 +220,6 @@ public class NoticeController {
             ImageIO.write(thumb_buffer_img, save_name.substring(save_name.lastIndexOf(".") + 1), thumb_file);
 
         }
-
 
         // 서비스 호출 및 결과 처리
         int result = service.insertOK(vo);
@@ -228,7 +236,7 @@ public class NoticeController {
     // 공지사항 수정 폼
     @GetMapping("/notice/n_update.do")
     public String update(NoticeVO vo, Model model) {
-        log.info("/notice/n_update.do");
+        log.info("공지사항 수정 페이지");
         log.info("vo:{}", vo);
 
         NoticeVO vo2 = service.selectOne(vo);
@@ -244,9 +252,10 @@ public class NoticeController {
     // 공지사항 수정
     @PostMapping("/notice/n_updateOK.do")
     public String updateOK(NoticeVO vo, HttpServletRequest request) throws IllegalStateException, IOException {
-        log.info("/notice/n_updateOK.do");
+        log.info("공지사항 수정");
         log.info("vo:{}", vo);
 
+//        // 이미지 파일 업로드 처리(mysql 서버에서의 이미지 업로드 처리)
 //        MultipartFile file = vo.getFile();
 //        if (file != null && !file.isEmpty()) {
 //            String uploadDir = request.getServletContext().getRealPath("/upload/");
@@ -261,7 +270,6 @@ public class NoticeController {
 //
 //            vo.setImg_name(fileName);
 //        }
-
 
         log.info(realPath);
 
@@ -279,7 +287,7 @@ public class NoticeController {
             File f = new File(realPath, save_name);
             vo.getFile().transferTo(f);
 
-            //// create thumbnail image/////////
+            //섬네일 이미지 만들기
             BufferedImage original_buffer_img = ImageIO.read(f);
             BufferedImage thumb_buffer_img = new BufferedImage(50, 50, BufferedImage.TYPE_3BYTE_BGR);
             Graphics2D graphic = thumb_buffer_img.createGraphics();
@@ -291,7 +299,6 @@ public class NoticeController {
 
         }
 
-
         int result = service.updateOK(vo);
         log.info("result:{}", result);
         return result == 1 ? "redirect:/notice/n_selectOne.do?num=" + vo.getNum() : "redirect:/notice/n_update.do?num=" + vo.getNum();
@@ -299,19 +306,19 @@ public class NoticeController {
 
 
 
-    //공지사항 삭제 폼
+    //공지사항 삭제 폼 (사용안하고 팝업으로 대체)
     @GetMapping("/notice/n_delete.do")
     public String delete() {
-        log.info("/notice/n_delete.do");
+        log.info("공지사항 삭제 페이지");
         return "notice/delete";
     }
 
 
 
-    //공지사항 삭제
+    //공지사항 삭제 (사용안하고 팝업으로 대체)
     @PostMapping("/notice/n_deleteOK.do")
     public String deleteOK(NoticeVO vo) {
-        log.info("/notice/n_deleteOK.do");
+        log.info("공지사항 삭제");
         log.info("vo:{}", vo);
 
         int result = service.deleteOK(vo);
@@ -323,8 +330,5 @@ public class NoticeController {
         }
     }
 
-
-
 }
-
 
