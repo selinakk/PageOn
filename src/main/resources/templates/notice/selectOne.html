@@ -63,7 +63,9 @@
                 <div>
                     <div th:if="${vo2.img_name != null}">
 <!--                        <img th:src="@{/upload/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail">-->
-                       <img th:src="|/home/multi26/uploadimgPath/${vo2.img_name}|">
+<!--                       <img th:src="|/home/multi26/uploadimgPath/${vo2.img_name}|">-->
+<!--                        <img th:src="@{'/uploadimgPath/' + ${vo2.img_name}}" class="img-thumbnail" alt="공지사항 이미지">-->
+                        <img th:src="'/uploadimgPath/' + ${vo2.img_name}" alt="공지사항 이미지" class="img-thumbnail"/>
                     </div>
                 </div>
 
