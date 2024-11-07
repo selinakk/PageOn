@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/sub.css">
+
   <style>
     .form-label {
       font-weight: 510; /* 텍스트를 조금 굵게 */
@@ -19,6 +20,7 @@
 
 <body>
 <header th:replace="~{header :: header}"></header>
+
 <div th:fragment="content">
   <div class="container mt-5">
     <h3 class="mb-4">공지사항 작성 페이지</h3>
@@ -48,7 +50,6 @@
           <label for="file" class="form-label">사진첨부</label>
           <input type="file" class="form-control-file" id="file" name="file">
         </div>
-
       </form>
 
       <!-- 작성하기 버튼을 카드 밖으로 이동 -->
@@ -57,6 +58,7 @@
       <button type="button" class="btn btn-dark" style="font-size: 1em" onclick="submitForm()">작성완료</button>
       <button type="button" class="btn btn-dark ms-2" style="font-size: 1em" onclick="cancelWork()">작성취소</button> <!-- 버튼 사이 간격 조정 -->
     </div>
+
   </div>
 </div>
 
