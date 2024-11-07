@@ -47,5 +47,5 @@ public interface ReviewMapper {
     int getHateCount(int num);
 
 
-
+    String getWorkdata(int workNum);
 }

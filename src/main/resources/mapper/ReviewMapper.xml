@@ -102,4 +102,8 @@
     UPDATE review set report =1 WHERE num=#{num}
 </update>
 
+    <select id="getWorkdata">
+        select title FROM work where item_id=#{item_id}
+    </select>
+
 </mapper>

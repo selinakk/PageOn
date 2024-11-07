@@ -149,8 +149,13 @@ public class ReviewContoller {
         log.info("리뷰 입력");
         log.info("work_num:{} ", work_num);
         log.info("categories:{} ", categories);
+
+        String work_title = service.getWorkdata(work_num);
+        log.info("list:{}", work_title);
+
         model.addAttribute("work_num", work_num);
         model.addAttribute("categories", categories);
+        model.addAttribute("work_title", work_title);
         return "review/insert";
 
     }

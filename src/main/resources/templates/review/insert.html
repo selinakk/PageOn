@@ -14,9 +14,7 @@
     <div class="position-relative padding-medium">
         <div class="container">
             <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-                <h3 class="d-flex align-items-center">리뷰 작성</h3>
-
-                <button th:class="write_box" onclick="location.href='/review/list'">목록</button>
+                <h3 class="d-flex align-items-center" th:text="${work_title} +'의 리뷰 작성'"></h3>
                 </div>
             </div>
         <form action="/review/insertOK" method="POST" >
@@ -28,7 +26,7 @@
                 </div>
                 <p>
                 <div class="justify-content-p">
-                    <label for="title"></label>
+                    <label for="title" th:class="text"></label>
                     <input class="review-title_box" type="text" id="title" name="title" placeholder="제목을 입력해주세요" value="강추!...">
                 </div>
                 </p>
