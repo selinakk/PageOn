@@ -1143,12 +1143,12 @@ a.text-danger .svg-icon {
 
 .save-btn{
     margin: 10px;
-    border-radius: 5px;
+    border-radius: 30px;
     border: #F86D72;
     background-color: #F86D72;
-    width: 100px;
-    height: 50px;
-    font-size: 25px;
+    width: 200px;
+    height: 60px;
+    font-size: 30px;
 
 }
 
