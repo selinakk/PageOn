@@ -26,7 +26,7 @@
 
         <div class="d-flex justify-content-between align-items-center w-100">
             <p class="f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
-                <strong th:text="${searchWord}"></strong>에 대한 검색 결과: <span th:text="${totalSearchList}"></span>건
+                <strong th:text="${searchWord}"></strong>에 대한 검색 결과: <span th:text="${searchTotalRows}"></span>건
             </p>
             <p class="f-3" th:unless="${not #strings.isEmpty(searchWord)}"
                th:text="|총 ${total_Row}건|"></p>

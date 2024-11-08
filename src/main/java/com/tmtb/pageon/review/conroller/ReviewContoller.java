@@ -123,21 +123,22 @@ public class ReviewContoller {
         log.info("list:{}", list);
 
 
-        int total_rows= service.getsearchTotalRow(searchKey, searchWord);
-        log.info("total_rows:{}", total_rows);
+        int searchTotalRows= service.getsearchTotalRow(searchKey, searchWord);
+        log.info("searchTotalRows:{}", searchTotalRows);
 
         int totalPageCount =0;
-        if (total_rows/ pageBlock ==0){
+        if (searchTotalRows/ pageBlock ==0){
             totalPageCount =1;
-        } else if (total_rows % pageBlock ==0) {
-            totalPageCount = total_rows / pageBlock ;
+        } else if (searchTotalRows % pageBlock ==0) {
+            totalPageCount = searchTotalRows / pageBlock ;
         }else{
-            totalPageCount = total_rows / pageBlock +1;
+            totalPageCount = searchTotalRows / pageBlock +1;
         }
         log.info("totalPageCount:{}", totalPageCount);
         model.addAttribute("totalPageCount", totalPageCount);
         model.addAttribute("searchKey", searchKey);
         model.addAttribute("searchWord", searchWord);
+        model.addAttribute("searchTotalRows", searchTotalRows);
 
         return "review/list";
     }
