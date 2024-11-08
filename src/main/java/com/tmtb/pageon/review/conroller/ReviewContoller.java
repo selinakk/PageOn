@@ -211,17 +211,16 @@ public class ReviewContoller {
 
         if (result==1){
             return "redirect:/review/list";
-        }return "redirect:/review/listOne?num="+vo.getNum();
+        }return "redirect:/review/detail?num="+vo.getNum();
     }
 
     //신고 기능
-    @PostMapping("/r_reportOK")
-    @ResponseBody
-    public ResponseEntity<String> r_reportOK(ReviewVO vo) {
+    @GetMapping("/review/reportOK")
+    public String r_reportOK(ReviewVO vo) {
         log.info("report ..start");
 
         service.updateReport(vo);
-        return new ResponseEntity<>("신고가 완료 되었습니다", HttpStatus.OK) ;
+        return "redirect:/review/detail?num="+vo.getNum();
     }
 
     //좋아요 기능

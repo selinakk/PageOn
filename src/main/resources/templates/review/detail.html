@@ -20,10 +20,7 @@
         <div >
             <div class="side-bar">
                 <span>
-                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
-                    <a th:class="like-btn" type="button" onclick="confirmReport()">🚨
-                    </a>
-                    </form>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">🚨</a>
                     <span th:if="${vo2.user_id} == ${session.id}">
                         <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
                           <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
@@ -534,7 +531,7 @@ function reportComment(commentId) {
 
 </script>
 </div>
-<<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -543,6 +540,19 @@ function reportComment(commentId) {
             <div class="modal-footer">
                 <a class="btn btn-secondary" data-bs-dismiss="modal">취소</a>
                 <a class="btn btn-danger" th:href="@{/review/deleteOK(num=${vo2.num})}">삭제</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                정말 해당 리뷰를 신고하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary" data-bs-dismiss="modal">취소</a>
+                <a class="btn btn-danger" th:href="@{/review/reportOK(num=${vo2.num})}">신고</a>
             </div>
         </div>
     </div>

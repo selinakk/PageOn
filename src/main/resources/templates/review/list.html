@@ -11,7 +11,7 @@
 <div class="position-relative padding-medium">
     <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-            <h3 class="d-flex align-items-center">리뷰목록</h3>
+            <h3 class="d-flex align-items-center">리뷰 목록</h3>
             <form th:action="@{/review/searchList}" method="GET" class="search-list--custom d-flex">
                 <select name="searchKey" id="searchKey" class="form-select p-2 w-25 rounded-0">
                     <option value="title" th:selected="${searchKey == 'title'}">글제목</option>
@@ -23,15 +23,34 @@
                 <input type="submit" class="btn btn-dark rounded-0" value="검색">
             </form>
         </div>
-        <div>
-            <div id="array-soon">
-                <small><a th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='old')}">오래된 순</a></small>
-                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='like')}">인기순</a></small>
-            </div>
 
-        </div>
-        </div>
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <p class="f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
+                <strong th:text="${searchWord}"></strong>에 대한 검색 결과: <span th:text="${totalSearchList}"></span>건
+            </p>
+            <p class="f-3" th:unless="${not #strings.isEmpty(searchWord)}"
+               th:text="|총 ${total_Row}건|"></p>
 
+            <th:block th:if="${#strings.isEmpty(searchWord)}">
+                <div class="sort-wrapper position-relative">
+                    <button class="nav-link dropdown-toggle">정렬</button>
+                    <div class="dropdown-menu animate slide border vstack text-center">
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='recent')}">
+                            <small>최신순</small>
+                        </a>
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='old')}">
+                            <small>오래된순</small>
+                        </a>
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='rating')}">
+                            <small>별점순</small>
+                        </a>
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='popular')}">
+                            <small>인기순</small>
+                        </a>
+                    </div>
+                </div>
+            </th:block>
+        </div>
     </div>
 </div>
 <div class="list-unstyled row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">

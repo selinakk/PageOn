@@ -1076,7 +1076,7 @@ a.text-danger .svg-icon {
 
 .pagecount{
     text-align: center;
-    letter-spacing: 15px;
+    word-spacing: 10px;
 }
 .md-2{
     padding: 30px;
