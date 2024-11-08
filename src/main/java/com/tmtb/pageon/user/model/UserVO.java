@@ -1,8 +1,12 @@
 package com.tmtb.pageon.user.model;
 
 import lombok.Data;
+import org.springframework.util.ResourceUtils;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Base64;
 import java.util.Date;
 
@@ -25,8 +29,15 @@ public class UserVO {
 
 
     public String getImgDataAsBase64() {
-        if (img_data != null) {
+        if (img_data != null && img_data.length > 0) {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(img_data);
+        }
+        try {
+            File defaultImageFile = ResourceUtils.getFile("classpath:static/img/default.png");
+            byte[] defaultImageData = Files.readAllBytes(defaultImageFile.toPath());
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(defaultImageData);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }

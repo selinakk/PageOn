@@ -1,7 +1,11 @@
 package com.tmtb.pageon.forum.model;
 
 import lombok.Data;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Date;
 import java.util.Base64;
 
@@ -27,8 +31,15 @@ public class ForumVO {
     private String workImgName;
 
     public String getImgDataAsBase64() {
-        if (userImgData != null) {
+        if (userImgData != null && userImgData.length > 0) {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(userImgData);
+        }
+        try {
+            File defaultImageFile = ResourceUtils.getFile("classpath:static/img/default.png");
+            byte[] defaultImageData = Files.readAllBytes(defaultImageFile.toPath());
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(defaultImageData);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
