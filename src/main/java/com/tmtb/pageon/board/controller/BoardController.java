@@ -297,7 +297,7 @@ public class BoardController {
                               Model model) {
         log.info("게시판 검색");
 
-        int pageSize = 15;
+        int pageSize = 20;
         int offset = (page - 1) * pageSize;
 
         List<BoardVO> boardList;
@@ -309,6 +309,9 @@ public class BoardController {
             boardList = boardService.searchBoardByContent(searchWord, category, offset, pageSize);
             totalCount = boardService.getTotalCountByContent(searchWord, category);
         }
+
+        log.info("searchType:{}", searchType);
+        log.info("searchWord:{}", searchWord);
 
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 

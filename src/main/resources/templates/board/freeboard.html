@@ -85,23 +85,22 @@
         <div class="pagination justify-content-center">
             <ul class="pagination">
                 <li class="page-item" th:if="${currentPage > 1}">
-                    <a class="page-link" th:href="@{/freeboard(page=${currentPage - 1}, sort=${sort})}">
+                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
                         이전
                     </a>
                 </li>
                 <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/freeboard(page=${i}, sort=${sort})}" th:text="${i}"></a>
+                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}" th:text="${i}"></a>
                 </li>
                 <li class="page-item" th:if="${currentPage < totalPages}">
-                    <a class="page-link" th:href="@{/freeboard(page=${currentPage + 1}, sort=${sort})}"
+                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
                        aria-label="Next">
                         다음
                     </a>
                 </li>
             </ul>
         </div>
-    </div>
 
     <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
