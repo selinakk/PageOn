@@ -1,72 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
 <head>
-    <meta charset="UTF-8">
     <title th:text="${title}">PageOn</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/sub.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 메인 페이지</title>
 
     <style>
         .td {
             border: 1px solid #ddd; /* 내부 셀 테두리는 얇게 */
-            cursor: pointer; /* 마우스 포인터가 손 모양으로 변경 */
-            text-align: center; /* 텍스트 가운데 정렬 */
+            cursor: pointer;
         }
 
         .td a {
-            display: block; /* 링크를 블록으로 설정하여 셀 전체를 클릭할 수 있게 함 */
-            height: 100%; /* 셀의 높이를 가득 채우기 위해 */
-            width: 100%; /* 셀의 너비를 가득 채우기 위해 */
-            text-decoration: none; /* 링크의 밑줄 제거 */
-            color: inherit; /* 글씨 색을 상속받아 동일하게 표시 */
-        }
-
-        .th {
-            border: 1px solid #ddd; /* 내부 셀 테두리는 얇게 */
-            color: black;
-            font-weight: bold;
-            text-align: center;
+            display: block;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+            color: inherit;
         }
 
         .table-container {
             display: flex;
             justify-content: space-between;
-            gap: 80px; /* 테이블 간의 간격을 넓힘 */
-            margin-bottom: 50px; /* 아래쪽 여백 추가 */
+            gap: 80px;
+            margin-bottom: 5px;
+            overflow-x: auto;
         }
 
-        #insertTable1, #insertTable2, #insertTable3, #insertTable4 {
-            width: 48%; /* 테이블 너비를 조정하여 여백을 만들기 위해 48%로 설정 */
-            max-height: 500px;
-            text-align: center;
-            font-family: 'Roboto', sans-serif;
-            font-size: 20px; /* 글씨 크기 조정 */
-            border-collapse: collapse;
-            border-radius: 15px; /* 둥근 테두리 */
-            margin: 0 0.5%; /* 좌우 여백을 0.5%로 설정하여 균일한 여백 유지 */
-            border: 2px solid black; /* 바깥 테두리를 진하게 */
-        }
-
-        #insertTable1, #insertTable2, #insertTable3, #insertTable4 {
-            margin-top: 50px;
-        }
-
-        #table1:hover, #table2:hover, #table3:hover, #table4:hover {
-            background-color: var(--primary-color);
-        }
-
-        .more-link {
-            color: blue !important; /* !important를 추가하여 다른 스타일에 우선시킴 */
-            text-decoration: none; /* 밑줄 제거 */
+        /* 테이블이 작은 화면에서도 네모칸을 벗어나지 않도록 설정 */
+        .table-container table {
+            min-width: 300px; /* 테이블의 최소 너비 설정 */
         }
 
         .card {
-            max-width: 1500px; /* 네모칸의 최대 너비 */
+            max-width: 95%;
             margin: auto;
             padding: 20px;
+        }
+
+        #notice-section .td {
+            border-top: none !important;
+            border-right: none;
+            border-left: none;
+        }
+
+        .caption-container {
+            display: flex;
+            align-items: center;
+            font-weight: 505;
+            font-size: 1.2em;
+            color: black;
+        }
+
+        .caption-container .more-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-sm {
+            padding: 2px 8px;
+            font-size: 0.9em;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .navbar {
+            background-color: transparent !important; /* 배경색 제거 */
+            box-shadow: none; /* 그림자 제거 */
+        }
+
+        .navbar-brand .navbar .navbar-nav .nav-link {
+            font-size: 2.2em;
+            font-weight: 500;
+        }
+
+        .navbar-toggler {
+            border: none; /* 토글 버튼 외곽선 제거 */
+        }
+
+        /* 작은 화면에서 테이블을 세로로 정렬 */
+        @media (max-width: 768px) {
+            .table-container {
+                flex-direction: column;
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -75,73 +99,147 @@
 
 <header th:replace="~{header :: header}"></header>
 <!--<nav th:replace="~{top_menu::top_menu}"></nav>-->
-<br>
 
-<h3 style="text-align: center">커뮤니티 메인 페이지</h3>
-<br><br>
+<section class="container mt-5">
+    <h3 style="text-align: center">커뮤니티 메인 페이지</h3>
+    <br><br>
 
-<div class="card p-4">
-    <div class="table-container">
-        <table class="table table-bordered table-hover w-100">
-            <th class="th">최근 공지사항</th>
-            <tbody>
-            <th:block th:each="vo : ${list2}">
-                <tr id="table2">
-                    <td class="td"><a th:href="|/notice/n_selectOne.do?num=${vo.num}|">[[${vo.title}]]</a></td>
-                </tr>
-            </th:block>
-            <tr>
-                <td class="td"><a class="more-link" th:href="|/notice/n_selectAll.do|">더보기...</a></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="card p-4" id="notice-section">
 
-        <table class="table table-bordered table-hover w-100">
-            <th class="th">최근 게시글</th>
-            <tbody>
-            <th:block th:each="vo : ${list1}">
-                <tr id="table1">
-                    <td class="td"><a th:href="|/b_selectOne?num=${vo.num}|">[[${vo.title}]]</a></td>
-                </tr>
-            </th:block>
-            <tr>
-                <td class="td"><a class="more-link" th:href="|/freeboard|">더보기...</a></td>
-            </tr>
-            </tbody>
-        </table>
+        <!-- 네비게이션 바 중앙 정렬 -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container justify-content-center">
+                <a class="navbar-brand mx-3" th:href="|/|">홈</a> <!-- 홈 버튼에 마진 추가 -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link mx-3" th:href="|/notice/n_selectAll.do|">공지사항</a> <!-- 각 메뉴에 마진 추가 -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mx-3" th:href="|/freeboard|">자유 게시판</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mx-3" th:href="|/review/list|">리뷰 게시판</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mx-3" th:href="|/forum/list|">토론 게시판</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <br><br>
+
+        <div class="table-container">
+            <table class="table table-hover w-100">
+                <!-- 캡션 수정하여 더보기 링크 추가 -->
+                <caption style="caption-side: top; padding: 5px; margin-bottom: 2%;">
+                    <div class="caption-container">
+                        <span>최근 공지사항</span>
+                        <a class="btn btn-primary btn-sm" th:href="|/notice/n_selectAll.do|" style="margin-left: auto;">더보기</a>
+                    </div>
+                </caption>
+
+                <tbody>
+                <th:block th:each="vo : ${list2}">
+                    <tr id="table2" style="cursor:pointer;" th:onclick="|location.href='/notice/n_selectOne.do?num=${vo.num}'|">
+                        <!-- 제목 셀 클릭 시 링크로 이동 -->
+                        <td class="td no-top-border">
+                            [[${vo.title}]]
+                        </td>
+                        <!-- 작성자와 날짜 셀 클릭 시 링크로 이동 -->
+                        <td style="text-align: right;">
+                            [[${vo.user_id}]] &nbsp;&nbsp;&nbsp;
+                            <span style="color: #f39c12;">[[${#dates.format(vo.wdate, 'yyyy-MM-dd')}]]</span>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+
+            </table>
+
+            <table class="table table-hover w-100">
+                <!-- 캡션 수정하여 더보기 링크 추가 -->
+                <caption style="caption-side: top; padding: 5px; margin-bottom: 2%;">
+                    <div class="caption-container">
+                        <span>최근 게시글</span>
+                        <a class="btn btn-primary btn-sm" th:href="|/freeboard|" style="margin-left: auto;">더보기</a>
+                    </div>
+                </caption>
+
+                <tbody>
+                <th:block th:each="vo : ${list1}">
+                    <tr id="table1" style="cursor:pointer;" th:onclick="|location.href='/b_selectOne?num=${vo.num}'|">
+                        <td class="td no-top-border">
+                            [[${vo.title}]]
+                        </td>
+                        <td style="text-align: right;">
+                            [[${vo.user_id}]] &nbsp;&nbsp;&nbsp;
+                            <span style="color: #f39c12;">[[${vo.wdate}]]</span>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+        <br>
+
+        <div class="table-container">
+            <table class="table table-hover w-100">
+                <!-- 캡션 수정하여 더보기 링크 추가 -->
+                <caption style="caption-side: top; padding: 5px; margin-bottom: 2%;">
+                    <div class="caption-container">
+                        <span>최근 리뷰글</span>
+                        <a class="btn btn-primary btn-sm" th:href="|/review/list|" style="margin-left: auto;">더보기</a>
+                    </div>
+                </caption>
+
+                <tbody>
+                <th:block th:each="vo : ${list3}">
+                    <tr id="table3" style="cursor:pointer;" th:onclick="|location.href='/review/detail?num=${vo.num}'|">
+                        <td class="td no-top-border">
+                            [[${vo.title}]]</td>
+                        <td style="text-align: right;">
+                            [[${vo.user_id}]] &nbsp;&nbsp;&nbsp;
+                            <span style="color: #f39c12;">[[${vo.wdate}]]</span>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+
+            <table class="table table-hover w-100">
+                <!-- 캡션 수정하여 더보기 링크 추가 -->
+                <caption style="caption-side: top; padding: 5px; margin-bottom: 2%;">
+                    <div class="caption-container">
+                        <span>최근 토론글</span>
+                        <a class="btn btn-primary btn-sm" th:href="|/forum/list|" style="margin-left: auto;">더보기</a>
+                    </div>
+                </caption>
+
+                <tbody>
+                <th:block th:each="vo : ${list4}">
+                    <tr id="table4" style="cursor:pointer;" th:onclick="|location.href='/forum/view?num=${vo.num}'|">
+                        <td class="td no-top-border">
+                            [[${vo.title}]]
+                        </td>
+                        <td style="text-align: right;">
+                            [[${vo.user_id}]] &nbsp;&nbsp;&nbsp;
+                            <span style="color: #f39c12;">[[${vo.wdate}]]</span>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <br><br>
 
-    <div class="table-container">
-        <table class="table table-bordered table-hover w-100">
-            <th class="th">최근 리뷰글</th>
-            <tbody>
-            <th:block th:each="vo : ${list3}">
-                <tr id="table3">
-                    <td class="td"><a th:href="|/review/detail?num=${vo.num}|">[[${vo.title}]]</a></td>
-                </tr>
-            </th:block>
-            <tr>
-                <td class="td"><a class="more-link" th:href="|/review/list|">더보기...</a></td>
-            </tr>
-            </tbody>
-        </table>
-
-        <table class="table table-bordered table-hover w-100">
-            <th class="th">최근 토론글</th>
-            <tbody>
-            <th:block th:each="vo : ${list4}">
-                <tr id="table4">
-                    <td class="td"><a th:href="|/forum/view?num=${vo.num}|">[[${vo.title}]]</a></td>
-                </tr>
-            </th:block>
-            <tr>
-                <td class="td"><a class="more-link" th:href="|/forum/list|">더보기...</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<br><br>
+</section>
 
 <footer th:replace="~{footer :: footer}"></footer>
 
