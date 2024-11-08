@@ -19,8 +19,8 @@
 
     <div class="filter-option">
         <span class="category filter-option point" data-category="all" onclick="resetFilters()">#전체</span>
-    <span class="category filter-option point" th:each="category : ${allCategories}" th:if="${category != null}"
-          th:text="' #' + ${category}" th:data-category="${category}" onclick="filterByCategory(this)"></span>
+        <span class="category filter-option point" th:each="category : ${allCategories}" th:if="${category != null}"
+              th:text="' #' + ${category}" th:data-category="${category}" onclick="filterByCategory(this)"></span>
         <span th:each="category : ${categories}" th:if="${category != null}"> </span>
     </div>
 
@@ -47,6 +47,10 @@
         </div>
     </div>
 
+
+    <div id="no-results-message" th:if="${#lists.isEmpty(webtoonList)}">
+        <h4>검색 결과가 없습니다.
+        </h4></div>
 
     <div class="webnovel-grid">
         <div class="webnovel-item position-relative" th:each="webtoon : ${webtoonList}">
@@ -84,65 +88,65 @@
         </div>
     </div>
 
+    <div class="pagination" th:if="${!#lists.isEmpty(webtoonList)}">
+        <!-- 페이징 기능 추가 -->
+        <div class="pagination" th:if="${filter != 'prefer' and filter != 'recommend'}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a class="page-link prev-text"
+                       th:href="@{/wt_search(page=${currentPage - 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">이전</a>
+                </li>
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/wt_search(page=${pageNum}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}"
+                       th:text="${pageNum}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a class="page-link next-text"
+                       th:href="@{/wt_search(page=${currentPage + 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">다음</a>
+                </li>
+            </ul>
+        </div>
 
-    <!-- 페이징 기능 추가 -->
-    <div class="pagination" th:if="${filter != 'prefer' and filter != 'recommend'}">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link prev-text"
-                   th:href="@{/wt_search(page=${currentPage - 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">이전</a>
-            </li>
-            <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
-                th:classappend="${pageNum == currentPage} ? 'active'">
-                <a class="page-link"
-                   th:href="@{/wt_search(page=${pageNum}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}"
-                   th:text="${pageNum}">1</a>
-            </li>
-            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link next-text"
-                   th:href="@{/wt_search(page=${currentPage + 1}, searchType=${searchType}, searchWord=${searchWord}, categories=${categories}, sortOrder=${sortOrder})}">다음</a>
-            </li>
-        </ul>
+        <div class="pagination pagination-width" th:if="${filter == 'prefer'}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a class="page-link prev-text"
+                       th:href="@{/wt_like(page=${currentPage - 1}, categories=${categories}, sortOrder=${sortOrder})}">이전</a>
+                </li>
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/wt_like(page=${pageNum}, categories=${categories}, sortOrder=${sortOrder})}"
+                       th:text="${pageNum}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a class="page-link next-text"
+                       th:href="@{/wt_like(page=${currentPage + 1}, categories=${categories}, sortOrder=${sortOrder})}">다음</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pagination pagination-width" th:if="${filter == 'recommend'}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a class="page-link prev-text"
+                       th:href="@{/webtoonrecommendation(page=${currentPage - 1})}">이전</a>
+                </li>
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/webtoonrecommendation(page=${pageNum})}"
+                       th:text="${pageNum}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a class="page-link next-text"
+                       th:href="@{/webtoonrecommendation(page=${currentPage + 1})}">다음</a>
+                </li>
+            </ul>
+        </div>
     </div>
-
-    <div class="pagination pagination-width" th:if="${filter == 'prefer'}">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link prev-text"
-                   th:href="@{/wt_like(page=${currentPage - 1}, categories=${categories}, sortOrder=${sortOrder})}">이전</a>
-            </li>
-            <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
-                th:classappend="${pageNum == currentPage} ? 'active'">
-                <a class="page-link"
-                   th:href="@{/wt_like(page=${pageNum}, categories=${categories}, sortOrder=${sortOrder})}"
-                   th:text="${pageNum}">1</a>
-            </li>
-            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link next-text"
-                   th:href="@{/wt_like(page=${currentPage + 1}, categories=${categories}, sortOrder=${sortOrder})}">다음</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="pagination pagination-width" th:if="${filter == 'recommend'}">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link prev-text"
-                   th:href="@{/webtoonrecommendation(page=${currentPage - 1})}">이전</a>
-            </li>
-            <li class="page-item" th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
-                th:classappend="${pageNum == currentPage} ? 'active'">
-                <a class="page-link"
-                   th:href="@{/webtoonrecommendation(page=${pageNum})}"
-                   th:text="${pageNum}">1</a>
-            </li>
-            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link next-text"
-                   th:href="@{/webtoonrecommendation(page=${currentPage + 1})}">다음</a>
-            </li>
-        </ul>
-    </div>
-
 
 </section>
 
@@ -171,11 +175,11 @@
         }
 
         // 링크 클릭 시 로컬스토리지 값 비우기
-        document.getElementById('recommend-link').addEventListener('click', function() {
+        document.getElementById('recommend-link').addEventListener('click', function () {
             localStorage.removeItem('selectedCategories');
         });
 
-        document.getElementById('prefer-link').addEventListener('click', function() {
+        document.getElementById('prefer-link').addEventListener('click', function () {
             localStorage.removeItem('selectedCategories');
             const selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
             localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
@@ -273,7 +277,7 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         const searchForm = document.querySelector('form.webnovel-search');
 
-        searchForm.addEventListener('submit', function(event) {
+        searchForm.addEventListener('submit', function (event) {
             event.preventDefault(); // 기본 폼 제출 동작을 막습니다.
 
             const selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];

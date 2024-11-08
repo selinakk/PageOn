@@ -44,12 +44,12 @@
     <select id="searchWebtoonByTitle" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
-        WHERE title LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE title LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
         AND type = 'webtoon'
         <if test="categories != null and !categories.isEmpty()">
             AND (
             <foreach item="category" collection="categories" separator=" OR ">
-                categories LIKE CONCAT('%', #{category}, '%')
+                categories LIKE CONCAT('%', #{category}, '%') COLLATE utf8mb4_unicode_ci
             </foreach>
             )
         </if>
@@ -57,10 +57,11 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
+
     <select id="searchWebtoonByWriter" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
-        WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE writer LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
           AND type = 'webtoon'
         ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
@@ -69,7 +70,7 @@
     <select id="searchWebtoonByCategories" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
-        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
           AND type = 'webtoon'
         ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
@@ -81,7 +82,7 @@
         WHERE type = 'webtoon'
         AND (
         <foreach item="category" collection="categories" separator=" OR ">
-            categories LIKE CONCAT('%', #{category}, '%')
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
         </foreach>
         )
         ORDER BY item_id DESC
@@ -94,7 +95,7 @@
         WHERE type = 'webtoon'
         AND (
         <foreach item="category" collection="likeCategories" separator=" OR ">
-            categories LIKE CONCAT('%', #{category}, '%')
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
         </foreach>
         )
         ORDER BY item_id DESC
@@ -107,7 +108,7 @@
         WHERE type = 'webtoon'
         AND (
         <foreach item="category" collection="likeCategories" separator=" OR ">
-            categories LIKE CONCAT('%', #{category}, '%')
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
         </foreach>
         )
     </select>
@@ -118,7 +119,7 @@
         WHERE type = 'webtoon'
         AND (
         <foreach item="category" collection="categories" separator=" OR ">
-            categories LIKE CONCAT('%', #{category}, '%')
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
         </foreach>
         )
     </select>
@@ -127,12 +128,12 @@
     <select id="getTotalCountByTitle" resultType="int">
         SELECT COUNT(*)
         FROM work
-        WHERE title LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE title LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
         AND type = 'webtoon'
         <if test="categories != null and !categories.isEmpty()">
             AND (
             <foreach item="category" collection="categories" separator=" OR ">
-                categories LIKE CONCAT('%', #{category}, '%')
+                categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
             </foreach>
             )
         </if>
@@ -141,12 +142,12 @@
     <select id="getTotalCountByWriter" resultType="int">
         SELECT COUNT(*)
         FROM work
-        WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE writer LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
           AND type = 'webtoon'
         <if test="categories != null and !categories.isEmpty()">
             AND (
             <foreach item="category" collection="categories" separator=" OR ">
-                categories LIKE CONCAT('%', #{category}, '%')
+                categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
             </foreach>
             )
         </if>
@@ -155,7 +156,7 @@
     <select id="getTotalCountByCategories" resultType="int">
         SELECT COUNT(*)
         FROM work
-        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
         AND type = 'webtoon'
     </select>
 

@@ -67,7 +67,7 @@
                 <tr th:each="board : ${boardList}" th:data-num="${board.num}" style="cursor:pointer;"
                     onclick="location.href='/b_selectOne?num=' + this.getAttribute('data-num') + '&category=qna'">
                     <td>[[${board.num}]]</td>
-                    <td th:text="${board.title}"></td>
+                    <td class="ellipsis" th:text="${board.title}"></td>
                     <td th:text="${board.user_id}"></td>
                     <td th:text="${board.boardhitcount}"></td>
                 </tr>

@@ -104,7 +104,7 @@
     <!--   검색 기능 + 페이징-->
     <select id="searchBoardByTitle" resultType="com.tmtb.pageon.board.model.BoardVO">
         SELECT * FROM board
-        WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
         ORDER BY num DESC
             LIMIT #{offset}, #{pageSize}
     </select>
@@ -112,19 +112,19 @@
         SELECT *
         FROM board
         WHERE (category = #{category} OR #{category} = 'all')
-          AND content LIKE CONCAT('%', #{searchWord}, '%')
+          AND content LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
         ORDER BY num DESC
             LIMIT #{offset}, #{pageSize}
     </select>
     <select id="getTotalCountByTitle" resultType="int">
         SELECT COUNT(*)
         FROM board
-        WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE (category = #{category} OR #{category} = 'all') AND title LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
     </select>
     <select id="getTotalCountByContent" resultType="int">
         SELECT COUNT(*)
         FROM board
-        WHERE (category = #{category} OR #{category} = 'all') AND content LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE (category = #{category} OR #{category} = 'all') AND content LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
     </select>
 
     <select id="getTotalCountByFreeBoard" resultType="int">

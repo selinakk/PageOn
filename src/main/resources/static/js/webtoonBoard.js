@@ -414,11 +414,24 @@ function confirmDelete() {
 function validateTitleContentForm() {
     var title = document.getElementById("title").value;
     var content = document.getElementById("content").value;
+    var maxTitleLength = 30;
+    var maxContentLength = 5000;
 
     if (title.trim() === "" || content.trim() === "") {
         alert("제목과 내용은 필수입니다!");
         return false; // 폼 제출을 막음
     }
+
+    if (title.length > maxTitleLength) {
+        alert("제목은 최대 " + maxTitleLength + "자까지 입력할 수 있습니다.");
+        return false; // 폼 제출을 막음
+    }
+
+    if (content.length > maxContentLength) {
+        alert("내용은 최대 " + maxContentLength + "자까지 입력할 수 있습니다.");
+        return false; // 폼 제출을 막음
+    }
+
     return true; // 폼 제출을 허용
 }
 

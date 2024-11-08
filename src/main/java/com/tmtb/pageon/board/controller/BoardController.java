@@ -101,7 +101,6 @@ public class BoardController {
         log.info("게시글 작성 페이지");
 
         model.addAttribute("id", userDetails.getUsername());
-
         log.info("id:{}", userDetails.getUsername());
 
         return "board/insert";
