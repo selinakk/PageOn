@@ -41,7 +41,7 @@
                     <option value="title">제목</option>
                     <option value="content">내용</option>
                 </select>
-                <input type="text" name="searchWord" placeholder="검색어를 입력하세요">
+                <input type="text" id="searchWord" name="searchWord" placeholder="검색어를 입력하세요">
                 <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2 search-btn">검색</button>
             </form>
         </div>
@@ -55,10 +55,9 @@
                 <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
             </select>
 
-        <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">
-            글작성
-        </button>
-
+            <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">
+                글작성
+            </button>
 
 
         </div>
@@ -85,16 +84,20 @@
         <div class="pagination justify-content-center">
             <ul class="pagination">
                 <li class="page-item" th:if="${currentPage > 1}">
-                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
                         이전
                     </a>
                 </li>
                 <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}" th:text="${i}"></a>
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}"
+                       th:text="${i}"></a>
                 </li>
                 <li class="page-item" th:if="${currentPage < totalPages}">
-                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
                        aria-label="Next">
                         다음
                     </a>
@@ -102,27 +105,41 @@
             </ul>
         </div>
 
-    <script th:inline="javascript">
-        document.addEventListener("DOMContentLoaded", function () {
-            const sessionId = [[${session.id}]];
+        <script th:inline="javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                const sessionId = [[${session.id}]];
 
-            function openLoginModal(event) {
-                event.preventDefault();
-                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                modal.show();
-            }
-
-            document.getElementById("writeButton").addEventListener("click", function(event) {
-                if (!sessionId) {
-                    openLoginModal(event);
-                } else {
-                    location.href = '/b_insert';
+                function openLoginModal(event) {
+                    event.preventDefault();
+                    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    modal.show();
                 }
+
+                document.getElementById("writeButton").addEventListener("click", function (event) {
+                    if (!sessionId) {
+                        openLoginModal(event);
+                    } else {
+                        location.href = '/b_insert';
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 
+        <script th:inline="javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                const searchInput = document.getElementById("searchWord");
+                const maxLength = 20; // 최대 글자 수
 
+                searchInput.addEventListener("input", function () {
+                    if (searchInput.value.length > maxLength) {
+                        alert("검색어는 최대 " + maxLength + "자까지 입력할 수 있습니다.");
+                        searchInput.value = searchInput.value.substring(0, maxLength);
+                    }
+                });
+            });
+        </script>
+
+    </div>
 </section>
 </body>
 </html>
