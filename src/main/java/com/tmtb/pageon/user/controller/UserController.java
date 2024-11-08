@@ -174,13 +174,14 @@ public class UserController {
 
             // 현재 페이지 그룹 계산
             int currentPageGroup = page / pageSize;
-            int totalPageGroups = (int) Math.ceil((double) commentTotalPages / pageSize);
+            int startPage = currentPageGroup * pageSize;
+            int endPage = Math.min(startPage + pageSize - 1, commentTotalPages - 1);
 
             model.addAttribute("type", type);
             model.addAttribute("currentPage", page);
             model.addAttribute("commentTotalPages", commentTotalPages);
-            model.addAttribute("currentPageGroup", currentPageGroup); // 현재 페이지 그룹
-            model.addAttribute("totalPageGroups", totalPageGroups);   // 전체 페이지 그룹 수
+            model.addAttribute("startPage", startPage);  // 시작 페이지
+            model.addAttribute("endPage", endPage);      // 종료 페이지
             model.addAttribute("searchKeyword", searchKeyword);
         } else {
             return "redirect:/";
@@ -204,24 +205,24 @@ public class UserController {
             int totalComments = 0;
             switch (type) {
                 case "forum":
-                    List<ForumVO> forumList = userService.findByForumPazing(id, offset, size,searchKeyword); // 포럼 데이터 조회
+                    List<ForumVO> forumList = userService.findByForumPazing(id, offset, size, searchKeyword); // 포럼 데이터 조회
                     model.addAttribute("forumList", forumList);
-                    totalComments = userService.countForumsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countForumsByUser(id, searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드
                     break;
                 case "board":
-                    List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size,searchKeyword); // 게시판 데이터 조회
+                    List<BoardVO> boardList = userService.findByBoardPazing(id, offset, size, searchKeyword); // 게시판 데이터 조회
                     model.addAttribute("boardList", boardList);
-                    totalComments = userService.countBoardsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countBoardsByUser(id, searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드
                     break;
                 case "review":
-                    List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size,searchKeyword); // 리뷰 데이터 조회
+                    List<ReviewVO> reviewList = userService.findByReviewsPazing(id, offset, size, searchKeyword); // 리뷰 데이터 조회
                     model.addAttribute("reviewList", reviewList);
-                    totalComments = userService.countReviewsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countReviewsByUser(id, searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드
                     break;
                 case "comment":
-                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size,searchKeyword); // 댓글 데이터 조회
+                    List<CommentVO> commentList = userService.findCommentsByUserPazing(id, offset, size, searchKeyword); // 댓글 데이터 조회
                     model.addAttribute("commentList", commentList);
-                    totalComments = userService.countCommentsByUser(id,searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드 추가 필요
+                    totalComments = userService.countCommentsByUser(id, searchKeyword); // 전체 댓글 수를 구하는 서비스 메서드
                     break;
                 default:
                     return "redirect:/";
@@ -230,15 +231,17 @@ public class UserController {
             // 전체 페이지 수 계산
             int commentTotalPages = (int) Math.ceil((double) totalComments / size);
 
-            // 현재 페이지 그룹 계산
+            // 페이지 그룹의 시작과 끝 계산
             int currentPageGroup = page / pageSize;
-            int totalPageGroups = (int) Math.ceil((double) commentTotalPages / pageSize);
+            int startPage = currentPageGroup * pageSize;
+            int endPage = Math.min(startPage + pageSize - 1, commentTotalPages - 1);
 
+            // 페이지 그룹에 맞는 정보를 모델에 추가
             model.addAttribute("type", type);
             model.addAttribute("currentPage", page);
             model.addAttribute("commentTotalPages", commentTotalPages);
-            model.addAttribute("currentPageGroup", currentPageGroup); // 현재 페이지 그룹
-            model.addAttribute("totalPageGroups", totalPageGroups);   // 전체 페이지 그룹 수
+            model.addAttribute("startPage", startPage); // 시작 페이지
+            model.addAttribute("endPage", endPage); // 끝 페이지
             model.addAttribute("searchKeyword", searchKeyword);
         } else {
             return "redirect:/";

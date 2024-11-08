@@ -75,23 +75,23 @@
         </li>
     </ul>
 
-    <!-- 페이지네이션 -->
-    <div class="pagination" th:if="${!#lists.isEmpty(forumList)}">
+    <!-- 페이지네이션 - 포럼 -->
+    <div class="pagination" th:if="${not #lists.isEmpty(forumList)}">
         <ul class="pagination">
             <!-- 이전 페이지 버튼 -->
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList != null and forumList.size() > 0 ? forumList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList[0].user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
             </li>
 
             <!-- 페이지 번호 링크들 -->
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
+            <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
                 th:classappend="${i == currentPage} ? 'active'">
-                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList != null and forumList.size() > 0 ? forumList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
+                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList[0].user_id}, page=${i})}" th:text="${i + 1}"></a>
             </li>
 
             <!-- 다음 페이지 버튼 -->
             <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList != null and forumList.size() > 0 ? forumList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
+                <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${forumList[0].user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
             </li>
         </ul>
     </div>
@@ -136,23 +136,23 @@
             </li>
         </ul>
 
-        <!-- 페이지네이션 -->
-        <div class="pagination" th:if="${!#lists.isEmpty(boardList)}">
+        <!-- 페이지네이션 - 게시판 -->
+        <div class="pagination" th:if="${not #lists.isEmpty(boardList)}">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList.size() > 0 ? boardList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList[0].user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
                 </li>
 
                 <!-- 페이지 번호 링크들 -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
+                <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList.size() > 0 ? boardList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList[0].user_id}, page=${i})}" th:text="${i + 1}"></a>
                 </li>
 
                 <!-- 다음 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList.size() > 0 ? boardList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${boardList[0].user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
                 </li>
             </ul>
         </div>
@@ -202,23 +202,23 @@
             </li>
         </ul>
 
-        <!-- 페이지네이션 -->
+        <!-- 페이지네이션 - 리뷰 -->
         <div class="pagination" th:if="${not #lists.isEmpty(reviewList)}">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList.size() > 0 ? reviewList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList[0].user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
                 </li>
 
                 <!-- 페이지 번호 링크들 -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
+                <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList.size() > 0 ? reviewList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList[0].user_id}, page=${i})}" th:text="${i + 1}"></a>
                 </li>
 
                 <!-- 다음 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList.size() > 0 ? reviewList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${reviewList[0].user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
                 </li>
             </ul>
         </div>
@@ -267,23 +267,23 @@
             </li>
         </ul>
 
-        <!-- 페이지네이션 -->
-        <div class="pagination" th:if="${!#lists.isEmpty(commentList)}">
+        <!-- 페이지네이션 - 댓글 -->
+        <div class="pagination" th:if="${not #lists.isEmpty(commentList)}">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList != null and !#lists.isEmpty(commentList) ? commentList[0].user_id : ''}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList[0].user_id}, page=${currentPage - 1 >= 0 ? currentPage - 1 : 0})}">이전</a>
                 </li>
 
                 <!-- 페이지 번호 링크들 -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, commentTotalPages - 1)}"
+                <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
                     th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList != null and !#lists.isEmpty(commentList) ? commentList[0].user_id : ''}, page=${i})}" th:text="${i + 1}"></a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList[0].user_id}, page=${i})}" th:text="${i + 1}"></a>
                 </li>
 
                 <!-- 다음 페이지 버튼 -->
                 <li class="page-item" th:classappend="${currentPage == commentTotalPages - 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList != null and !#lists.isEmpty(commentList) ? commentList[0].user_id : ''}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
+                    <a class="page-link" th:href="@{/user/profile/id/pazing/{type}/{id}(type=${type}, id=${commentList[0].user_id}, page=${currentPage + 1 < commentTotalPages ? currentPage + 1 : currentPage})}">다음</a>
                 </li>
             </ul>
         </div>
