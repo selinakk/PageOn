@@ -110,6 +110,7 @@ public class WebtoonService {
         String baseUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=eaa479a1691ab5f1d257cae310412971&viewItemCnt=100&pltfomCdNm=네이버웹툰&pageNo=";
 
         List<JsonNode> allWebtoons = new ArrayList<>();
+        Set<String> titles = new HashSet<>();
 
         // 페이지 번호를 0부터 100까지 100씩 증가 + 3000까지 반복으로 일단 하드코딩
         for (int pageNo = 0; pageNo <= 3000; pageNo += 100) {
@@ -124,14 +125,30 @@ public class WebtoonService {
                 JsonNode webtoons = objectMapper.readTree(result);
 
                 // 변환된 JsonNode 객체를 리스트에 추가
-                allWebtoons.add(webtoons);
+                if (webtoons.has("itemList") && webtoons.get("itemList").isArray()) {
+                    for (JsonNode node : webtoons.get("itemList")) {
+                        String title = node.get("title").asText();
+                        if (!titles.contains(title)) {
+                            titles.add(title);
+                            allWebtoons.add(node);
+                        } else {
+                            // 중복된 경우 업데이트
+                            WebtoonVO existingWebtoon = webtoonMapper.findByTitle(title);
+                            WebtoonVO webtoon = objectMapper.convertValue(node, WebtoonVO.class);
+                            if (existingWebtoon != null) {
+                                webtoon.setItem_id(existingWebtoon.getItem_id());
+                                webtoonMapper.updateWebtoon(webtoon);
+                            }
+                        }
+                    }
+                }
             } catch (JsonProcessingException e) {
                 // 실패한 경우 예외 발생
                 throw new RuntimeException("Failed to parse JSON", e);
             }
         }
 
-        //데이터를 JsonNode 객체로 반환
+        // 데이터를 JsonNode 객체로 반환
         return objectMapper.valueToTree(allWebtoons);
     }
 
@@ -140,6 +157,7 @@ public class WebtoonService {
         String baseUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=eaa479a1691ab5f1d257cae310412971&viewItemCnt=100&pltfomCdNm=카카오웹툰&pageNo=";
 
         List<JsonNode> allWebtoons = new ArrayList<>();
+        Set<String> titles = new HashSet<>();
 
         // 페이지 번호를 0부터 100까지 100씩 증가 + 1500까지 반복으로 일단 하드코딩
         for (int pageNo = 0; pageNo <= 1500; pageNo += 100) {
@@ -154,14 +172,30 @@ public class WebtoonService {
                 JsonNode webtoons = objectMapper.readTree(result);
 
                 // 변환된 JsonNode 객체를 리스트에 추가
-                allWebtoons.add(webtoons);
+                if (webtoons.has("itemList") && webtoons.get("itemList").isArray()) {
+                    for (JsonNode node : webtoons.get("itemList")) {
+                        String title = node.get("title").asText();
+                        if (!titles.contains(title)) {
+                            titles.add(title);
+                            allWebtoons.add(node);
+                        } else {
+                            // 중복된 경우 업데이트
+                            WebtoonVO existingWebtoon = webtoonMapper.findByTitle(title);
+                            WebtoonVO webtoon = objectMapper.convertValue(node, WebtoonVO.class);
+                            if (existingWebtoon != null) {
+                                webtoon.setItem_id(existingWebtoon.getItem_id());
+                                webtoonMapper.updateWebtoon(webtoon);
+                            }
+                        }
+                    }
+                }
             } catch (JsonProcessingException e) {
                 // 실패한 경우 예외 발생
                 throw new RuntimeException("Failed to parse JSON", e);
             }
         }
 
-        //데이터를 JsonNode 객체로 반환
+        // 데이터를 JsonNode 객체로 반환
         return objectMapper.valueToTree(allWebtoons);
     }
 

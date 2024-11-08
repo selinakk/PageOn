@@ -40,7 +40,7 @@ public class WebtoonVO {
     @JsonProperty("url")
     private String link; //링크
 
-    private Integer added_bs; //등록일
+    private Integer added_bs; //서재 등록 횟수
 
 
 
