@@ -38,7 +38,7 @@
   </form>
 
   <!-- 테이블을 감싸는 카드 -->
-  <div class="card p-4 table-responsive">
+  <div class="card p-4 table-responsive" style="overflow-x: auto;">
     <table class="table table-bordered table-hover w-100">
       <!-- 정렬 폼 -->
       <form class="text-start" style="margin-bottom: 1rem;" action="/notice/n_searchList.do" method="get">
@@ -73,7 +73,7 @@
         <td class="text-center">[[${notice_list.title}]]</td>
         <td class="text-center" th:text="${notice_list.user_id}"></td>
         <td class="text-center" th:text="${notice_list.hitcount}"></td>
-        <td class="text-center" th:text="${notice_list.wdate}"></td>
+        <td class="text-center" th:text="${#dates.format(notice_list.wdate, 'yyyy-MM-dd HH:mm')}"></td>
       </tr>
       </tbody>
     </table>

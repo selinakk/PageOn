@@ -11,9 +11,37 @@
     <title>공지사항</title>
 
     <style>
-        .img-thumbnail {
-            max-width: 100%;
-            height: auto;
+        /* 이 페이지에만 영향을 주는 반응형 스타일 */
+        @media (max-width: 768px) {
+            .table th, .table td {
+                font-size: 0.9em;
+                padding: 8px;
+                word-break: break-word; /* 텍스트 넘침 방지 */
+            }
+
+            .btn {
+                font-size: 0.8em;
+                padding: 5px 10px;
+                width: 100%; /* 버튼 크기 조정 */
+            }
+
+            h3 {
+                font-size: 1.2em; /* 제목 크기 조정 */
+            }
+
+            .d-flex {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .d-flex .btn {
+                margin-bottom: 10px;
+            }
+
+            .img-thumbnail {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 
@@ -32,24 +60,22 @@
 
 <body>
 <header th:replace="~{header :: header}"></header>
-
 <div th:fragment="content">
     <div class="container mt-5">
         <h3 class="mb-4">공지사항 상세페이지</h3>
         <br>
 
-        <div class="card p-4 table-responsive">
+        <div class="card p-4">
             <!-- 공지사항 정보 테이블 -->
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">글번호</th>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">제목</th>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">작성자</th>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">조회수</th>
+                    <th class="text-center" style="font-weight: 600;">글번호</th>
+                    <th class="text-center" style="font-weight: 600;">제목</th>
+                    <th class="text-center" style="font-weight: 600;">작성자</th>
+                    <th class="text-center" style="font-weight: 600;">조회수</th>
                     <th class="text-center" style="font-weight: 600;">작성일자</th>
                 </tr>
-
                 <tr>
                     <td th:text="${vo2.num} + '번'" class="text-center"></td>
                     <td th:text="${vo2.title}" class="text-center"></td>
@@ -59,18 +85,13 @@
                 </tr>
                 </thead>
             </table>
-
             <div>
-                <!-- 이미지 경로 설정 주석 처리 -->
-                <!-- <img th:if="${vo2.img_name != 'community_image.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"-->
-                <!-- class="img-thumbnail">-->
+                <!--                <img th:if="${vo2.img_name != 'community_image.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"-->
+                <!--                     class="img-thumbnail">-->
                 <div>
                     <div th:if="${vo2.img_name != null}">
-                        <!-- 이미지 경로 설정 주석 처리 --->
-                <!-- <img th:src="@{/upload/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail">-->
-                   <!-- <img th:src="|/home/multi26/uploadimgPath/${vo2.img_name}|">-->
-                        <!-- <img th:src="@{'/uploadimgPath/' + ${vo2.img_name}}" class="img-thumbnail" alt="공지사항 이미지">-->
-                        <img th:src="'/uploadimgPath/' + ${vo2.img_name}" alt="공지사항 이미지" class="img-thumbnail"/>
+                        <!--                        <img th:src="@{/upload/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail">-->
+                        <img th:src="|/home/multi26/uploadimgPath/${vo2.img_name}|">
                     </div>
                 </div>
 
@@ -96,11 +117,11 @@
             </div>
         </div>
 
+
     </div>
 </div>
 
 <footer th:replace="~{footer :: footer}"></footer>
-
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
