@@ -254,8 +254,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="saveCategories" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="saveCategories" class="btn btn-primary text-nowrap text-white">Save changes</button>
+                    <button type="button" class="btn btn-secondary text-nowrap text-white" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -356,20 +356,47 @@
             document.getElementById("registerButton").disabled = !(isIdAvailable && isEmailAvailable);
         }
 
-        document.getElementById("registerForm").addEventListener("submit", function (event) {
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            // 폼 검증 (필수 입력 값들 확인)
             if (!validateForm()) {
-                event.preventDefault();
+                event.preventDefault(); // 유효하지 않으면 폼 제출을 막음
+                return; // 함수 종료
             }
+
+            // 유효성 검증이 통과하면 요청 중 메시지 표시
+            alert('회원가입 요청 중입니다. 완료 버튼을 누르고, 잠시만 기다려 주세요.');
+
+            const formData = new FormData(this);
+
+            // fetch로 서버에 POST 요청 보내기
+            fetch(this.action, {
+                method: this.method,
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text(); // 서버에서 받은 HTML 결과
+                    } else {
+                        throw new Error('회원가입 요청에 실패했습니다.');
+                    }
+                })
+                .then(html => {
+                    alert('회원가입이 완료되었습니다!');
+                    document.open();
+                    document.write(html); // 서버에서 반환된 HTML 페이지 표시
+                    document.close();
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+
+            event.preventDefault(); // 기본 폼 제출을 막고, fetch로만 처리
         });
 
         document.getElementById("nextButton").addEventListener("click", function() {
             const categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
             categoryModal.show();
-            // document.getElementById("exampleModal").style.zIndex = 2;
         });
-        // document.getElementById('categoryModal').addEventListener('hide.bs.modal', function () {
-        //   document.getElementById("exampleModal").style.zIndex = 99999;
-        // });
 
         document.getElementById("saveCategories").addEventListener("click", function() {
             const selectedCategories = Array.from(document.querySelectorAll('#category-checkboxes input[type="checkbox"]:checked'))
