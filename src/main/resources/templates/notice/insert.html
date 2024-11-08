@@ -10,11 +10,23 @@
   <link rel="stylesheet" href="/css/sub.css">
 
   <style>
-    .form-label {
-      font-weight: 510; /* 텍스트를 조금 굵게 */
-      font-size: 1.5rem; /* 글씨 크기 조정 */
+    /* 작은 화면에서 폰트 크기 조정 */
+    @media (max-width: 768px) {
+      .form-label {
+        font-size: 1.2rem; /* 모바일에서 약간 작은 글씨 */
+      }
+      .container {
+        padding: 0 10px; /* 양쪽 여백을 줄여서 화면에 맞게 */
+      }
+      .card {
+        padding: 1rem; /* 카드 안쪽 여백을 줄여서 공간 확보 */
+      }
+      .btn {
+        font-size: 0.9em; /* 모바일 버튼 크기 조정 */
+      }
     }
   </style>
+
   <title>공지사항</title>
 </head>
 
@@ -54,11 +66,10 @@
 
       <!-- 작성하기 버튼을 카드 밖으로 이동 -->
     </div>
-    <div class="d-flex justify-content-end mt-3"> <!-- 버튼들을 오른쪽 끝으로 정렬하기 위해 d-flex와 justify-content-end 사용 -->
+    <div class="d-flex justify-content-end mt-3">
       <button type="button" class="btn btn-dark" style="font-size: 1em" onclick="submitForm()">작성완료</button>
-      <button type="button" class="btn btn-dark ms-2" style="font-size: 1em" onclick="cancelWork()">작성취소</button> <!-- 버튼 사이 간격 조정 -->
+      <button type="button" class="btn btn-dark ms-2" style="font-size: 1em" onclick="cancelWork()">작성취소</button>
     </div>
-
   </div>
 </div>
 

@@ -12,8 +12,26 @@
 
   <style>
     .form-label {
-      font-size: 1.5rem; /* 원하는 크기로 조정 */
-      font-weight: 510; /* 굵기를 좀 덜 굵게 설정 */
+      font-size: 1.2rem; /* 기본 폰트 크기 */
+    }
+
+    /* 기본 화면에서 textarea 높이 */
+    textarea {
+      height: 300px; /* 기본 높이 설정 */
+    }
+
+    /* 작은 화면에서 폰트 크기 및 textarea 높이 조정 */
+    @media (max-width: 576px) {
+      .form-label {
+        font-size: 1rem;
+      }
+      .form-control,
+      textarea {
+        font-size: 0.9rem;
+      }
+      textarea {
+        height: 200px; /* 모바일 화면에서 높이 약간 줄임 */
+      }
     }
   </style>
 
@@ -34,42 +52,43 @@
 
 <main>
   <div class="container mt-5">
-    <h3 class="mb-4">공지사항 수정 페이지</h3>
-    <br>
+    <h3 class="mb-4 text-center">공지사항 수정 페이지</h3> <!-- 페이지 제목 중앙 정렬 -->
 
     <div class="card p-4">
       <form id="updateForm" onsubmit="return handleFormSubmit();" action="/notice/n_updateOK.do" method="post" enctype="multipart/form-data">
-
-        <div class="form-group">
-          <label for="num" class="form-label">글번호</label>
-          <p th:text="${param.num} + '번'" style="margin-left: 10px;"></p>
-          <input type="hidden" id="num" name="num" th:value="${param.num}">
+        <!-- 글번호 및 작성자 정보는 한 행으로 -->
+        <div class="row">
+          <div class="col-6 form-group">
+            <label for="num" class="form-label">글번호</label>
+            <p th:text="${param.num} + '번'" class="ms-2"></p>
+            <input type="hidden" id="num" name="num" th:value="${param.num}">
+          </div>
+          <div class="col-6 form-group">
+            <label for="user_id" class="form-label">작성자</label>
+            <p th:text="${vo2.user_id}" class="ms-2"></p>
+            <input type="hidden" id="user_id" name="user_id" th:value="${vo2.user_id}">
+          </div>
         </div>
 
+        <!-- 제목은 한 줄 전체를 사용하여 왼쪽 정렬 -->
         <div class="form-group">
           <label for="title" class="form-label">제목</label>
           <input type="text" class="form-control mb-4" id="title" name="title" th:value="${vo2.title}" placeholder="제목을 입력하세요">
         </div>
 
+        <!-- 내용 필드 -->
         <div class="form-group">
           <label for="content" class="form-label">내용</label>
-          <textarea class="form-control mb-4" name="content" id="content" cols="30" rows="10" th:text="${vo2.content}"></textarea>
+          <textarea class="form-control mb-4" name="content" id="content" cols="30" rows="5" th:text="${vo2.content}"></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="user_id" class="form-label mb-0">작성자</label>
-          <p th:text="${vo2.user_id}" style="margin-left: 10px;"></p>
-          <input type="hidden" id="user_id" name="user_id" th:value="${vo2.user_id}">
-        </div>
-
+        <!-- 사진 첨부 필드 -->
         <div class="form-group">
           <label for="file" class="form-label">사진첨부</label>
-          <img th:src="'/uploadimgPath/' + ${vo2.img_name}" alt="공지사항 이미지" class="img-thumbnail"/>
+          <img th:src="'/uploadimgPath/' + ${vo2.img_name}" alt="공지사항 이미지" class="img-thumbnail w-100 mb-3"/>
           <input type="file" class="form-control-file mt-2 mb-4" id="file" name="file">
-          <input type="hidden" id="img_name" name="img_name"
-                th:value="${vo2.img_name}">
+          <input type="hidden" id="img_name" name="img_name" th:value="${vo2.img_name}">
         </div>
-
       </form>
     </div>
 
