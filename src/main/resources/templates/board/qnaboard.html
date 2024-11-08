@@ -22,7 +22,8 @@
                 <h5>질문 게시판</h5>
             </div>
         </div>
-        <select name="board-select" class="form-select board-select-dropdown" onchange="handleBoardSelectChange(this.value)">
+        <select name="board-select" class="form-select board-select-dropdown"
+                onchange="handleBoardSelectChange(this.value)">
             <option value="/freeboard" th:selected="${category == 'free'}">자유 게시판</option>
             <option value="/qnaboard" th:selected="${category == 'qna'}">질문 게시판</option>
         </select>
@@ -46,24 +47,29 @@
         </div>
     </div>
 
-    <div class="card p-4">
-        <div class="d-flex">
-            <select name="sort" class="form-select" onchange="handleSortChange(this.value)">
-                <option value="date" th:selected="${sort == 'date'}">최신순</option>
-                <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
-            </select>
-            <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
-        </div>
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr class="table-list">
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>조회수</th>
-            </tr>
-            </thead>
-            <tbody>
+    <div th:if="${#lists.isEmpty(boardList)}" class="text-center mt-4">
+        검색 결과가 없습니다.
+    </div>
+
+    <div th:if="${!#lists.isEmpty(boardList)}">
+        <div class="card p-4">
+            <div class="d-flex">
+                <select name="sort" class="form-select" onchange="handleSortChange(this.value)">
+                    <option value="date" th:selected="${sort == 'date'}">최신순</option>
+                    <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
+                </select>
+                <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr class="table-list">
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody>
                 <tr th:each="board : ${boardList}" th:data-num="${board.num}" style="cursor:pointer;"
                     onclick="location.href='/b_selectOne?num=' + this.getAttribute('data-num') + '&category=qna'">
                     <td>[[${board.num}]]</td>
@@ -74,26 +80,31 @@
                 </tbody>
             </table>
 
-        <div class="pagination justify-content-center">
-            <ul class="pagination">
-                <li class="page-item" th:if="${currentPage > 1}">
-                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
-                        이전
-                    </a>
-                </li>
-                <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
-                    th:classappend="${i == currentPage} ? 'active'">
-                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}" th:text="${i}"></a>
-                </li>
-                <li class="page-item" th:if="${currentPage < totalPages}">
-                    <a class="page-link" th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
-                       aria-label="Next">
-                        다음
-                    </a>
-                </li>
-            </ul>
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item" th:if="${currentPage > 1}">
+                        <a class="page-link"
+                           th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
+                            이전
+                        </a>
+                    </li>
+                    <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link"
+                           th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}"
+                           th:text="${i}"></a>
+                    </li>
+                    <li class="page-item" th:if="${currentPage < totalPages}">
+                        <a class="page-link"
+                           th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
+                           aria-label="Next">
+                            다음
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        </div>
+    </div>
 
     <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
@@ -105,7 +116,7 @@
                 modal.show();
             }
 
-            document.getElementById("writeButton").addEventListener("click", function(event) {
+            document.getElementById("writeButton").addEventListener("click", function (event) {
                 if (!sessionId) {
                     openLoginModal(event);
                 } else {
