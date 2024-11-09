@@ -49,8 +49,8 @@
                 <p  id="reviewContent" ><h7 th:text="'내용: '+${vo2.content}"></h7></p>
                 <p ><h7  th:text="'★ '+${vo2.rating}"></h7></p>
                 <div id="review-detail" th:data-num="${vo2.num}">
-                    <button id="like-button"><img src="/img/like.png" th:class="like-btn"><span id="like-count" th:text="${vo2.like}"></span></button>
-                    <button id="dislike-button"><img src="/img/dislike.png" th:class="like-btn"><span id="hate-count" th:text="${vo2.hate}"></span></button>
+                    <button id="like-button"><span id="like-count" th:text="'👍 '+${vo2.like}"></span></button>
+                    <button id="dislike-button"><span id="hate-count" th:text="'👎 '+${vo2.hate}"></span></button>
                 </div>
                 </p>
                 <div>

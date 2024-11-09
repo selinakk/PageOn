@@ -58,11 +58,15 @@
                             <a th:href="|/review/detail?num=${review.num}|">
                             <img th:src="${review.workImg}" class="w-100 shadow-sm" th:alt="${review.workTitle}">
                             <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
-                            <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
-                                <small th:text="'★ '+ ${review.rating}"></small>
+                            <div class="review-content d -flex">
+                                <p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
+                                <span id="like-count" th:text=" '👍 '+${review.like}"></span>
+                                <span id="hate-count" th:text="'👎 '+${review.hate}"></span>
+                                <p>
+                                    <small th:text="'★ '+ ${review.rating}"></small>
+                                </p>
                             </div>
                                 <small th:text="${review.wdate}"></small>
-
                             </a>
                             <form action="/bookshelf/insertOK"  method="post">
                                 <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
