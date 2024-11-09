@@ -1,7 +1,6 @@
 package com.tmtb.pageon.user.controller;
 
 import com.tmtb.pageon.user.model.*;
-import com.tmtb.pageon.user.service.AdminService;
 import com.tmtb.pageon.user.service.MailService;
 import com.tmtb.pageon.user.service.ProductService;
 import com.tmtb.pageon.user.service.UserService;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+
 
 
 import java.io.IOException;
@@ -49,7 +48,6 @@ public class UserController {
             try {
                 // 아이디 이메일 전송
                 mailService.sendRegisterIdByEmail(email, id);
-                // 사용자 등록
                 userService.insertUser(userVO, imgFile);
                 model.addAttribute("message", "회원가입이 완료되었습니다. 홈으로 가서 다시 로그인하세요.");
                 log.info("회원가입이 완료되었습니다: {}", email);
