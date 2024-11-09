@@ -965,12 +965,15 @@ a.text-danger .svg-icon {
     justify-content: space-between;  /* 요소 간 간격 조정 */
     overflow: hidden;  /* 화면을 벗어나는 요소를 숨김 */
 }
-#work-index #user-recommend, #categories-recommend {
-    flex: 1;  /* 두 요소가 같은 크기를 차지하도록 설정 */
-    max-width: 50%;  /* 화면의 50%까지만 차지하게 설정 */
+
+/*#work-index #user-recommend, #work-index #categories-recommend {
+    display: flex;
+    flex: 1;  !* 두 요소가 같은 크기를 차지하도록 설정 *!
+    max-width: 50%;  !* 화면의 50%까지만 차지하게 설정 *!
     box-sizing: border-box;
-    padding: 10px;  /* 각 요소 간 약간의 여백 추가 */
-}
+    padding: 10px;  !* 각 요소 간 약간의 여백 추가 *!
+}*/
+
 #work-index .card h6 {
     font-size: 16px;
     font-weight: bold;
