@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PageOn 카테고리 수정</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container my-4">
-    <h2>카테고리 수정</h2>
+<main th:fragment="update-category">
+<div class="container padding-medium">
+    <h3 class="mb-5">카테고리 수정</h3>
     <form action="/user/updateCategories" method="post">
-        <div id="category-checkboxes">
+        <div id="category-checkboxes" class="d-flex flex-wrap mb-3 column-gap-4 row-gap-2">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="likeCategories" value="판타지" id="fantasy" th:checked="${#lists.contains(likeCategories, '판타지')}">
                 <label class="form-check-label" for="fantasy">판타지</label>
@@ -84,8 +82,11 @@
                 <label class="form-check-label" for="boy">소년</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-2">저장하기</button>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary mt-2">저장하기</button>
+        </div>
     </form>
 </div>
+</main>
 </body>
 </html>
