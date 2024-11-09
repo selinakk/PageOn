@@ -35,12 +35,6 @@
                 <a class="active">질문 게시판</a>
             </li>
         </ul>
-        <select name="board-select" class="form-select board-select-dropdown"
-                onchange="handleBoardSelectChange(this.value)">
-            <option value="/freeboard" th:selected="${category == 'free'}">자유 게시판</option>
-            <option value="/qnaboard" th:selected="${category == 'qna'}">질문 게시판</option>
-        </select>
-
     </div>
     <div class="d-flex justify-content-end align-items-center w-100">
         <div class="sort-wrapper position-relative d-flex align-items-center">

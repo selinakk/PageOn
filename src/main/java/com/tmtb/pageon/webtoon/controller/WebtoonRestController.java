@@ -55,14 +55,14 @@ public class WebtoonRestController {
 
     @Scheduled(cron = "0 0 3 ? * SUN") // 매주 일요일 새벽 3시에 실행
     public void scheduledUpdate() {
-        log.info("스케줄된 업데이트 시작");
+        log.info("업데이트 시작");
         JsonNode resultNaver = webtoonService.getWebtoonsNaver();
         webtoonService.saveWebtoons(resultNaver);
         JsonNode resultKakao = webtoonService.getWebtoonsKakao();
         webtoonService.saveWebtoons(resultKakao);
         JsonNode resultUpdateDay = webtoonService.getUpdateDay();
         webtoonService.updateWebtoonUpdateDays(resultUpdateDay);
-        log.info("스케줄된 업데이트 완료");
+        log.info("업데이트 완료");
     }
 
 
