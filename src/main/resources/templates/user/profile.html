@@ -179,8 +179,8 @@
                         </div>
                     </div>
                 </div>
-                <div th:if="${forumList.size() == 0}" class="card w-100 p-4 text-center">
-                        포럼이 없습니다.
+                <div th:if="${forumList.size() == 0}" class="col-12">
+                    <div class="card w-100 p-4 text-center">포럼이 없습니다.</div>
                 </div>
             </div>
 
@@ -209,84 +209,86 @@
                         </div>
                     </div>
                 </div>
-                <div th:if="${reviewList.size() == 0}" class="card w-100 p-4 text-center">
-                            리뷰가 없습니다.
+                <div th:if="${reviewList.size() == 0}" class="col-12">
+                    <div class="card w-100 p-4 text-center">리뷰가 없습니다.</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 게시판 목록 섹션 -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">게시판</h5>
-                <a th:if="${session.id == userVO.id}"
-                   class="btn btn-info btn-sm"
-                   th:href="@{/user/profile/all/pazing/board(type='board', page=0)}">더보기</a>
+                <!-- 게시판 목록 섹션 -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">게시판</h5>
+                    <a th:if="${session.id == userVO.id}"
+                       class="btn btn-info btn-sm"
+                       th:href="@{/user/profile/all/pazing/board(type='board', page=0)}">더보기</a>
 
-                <a th:if="${session.id != userVO.id}"
-                   class="btn btn-info btn-sm"
-                   th:href="@{/user/profile/id/pazing/{type}/{id}(type='board', id=${userVO.id}, page=0)}">더보기</a>
-            </div>
-            <div class="row mb-4">
-                <div class="col-6 col-md-4 col-lg-3" th:each="board, iterStat : ${boardList}" th:if="${iterStat.index < 4}">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h6 class="card-title">제목:
-                                <a th:href="@{/b_selectOne(num=${board.num})}" th:text="${board.title}"></a>
-                            </h6>
-                            <p class="card-text">내용:<span th:text="${board.content}"></span></p>
-<!--                            <p class="card-text"><small>작성자: <span th:text="${board.user_id}"></span></small></p>-->
-                            <p class="card-text"><small>조회수: <span th:text="${board.boardhitcount}"></span></small></p>
-                            <small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd')}"></span></small>
-                            <input type="hidden" th:value="${board.num}" />
+                    <a th:if="${session.id != userVO.id}"
+                       class="btn btn-info btn-sm"
+                       th:href="@{/user/profile/id/pazing/{type}/{id}(type='board', id=${userVO.id}, page=0)}">더보기</a>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-6 col-md-4 col-lg-3" th:each="board, iterStat : ${boardList}" th:if="${iterStat.index < 4}">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-title">제목:
+                                    <a th:href="@{/b_selectOne(num=${board.num})}" th:text="${board.title}"></a>
+                                </h6>
+                                <p class="card-text">내용:<span th:text="${board.content}"></span></p>
+    <!--                            <p class="card-text"><small>작성자: <span th:text="${board.user_id}"></span></small></p>-->
+                                <p class="card-text"><small>조회수: <span th:text="${board.boardhitcount}"></span></small></p>
+                                <small>날짜: <span th:text="${#dates.format(board.wdate, 'yyyy-MM-dd')}"></span></small>
+                                <input type="hidden" th:value="${board.num}" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div th:if="${boardList.size() == 0}" class="card w-100 p-4 text-center">
+                    <div th:if="${boardList.size() == 0}" class="col-12">
+                        <div class="card w-100 p-4 text-center">
                             게시판이 없습니다.
-                </div>
-            </div>
-
-            <!-- 댓글 목록 섹션 -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">댓글</h5>
-                <a th:if="${session.id == userVO.id}"
-                   class="btn btn-info btn-sm"
-                   th:href="@{/user/profile/all/pazing/comment(type='comment', page=0)}">더보기</a>
-
-                <a th:if="${session.id != userVO.id}"
-                   class="btn btn-info btn-sm"
-                   th:href="@{/user/profile/id/pazing/{type}/{id}(type='comment', id=${userVO.id}, page=0)}">더보기</a>
-            </div>
-            <div class="row">
-                <div class="col-6 col-md-4 col-lg-3" th:each="comment, iterStat : ${commentList}" th:if="${iterStat.index < 4}">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <!-- bnum에 데이터가 있으면 board 상세보기 링크 제공 -->
-                            <h6 class="card-title" th:if="${comment.bnum != 0}">
-                                <a th:href="@{/b_selectOne(num=${comment.bnum})}" th:text="'게시판'"></a>
-                            </h6>
-
-                            <!-- rnum에 데이터가 있으면 리뷰 상세보기 링크 제공 -->
-                            <h6 class="card-title" th:if="${comment.rnum != 0}">
-                                <a th:href="@{/review/detail(num=${comment.rnum})}" th:text="'리뷰'"></a>
-                            </h6>
-
-                            <!-- fnum에 데이터가 있으면 포럼 상세보기 링크 제공 -->
-                            <h6 class="card-title" th:if="${comment.fnum != 0}">
-                                <a th:href="@{/forum/view(num=${comment.fnum})}" th:text="'포럼'"></a>
-                            </h6>
-
-                            <p class="card-text" th:text="${comment.content}"></p>
-                            <p class="card-text"><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
-                            <p class="card-text"><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd ')}"></span></small></p>
-                            <input type="hidden" th:value="${comment.bnum}" />
-                            <input type="hidden" th:value="${comment.rnum}" />
-                            <input type="hidden" th:value="${comment.fnum}" />
                         </div>
                     </div>
                 </div>
-                <div th:if="${commentList.size() == 0}" class="card w-100 p-4 text-center">
-                            댓글이 없습니다.
+
+                <!-- 댓글 목록 섹션 -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">댓글</h5>
+                    <a th:if="${session.id == userVO.id}"
+                       class="btn btn-info btn-sm"
+                       th:href="@{/user/profile/all/pazing/comment(type='comment', page=0)}">더보기</a>
+
+                    <a th:if="${session.id != userVO.id}"
+                       class="btn btn-info btn-sm"
+                       th:href="@{/user/profile/id/pazing/{type}/{id}(type='comment', id=${userVO.id}, page=0)}">더보기</a>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-md-4 col-lg-3" th:each="comment, iterStat : ${commentList}" th:if="${iterStat.index < 4}">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <!-- bnum에 데이터가 있으면 board 상세보기 링크 제공 -->
+                                <h6 class="card-title" th:if="${comment.bnum != 0}">
+                                    <a th:href="@{/b_selectOne(num=${comment.bnum})}" th:text="'게시판'"></a>
+                                </h6>
+
+                                <!-- rnum에 데이터가 있으면 리뷰 상세보기 링크 제공 -->
+                                <h6 class="card-title" th:if="${comment.rnum != 0}">
+                                    <a th:href="@{/review/detail(num=${comment.rnum})}" th:text="'리뷰'"></a>
+                                </h6>
+
+                                <!-- fnum에 데이터가 있으면 포럼 상세보기 링크 제공 -->
+                                <h6 class="card-title" th:if="${comment.fnum != 0}">
+                                    <a th:href="@{/forum/view(num=${comment.fnum})}" th:text="'포럼'"></a>
+                                </h6>
+
+                                <p class="card-text" th:text="${comment.content}"></p>
+                                <p class="card-text"><small>작성자: <span th:text="${comment.user_id}"></span></small></p>
+                                <p class="card-text"><small>날짜: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd ')}"></span></small></p>
+                                <input type="hidden" th:value="${comment.bnum}" />
+                                <input type="hidden" th:value="${comment.rnum}" />
+                                <input type="hidden" th:value="${comment.fnum}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${commentList.size() == 0}" class="col-12">
+                                <div class="card w-100 p-4 text-center">댓글이 없습니다.</div>
+                    </div>
                 </div>
             </div>
     </div>

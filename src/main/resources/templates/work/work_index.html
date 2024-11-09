@@ -7,37 +7,35 @@
 
 <section id="work-index" class="position-relative padding-small" >
   <div id="recommendation-container container-lg">
-    <section id="user-recommend" class="position-relative padding-small" th:if="${session.id != null}">
+    <section id="user-recommend" class="position-relative padding-small" th:if="${session.id != null && preferWebtoons.size() !=0}">
       <div class="container container-lg">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
           <h3 class="d-flex align-items-center" th:if="${preferWebtoons.size() !=0} and ${preferWebnovel.size() !=0} and ${preferBooks.size() !=0}">사용자 추천</h3>
           <a th:href="@{/webtoonrecommendation}" class="btn" th:if="${preferWebtoons.size() !=0}">더보기</a>
         </div>
-        <div th:if="${preferWebtoons.size() !=0}">
-          <h4>웹툰</h4>
-          <div class="swiper product-swiper" >
-            <div class="swiper-wrapper">
-              <!-- 선호 카테고리 기반 추천 작품을 20개까지 출력 -->
-              <div class="swiper-slide" th:each="webtoon : ${preferWebtoons}" >
-                <div class="card position-relative p-4 border rounded-3">
-                  <a href="#">
-                    <img th:src="@{${webtoon.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
-                  </a>
-                  <h6 class="mt-4 mb-0 fw-bold">
-                    <a href="#" th:text="${webtoon.title}">작품 제목</a>
-                  </h6>
-                  <div class="review-content d-flex">
-                    <p class="my-2 me-2 fs-6 text-black-50" th:text="${webtoon.writer}">작가</p>
-                  </div>
-                  <form action="/bookshelf/insertOK"  method="post">
-                    <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
-                      <input type="hidden" name="work_num" th:value="${webtoon.item_id}" />
-                      <label th:for="'read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webtoon.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                      <label th:for="'to-read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webtoon.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                      <label th:for="'ing'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webtoon.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
-                    </div>
-                  </form>
+        <h4>웹툰</h4>
+        <div class="swiper product-swiper" >
+          <div class="swiper-wrapper">
+            <!-- 선호 카테고리 기반 추천 작품을 20개까지 출력 -->
+            <div class="swiper-slide" th:each="webtoon : ${preferWebtoons}" >
+              <div class="card position-relative p-4 border rounded-3">
+                <a href="#">
+                  <img th:src="@{${webtoon.img_name}}" class="img-fluid shadow-sm" alt="책 표지">
+                </a>
+                <h6 class="mt-4 mb-0 fw-bold">
+                  <a href="#" th:text="${webtoon.title}">작품 제목</a>
+                </h6>
+                <div class="review-content d-flex">
+                  <p class="my-2 me-2 fs-6 text-black-50" th:text="${webtoon.writer}">작가</p>
                 </div>
+                <form action="/bookshelf/insertOK"  method="post">
+                  <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                    <input type="hidden" name="work_num" th:value="${webtoon.item_id}" />
+                    <label th:for="'read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${webtoon.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                    <label th:for="'to-read'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${webtoon.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                    <label th:for="'ing'+${webtoon.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${webtoon.item_id}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

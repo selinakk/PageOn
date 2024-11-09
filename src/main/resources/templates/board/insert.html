@@ -7,8 +7,8 @@
 <body>
 
 
-    <div class="container mt-5">
-        <h4 class="mb-4">게시글 작성 페이지</h4>
+    <div class="container padding-medium">
+        <h3 class="mb-4">게시글 작성 페이지</h3>
         <div class="card p-4">
             <form action="b_insertOK" method="post" enctype="multipart/form-data" onsubmit="return validateTitleContentForm()">
                 <div class="form-group">
@@ -43,9 +43,9 @@
                     <input type="hidden" id="user_id" name="user_id" th:value="${id}">
                     <p th:text="${id}"></p>
                 </div>
-
-
-                <button type="submit" class="btn btn-primary">글쓰기 완료</button>
+                <div class="d-flex justify-content-center py-3">
+                    <button type="submit" class="btn btn-primary">글쓰기 완료</button>
+                </div>
             </form>
         </div>
     </div>
