@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
-  <title>PageOn 닉네임님의 서재</title>
+  <title th:text="'PageOn ' + ${userName} + '님의 서재'">서재</title>
 </head>
 <body>
 <main th:fragment="bookshelf-list">

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판</title>
+    <title th:text="'PageOn 게시글 ' + ${vo2.title} + ' 상세보기'"></title>
 </head>
 <body>
 <section class="position-relative padding-small board-section-box">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::body})}">
 <head>
-    <title>Webnovel Detail</title>
+    <title th:text="'PageOn 웹소설 ' + ${vo2.title} + ' 상세보기'"></title>
 </head>
 <body>
 
