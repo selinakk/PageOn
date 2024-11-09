@@ -20,7 +20,7 @@
         <div >
             <div class="side-bar">
                 <span>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">🚨</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">신고🚨</a>
                     <span th:if="${vo2.user_id} == ${session.id}">
                         <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
                           <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
@@ -73,7 +73,7 @@
 
 </div>
 <!-- 여기가 댓글 관련 내용입니다. 이부분을 부모글의 상세보기와 추가해주시면 됩니다. -->
-<section id="comment" class="position-relative padding-small">
+<section id="comment" class="position-relative my-5">
     <h3>댓글</h3>
     <div class="replyForm">
         <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
@@ -129,6 +129,9 @@
         </ul>
     </div>
 </section>
+    <div class="d-flex justify-content-center py-3">
+        <a href="/review/list" class="btn btn-dark">목록으로</a>
+    </div>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script th:inline="javascript">
     function displayRating(rating) {

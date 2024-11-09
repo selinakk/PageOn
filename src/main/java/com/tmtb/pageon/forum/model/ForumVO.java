@@ -35,7 +35,7 @@ public class ForumVO {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(userImgData);
         }
         try {
-            File defaultImageFile = ResourceUtils.getFile("classpath:static/img/default.png");
+            File defaultImageFile = ResourceUtils.getFile("classpath:/img/default.png");
             byte[] defaultImageData = Files.readAllBytes(defaultImageFile.toPath());
             return "data:image/png;base64," + Base64.getEncoder().encodeToString(defaultImageData);
         } catch (IOException e) {

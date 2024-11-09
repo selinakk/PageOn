@@ -5,151 +5,141 @@
     <title th:text="'PageOn 게시글 ' + ${vo2.title} + ' 상세보기'"></title>
 </head>
 <body>
-<section class="position-relative padding-small board-section-box">
-    <h4 class="text-center" th:text="${category == 'free' ? '자유 게시판' : '질문 게시판'}">게시판</h4>
+<div class="container padding-medium">
 
-    <div class="board-select-div">
-        <div class="board-select-detail">
-            <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
-                 onclick="location.href='/freeboard'">
-                <div class="">
-                    <h5 class="">자유 게시판</h5>
+    <section class="position-relative">
+        <h3 class="mb-4" th:text="${category == 'free' ? '자유 게시판' : '질문 게시판'}"></h3>
+            <ul class="custom-category list-unstyled d-flex justify-content-center mb-0 py-4 fs-5">
+                <li class="free-qna mx-2 text-nowrap" onclick="location.href='/freeboard'">
+                    <a th:classappend="${category == 'free'} ? 'active' : ''">자유 게시판</a>
+                </li>
+                <li class="free-qna mx-2 text-nowrap" onclick="location.href='/qnaboard'">
+                    <a th:classappend="${category == 'qna'} ? 'active' : ''">질문 게시판</a>
+                </li>
+
+            </ul>
+
+
+        <div class="card padding-left-right">
+            <div class="d-flex justify-content-end">
+                <!-- 게시글 수정 버튼 -->
+                <a th:href="@{/b_update(num=${vo2.num})}" th:if="${vo2.user_id == currentUserId}"
+                   class="btn btn-outline-primary btn-dark rounded-0 p-2 ml-auto">수정</a>
+
+                <!-- 게시글 삭제 버튼 -->
+                <form th:action="@{/b_deleteOK}" th:if="${vo2.user_id == currentUserId}" method="post" id="deleteForm"
+                      class="ml-2">
+                    <input type="hidden" name="num" th:value="${vo2.num}">
+                    <input type="hidden" name="category" th:value="${vo2.category}">
+                    <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmDelete()">
+                        <p>작성일: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd')}"></span></p>       삭제
+                    </button>
+                </form>
+
+                <!-- 신고하기 버튼 -->
+                <form th:action="@{/b_reportOK}" method="post" id="reportForm" class="ml-2">
+                    <input type="hidden" name="num" th:value="${vo2.num}">
+                    <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmReport()">신고</button>
+                </form>
+            </div>
+            <!-- 게시글 정보 테이블 -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td th:text="${vo2.num}"></td>
+                    <td th:text="${vo2.title}"></td>
+                    <td th:text="${vo2.user_id}"></td>
+                    <td th:text="${vo2.wdate}"></td>
+                </tr>
+                </thead>
+            </table>
+            <div>
+                <img th:if="${vo2.img_name != 'default.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"
+                     class="img-thumbnail">
+                <p th:utext="${vo2.formattedContent}"></p> <!-- th:utext를 사용하여 HTML 태그를 해석 -->
+            </div>
+        </div>
+    </section>
+
+    <section id="comment" class="position-relative my-5">
+        <h3>댓글</h3>
+        <div class="replyForm">
+            <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
+            <input type="hidden" id="bnum" th:value="${vo2.num}">
+            <input type="hidden" id="type" value="board">
+            <input type="hidden" id="sessionId" th:value="${session.id}">
+            <img src="/img/comment_write.png" alt="댓글 작성" th:onclick="'handleCommentClick()'" class="comment-icon"/>
+        </div>
+
+        <div id="commentList">
+            <div th:each="comment : ${comments}" class="comment" th:id="'comment-' + ${comment.num}">
+                <p>
+                    <strong th:text="${comment.user_id}"></strong>:
+                    <span th:text="${comment.content}" class="comment-content"></span>
+                </p>
+                <p>작성일: <span th:text="${comment.wdate}"></span></p>
+                <div class="actionButtons">
+                    <img src="/img/comment_child.png" alt="대댓글 더보기"
+                         th:onclick="'fetchChildComments(' + ${comment.num} + ')'" class="comment-icon"/>
+                    <img src="/img/comment_childup.png" alt="대댓글 줄이기" th:onclick="'hideComment(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                    <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'handleReplyClick(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                    <span th:if="${comment.user_id == session.id}">
+                        <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'"
+                             class="comment-icon"/>
+                        <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'"
+                             class="comment-icon"/>
+                    </span>
+                    <img src="/img/comment_report.png" alt="신고" th:onclick="'handleReportClick(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                </div>
+
+                <!-- 대댓글 입력 폼 -->
+                <div class="replyForm" th:id="'replyForm-' + ${comment.num}" style="display:none;">
+                    <textarea th:id="'replyText-' + ${comment.num}" rows="2" placeholder="대댓글을 입력하세요..."></textarea>
+                    <img src="/img/comment_write.png" alt="작성" th:onclick="'submitReply(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                    <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelReply(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                </div>
+
+                <div class="editForm" th:id="'editForm-' + ${comment.num}" style="display:none;">
+                    <textarea th:id="'editText-' + ${comment.num}" rows="2" th:text="${comment.content}"></textarea>
+                    <img src="/img/comment_update.png" alt="수정" th:onclick="'submitEdit(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                    <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelEdit(' + ${comment.num} + ')'"
+                         class="comment-icon"/>
+                </div>
+
+                <div class="childComments" th:id="'childComments-' + ${comment.num}">
+                    <!-- 대댓글을 가져올 공간 -->
+                </div>
+
+                <div th:id="'paging-' + ${comment.num}" style="display:none;">
+                    <!-- 페이징을 위한 div 추가 -->
                 </div>
             </div>
-            <div class="free-qna card"
-                 th:classappend="${category == 'qna'} ? 'border-primary' : ''"
-                 onclick="location.href='/qnaboard'">
-                <div>
-                    <h5>질문 게시판</h5>
-                </div>
-            </div>
-
-
-            <button class="btn btn-secondary btn-small" onclick="history.back()">뒤로가기</button>
-
         </div>
-    </div>
 
-
-    <div class="card padding-left-right">
-        <div class="d-flex justify-content-end">
-            <!-- 게시글 수정 버튼 -->
-            <a th:href="@{/b_update(num=${vo2.num})}" th:if="${vo2.user_id == currentUserId}"
-               class="btn btn-outline-primary btn-dark rounded-0 p-2 ml-auto">수정</a>
-
-            <!-- 게시글 삭제 버튼 -->
-            <form th:action="@{/b_deleteOK}" th:if="${vo2.user_id == currentUserId}" method="post" id="deleteForm"
-                  class="ml-2">
-                <input type="hidden" name="num" th:value="${vo2.num}">
-                <input type="hidden" name="category" th:value="${vo2.category}">
-                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmDelete()">
-                    삭제
-                </button>
-            </form>
-
-            <!-- 신고하기 버튼 -->
-            <form th:action="@{/b_reportOK}" method="post" id="reportForm" class="ml-2">
-                <input type="hidden" name="num" th:value="${vo2.num}">
-                <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmReport()">
-                    신고
-                </button>
-            </form>
+        <div id="paging" th:if="${totalPageCount > 1}">
+            <ul>
+                <li th:if="${cpage > 1}">
+                    <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
+                    <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
+                </li>
+                <li th:if="${cpage < totalPageCount}">
+                    <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
+                </li>
+            </ul>
         </div>
-        <!-- 게시글 정보 테이블 -->
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <td th:text="${vo2.num}"></td>
-                <td th:text="${vo2.title}"></td>
-                <td th:text="${vo2.user_id}"></td>
-                <td th:text="${vo2.wdate}"></td>
-            </tr>
-            </thead>
-        </table>
-        <div>
-            <img th:if="${vo2.img_name != 'default.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"
-                 class="img-thumbnail">
-            <p th:utext="${vo2.formattedContent}"></p> <!-- th:utext를 사용하여 HTML 태그를 해석 -->
-        </div>
+    </section>
+    <div class="d-flex justify-content-center py-3">
+        <button class="btn btn-dark" onclick="history.back()">목록으로</button>
     </div>
-
-</section>
-
-<section id="comment" class="position-relative padding-small">
-    <h3>댓글</h3>
-    <div class="replyForm">
-        <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
-        <input type="hidden" id="bnum" th:value="${vo2.num}">
-        <input type="hidden" id="type" value="board">
-        <input type="hidden" id="sessionId" th:value="${session.id}">
-        <img src="/img/comment_write.png" alt="댓글 작성" th:onclick="'handleCommentClick()'" class="comment-icon"/>
-    </div>
-
-    <div id="commentList">
-        <div th:each="comment : ${comments}" class="comment" th:id="'comment-' + ${comment.num}">
-            <p>
-                <strong th:text="${comment.user_id}"></strong>:
-                <span th:text="${comment.content}" class="comment-content"></span>
-            </p>
-            <p>작성일: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd')}"></span></p>
-            <div class="actionButtons">
-                <img src="/img/comment_child.png" alt="대댓글 더보기"
-                     th:onclick="'fetchChildComments(' + ${comment.num} + ')'" class="comment-icon"/>
-                <img src="/img/comment_childup.png" alt="대댓글 줄이기" th:onclick="'hideComment(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-                <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'handleReplyClick(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-                <span th:if="${comment.user_id == session.id}">
-                    <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'"
-                         class="comment-icon"/>
-                    <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'"
-                         class="comment-icon"/>
-                </span>
-                <img src="/img/comment_report.png" alt="신고" th:onclick="'handleReportClick(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-            </div>
-
-            <!-- 대댓글 입력 폼 -->
-            <div class="replyForm" th:id="'replyForm-' + ${comment.num}" style="display:none;">
-                <textarea th:id="'replyText-' + ${comment.num}" rows="2" placeholder="대댓글을 입력하세요..."></textarea>
-                <img src="/img/comment_write.png" alt="작성" th:onclick="'submitReply(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-                <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelReply(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-            </div>
-
-            <div class="editForm" th:id="'editForm-' + ${comment.num}" style="display:none;">
-                <textarea th:id="'editText-' + ${comment.num}" rows="2" th:text="${comment.content}"></textarea>
-                <img src="/img/comment_update.png" alt="수정" th:onclick="'submitEdit(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-                <img src="/img/comment_delete.png" alt="취소" th:onclick="'cancelEdit(' + ${comment.num} + ')'"
-                     class="comment-icon"/>
-            </div>
-
-            <div class="childComments" th:id="'childComments-' + ${comment.num}">
-                <!-- 대댓글을 가져올 공간 -->
-            </div>
-
-            <div th:id="'paging-' + ${comment.num}" style="display:none;">
-                <!-- 페이징을 위한 div 추가 -->
-            </div>
-        </div>
-    </div>
-
-    <div id="paging" th:if="${totalPageCount > 1}">
-        <ul>
-            <li th:if="${cpage > 1}">
-                <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
-                <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
-            </li>
-            <li th:if="${cpage < totalPageCount}">
-                <a th:href="@{/b_selectOne(num=${vo2.num}, cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
-            </li>
-        </ul>
-    </div>
-</section>
+</div>
 
 </body>
 </html>

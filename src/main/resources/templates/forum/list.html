@@ -16,12 +16,12 @@
             <option value="content" th:selected="${searchKey == 'content'}">내용</option>
             <option value="userName" th:selected="${searchKey == 'userName'}">게시자명</option>
           </select>
-          <input type="text" minlength="2" name="searchWord" th:value="${searchWord}" placeholder="검색어를 입력해 주세요" class="form-control p-2 w-75 rounded-0" required>
+          <input type="text" minlength="2" name="searchWord" th:value="${searchWord}" placeholder="검색어를 입력하세요" class="form-control p-2 w-75 rounded-0" required>
           <input type="submit" class="btn btn-dark rounded-0 p-2" value="검색">
         </form>
       </div>
       <div class="d-flex justify-content-between align-items-center w-100">
-        <p class="f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
+        <p class="mb-0 f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
           <strong th:text="${searchWord}"></strong>에 대한 검색 결과: <span th:text="${totalSearchList}"></span>건
         </p>
         <p class="f-3" th:unless="${not #strings.isEmpty(searchWord)}"

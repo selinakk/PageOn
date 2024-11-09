@@ -5,69 +5,60 @@
     <title>PageOn 자유게시판</title>
 </head>
 <body>
-<section class="container mt-5 board-width">
-    <h3 class="mb-4 text-center">자유 게시판</h3>
-
-
+<section class="board-container container padding-medium">
+    <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+        <h3>자유 게시판</h3>
+        <form class="search-list--custom d-flex" action="/b_search" method="get">
+            <select name="category" class="form-select p-2 w-25 rounded-0">
+                <option value="all">전체</option>
+                <option value="free">자유</option>
+                <option value="qna">질문</option>
+            </select>
+            <select name="searchType" class="form-select p-2 w-25 rounded-0">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input class="form-control p-2 w-75 rounded-0" type="text" id="searchWord" name="searchWord" placeholder="검색어를 입력하세요">
+            <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2 search-btn">검색</button>
+        </form>
+    </div>
     <!-- 게시판 선택 -->
     <div class="position-relative">
-        <div class="board-select">
-            <div class="free-qna card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
+        <ul class="custom-category list-unstyled d-flex justify-content-center mb-0 py-4 fs-5">
+            <li class="free-qna mx-2 text-nowrap" th:classappend="${category == 'free'} ? 'border-primary' : ''"
                  onclick="location.href='/freeboard'">
-                <h5 class="">자유 게시판</h5>
-            </div>
-            <div class="free-qna card"
+                <a class="active">자유 게시판</a>
+            </li>
+            <li class="free-qna mx-2 text-nowrap"
                  th:classappend="${category == 'qna'} ? 'border-primary' : ''"
                  onclick="location.href='/qnaboard'">
-                <h5>질문 게시판</h5>
-            </div>
-        </div>
+                <a>질문 게시판</a>
+            </li>
+        </ul>
         <select name="board-select" class="form-select board-select-dropdown"
                 onchange="handleBoardSelectChange(this.value)">
             <option value="/freeboard" th:selected="${category == 'free'}">자유 게시판</option>
             <option value="/qnaboard" th:selected="${category == 'qna'}">질문 게시판</option>
         </select>
-
-
-        <!-- 검색 폼과 글작성 버튼 -->
-        <div class="filter-container">
-            <form class="board-search" action="/b_search" method="get">
-                <select name="category">
-                    <option value="all">전체</option>
-                    <option value="free">자유</option>
-                    <option value="qna">질문</option>
-                </select>
-                <select name="searchType">
-                    <option value="title">제목</option>
-                    <option value="content">내용</option>
-                </select>
-                <input type="text" id="searchWord" name="searchWord" placeholder="검색어를 입력하세요">
-                <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2 search-btn">검색</button>
-            </form>
-        </div>
     </div>
 
 
-    <div class="card p-4">
-        <div class="d-flex">
-            <select name="sort" class="form-select" onchange="handleSortChange(this.value)">
-                <option value="date" th:selected="${sort == 'date'}">최신순</option>
-                <option value="hitcount" th:selected="${sort == 'hitcount'}">조회순</option>
+    <div class="d-flex justify-content-end align-items-center w-100">
+        <div class="sort-wrapper position-relative d-flex align-items-center">
+            <select name="sort" class="border-0 vstack text-center" onchange="handleSortChange(this.value)">
+                <option value="date" th:selected="${sort == 'date'}"><small>최신순</small></option>
+                <option value="hitcount" th:selected="${sort == 'hitcount'}"><small>조회순</small></option>
             </select>
-
-            <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">
-                글작성
-            </button>
-
-
+          </div>
         </div>
-
         <!-- 검색 결과가 없을 때 메시지 표시 -->
         <div th:if="${#lists.isEmpty(boardList)}" class="text-center mt-4">
             검색 결과가 없습니다.
         </div>
 
         <div th:if="${!#lists.isEmpty(boardList)}">
+            <div class="padding-small">
+
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
@@ -88,6 +79,10 @@
                 </tr>
                 </tbody>
             </table>
+                <div class="d-flex justify-content-end w-100">
+                    <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
+                </div>
+            </div>
 
 
             <div class="pagination justify-content-center">

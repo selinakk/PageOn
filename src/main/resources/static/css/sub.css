@@ -6,10 +6,12 @@ body {
     font-family: "Nanum Gothic",-apple-system,system-ui,sans-serif;
     letter-spacing: -0.01em;
 }
+b, strong {font-weight: 700;}
 input::placeholder, input::-webkit-input-placeholder, textarea::placeholder ,textarea::-webkit-input-placeholder {color:#7e7e7e !important;}
 i.svg-icon{width:0.9rem;}
 i.svg-icon--lg{width:1.25rem;}
 input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{opacity:.5 !important;}
+.container{width:96%;}
 .search-item .search-button > svg {margin-top: -3px;}
 .table-wrapper {overflow-x: auto;}
 .table-wrapper table {min-width: 770px;}
@@ -25,8 +27,7 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     font-weight: 500;
 }
 .align-super {vertical-align:super !important}
-.logo {width: 100px;}
-.navbar-toggler
+.logo {width: 80px;}
 /* Global 끝 */
 /* 토론 */
 .search-list--custom{
@@ -99,12 +100,38 @@ a.text-danger .svg-icon {
     padding: .5rem 0;
     border-bottom: 2px solid transparent;
 }
-.custom-category li > a.active {
+.custom-category li > a.active,
+.custom-category li > a:hover {
     border-bottom: 2px solid var(--primary-color);
     font-weight: 500;
 }
 /*서재 끝*/
+/* 게시판 241109 김시윤 수정 */
+#notice-page .sort-wrapper select,
+.board-container .sort-wrapper select {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    outline: 0;
+}
+#notice-page .sort-wrapper::after,
+.board-container .sort-wrapper::after {
+    display: inline-block;
+    margin-left: -.65em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left:.3em solid transparent
+}
+.board-container .sort-wrapper::after{
+    margin-left: .25em;
+}
+.board-container .search-list--custom {max-width: 350px;}
+.board-container .search-list--custom select.form-select {min-width: 4rem;}
 
+/* 공지사항 끝 */
 /* 댓글 */
 #comment {
     max-width: 1200px;
@@ -240,11 +267,11 @@ a.text-danger .svg-icon {
 /* 도서와 웹소설 공통 스타일 */
 /* 작품 목록 */
 /* 기본 레이아웃 설정 */
-#book-list, #webnovel-list {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 20px;
-}
+/*#book-list, #webnovel-list {*/
+/*    max-width: 1600px;*/
+/*    margin: 0 auto;*/
+/*    padding: 20px;*/
+/*}*/
 
 #book-list div, #webnovel-list div {
     text-align: center;
@@ -819,6 +846,9 @@ a.text-danger .svg-icon {
 }
 #exampleModal textarea[name="introduce"] {min-height: unset;}
 /******************** 반응형 설정 ******************/
+@media screen and (min-width:1400px){
+    .container-lg {max-width: 1420px;}
+}
 @media (max-width: 1199px) {
     .logo {
         width: auto;
@@ -859,9 +889,6 @@ a.text-danger .svg-icon {
         top: unset;
         left: unset;
     }
-}
-@media screen and (min-width:576px){
-    .container{max-width:96%;}
 }
 @media (max-width: 767px) {
     .navbar-toggler svg.navbar-icon {
@@ -927,11 +954,11 @@ a.text-danger .svg-icon {
 /* 최종 정리 끝 */
 
 /* 작품 메인 */
-#work-index {
-    max-width: 2000px;
-    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
-    padding: 20px; /* 내부 여백을 추가합니다 */
-}
+/*#work-index {*/
+/*    max-width: 2000px;*/
+/*    margin: 0 auto; !* 중앙 정렬을 위해 마진을 자동으로 설정합니다 *!*/
+/*    padding: 20px; !* 내부 여백을 추가합니다 *!*/
+/*}*/
 #work-index #recommendation-container {
     display: flex;
     flex-wrap: wrap;  /* 화면 크기에 따라 자동 줄바꿈 */

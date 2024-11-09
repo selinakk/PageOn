@@ -24,7 +24,7 @@
               <small class="text-nowrap" th:text="' 게시일 '+${vo2.wdate}"></small>
             </div>
             <div>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">신고🚫</a>
+              <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">신고🚨</a>
               <span th:if="${vo2.user_id == session.id}">
                   |&nbsp;<a th:href="@{/forum/update(num=${vo2.num})}">수정</a>
               | <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
