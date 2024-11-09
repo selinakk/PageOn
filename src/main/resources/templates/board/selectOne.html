@@ -91,7 +91,7 @@
                 <strong th:text="${comment.user_id}"></strong>:
                 <span th:text="${comment.content}" class="comment-content"></span>
             </p>
-            <p>작성일: <span th:text="${comment.wdate}"></span></p>
+            <p>작성일: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd')}"></span></p>
             <div class="actionButtons">
                 <img src="/img/comment_child.png" alt="대댓글 더보기"
                      th:onclick="'fetchChildComments(' + ${comment.num} + ')'" class="comment-icon"/>
