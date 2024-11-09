@@ -2,6 +2,8 @@ package com.tmtb.pageon.user.service;
 
 import com.tmtb.pageon.user.mapper.AdminMapper;
 import com.tmtb.pageon.user.mapper.UserMapper;
+import com.tmtb.pageon.user.model.BoardVO;
+import com.tmtb.pageon.user.model.ReviewVO;
 import com.tmtb.pageon.user.model.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,4 +71,38 @@ public class AdminService {
             log.error("Error while processing the image file", e);
         }
     }
+
+    // 검색된 게시물 조회
+    public List<BoardVO> getReportedBoards(int page, int size, String keyword) {
+        int offset = (page - 1) * size;
+        return mapper.searchReportedBoards(keyword, size, offset);
+    }
+
+    // 검색된 리뷰 조회
+    public List<ReviewVO> getReportedReviews(int page, int size, String keyword) {
+        int offset = (page - 1) * size;
+        return mapper.searchReportedReviews(keyword, size, offset);
+    }
+
+    // 검색된 게시물의 총 페이지 수
+    public int getBoardTotalPages(int size, String keyword) {
+        int totalRecords = mapper.countSearchReportedBoards(keyword);
+        return (int) Math.ceil((double) totalRecords / size);
+    }
+
+    // 검색된 리뷰의 총 페이지 수
+    public int getReviewTotalPages(int size, String keyword) {
+        int totalRecords = mapper.countSearchReportedReviews(keyword);
+        return (int) Math.ceil((double) totalRecords / size);
+    }
+
+    public void deleteBoard(int num) {
+        mapper.deleteBoardById(num);
+    }
+
+    public void deleteReview(int num) {
+        mapper.deleteReviewById(num);
+    }
+
+
 }

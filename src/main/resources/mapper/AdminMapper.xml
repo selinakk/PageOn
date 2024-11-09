@@ -43,4 +43,51 @@
         WHERE name LIKE CONCAT('%', #{keyword}, '%') OR tel LIKE CONCAT('%', #{keyword}, '%') OR id LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
+
+    <!-- Report가 0이 아닌 Board 조회 + 검색 기능 -->
+    <select id="searchReportedBoards" resultType="com.tmtb.pageon.user.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE report > 0
+          AND (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+        ORDER BY wdate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- Report가 0이 아닌 Review 조회 + 검색 기능 -->
+    <select id="searchReportedReviews" resultType="com.tmtb.pageon.user.model.ReviewVO">
+        SELECT *
+        FROM review
+        WHERE report > 0
+          AND (content LIKE CONCAT('%', #{keyword}, '%') OR title LIKE CONCAT('%', #{keyword}, '%'))
+        ORDER BY wdate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 특정 게시물 삭제 (Board) -->
+    <delete id="deleteBoardById">
+        DELETE FROM board WHERE num = #{num}
+    </delete>
+
+    <!-- 특정 리뷰 삭제 (Review) -->
+    <delete id="deleteReviewById">
+        DELETE FROM review WHERE num = #{num}
+    </delete>
+
+
+    <!-- 검색된 Board 레코드 수 조회 -->
+    <select id="countSearchReportedBoards" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE report > 0
+          AND (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+    </select>
+
+    <!-- 검색된 Review 레코드 수 조회 -->
+    <select id="countSearchReportedReviews" resultType="int">
+        SELECT COUNT(*)
+        FROM review
+        WHERE report > 0
+          AND (content LIKE CONCAT('%', #{keyword}, '%') OR title LIKE CONCAT('%', #{keyword}, '%'))
+    </select>
 </mapper>

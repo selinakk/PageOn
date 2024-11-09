@@ -302,6 +302,14 @@
                   </a>
                 </li>
                 <li class="pe-3">
+                  <a th:href="${session.id == 'admin' ? '/members/reported' : '#'}"
+                     th:text="${session.id == 'admin' ? '신고 관리' : ''}">
+                    <svg class="admin">
+                      <use xlink:href="#admin"></use> <!-- 회원 관리 아이콘 -->
+                    </svg>
+                  </a>
+                </li>
+                <li class="pe-3">
                   <a th:href="${session.id != null ? '/user/profile' : '#'}"
                      th:text="${session.id != null ? '마이페이지' : '로그인 / 회원가입'}"
                      th:attr="data-bs-toggle=${session.id != null ? null : 'modal'},

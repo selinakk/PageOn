@@ -1,9 +1,12 @@
 package com.tmtb.pageon.user.controller;
 
+import com.tmtb.pageon.user.model.BoardVO;
+import com.tmtb.pageon.user.model.ReviewVO;
 import com.tmtb.pageon.user.model.UserVO;
 import com.tmtb.pageon.user.service.AdminService;
 import com.tmtb.pageon.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-
+@Slf4j
 @Controller
 public class AdminController {
 
@@ -74,5 +77,45 @@ public class AdminController {
     public String deleteMember(@RequestParam String id) {
         adminService.deleteUser(id);
         return "redirect:/members";
+    }
+
+
+    @GetMapping("/members/reported")
+    public String getReportedContent(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "boards") String type,
+            @RequestParam(defaultValue = "") String keyword,
+            Model model) {
+
+        if (type.equals("boards")) {
+            List<BoardVO> boards = adminService.getReportedBoards(page, size, keyword);
+            int totalBoardPages = adminService.getBoardTotalPages(size, keyword);
+            model.addAttribute("boards", boards);
+            model.addAttribute("totalBoardPages", totalBoardPages);
+        } else if (type.equals("reviews")) {
+            List<ReviewVO> reviews = adminService.getReportedReviews(page, size, keyword);
+            int totalReviewPages = adminService.getReviewTotalPages(size, keyword);
+            model.addAttribute("reviews", reviews);
+            model.addAttribute("totalReviewPages", totalReviewPages);
+        }
+
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("type", type);
+        model.addAttribute("keyword", keyword);
+
+        return "admin/reportList"; // Thymeleaf 템플릿 경로
+    }
+    @PostMapping("/boards/delete")
+    public String deleteBoard(@RequestParam int num) {
+        adminService.deleteBoard(num);
+        return "redirect:/members/reported?type=boards";
+    }
+
+    @PostMapping("/reviews/delete")
+    public String deleteReview(@RequestParam int num) {
+        adminService.deleteReview(num);
+        return "redirect:/members/reported?type=reviews";
     }
 }
