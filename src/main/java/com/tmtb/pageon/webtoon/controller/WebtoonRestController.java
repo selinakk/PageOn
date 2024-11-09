@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,7 @@ import java.util.List;
 
 
 @RestController
+@EnableScheduling
 @RequestMapping("/api")
 public class WebtoonRestController {
 
@@ -48,6 +51,18 @@ public class WebtoonRestController {
         webtoonService.updateWebtoonUpdateDays(result);
         log.info("날짜 업데이트");
         return new ModelAndView("redirect:/");
+    }
+
+    @Scheduled(cron = "0 0 3 ? * SUN") // 매주 일요일 새벽 3시에 실행
+    public void scheduledUpdate() {
+        log.info("스케줄된 업데이트 시작");
+        JsonNode resultNaver = webtoonService.getWebtoonsNaver();
+        webtoonService.saveWebtoons(resultNaver);
+        JsonNode resultKakao = webtoonService.getWebtoonsKakao();
+        webtoonService.saveWebtoons(resultKakao);
+        JsonNode resultUpdateDay = webtoonService.getUpdateDay();
+        webtoonService.updateWebtoonUpdateDays(resultUpdateDay);
+        log.info("스케줄된 업데이트 완료");
     }
 
 

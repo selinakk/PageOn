@@ -17,7 +17,7 @@
                 <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
                 <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
                 <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
-                <p><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
+                <p th:if="${vo2.formattedUpdateDay != null}"><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
 
                 <p><strong>줄거리:</strong>
                 </p>
@@ -47,7 +47,11 @@
 
 
         <!-- 2. 감상/구매 버튼 -->
-        <a class="action-button" th:href="@{${vo2.link}}">감상 / 구매</a>
+        <a class="action-button" th:if="${vo2.link != null}" th:href="@{${vo2.link}}">감상 / 구매</a>
+        <a class="action-button" th:unless="${vo2.link != null}" th:href="@{'https://comic.naver.com/search?keyword=' + ${vo2.title}}"
+           th:if="${vo2.provider == '네이버웹툰'}">감상 / 구매</a>
+        <a class="action-button" th:unless="${vo2.link != null}" th:href="@{'https://webtoon.kakao.com/search?keyword=' + ${vo2.title}}"
+           th:if="${vo2.provider == '카카오웹툰'}">감상 / 구매</a>
 
         <!-- 3. 토론 열기 -->
         <a class="action-button" th:href="@{/forum/write(work_num=${vo2.item_id})}">토론 열기</a>

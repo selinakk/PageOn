@@ -113,7 +113,7 @@ public class WebtoonService {
         Set<String> titles = new HashSet<>();
 
         // 페이지 번호를 0부터 100까지 100씩 증가 + 3000까지 반복으로 일단 하드코딩
-        for (int pageNo = 0; pageNo <= 3000; pageNo += 100) {
+        for (int pageNo = 0; pageNo <= 100; pageNo += 100) {
             // 현재 페이지 번호를 포함 API URL을 생성
             String apiUrl = baseUrl + pageNo;
 
@@ -160,7 +160,7 @@ public class WebtoonService {
         Set<String> titles = new HashSet<>();
 
         // 페이지 번호를 0부터 100까지 100씩 증가 + 1500까지 반복으로 일단 하드코딩
-        for (int pageNo = 0; pageNo <= 1500; pageNo += 100) {
+        for (int pageNo = 0; pageNo <= 100; pageNo += 100) {
             // 현재 페이지 번호를 포함 API URL을 생성
             String apiUrl = baseUrl + pageNo;
 
