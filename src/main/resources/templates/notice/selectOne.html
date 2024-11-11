@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/sub.css">
+<!--    <link rel="stylesheet" href="/css/notice.css">-->
     <title>공지사항</title>
 
     <style>
@@ -38,26 +39,29 @@
         <h3 class="mb-5">공지사항 상세페이지</h3>
         <div class="card p-4 table-responsive mb-5">
             <!-- 공지사항 정보 테이블 -->
-            <table class="table table-bordered" style="table-layout: fixed;">
-                <thead>
-                <tr>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">글번호</th>
-                    <th class="text-center" style="font-weight: 600; width: 30%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">제목</th>
-                    <th class="text-center" style="font-weight: 600; width: 20%; white-space: nowrap">작성자</th>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">조회수</th>
-                    <th class="text-center" style="font-weight: 600; width: 20%; white-space: nowrap">작성일자</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td th:text="${vo2.num} + '번'" class="text-center"></td>
-                    <td th:text="${vo2.title}" class="text-center" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
-                    <td th:text="${vo2.user_id}" class="text-center"></td>
-                    <td th:text="${vo2.hitcount}" class="text-center"></td>
-                    <td th:text="${vo2.wdate}" class="text-center"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered" style="table-layout: fixed; word-wrap: break-word;">
+                    <thead>
+                    <tr>
+                        <th class="text-center" style="font-weight: 600; width: 10%;">글번호</th>
+                        <th class="text-center" style="font-weight: 600; width: 30%;">제목</th>
+                        <th class="text-center" style="font-weight: 600; width: 20%;">작성자</th>
+                        <th class="text-center" style="font-weight: 600; width: 10%;">조회수</th>
+                        <th class="text-center" style="font-weight: 600; width: 20%;">작성일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${vo2.num} + '번'" class="text-center"></td>
+                        <td th:text="${vo2.title}" class="text-center"></td>
+                        <td th:text="${vo2.user_id}" class="text-center"></td>
+                        <td th:text="${vo2.hitcount}" class="text-center"></td>
+                        <td th:text="${vo2.wdate}" class="text-center"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
 
 
             <div>
@@ -67,8 +71,8 @@
                 <div>
                     <div th:if="${vo2.img_name != null}">
                         <!-- 이미지 경로 설정 주석 처리 --->
-                <!-- <img th:src="@{/upload/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail">-->
-                   <!-- <img th:src="|/home/multi26/uploadimgPath/${vo2.img_name}|">-->
+                        <!-- <img th:src="@{/upload/{img_name}(img_name=${vo2.img_name})}" class="img-thumbnail">-->
+                        <!-- <img th:src="|/home/multi26/uploadimgPath/${vo2.img_name}|">-->
                         <!-- <img th:src="@{'/uploadimgPath/' + ${vo2.img_name}}" class="img-thumbnail" alt="공지사항 이미지">-->
                         <img th:src="'/uploadimgPath/' + ${vo2.img_name}" alt="공지사항 이미지" class="img-thumbnail"/>
                     </div>
@@ -81,7 +85,7 @@
 
         <div class="d-flex justify-content-center py-3"> <!-- 왼쪽과 오른쪽 끝으로 배치 -->
             <!-- 공지사항 목록 버튼 -->
-            <a href="/notice/n_selectAll.do" class="btn btn-dark" style="font-size: 1em; margin-right: 10px">목록으로</a>
+            <a href="/notice/n_selectAll.do" class="btn btn-dark" style="font-size: 1em;">목록으로</a>
 
             <!-- id가 admin일 때만 공지사항 수정 버튼과 삭제 버튼을 표시 -->
             <div th:if="${id == 'admin'}" class="d-flex">
