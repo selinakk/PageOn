@@ -84,19 +84,19 @@
                 <ul class="pagination">
                     <li class="page-item" th:if="${currentPage > 1}">
                         <a class="page-link"
-                           th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
+                           th:href="@{/freeboard(page=${currentPage - 1}, sort=${sort})}">
                             이전
                         </a>
                     </li>
                     <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
                         th:classappend="${i == currentPage} ? 'active'">
                         <a class="page-link"
-                           th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}"
+                           th:href="@{/freeboard(page=${i}, sort=${sort})}"
                            th:text="${i}"></a>
                     </li>
                     <li class="page-item" th:if="${currentPage < totalPages}">
                         <a class="page-link"
-                           th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
+                           th:href="@{/freeboard(page=${currentPage + 1}, sort=${sort})}"
                            aria-label="Next">
                             다음
                         </a>
