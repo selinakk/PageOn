@@ -297,6 +297,7 @@ public class BoardController {
     public String searchBoard(@RequestParam(required = true) String searchWord,
                               @RequestParam String searchType,
                               @RequestParam String category,
+                              @RequestParam(required = false) String sort,
                               @RequestParam(defaultValue = "1") int page,
                               Model model) {
         log.info("게시판 검색");
@@ -325,6 +326,7 @@ public class BoardController {
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("searchType", searchType);
         model.addAttribute("category", category);
+        model.addAttribute("sort", sort);
 
         if ("qna".equals(category)) {
             return "board/qnaboard";

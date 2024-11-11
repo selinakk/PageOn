@@ -40,7 +40,7 @@
         <div class="sort-wrapper position-relative d-flex align-items-center">
             <select name="sort" class="border-0 vstack text-center" onchange="handleSortChange(this.value)">
                 <option value="date" th:selected="${sort == 'date'}"><small>최신순</small></option>
-                <option value="hitcount" th:selected="${sort == 'hitcount'}"><small>조회순</small></option>
+                <option id="sort-hitcount" value="hitcount" th:selected="${sort == 'hitcount'}"><small>조회순</small></option>
             </select>
         </div>
     </div>
@@ -74,7 +74,8 @@
             </div>
 
         </div>
-        <div class="pagination justify-content-center">
+
+        <div th:if="${sort == 'hitcount'}" class="pagination justify-content-center">
             <ul class="pagination">
                 <li class="page-item" th:if="${currentPage > 1}">
                     <a class="page-link"
@@ -97,7 +98,30 @@
                 </li>
             </ul>
         </div>
-    </div>
+
+        <div th:if="${sort != 'hitcount'}" class="pagination justify-content-center">
+            <ul class="pagination">
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
+                        이전
+                    </a>
+                </li>
+                <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}"
+                       th:text="${i}"></a>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
+                       aria-label="Next">
+                        다음
+                    </a>
+                </li>
+            </ul>
+        </div>
 
     <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
