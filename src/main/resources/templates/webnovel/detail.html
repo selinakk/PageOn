@@ -122,7 +122,7 @@
                                 <p><strong th:text="${review.title}">리뷰 제목</strong></p>
                                 <p><strong th:text="${review.user_id}">사용자 이름</strong></p>
                                 <p th:text="${review.content}">리뷰 내용</p>
-                                <p th:text="'평점: ' + ${review.rating}">평점</p>
+                                <p th:text="'★ ' + ${review.rating}">평점</p>
                                 <a th:href="@{/review/detail(num=${review.num})}">더보기</a>
                             </div>
                         </div>
