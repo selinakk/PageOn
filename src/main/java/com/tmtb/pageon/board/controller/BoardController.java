@@ -166,10 +166,12 @@ public class BoardController {
         log.info("게시글 상세보기 페이지");
 
 
+
         boardService.updateBoardHitCount(vo);
 
         BoardVO vo2 = boardService.selectOne(vo);
         log.info("vo2:{}", vo2);
+
 
         model.addAttribute("vo2", vo2);
         model.addAttribute("category", category);
