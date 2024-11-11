@@ -197,9 +197,9 @@ public class NoticeController {
         String originName = vo.getFile().getOriginalFilename();
         log.info("originName:{}", originName);
 
-        // 넘어온 파일이 없을때 default.png 할당
+        // 넘어온 파일이 없을때 defaults.png 할당
         if (originName.length() == 0) {
-            vo.setImg_name("default.png");
+            vo.setImg_name("defaults.png");
         } else {
             // 중복이미지 이름을 배제하기위한 처리
             String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
@@ -276,7 +276,7 @@ public class NoticeController {
         String originName = vo.getFile().getOriginalFilename();
         log.info("originName:{}", originName);
 
-        if (originName.length() == 0) {// 넘어온 파일이 없을때 default.png 할당
+        if (originName.length() == 0) {// 넘어온 파일이 없을때 defaults.png 할당
             vo.setImg_name(vo.getImg_name());
         } else {
             // 중복이미지 이름을 배제하기위한 처리
