@@ -55,7 +55,7 @@
                             <div class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
                                 <form id="registerForm" class="py-2" th:action="@{/insertUserForm}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                                     <div class="w-100">
-                                        <label for="idInput" class="mb-1"><small>이름을 입력하세요*</small></label>
+                                        <label for="idInput" class="mb-1"><small>아이디를 입력하세요*</small></label>
                                         <div class="position-relative w-100 border rounded-2">
                                             <input type="text" id="idInput" minlength="2" name="id" placeholder="User name" class="form-control w-75 border-0 fs-6" required>
                                             <button type="button" id="checkIdButton" class="btn btn-secondary position-absolute text-nowrap text-white" onclick="checkId()" style="background-color: #6c757d;"><small>아이디 중복 체크</small></button>
