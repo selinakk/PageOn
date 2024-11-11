@@ -4,6 +4,7 @@ import com.tmtb.pageon.user.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 import java.util.Map;
@@ -22,13 +23,17 @@ public interface UserMapper {
     UserVO findById(String id);
 
 
-    List<ForumVO> findByforumPazing(String id, int offset, int size);
+    // 포럼 데이터 조회 (제목 검색 추가)
+    List<ForumVO>findByforumPazing(String id, int offset,  int size,  String searchKeyword);
 
-    List<BoardVO> findBoardsByUserPazing(String id, int offset, int size);
+    // 게시판 데이터 조회 (제목 검색 추가)
+    List<BoardVO> findBoardsByUserPazing(String id, int offset,  int size,  String searchKeyword);
 
-    List<ReviewVO> findByReviewsPazing(String id, int offset, int size);
+    // 리뷰 데이터 조회 (제목 검색 추가)
+    List<ReviewVO> findByReviewsPazing( String id,  int offset, int size, String searchKeyword);
 
-    List<CommentVO> findCommentsByUserPazing(String id, int offset, int size);
+    // 댓글 데이터 조회 (제목 검색 추가)
+    List<CommentVO> findCommentsByUserPazing(String id,int offset,int size,String searchKeyword);
 
     List<ForumVO> findByForum(String id);
     List<BoardVO> findByBoard(String id);
@@ -38,6 +43,20 @@ public interface UserMapper {
 
     void updateUserInfo(UserVO user);
 
+    String findUserIdByEmail(String email);
 
+    int selectfindEmail(String email);
+
+    void updatePassword(String id, String pw, String email);
+
+    int selectupdatePassword(String id, String email) ;
+
+    int countCommentsByUser(String id,String searchKeyword);
+
+    int countForumsByUser(String id,String searchKeyword);
+
+    int countReviewsByUser(String id,String searchKeyword);
+
+    int countBoardsByUser(String id,String searchKeyword);
 
 }

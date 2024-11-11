@@ -1,18 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::body})}">
 <head>
-    <title>Webnovel List</title>
+    <title>PageOn 웹소설 목록</title>
 </head>
 <body>
 
-<section id="webnovel-list" class="position-relative padding-small">
+<section id="webnovel-list" class="container container-lg position-relative padding-small">
 
     <!-- '전체', '인기', '사용자 추천', '선호' 선택 -->
     <div id="filter-options">
         <a th:href="@{/webnovels(filter='all')}" class="filter-option" th:classappend="${filter == null || filter == 'all'} ? 'selected-option' : ''">전체</a>
-        <a th:href="@{/webnovels(filter='recommend')}" class="filter-option" th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
-        <a th:href="@{/webnovels(filter='prefer')}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
+        <a th:href="@{/webnovelrecommendation}" class="filter-option" th:classappend="${filter == 'recommend'} ? 'selected-option' : ''">사용자 추천</a>
+        <a th:href="@{/webnovels/liked(category=${likeCategories})}" class="filter-option" th:classappend="${filter == 'prefer'} ? 'selected-option' : ''">선호</a>
     </div>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const sessionId = [[${session.id}]];
+
+            function openLoginModal(event) {
+                event.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            // 예시: sessionId를 사용하는 코드가 이 위치 이후에 있어야 오류가 발생하지 않음
+            function submitComment() {
+                if (!sessionId) {
+                    openLoginModal(event); // 세션이 없으면 모달을 열도록 설정
+                } else {
+                    // 댓글 제출 로직
+                }
+            }
+
+            if (!sessionId) { // 세션 ID가 null인 경우
+                // 선호 버튼
+                document.querySelector("a[href*='/webnovels/liked']").addEventListener("click", openLoginModal);
+                // 사용자 추천
+                document.querySelector("a[href*='/webnovelrecommendation']").addEventListener("click", openLoginModal);
+            }
+        });
+    </script>
 
     <!-- 카테고리 선택 링크 -->
     <div>
@@ -25,10 +53,10 @@
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        let selectedCategories = params.getAll('category');
-
         document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            selectedCategories = params.getAll('category'); // URL에서 현재 선택된 카테고리 가져옴
+
             if (selectedCategories.length === 0) {
                 document.getElementById("전체").classList.add('selected-category');
             } else {
@@ -45,46 +73,110 @@
             const index = selectedCategories.indexOf(category);
 
             if (index > -1) {
+                // 카테고리가 이미 선택되어 있다면 제거
                 selectedCategories.splice(index, 1);
+                document.getElementById(category).classList.remove('selected-category');
             } else {
+                // 카테고리가 선택되지 않았다면 추가
                 selectedCategories.push(category);
+                document.getElementById(category).classList.add('selected-category');
             }
+
+            // 중복 제거: 선택된 카테고리가 중복되지 않도록 보장
+            selectedCategories = Array.from(new Set(selectedCategories));
 
             updateURL();
         }
 
         function selectAll() {
             selectedCategories = [];
+            document.querySelectorAll('.category').forEach(el => el.classList.remove('selected-category'));
+            document.getElementById("전체").classList.add('selected-category');
             updateURL();
         }
 
         function updateURL() {
-            const newParams = new URLSearchParams();
-            selectedCategories.forEach(cat => newParams.append('category', cat));
-            window.location.href = '/webnovels?' + newParams.toString();
+            // 새로운 파라미터 생성
+            const params = new URLSearchParams();
+
+            // 기존의 모든 category 파라미터 삭제 후 새로운 값 추가
+            selectedCategories.forEach(cat => params.append('category', cat));
+
+            // 검색어, 검색 키, 정렬 방식, 페이지 번호 정보를 유지
+            const currentParams = new URLSearchParams(window.location.search);
+            const searchKey = currentParams.get('searchKey') || '';
+            const searchWord = currentParams.get('searchWord') || '';
+            const sortOrder = currentParams.get('sortOrder') || 'latest';
+            const cpage = '1'; // 검색 시 항상 첫 페이지로 설정
+
+            if (searchKey) params.set('searchKey', searchKey);
+            if (searchWord) params.set('searchWord', searchWord);
+            if (sortOrder) params.set('sortOrder', sortOrder);
+            params.set('cpage', cpage);
+
+            // URL 이동
+            window.location.href = '/webnovels?' + params.toString();
         }
     </script>
 
     <div id="filter-container">
         <!-- 검색 폼 -->
-        <form class="webnovel-search" th:action="@{/webnovels}" method="get">
-            <input type="hidden" name="category" th:value="${category}"/> <!-- 선택된 카테고리 유지 -->
+        <form class="webnovel-search search-list--custom d-flex" th:action="@{/webnovels}" method="get">
+            <input type="hidden" name="category" id="hiddenCategoryInput" th:value="${category}"/> <!-- 선택된 카테고리 유지 -->
             <input type="hidden" name="sortOrder" th:value="${sortOrder}"/> <!-- 선택된 정렬 방식 유지 -->
             <select name="searchKey">
                 <option value="title" th:selected="${searchKey == 'title'}">제목</option>
                 <option value="writer" th:selected="${searchKey == 'writer'}">작가</option>
             </select>
-            <input type="text" name="searchWord" placeholder="Search..." th:value="${searchWord}"/>
-            <input type="image" src="/img/work_search.png" alt="Search" class="search-icon"/>
+            <input type="text" name="searchWord" placeholder="검색어를 입력하세요" th:value="${searchWord}"/>
+            <input type="submit" class="btn btn-dark rounded-0 p-2" value="검색">
         </form>
 
         <!-- 정렬 방식 선택 -->
         <div id="sort-options">
-            <a th:href="@{/webnovels(sortOrder='latest', category=${category}, searchKey=${searchKey}, searchWord=${searchWord})}"
-               th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">최신순</a>
+            <!-- 최신순 정렬 -->
+            <th:block th:if="${filter == 'all' || filter == null}">
+                <a th:href="@{/webnovels(sortOrder='latest', category=${category}, cpage=${cpage}, searchKey=${searchKey}, searchWord=${searchWord})}"
+                   th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">
+                    최신순
+                </a>
+            </th:block>
 
-            <a th:href="@{/webnovels(sortOrder='popular', category=${category}, searchKey=${searchKey}, searchWord=${searchWord})}"
-               th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">인기순</a>
+            <th:block th:if="${filter == 'prefer'}">
+                <a th:href="@{/webnovels/liked(category=${likeCategories}, sortOrder='latest', cpage=${cpage})}"
+                   th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">
+                    최신순
+                </a>
+            </th:block>
+
+            <th:block th:if="${filter == 'recommend'}">
+                <a th:href="@{/webnovelrecommendation(sortOrder='latest', cpage=${cpage})}"
+                   th:classappend="${sortOrder == null || sortOrder == 'latest'} ? 'selected-sort' : 'sort-option'">
+                    최신순
+                </a>
+            </th:block>
+
+            <!-- 인기순 정렬 -->
+            <th:block th:if="${filter == 'all' || filter == null}">
+                <a th:href="@{/webnovels(sortOrder='popular', category=${category}, cpage=${cpage}, searchKey=${searchKey}, searchWord=${searchWord})}"
+                   th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">
+                    인기순
+                </a>
+            </th:block>
+
+            <th:block th:if="${filter == 'prefer'}">
+                <a th:href="@{/webnovels/liked(category=${likeCategories}, sortOrder='popular', cpage=${cpage})}"
+                   th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">
+                    인기순
+                </a>
+            </th:block>
+
+            <th:block th:if="${filter == 'recommend'}">
+                <a th:href="@{/webnovelrecommendation(sortOrder='popular', cpage=${cpage})}"
+                   th:classappend="${sortOrder == 'popular'} ? 'selected-sort' : 'sort-option'">
+                    인기순
+                </a>
+            </th:block>
         </div>
     </div>
 
@@ -96,7 +188,7 @@
             </a>
             <a th:href="@{/webnovel/detail(item_id=${vo.item_id})}" class="webnovel-title" th:text="${vo.title}"></a>
             <form action="/bookshelf/insertOK"  method="post">
-                <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
+                <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
                     <input type="hidden" name="work_num" th:value="${vo.item_id}" />
                     <label th:for="'read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${vo.item_id}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
                     <label th:for="'to-read'+${vo.item_id}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${vo.item_id}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
@@ -108,10 +200,34 @@
 
     <!-- 페이지네이션 -->
     <div class="pagination" th:if="${totalPageCount > 1}">
-        <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
-           th:href="@{/webnovels(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord})}"
-           th:text="${i}"></a>
+        <th:block th:if="${filter == 'prefer'}">
+            <!-- filter가 'prefer'일 경우의 URL -->
+            <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+               th:href="@{/webnovels/liked(category=${likeCategories}, cpage=${i}, sortOrder=${sortOrder})}"
+               th:text="${i}"
+               th:classappend="${cpage == i} ? 'active' : ''">
+            </a>
+        </th:block>
+
+        <th:block th:if="${filter == 'recommend'}">
+            <!-- filter가 'prefer'일 경우의 URL -->
+            <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+               th:href="@{/webnovelrecommendation(cpage=${i}, sortOrder=${sortOrder})}"
+               th:text="${i}"
+               th:classappend="${cpage == i} ? 'active' : ''">
+            </a>
+        </th:block>
+
+        <th:block th:if="${filter == 'all' || filter == null}">
+            <!-- filter가 'prefer'가 아닐 경우의 URL -->
+            <a th:each="i : ${#numbers.sequence(1, totalPageCount)}"
+               th:href="@{/webnovels(category=${category}, cpage=${i}, searchKey=${searchKey}, searchWord=${searchWord}, sortOrder=${sortOrder})}"
+               th:text="${i}"
+               th:classappend="${cpage == i} ? 'active' : ''">
+            </a>
+        </th:block>
     </div>
+
 </section>
 </body>
 </html>

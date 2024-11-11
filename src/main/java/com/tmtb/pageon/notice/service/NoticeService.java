@@ -33,13 +33,13 @@ public class NoticeService {
     }
 
 
-    public List<NoticeVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock) {
-        int startRow = (cpage - 1) * pageBlock ;
+    public List<NoticeVO> searchListPageBlock(String searchKey, String searchWord, int cpage, int pageBlock, String sort) {
+        int startRow = (cpage - 1) * pageBlock;
 
         if (searchKey.equals("title")) {
-            return mapper.searchListPageBlockTitle("%" + searchWord + "%", startRow, pageBlock);
+            return mapper.searchListPageBlockTitle("%" + searchWord + "%", startRow, pageBlock, sort);
         } else {
-            return mapper.searchListPageBlockContent("%" + searchWord + "%", startRow, pageBlock);
+            return mapper.searchListPageBlockContent("%" + searchWord + "%", startRow, pageBlock, sort);
         }
     }
 

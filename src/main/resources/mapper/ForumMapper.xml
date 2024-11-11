@@ -4,7 +4,7 @@
 <!--    목록 보기-->
     <select id="getList" resultType="com.tmtb.pageon.forum.model.ForumVO">
         SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
-               m.name AS userName, m.img_name AS userImgName,
+               m.name AS userName, m.img_data AS userImgData,
                (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
         FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id
         ORDER BY ${sortField} ${sortDir} LIMIT #{offset}, #{size}
@@ -16,7 +16,7 @@
 <!--    목록 검색-->
     <select id="searchForum" resultType="com.tmtb.pageon.forum.model.ForumVO">
         SELECT f.*, w.title AS workTitle, w.img_name AS workImgName,
-        m.name AS userName, m.img_name AS userImgName,
+        m.name AS userName, m.img_data AS userImgData,
         (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
         FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id
         WHERE 1=1
@@ -64,12 +64,15 @@
     <!-- 목록 검색 끝-->
 <!--    상세 보기 -->
     <select id="selectOne" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        select f.*, w.title AS workTitle, w.img_name AS workImgName, m.name AS userName, m.img_name AS userImgName,
+        select f.*, w.title AS workTitle, w.img_name AS workImgName, w.type AS workType, m.name AS userName, m.img_data AS userImgData,
                (SELECT COUNT(*) FROM comment c WHERE c.fnum = f.num) AS commentCnt
             FROM forum f JOIN work w ON f.work_num = w.item_id JOIN member m ON f.user_id = m.id where f.num=#{num}
     </select>
     <select id="getCommentCnt" resultType="int">
         SELECT COUNT(*) AS commentCnt FROM comment WHERE fnum = #{fnum}
+    </select>
+    <select id="getWorkTitle">
+        select title FROM work where item_id=#{item_id}
     </select>
 <!--    상세 보기 끝-->
 <!--    DML -->

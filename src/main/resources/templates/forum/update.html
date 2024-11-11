@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
-  <title>PageOn 토론 게시하기</title>
+  <title>PageOn 토론 수정</title>
 </head>
 <body>
 <main th:fragment="forum-view">
@@ -10,11 +10,10 @@
       <h3 class="d-flex align-items-center">토론 게시하기</h3>
       <form action="/forum/updateOK" method="POST">
         <input type="hidden" name="num" id="num" th:value="${param.num}">
-        <input type="hidden" name="work_num" id="work_num" value="123">
-        <input type="hidden" name="user_id" id="user_id" value="tester">//로그인id
-        <div class="form-group py-3">
-          작품명
-        </div>
+        <input type="hidden" name="work_num" id="work_num" th:value="${vo2.work_num}">
+        <input type="hidden" name="user_id" id="user_id" th:value="${session.id}">
+
+        <h4 class="form-group py-3 text-primary" th:text="${work_title}"></h4>
         <div class="form-group py-3">
           <label for="title" class="mb-2">제목</label>
           <input type="text" name="title" id="title" th:value="${vo2.title}" class="form-control w-100 rounded-3 p-3" placeholder="제목은 최대 100바이트까지 작성 가능합니다">
@@ -23,8 +22,9 @@
           <label for="content" class="mb-2">내용</label>
           <textarea name="content" id="content" rows="10" class="form-control" th:text="${vo2.content}"></textarea>
         </div>
-        <div class="d-flex justify-content-center py-3">
-          <input type="submit" value="게시하기" class="btn btn-dark">
+        <div class="d-flex justify-content-center gap-3 py-3">
+          <button type="button" class="btn btn-dark" onclick="history.back()">취소</button>
+          <input type="submit" value="게시하기" class="btn btn-primary">
         </div>
       </form>
     </div>

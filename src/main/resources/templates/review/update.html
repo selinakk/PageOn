@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Document</title>
+  <title>PageOn 리뷰 수정</title>
   <link href="/css/style.css" rel="stylesheet">
   <link href="/css/sub.css" rel="stylesheet">
 
@@ -12,29 +12,28 @@
 <div class="position-relative padding-medium">
   <div class="container">
     <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-      <h3 class="d-flex align-items-center">리뷰 수정페이지</h3>
-      <button th:class="write_box" onclick="location.href='/review/insert'">write</button>
+      <h3 class="d-flex align-items-center" th:text="'[ '+${work_title} +' ]의 리뷰 수정'"></h3>
     </div>
   </div>
   <form th:action="@{/review/updateOK}" method="POST">
     <div class="md-2">
       <p>
         <input type="hidden" name="num" th:value="${vo2.num}">
-      </p>
-      <p>
-        <input type="text" id="work_num" name="work_num" >
-        <button th:class="write_box" onclick="location.href='/work/selectAll'">작품선택</button>
+        <input type="hidden" name="work_num" th:value="${vo2.work_num}">
+        <input type="hidden" name="user_id" th:value="${session.id}">
       </p>
       <p>
       <div>
+      <label for="content" th:class="label" >제목: </label>
         <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력" th:value="${vo2.title}">
       </div>
       </p>
-
       <p>
       <div>
-        <label for="content"></label>
-        <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.. 500자 내.">[[${vo2.content}]]</textarea>
+        <label for="content" th:class="label" >내용: </label>
+        <p>
+          <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.. 500자 내.">[[${vo2.content}]]</textarea>
+        </p>
       </div>
       </p>
       <p>
@@ -44,25 +43,16 @@
         <span class="star" data-value="3">★</span>
         <span class="star" data-value="4">★</span>
         <span class="star" data-value="5">★</span>
-      </div>
-      <p id="rating" >Rating: 0.0</p>
-      </p>
-      <p>
-      <div>
-        <label for="user_id" style="font-size: 15px" >작성자: </label>
-        <input class="review-sub_box" type="text" id="user_id" name="user_id" th:value="${vo2.user_id}"> //로그인id
-      </div>
-      </p>
-      <p>
-      <div>
-      <div><button class="save-btn" type="submit">등록</button></div>
-      <div><button class="save-btn" type="button" onclick="location.href='/review/list'">취소</button></div>
+      <input type="text" id="ratingInput" name="rating" value="0.0" readonly>
       </div>
       </p>
     </div>
+    <div id="save-btn-justify-content">
+      <button class="save-btn" type="submit">등록</button>
+      <button class="save-btn" type="button" onclick="javascript:history.back()">취소</button>
+    </div>
+
   </form>
-
-
 </div>
 </div>
 <script>
@@ -121,6 +111,10 @@
         star.classList.remove('active');
       }
     });
+
+    // 실시간으로 input 태그에 값 반영
+    document.getElementById('ratingInput').value = rating;
+
   }
 </script>
 </body>

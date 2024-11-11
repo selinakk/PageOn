@@ -3,74 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>PageOn 리뷰 목록</title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/sub.css" rel="stylesheet">
 </head>
-<body  th:fragment="content">
+<body th:fragment="content">
 <div class="position-relative padding-medium">
     <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-            <h3 class="d-flex align-items-center">리뷰목록</h3>
-            <form action="/review/searchList" method="GET" class="search-list--custom d-flex w-100">
+            <h3 class="d-flex align-items-center">리뷰 목록</h3>
+            <form th:action="@{/review/searchList}" method="GET" class="search-list--custom d-flex">
                 <select name="searchKey" id="searchKey" class="form-select p-2 w-25 rounded-0">
-                    <option value="title">제목</option>
-                    <option value="work_title">작품 제목</option>
+                    <option value="title" th:selected="${searchKey == 'title'}">글제목</option>
+                    <option value="workTitle" th:selected="${searchKey == 'workTitle'}">작품명</option>
+                    <option value="user_id" th:selected="${searchKey == 'user_id'}">작성자</option>
                 </select>
-                <input type="text" minlength="2" name="searchWord" placeholder="검색어를 입력해 주세요"
-                       class="form-control p-2 w-75 rounded-0">
-                <input type="submit" class="btn btn-dark rounded-0" value="검색">
+                <input type="text" minlength="2" name="searchWord" th:value="${searchWord}" placeholder="검색어를 입력하세요" class="form-control p-2 w-75 rounded-0">
+                <input type="submit" class="btn btn-dark rounded-0 p-2" value="검색">
             </form>
         </div>
-        <div>
-            <button th:id="write-btn" onclick="location.href='/review/insert'">write</button>
-        </div>
-        <div>
-            <div style="margin: 10px">
-<!--                <a th:href="@{/review/list}" th:param="||"></a>-->
-                <strong>정렬</strong>
-                <small><a th:href="|@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='wdate',sort='desc')}|">최신순</a></small>
-                <small><a th:href="|@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='wdate',sort='asc')}|">오래된 순</a></small>
-                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='like',sort='desc')}">인기순</a></small>
-                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='rating',sort='desc')}">별점순</a></small>
-                <small><a th:href="@{/review/list(page=${cpage},total_Row=${total_Row},sortType='commentCount',sort='desc')}">댓글 많은순</a></small>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>
-<div th:each="review : ${list}" style="display: inline-block">
-    <a th:href="|/review/detail?num=${review.num}|">
-        <div style="width: 300px; margin: 20px;">
-            <div class="card position-relative">
-                <img src="image.prodect-item1.png" class="img-fluid" alt="work img">
-                <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
-                <div class="review-content d -flex"><p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
-                    <div class="rating text=wrning d-flex align-item-center">
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
-                        <svg class="star srat-fill">별점<use xlink:href="#star-fill"></use></svg>
+
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <p class="f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
+                <strong th:text="${searchWord}"></strong>에 대한 검색 결과: <span th:text="${searchTotalRows}"></span>건
+            </p>
+            <p class="f-3" th:unless="${not #strings.isEmpty(searchWord)}"
+               th:text="|총 ${total_Row}건|"></p>
+
+            <th:block th:if="${#strings.isEmpty(searchWord)}">
+                <div class="sort-wrapper position-relative">
+                    <button class="nav-link dropdown-toggle">정렬</button>
+                    <div class="dropdown-menu animate slide border vstack text-center">
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='recent')}">
+                            <small>최신순</small>
+                        </a>
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='old')}">
+                            <small>오래된순</small>
+                        </a>
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='rating')}">
+                            <small>별점순</small>
+                        </a>
+                        <a class="p-1 text-black" th:href="@{/review/list(cpage=${cpage},total_Row=${total_Row},sortType='popular')}">
+                            <small>인기순</small>
+                        </a>
                     </div>
                 </div>
-                <small th:text="${review.wdate}"></small>
+            </th:block>
+        </div>
+        <div class="row-cols-xl-4 row-cols-1 row-cols-sm-2 padding-small d-flex flex-wrap" id="forumList">
+            <div th:each="review : ${list}" class="p-3">
+
+                    <div>
+                        <div class="card position-relative p-4 border rounded-3 fs-6">
+                            <a th:href="|/review/detail?num=${review.num}|">
+                            <img th:src="${review.workImg}" class="w-100 shadow-sm" th:alt="${review.workTitle}">
+                            <h6 class="mt-4 mb-0 fw-bold" th:text="${review.title}"></h6>
+                            <div class="review-content d -flex">
+                                <p class="my-2 me-2 fs-6 text-black-50" th:text="${review.content}"></p>
+                                <span id="like-count" th:text=" '👍 '+${review.like}"></span>
+                                <span id="hate-count" th:text="'👎 '+${review.hate}"></span>
+                                <p>
+                                    <small th:text="'★ '+ ${review.rating}"></small>
+                                </p>
+                            </div>
+                                <small th:text="${review.wdate}"></small>
+                            </a>
+                            <form action="/bookshelf/insertOK"  method="post">
+                                <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
+                                    <input type="hidden" name="work_num" th:value="${review.work_num}" />
+                                    <label th:for="'read'+${review.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${review.work_num}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                                    <label th:for="'to-read'+${review.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${review.work_num}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                                    <label th:for="'ing'+${review.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${review.work_num}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
             </div>
         </div>
-    </a>
-</div>
-<div style="text-align: center"><
-    <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
-        <th:block th:if="${param.searchKey == null}">
-            <a th:href="|/review/list?cpage=${i}|" th:text="${i}"></a>
-        </th:block>
-        <th:block th:if="${param.searchKey != null}" >
-            <th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
-                <a th:href="|/review/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|"
-                   th:text="${i}"></a>
+    </div>
+    <div class="pagecount">
+        <th:block th:each="i : ${#numbers.sequence(1,totalPageCount)}">
+            <th:block th:if="${param.searchKey == null}">
+                <a th:href="|/review/list?cpage=${i}|" th:text="${i}"></a>
+            </th:block>
+            <th:block th:if="${param.searchKey != null}" >
+                <th:block th:with="searchKey=${param.searchKey},searchWord=${param.searchWord}">
+                    <a th:href="|/review/searchList?cpage=${i}&searchKey=${searchKey}&searchWord=${searchWord}|"
+                       th:text="${i}"></a>
+                </th:block>
             </th:block>
         </th:block>
-    </th:block>>
+    </div>
 </div>
+
+
 </body>
 </html>

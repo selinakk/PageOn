@@ -29,12 +29,16 @@ public class BookshelfController {
                             @RequestParam(defaultValue = "10") int size,
                             @RequestParam(defaultValue = "date_added") String sortField,
                             @RequestParam(defaultValue = "desc") String sortDir,
-                                @RequestParam(value="sort", defaultValue="all") String sort,
-                                @RequestParam(value="userId") String userId,
-                                HttpSession session
+                            @RequestParam(value="sort", defaultValue="all") String sort,
+                            @RequestParam(value="userId") String userId,
+                            HttpSession session
     ) {
         List<BookshelfVO> list;
         int totalList;
+
+        //파라미터 userId와 로그인id가 일치하는지 판별
+        String sessionId = (String) session.getAttribute("id");
+        boolean isOwner = sessionId != null && sessionId.equals(userId);
 
         //전체보기 또는 분류별로보기 + 페이징 분기
         if(sort.equals("all")){
@@ -46,12 +50,6 @@ public class BookshelfController {
         }
         int totalPages = (int)Math.ceil((double)totalList/size);
         if (totalPages < 1) {totalPages = 0;}
-
-        //파라미터 userId와 로그인id가 일치하는지 판별
-        String loggedInUserId = "tester2";
-//        String loggedInUserId = (String) session.getAttribute("loggedInUserId"); 세션의 로그인id 정보가 들어가야함
-        boolean isOwner = loggedInUserId != null && loggedInUserId.equals(userId);
-        log.info("로그인 아이디: {}, 서재 주인 아이디: {}",loggedInUserId, userId);
 
         //userId로 회원의 name 값 구하기
         String userName = service.getUserName(userId);
@@ -78,11 +76,10 @@ public class BookshelfController {
                                   @RequestParam("work_num") int workNum,
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes){
-//        String userId = (String) session.getAttribute("userId");
-        String userId = "tester2";
+        String sessionId = (String) session.getAttribute("id");
 
         try {
-            boolean result = service.insertBookshelfOK(userId, sort, workNum);
+            boolean result = service.insertBookshelfOK(sessionId, sort, workNum);
             if (result) {
                 log.info("/bookshelf/insertOK - 서재에 {}번 작품 추가", workNum);
                 redirectAttributes.addFlashAttribute("successMsg", "서재에 추가되었습니다.");
@@ -92,7 +89,7 @@ public class BookshelfController {
         } catch (DuplicateKeyException e) {
             redirectAttributes.addFlashAttribute("errorMsg", "이미 서재에 등록된 작품입니다.");
         }
-        return "redirect:/bookshelf/list?userId="+userId; //임시 - 프로필id 필요
+        return "redirect:/bookshelf/list?userId="+sessionId;
     }
     @PostMapping("/bookshelf/updateSortOK")
     public String updateSort(@RequestParam("sort") String sort,
@@ -100,21 +97,24 @@ public class BookshelfController {
                              HttpSession session
                             ) {
         log.info("/bookshelf/updateSortOK - 서재 분류 변경");
+        String sessionId = (String) session.getAttribute("id");
+
         service.updateSortOK(sort, num);
-        return "redirect:/bookshelf/list?userId=tester2"; //임시 - 프로필id 필요
+        return "redirect:/bookshelf/list?userId="+sessionId;
     }
     @GetMapping("/bookshelf/deleteOK")
     public String deleteBookshelf(@RequestParam("num") int num,
                                   RedirectAttributes redirectAttributes,
                                   HttpSession session) {
         log.info("/bookshelf/deleteOK - 서재에서 작품 삭제");
+        String sessionId = (String) session.getAttribute("id");
         boolean result = service.deleteBookshelfOK(num);
         if (result) {
             redirectAttributes.addFlashAttribute("successMsg", "삭제되었습니다.");
         } else {
             redirectAttributes.addFlashAttribute("errorMsg", "삭제 실패했습니다. 다시 시도해 주세요!");
         }
-        return "redirect:/bookshelf/list?userId=tester2"; //임시 - 프로필id 필요
+        return "redirect:/bookshelf/list?userId="+sessionId;
     }
     //DML 끝
 }

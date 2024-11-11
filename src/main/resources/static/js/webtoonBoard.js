@@ -22,91 +22,23 @@ function confirmReport() {
     }
 }
 
-//아래로 필터링 관련입니다.
-let selectedCategories = [];
-let currentPage = 1;
 
-function filterByCategory(element) {
-    const category = element.getAttribute('data-category');
-    const badges = document.querySelectorAll('.hashtags .badge');
-
-    // 클릭된 배지의 색상을 토글
-    if (element.classList.contains('bg-primary')) {
-        element.classList.remove('bg-primary');
-        element.classList.add('bg-secondary');
-        selectedCategories = selectedCategories.filter(cat => cat !== category);
+//웹툰 상세 - 줄거리 더보기 입니다.
+function toggleText() {
+    var desc = document.getElementById("desc");
+    var button = document.getElementById("toggleButton");
+    if (desc.classList.contains("short-text")) {
+        desc.classList.remove("short-text");
+        desc.classList.add("full-text");
+        button.textContent = "접기";
     } else {
-        element.classList.remove('bg-secondary');
-        element.classList.add('bg-primary');
-        selectedCategories.push(category);
+        desc.classList.remove("full-text");
+        desc.classList.add("short-text");
+        button.textContent = "더 보기";
     }
 
-    // 페이지 번호를 1로 초기화
-    currentPage = 1;
-
-    // AJAX 요청을 통해 필터링된 데이터를 가져옴
-    fetchFilteredData();
 }
-// 선택된 카테고리에 따라 필터링된 데이터를 가져오는 함수
-function fetchFilteredData() {
-    const url = selectedCategories.length > 0
-        ? `/wt_filter?categories=${selectedCategories.join(',')}&page=${currentPage}`
-        : `/wt_filter?page=${currentPage}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const contentGrid = document.querySelector('.content-grid');
-            contentGrid.innerHTML = '';
-
-            if (data.webtoons && data.webtoons.length > 0) {
-                data.webtoons.forEach(webtoon => {
-                    console.log('webtoon:', webtoon);
-                    const webtoonItem = `
-                        <div class="col-md-3 col-sm-6 mb-4 content-item">
-                            <div class="card" onclick="location.href='/wt_selectOne?item_id=${webtoon.item_id}'" style="cursor:pointer;">
-                                <img src="${webtoon.imageDownloadUrl}" class="img-thumbnail">
-                                <div class="card-body">
-                                    <div class="rating">★ ${webtoon.rank}</div>
-                                    <div class="card-title">${webtoon.title}</div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    contentGrid.innerHTML += webtoonItem;
-                });
-            } else {
-                // 선택된 카테고리가 없을 때 모든 웹툰을 표시
-                if (selectedCategories.length === 0) {
-                    fetch('/wt_filter?page=1')
-                        .then(response => response.json())
-                        .then(allData => {
-                            allData.webtoons.forEach(webtoon => {
-                                const webtoonItem = `
-                                    <div class="col-md-3 col-sm-6 mb-4 content-item">
-                                        <div class="card" onclick="location.href='/wt_selectOne?num=${webtoon.num}'" style="cursor:pointer;">
-                                            <img src="${webtoon.imageDownloadUrl}" class="img-thumbnail">
-                                            <div class="card-body">
-                                                <div class="rating">★ ${webtoon.rank}</div>
-                                                <div class="card-title">${webtoon.title}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                                contentGrid.innerHTML += webtoonItem;
-                            });
-                        })
-                        .catch(error => console.error('Error:', error));
-                } else {
-                    contentGrid.innerHTML = '<p>표시할 웹툰이 없습니다.</p>';
-                }
-            }
-
-            // 페이지네이션 업데이트
-            updatePagination(data.totalPages, data.startPage, data.endPage);
-        })
-        .catch(error => console.error('Error:', error));
-}
 
 // 페이지네이션을 업데이트하는 함수
 function updatePagination(totalPages, startPage, endPage) {
@@ -138,29 +70,30 @@ function goToPage(page) {
     fetchFilteredData();
 }
 
-// 조회수 순으로 정렬하는 함수
-function sortByHitCount() {
+// 조회순으로 게시판 정렬하는 함수
+function handleSortChange(value) {
     const currentPath = window.location.pathname;
-    if (currentPath.includes('freeboard')) {
-        location.href = '/freeboard?sort=hitcount';
-    } else if (currentPath.includes('qnaboard')) {
-        location.href = '/qnaboard?sort=hitcount';
+    const searchParams = new URLSearchParams(window.location.search);
+    const category = searchParams.get('category');
+
+    if (value === 'hitcount') {
+        if (currentPath.includes('freeboard') || category === 'all' || category === 'free') {
+            location.href = '/freeboard?sort=hitcount';
+        } else if (currentPath.includes('qnaboard') || category === 'qna') {
+            location.href = '/qnaboard?sort=hitcount';
+        }
+    } else if (value === 'date') {
+        if (currentPath.includes('freeboard') || category === 'all' || category === 'free') {
+            location.href = '/freeboard';
+        } else if (currentPath.includes('qnaboard') || category === 'qna') {
+            location.href = '/qnaboard';
+        }
     }
 }
-
-// 날짜 순으로 정렬하는 함수
-function sortByDate() {
-    const currentPath = window.location.pathname;
-    if (currentPath.includes('freeboard')) {
-        location.href = '/freeboard';
-    } else if (currentPath.includes('qnaboard')) {
-        location.href = '/qnaboard';
-    }
-}
-
 
 // 댓글 관련
 function fetchChildComments(commentId, page = 1) {
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
     const childCommentsDiv = $('#childComments-' + commentId);
     const pagingDiv = $('#paging-' + commentId);
 
@@ -176,17 +109,21 @@ function fetchChildComments(commentId, page = 1) {
             childCommentsDiv.empty();
             if (childComments.length > 0) {
                 childComments.forEach(function(childComment) {
+                    const isOwner = childComment.user_id === sessionId; // 세션 ID와 댓글 작성자 ID 비교
+                    const formattedDate = new Date(childComment.wdate).toISOString().split('T')[0];
                     const childCommentElem = `
                 <div class="childComment" id="childComment-${childComment.num}">
                     <p><strong>${childComment.user_id}:</strong> ${childComment.content}</p>
-                    <p>작성일: ${childComment.wdate}</p>
+                        <p>작성일: <span>${formattedDate}</span></p>
                     <p>
                         <img src="/img/comment_child.png" alt="대댓글 더보기" onclick="fetchChildComments(${childComment.num})" class="comment-icon"/>
                         <img src="/img/comment_childup.png" alt="대댓글 줄이기" onclick="hideComment(${childComment.num})" class="comment-icon"/>
-                        <img src="/img/comment_write.png" alt="대댓글 작성" onclick="showReplyForm(${childComment.num}, true)" class="comment-icon"/>
-                        <img src="/img/comment_update.png" alt="수정" onclick="editComment(${childComment.num}, true)" class="comment-icon"/>
-                        <img src="/img/comment_delete.png" alt="삭제" onclick="deleteComment(${childComment.num}, true)" class="comment-icon"/>
-                        <img src="/img/comment_report.png" alt="신고" onclick="reportComment(${childComment.num}, true)" class="comment-icon"/>
+                        <img src="/img/comment_write.png" alt="대댓글 작성" onclick="handleReplyClick( ${childComment.num}, true)" class="comment-icon"/>
+                        ${isOwner ? `
+                            <img src="/img/comment_update.png" alt="수정" onclick="editComment(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_delete.png" alt="삭제" onclick="deleteComment(${childComment.num}, true)" class="comment-icon"/>
+                        ` : ''}
+                        <img src="/img/comment_report.png" alt="신고" onclick="handleReportClick(${childComment.num}, true)" class="comment-icon"/>
                     </p>
 
                     <div class="replyForm" id="childReplyForm-${childComment.num}" style="display:none;">
@@ -235,16 +172,24 @@ function updatePaging(pagingDiv, totalPageCount, currentPage, commentId) {
         return;
     }
 
+    // 페이지 링크 컨테이너 생성 (가로 정렬을 위한 flex 컨테이너)
+    const pageLinksContainer = $('<div class="page-links-container"></div>').css({
+        display: 'flex',
+        'justify-content': 'center',
+        'flex-direction': 'row'
+    });
+
     // 페이지 링크 생성
     for (let i = 1; i <= totalPageCount; i++) {
         const pageLink = $(`<span class="page-link" onclick="fetchChildComments(${commentId}, ${i})">${i}</span>`);
         if (i === currentPage) {
             pageLink.addClass('active'); // 현재 페이지 강조
         }
-        pagingDiv.append(pageLink);
+        pageLinksContainer.append(pageLink);
     }
 
-    // 페이징 div를 보여줌
+    // 페이지 링크 컨테이너를 pagingDiv에 추가하고, 표시
+    pagingDiv.append(pageLinksContainer);
     pagingDiv.show();
 }
 
@@ -265,6 +210,8 @@ function submitComment() {
     const commentText = $('#commentText').val().trim();
     const bnum = $('#bnum').val(); // 게시글 번호 추가
     const type = $('#type').val(); // 게시글 타입 추가
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
+
     if (!commentText) {
         alert("댓글 내용을 입력하세요.");
         return;
@@ -278,7 +225,7 @@ function submitComment() {
             content: commentText,
             type: type, // 부모글 타입 (type 추가)
             bnum: bnum, // 부모글id (fnum -> bnum 변경)
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -293,6 +240,8 @@ function submitReply(parentId) {
     const replyText = $(`#replyText-${parentId}`).val().trim();
     const bnum = $('#bnum').val(); // 게시글 번호 추가
     const type = $('#type').val(); // 게시글 타입 추가
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
+
     if (!replyText) {
         alert("대댓글 내용을 입력하세요.");
         return;
@@ -307,7 +256,7 @@ function submitReply(parentId) {
             type: type, // 부모글 타입
             bnum: bnum, // 부모글id
             cnum: parentId,
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -351,6 +300,7 @@ function editComment(commentId, isChild = false) {
 
 function submitEdit(commentId) {
     const newCommentText = $(`#editText-${commentId}`).val().trim();
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
 
     $.ajax({
         type: "PUT",
@@ -358,7 +308,7 @@ function submitEdit(commentId) {
         contentType: "application/json",
         data: JSON.stringify({
             content: newCommentText,
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -404,6 +354,45 @@ function reportComment(commentId) {
     });
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const sessionId = $('#sessionId').val(); // 사용자 아이디 추가
+    function openLoginModal(event) {
+        event.preventDefault();
+        const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.show();
+    }
+
+    // 댓글 작성 클릭 이벤트 처리
+    window.handleCommentClick = function() {
+        if (!sessionId) {
+            openLoginModal(event);
+        } else {
+            // 세션이 있을 경우 댓글 작성 기능 수행
+            submitComment();
+        }
+    }
+
+    // 대댓글 작성 클릭 이벤트 처리
+    window.handleReplyClick = function(commentNum, isChild = false) {
+        if (!sessionId) {
+            openLoginModal(event);
+        } else {
+            // 대댓글 작성 기능 호출
+            showReplyForm(commentNum, isChild);
+        }
+    }
+
+    // 신고 클릭 이벤트 처리
+    window.handleReportClick = function(commentNum, isChild = false) {
+        if (!sessionId) {
+            openLoginModal(event);
+        } else {
+            // 신고 기능 호출
+            reportComment(commentNum, isChild);
+        }
+    }
+});
+
 function confirmDelete() {
     if (confirm("삭제하시겠습니까?")) {
         $.ajax({
@@ -424,19 +413,33 @@ function confirmDelete() {
     }
 }
 
-function toggleText() {
-    var desc = document.getElementById("desc");
-    var button = document.getElementById("toggleButton");
-    if (desc.classList.contains("short-text")) {
-        desc.classList.remove("short-text");
-        desc.classList.add("full-text");
-        button.textContent = "접기";
-    } else {
-        desc.classList.remove("full-text");
-        desc.classList.add("short-text");
-        button.textContent = "더 보기";
+//제목 입력 확인
+function validateTitleContentForm() {
+    var title = document.getElementById("title").value;
+    var content = document.getElementById("content").value;
+    var maxTitleLength = 30;
+    var maxContentLength = 5000;
+
+    if (title.trim() === "" || content.trim() === "") {
+        alert("제목과 내용은 필수입니다!");
+        return false; // 폼 제출을 막음
     }
 
+    if (title.length > maxTitleLength) {
+        alert("제목은 최대 " + maxTitleLength + "자까지 입력할 수 있습니다.");
+        return false; // 폼 제출을 막음
+    }
+
+    if (content.length > maxContentLength) {
+        alert("내용은 최대 " + maxContentLength + "자까지 입력할 수 있습니다.");
+        return false; // 폼 제출을 막음
+    }
+
+    return true; // 폼 제출을 허용
+}
+
+function handleBoardSelectChange(value) {
+    location.href = value;
 }
 
 

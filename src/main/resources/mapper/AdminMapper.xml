@@ -12,14 +12,16 @@
         SELECT COUNT(*) FROM member
     </select>
 
-    <insert id="insertMember" parameterType="com.tmtb.pageon.user.model.UserVO">
-        INSERT INTO member (id, pw, name, tel, img_name, like_categories, introduce, imgPath)
-        VALUES (#{id}, #{pw}, #{name}, #{tel}, #{img_name}, #{like_categories}, #{introduce}, #{imgPath})
-    </insert>
 
+    <!-- 회원 정보 수정 쿼리 - img_name과 img_data를 선택적으로 업데이트 -->
     <update id="updateMember" parameterType="com.tmtb.pageon.user.model.UserVO">
         UPDATE pageon.member
-        SET pw = #{pw}, name = #{name}, tel = #{tel}, img_name = #{img_name}, introduce = #{introduce}, img_data = #{img_data}
+        SET
+            name = #{name},
+            tel = #{tel},
+            introduce = #{introduce},
+            img_name = CASE WHEN #{img_name} IS NOT NULL THEN #{img_name} ELSE img_name END,
+            img_data = CASE WHEN #{img_data} IS NOT NULL THEN #{img_data} ELSE img_data END
         WHERE id = #{id}
     </update>
 
@@ -41,4 +43,51 @@
         WHERE name LIKE CONCAT('%', #{keyword}, '%') OR tel LIKE CONCAT('%', #{keyword}, '%') OR id LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
+
+    <!-- Report가 0이 아닌 Board 조회 + 검색 기능 -->
+    <select id="searchReportedBoards" resultType="com.tmtb.pageon.user.model.BoardVO">
+        SELECT *
+        FROM board
+        WHERE report > 0
+          AND (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+        ORDER BY wdate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- Report가 0이 아닌 Review 조회 + 검색 기능 -->
+    <select id="searchReportedReviews" resultType="com.tmtb.pageon.user.model.ReviewVO">
+        SELECT *
+        FROM review
+        WHERE report > 0
+          AND (content LIKE CONCAT('%', #{keyword}, '%') OR title LIKE CONCAT('%', #{keyword}, '%'))
+        ORDER BY wdate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 특정 게시물 삭제 (Board) -->
+    <delete id="deleteBoardById">
+        DELETE FROM board WHERE num = #{num}
+    </delete>
+
+    <!-- 특정 리뷰 삭제 (Review) -->
+    <delete id="deleteReviewById">
+        DELETE FROM review WHERE num = #{num}
+    </delete>
+
+
+    <!-- 검색된 Board 레코드 수 조회 -->
+    <select id="countSearchReportedBoards" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE report > 0
+          AND (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+    </select>
+
+    <!-- 검색된 Review 레코드 수 조회 -->
+    <select id="countSearchReportedReviews" resultType="int">
+        SELECT COUNT(*)
+        FROM review
+        WHERE report > 0
+          AND (content LIKE CONCAT('%', #{keyword}, '%') OR title LIKE CONCAT('%', #{keyword}, '%'))
+    </select>
 </mapper>

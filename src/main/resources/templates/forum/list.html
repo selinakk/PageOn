@@ -16,12 +16,12 @@
             <option value="content" th:selected="${searchKey == 'content'}">내용</option>
             <option value="userName" th:selected="${searchKey == 'userName'}">게시자명</option>
           </select>
-          <input type="text" minlength="2" name="searchWord" th:value="${searchWord}" placeholder="검색어를 입력해 주세요" class="form-control p-2 w-75 rounded-0" required>
+          <input type="text" minlength="2" name="searchWord" th:value="${searchWord}" placeholder="검색어를 입력하세요" class="form-control p-2 w-75 rounded-0" required>
           <input type="submit" class="btn btn-dark rounded-0 p-2" value="검색">
         </form>
       </div>
       <div class="d-flex justify-content-between align-items-center w-100">
-        <p class="f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
+        <p class="mb-0 f-3" th:if="${not #strings.isEmpty(searchWord)}" th:inline="text">
           <strong th:text="${searchWord}"></strong>에 대한 검색 결과: <span th:text="${totalSearchList}"></span>건
         </p>
         <p class="f-3" th:unless="${not #strings.isEmpty(searchWord)}"
@@ -59,23 +59,22 @@
                 <p class="mb-0">조회수 <span th:text="${forum.hitcount}"></span></p>
                 <div class="w-100 d-flex justify-content-between align-items-center">
                   <p class="mb-0">
-                    <a th:href="@{/bookshelf/list(userId=${forum.user_id})}" class="d-flex align-items-center">
+                    <a th:href="@{/user/userprofile(id=${forum.user_id})}" class="d-flex align-items-center">
                       <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
-                        <img class="w-100 h-100" th:src="@{/img/{userImgName}(userImgName=${forum.userImgName})}" th:alt="|${forum.userName}님 프로필 이미지|">
+                        <img class="w-100 h-100" th:src="${forum.imgDataAsBase64}" th:alt="|${forum.userName}님 프로필 이미지|">
                       </span>
                       <strong th:text="${forum.userName}"></strong>
                     </a>
                   </p>
-                  <span th:text="${forum.wdate}"></span>
+                  <small class="text-nowrap" th:text="${forum.wdate}"></small>
                 </div>
               </div>
-              <form action="/bookshelf/insertOK" method="post">
-                <div class="card-concern position-absolute start-0 end-0 vstack gap-2 p-2">
-                  <input type="hidden" name="user_id"  value="tester2" /> <!--로그인id-->
+              <form action="/bookshelf/insertOK"  method="post">
+                <div class="card-concern position-absolute start-50 translate-middle-x vstack gap-2 p-2">
                   <input type="hidden" name="work_num" th:value="${forum.work_num}" />
-                  <label for="read" class="btn btn-dark"><input type="radio" name="sort" id="read" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
-                  <label for="to-read" class="btn btn-dark"><input type="radio" name="sort" id="to-read" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
-                  <label for="ing" class="btn btn-dark"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
+                  <label th:for="'read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'read'+${forum.work_num}" value="read" onchange="this.form.submit()" class="position-absolute"> 읽은 작품</label>
+                  <label th:for="'to-read'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'to-read'+${forum.work_num}" value="to-read" onchange="this.form.submit()" class="position-absolute"> 읽고 싶은 작품</label>
+                  <label th:for="'ing'+${forum.work_num}" class="btn btn-dark"><input type="radio" name="sort" th:id="'ing'+${forum.work_num}" value="ing" onchange="this.form.submit()" class="position-absolute"> 읽고 있는 작품</label>
                 </div>
               </form>
             </div>

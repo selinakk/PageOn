@@ -14,11 +14,11 @@ public interface CommunityMapper {
 
     public List<NoticeVO> noticeCommunity();
 
-    public List<ForumVO> forumCommunity();
+    public List<BoardVO> boardCommunity();
 
     public List<ReviewVO> reviewCommunity();
 
-    public List<BoardVO> boardCommunity();
+    public List<ForumVO> forumCommunity();
 
     public BoardVO boardSelectOne(BoardVO vo);
 
@@ -26,9 +26,9 @@ public interface CommunityMapper {
 
     public ForumVO forumSelectOne(ForumVO vo);
 
-    public List<BoardVO> boardSelectList();
-
     public List<NoticeVO> noticeSelectList();
+
+    public List<BoardVO> boardSelectList();
 
     public List<ReviewVO> reviewSelectList();
 

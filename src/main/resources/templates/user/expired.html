@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>PageOn 로그아웃 알림</title>
+	<style>
+		/* 페이지 전체 스타일 */
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Arial, sans-serif;
+			background-color: #f8f9fa;
+		}
+
+		/* 콘텐츠 중앙 정렬 */
+		.container {
+			text-align: center;
+		}
+
+		/* 로고 스타일 */
+		.logo {
+			width: 150px; /* 로고 크기 설정 */
+			max-width: 100%;
+			margin-bottom: 20px;
+		}
+
+		/* 알림 메시지 스타일 */
+		.message {
+			font-size: 1.5rem;
+			color: #333;
+		}
+
+		/* 추가 팁 스타일 */
+		.tip {
+			font-size: 1rem;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<!-- 로고 이미지 -->
+	<img src="/img/main-logo.png" class="logo" alt="Main Logo">
+
+	<!-- 알림 메시지 -->
+	<p class="message">다른 기기에서 로그인 되어 로그아웃 되었습니다(세션 허용 갯수 초과).</p>
+
+	<!-- 추가 팁 메시지 -->
+	<p class="tip">tip! <br> Chrome 브라우저에서 로그인한 후 동일한 계정으로 Edge 브라우저에 로그인 하면, Chrome 브라우저에서 새로 고침하면 이 페이지의 내용을 볼 수 있습니다.</p>
+
+	<!-- 홈 경로로 리디렉션 스크립트 -->
+	<script>
+		setTimeout(function() {
+			location.href = "[[@{/}]]"; // 홈 경로로 이동
+		}, 3000); // 3초 후에 리디렉션
+	</script>
+</div>
+</body>
+</html>

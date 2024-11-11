@@ -16,4 +16,5 @@ public class CommentVO {
     private Date wdate;       // 작성 날짜
     private String user_id;   // 사용자 ID
     private Boolean report;    // 신고 여부
+    private String name;
 }

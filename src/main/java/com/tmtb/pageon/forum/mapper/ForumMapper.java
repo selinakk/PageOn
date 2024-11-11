@@ -20,6 +20,7 @@ public interface ForumMapper {
     int searchForumCnt(@Param("searchKey") String searchKey,
                          @Param("searchWord") String searchWord);
     ForumVO selectOne(ForumVO vo);
+    String getWorkTitle(@Param("item_id") int itemId);
     //
     boolean insertForumOK(ForumVO vo);
     boolean updateForumOK(ForumVO vo);

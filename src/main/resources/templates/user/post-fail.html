@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>PageOn 403 Forbidden 에러</title>
+	<style>
+		/* 페이지 전체 설정 */
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Arial, sans-serif;
+			background-color: #f8f9fa;
+		}
+
+		/* 콘텐츠 중앙 정렬 설정 */
+		.container {
+			text-align: center;
+		}
+
+		/* 로고 스타일 */
+		.logo {
+			width: 150px; /* 원하는 크기로 설정 */
+			max-width: 100%;
+			margin-bottom: 20px;
+		}
+
+		/* 알림 메시지 스타일 */
+		.message {
+			font-size: 1.5rem;
+			color: #333;
+		}
+	</style>
+</head>
+
+<body>
+<div class="container">
+	<!-- 로고 이미지 -->
+	<img src="/img/main-logo.png" class="logo" alt="Main Logo">
+
+	<!-- 알림 메시지 -->
+	<p class="message">로그인을 하고 시도해주세요</p>
+
+	<!-- 홈 경로로 리디렉션 스크립트 -->
+	<script>
+		setTimeout(function() {
+			location.href = "[[@{/}]]";
+		}, 3000);
+	</script>
+</div>
+</body>
+
+</html>

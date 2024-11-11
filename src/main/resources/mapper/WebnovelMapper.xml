@@ -157,4 +157,34 @@
         WHERE item_id = #{item_id}
     </update>
 
+    <!--   사용자 리뷰 작성 추천 - 웹소설 -->
+    <select id="getWebnovelRecommendationBycategory" resultType="com.tmtb.pageon.webnovel.model.WebnovelVO">
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type,w.writer, r.categories,
+                        (SELECT COUNT(*) FROM pageon.bookshelf bs WHERE bs.work_num = w.item_id) AS added_bs
+        FROM work w
+                 JOIN review r ON r.categories = w.categories
+                 JOIN member m ON m.id = r.user_id
+        WHERE m.id = #{id}
+          AND w.item_id != r.work_num
+        AND w.type = 'webnovel'
+        <choose>
+            <when test="sortOrder == 'latest'">
+                ORDER BY item_id DESC
+            </when>
+            <when test="sortOrder == 'popular'">
+                ORDER BY added_bs DESC
+            </when>
+        </choose>
+            limit #{pageBlock} OFFSET  #{startRow}
+    </select>
+
+    <select id="webnovelGetRecommandationTotalRow" resultType="int">
+        SELECT COUNT(DISTINCT w.item_id)
+        FROM work w
+                 JOIN review r ON r.categories = w.categories
+                 JOIN member m ON m.id = r.user_id
+        WHERE m.id = #{id}
+          AND w.item_id != r.work_num
+        AND w.type = 'webnovel'
+    </select>
 </mapper>

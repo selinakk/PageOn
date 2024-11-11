@@ -20,18 +20,17 @@ public class CommunityService {
     @Autowired
     CommunityMapper mapper;
 
+    public List<NoticeVO> noticeCommunity() {
+        return mapper.noticeCommunity();
+    }
+
 
     public List<BoardVO> boardCommunity() {
         return mapper.boardCommunity();
     }
 
 
-    public List<NoticeVO> noticeCommunity() {
-        return mapper.noticeCommunity();
-    }
-
-
-        public List<ReviewVO> reviewCommunity() {
+    public List<ReviewVO> reviewCommunity() {
         return mapper.reviewCommunity();
     }
 
@@ -56,19 +55,19 @@ public class CommunityService {
     }
 
 
-    public List<BoardVO> boardSelectList() {
-        return mapper.boardSelectList();
-    }
-
-
     public List<NoticeVO> noticeSelectList() {
         return mapper.noticeSelectList();
     }
 
 
+    public List<BoardVO> boardSelectList() {
+        return mapper.boardSelectList();
+    }
+
+
     public List<ReviewVO> reviewSelectList() {
         return mapper.reviewSelectList();
-       }
+    }
 
 
     public List<ForumVO> forumSelectList() {

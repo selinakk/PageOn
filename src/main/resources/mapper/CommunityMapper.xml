@@ -3,36 +3,48 @@
 <mapper namespace="com.tmtb.pageon.community.mapper.CommunityMapper">
 
 
+    <!--최근 4개의 게시판 목록 조회-->
     <select id="boardCommunity" resultType="com.tmtb.pageon.board.model.BoardVO">
-        select title,num from board order by num desc limit 3;
+        select * from board order by num desc limit 3;
     </select>
 
+    <!--최근 4개의 공지사항 목록 조회-->
     <select id="noticeCommunity" resultType="com.tmtb.pageon.notice.model.NoticeVO">
-        select title,num from notice order by num desc limit 3;
+        select * from notice order by num desc limit 3;
     </select>
 
+    <!--최근 4개의 리뷰 목록 조회-->
     <select id="reviewCommunity" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        select title,num from review order by num desc limit 3;
+        select * from review order by num desc limit 3;
     </select>
 
+    <!--최근 4개의 토론 목록 조회-->
     <select id="forumCommunity" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        select title,num from forum order by num desc limit 3;
+        select * from forum order by num desc limit 3;
     </select>
 
+    <!--최근 4개의 게시판 목록 조회-->
     <select id="boardSelectList" resultType="com.tmtb.pageon.board.model.BoardVO">
         select * from board order by num desc limit 4;
     </select>
 
+    <!--최근 4개의 곻지사항 목록 조회-->
     <select id="noticeSelectList" resultType="com.tmtb.pageon.notice.model.NoticeVO">
         select * from notice order by num desc limit 4;
     </select>
 
+    <!--최근 4개의 리뷰 목록 조회-->
     <select id="reviewSelectList" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        select * from review order by num desc limit 4;
+        select r.*, w.title AS workTitle, w.img_name AS workImg
+        FROM review r JOIN work w ON r.work_num = w.item_id
+        ORDER BY wdate desc limit 4;
     </select>
 
+    <!--최근 4개의 토론 목록 조회-->
     <select id="forumSelectList" resultType="com.tmtb.pageon.forum.model.ForumVO">
-        select * from forum order by num desc limit 4;
+        SELECT f.*, w.title AS workTitle, w.img_name AS workImgName
+        FROM forum f JOIN work w ON f.work_num = w.item_id
+        ORDER BY wdate desc limit 4
     </select>
 
 </mapper>

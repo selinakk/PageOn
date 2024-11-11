@@ -1,62 +1,185 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
-    <title>웹툰 상세</title>
+    <title th:text="'PageOn 웹툰 ' + ${vo2.title} + ' 상세보기'"></title>
 </head>
+
 <body>
-<div th:fragment="content" class="text-center">
 
-<!--    <h4 class="mt-4">웹툰 상세</h4>-->
+<section id="webnovel-detail" class="position-relative padding-small">
+    <div class="webnovel-detail-container">
+        <div class="webnovel-info">
+            <img th:src="${vo2.img_name}" class="webnovel-cover">
+            <div>
+                <h4 th:text="${vo2.title}"></h4>
+                <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
+                <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
+                <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
+                <p th:if="${vo2.formattedUpdateDay != null}"><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
 
-    <div class="row justify-content-center g-0 mt-4" style="margin-top: 25px">
-
-        <div class="col-md-1">
-            <img th:src="${vo2.img_name}" class="img-thumbnail">
+                <p><strong>줄거리:</strong>
+                </p>
+                <p><span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
+                    <button id="toggleButton" onclick="toggleText()" class="btn btn-link">더 보기</button>
+                </p>
+                <p><strong >장르 :<span  th:text="${vo2.categories}"></span> </strong></p>
+            </div>
         </div>
 
-        <div class="col-md-2">
-            <h4 th:text="${vo2.title}"></h4>
-            <p><strong>작가:</strong> <span th:text="${vo2.writer}"></span></p>
-            <p><strong>그림작가:</strong> <span th:text="${vo2.illustrator}"></span></p>
-            <p><strong>플랫폼:</strong> <span th:text="${vo2.provider}"></span></p>
-            <p><strong>업데이트 요일:</strong> <span th:text="${vo2.formattedUpdateDay}"></span></p>
-            <p><strong>줄거리:</strong>
-                <span th:utext="${vo2.formattedDesc}" id="desc" class="short-text"></span>
-                <button id="toggleButton" onclick="toggleText()" class="btn btn-link">더 보기</button>
-            </p>
-            <p><strong>#</strong><a th:href="@{/wt_search(searchWord=${vo2.categories}, searchType='categories')}"
-                                    th:text="${vo2.categories}"></a></p>
 
-            <a th:href="${vo2.link}" class="btn btn-sm btn-outline-primary" role="button">보러가기</a>
+        <div class="add-to-library">
+            <button class="dropdown-button">내 서재에 추가</button>
+            <div class="dropdown-content">
+                <form action="/bookshelf/insertOK" method="post" id="addToLibraryForm">
+                    <input type="hidden" name="user_id"  th:value="${session.id}" />
+                    <input type="hidden" name="work_num" th:value="${vo2.item_id}"/>
+                    <label for="read"><input type="radio" name="sort" id="read" value="read"
+                                             onchange="this.form.submit()" class="positionabsolute"> 읽은 작품</label>
+                    <label for="to-read"><input type="radio" name="sort" id="to-read" value="to-read"
+                                                onchange="this.form.submit()" class="positionabsolute"> 읽고 싶은 작품</label>
+                    <label for="ing"><input type="radio" name="sort" id="ing" value="ing" onchange="this.form.submit()"
+                                            class="positionabsolute"> 읽고 있는 작품</label>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <div>
-        <!--         이부분에 리뷰 추가-->
-    </div>
 
-    <!-- 유사 카테고리 추가 -->
-    <div>
-        <h4 style="margin-top: 100px">이런 작품은 어떠세요?</h4>
-        <div class="row justify-content-center">
-            <div class="col-md-3 col-sm-6 mb-4" th:each="webtoon : ${similarWebtoons}" th:if="${vo2.title} != ${webtoon.title}" style="width: 300px; height: 300px;">
-                <div class="card" th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''" style="cursor:pointer;">
-                    <img th:src="${webtoon.img_name}" class="img-thumbnail" style="width: 200px; height: 200px;">
-                    <div class="card-body">
-                        <div class="rating" th:text="'★ ' + ${webtoon.rank}"></div>
-                        <div class="card-title" th:text="${webtoon.title}"></div>
+        <!-- 2. 감상/구매 버튼 -->
+        <a class="action-button" th:if="${vo2.link != null}" th:href="@{${vo2.link}}">감상 / 구매</a>
+        <a class="action-button" th:unless="${vo2.link != null}" th:href="@{'https://comic.naver.com/search?keyword=' + ${vo2.title}}"
+           th:if="${vo2.provider == '네이버웹툰'}">감상 / 구매</a>
+        <a class="action-button" th:unless="${vo2.link != null}" th:href="@{'https://webtoon.kakao.com/search?keyword=' + ${vo2.title}}"
+           th:if="${vo2.provider == '카카오웹툰'}">감상 / 구매</a>
+
+        <!-- 3. 토론 열기 -->
+        <a class="action-button" th:href="@{/forum/write(work_num=${vo2.item_id})}">토론 열기</a>
+
+        <!-- 4. 리뷰 작성 -->
+        <a class="action-button" th:href="@{/review/insert(work_num=${vo2.item_id}, categories=${vo2.categories})}">리뷰 작성</a>
+
+        <script th:inline="javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                const sessionId = [[${session.id}]];
+
+                function openLoginModal(event) {
+                    event.preventDefault();
+                    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    modal.show();
+                }
+
+                // 예시: sessionId를 사용하는 코드가 이 위치 이후에 있어야 오류가 발생하지 않음
+                function submitComment() {
+                    if (!sessionId) {
+                        openLoginModal(event); // 세션이 없으면 모달을 열도록 설정
+                    } else {
+                        // 댓글 제출 로직
+                    }
+                }
+
+                if (!sessionId) { // 세션 ID가 null인 경우
+                    // 서재 추가 버튼
+                    document.querySelector(".add-to-library").addEventListener("click", openLoginModal);
+
+                    // 토론 열기 버튼
+                    document.querySelector("a[href*='/forum/write']").addEventListener("click", openLoginModal);
+
+                    // 리뷰 작성 버튼
+                    document.querySelector("a[href*='/review/insert']").addEventListener("click", openLoginModal);
+                }
+            });
+        </script>
+
+
+
+        <!-- 리뷰 섹션 -->
+        <section id="reviews" class="position-relative padding-small">
+            <div class="container">
+                <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+                    <h3 class="d-flex align-items-center">리뷰</h3>
+                    <a th:href="@{/review/searchList(searchKey='workTitle', searchWord=${vo2.title})}" class="btn">더보기</a>
+                </div>
+                <div class="swiper detail-swiper">
+                    <div class="swiper-wrapper">
+                        <!-- 리뷰가 없을 경우 표시 -->
+                        <p th:if="${#lists.isEmpty(reviewList)}" class="empty-message">리뷰가 없어요!</p>
+
+                        <!-- 리뷰가 있을 경우 표시 -->
+                        <div class="swiper-slide" th:each="review : ${reviewList}"
+                             th:unless="${#lists.isEmpty(reviewList)}">
+                            <div class="card position-relative p-4 border rounded-3">
+                                <p><strong th:text="${review.user_id}">사용자 이름</strong></p>
+                                <p th:text="${review.content}">리뷰 내용</p>
+                                <p th:text="'★ ' + ${review.rating}">평점</p>
+                                <a th:href="@{/review/detail(num=${review.num})}">더보기</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div>
-        <!--        이 작품에 대한 리뷰 최근순으로 정렬-->
-    </div>
 
-    <a th:href="@{/wt_selectAll}" class="btn btn-primary mt-3">목록으로 돌아가기</a>
-</div>
+
+
+        <!-- 유사 카테고리 추가 -->
+        <section id="similar-webtoons" class="position-relative padding-small">
+            <div class="container">
+                <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+                    <h3 class="d-flex align-items-center">유사한 카테고리 작품</h3>
+                    <a th:href="@{/wt_search(categories=${vo2.categories}, searchType='categories')}"
+                       class="btn">더보기</a>
+                </div>
+                <div class="swiper product-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" th:each="webtoon : ${similarWebtoons}"
+                             th:if="${vo2.title} != ${webtoon.title}">
+                            <div class="card position-relative p-4 border rounded-3">
+                                <a th:onclick="'location.href=\'/wt_selectOne?item_id=' + ${webtoon.item_id} + '\''">
+                                    <img th:src="${webtoon.img_name}" class="img-fluid shadow-sm">
+                                    <h6 class="mt-4 mb-0 fw-bold" th:text="${webtoon.title}">제목</h6>
+                                    <div class="review-content d-flex">
+                                        <p class="my-2 me-2 fs-6 text-black-50" th:text="${webtoon.writer}">작가</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 토론 섹션 -->
+        <section id="forums" class="position-relative padding-small">
+            <div class="container">
+                <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+                    <h3 class="d-flex align-items-center">토론</h3>
+                    <a th:href="@{/forum/search(searchKey='workTitle', searchWord=${vo2.title})}" class="btn">더보기</a>
+                    <!-- 토론 검색 페이지로 이동 -->
+                </div>
+                <div class="swiper detail-swiper">
+                    <div class="swiper-wrapper">
+                        <!-- 토론 글이 없을 경우 표시 -->
+                        <p th:if="${#lists.isEmpty(forumList)}" class="empty-message">토론이 없어요!</p>
+
+                        <!-- 토론 글이 있을 경우 표시 -->
+                        <div class="swiper-slide" th:each="forum : ${forumList}"
+                             th:unless="${#lists.isEmpty(forumList)}">
+                            <div class="card position-relative p-4 border rounded-3">
+                                <p th:text="${forum.title}">토론 제목</p>
+                                <p th:text="'작성자: ' + ${forum.userName}">작성자</p>
+                                <p>댓글수: <span th:text="${forum.commentCnt}">댓글수</span></p>
+                                <a th:href="@{/forum/view(num=${forum.num})}">더보기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+</section>
 </body>
 </html>

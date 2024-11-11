@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>PageOn 리뷰 작성</title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/sub.css" rel="stylesheet">
     <link href="/review/styles.css" rel="stylesheet">
@@ -14,30 +14,30 @@
     <div class="position-relative padding-medium">
         <div class="container">
             <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-                <h3 class="d-flex align-items-center">리뷰 작성</h3>
-
-                <button th:class="write_box" onclick="location.href='/review/list'">목록</button>
+                <h3 class="d-flex align-items-center" th:text="'[ '+${work_title} +' ]의 리뷰 입력'"></h3>
                 </div>
             </div>
         <form action="/review/insertOK" method="POST" >
             <div class="md-2">
                 <div>
-                    <img src="">
-                    <input type="text" id="work_num" name="work_num" th:value="${param.work_num}">
-                    <button th:class="write_box" onclick="location.href='/work/selectAll'">작품선택</button>
+                    <input type="hidden" name="work_num" th:value="${work_num}">
+                    <input type="hidden" name="categories" th:value="${categories}">
+                    <input type="hidden" name="user_id" id="user_id" th:value="${session.id}">
                 </div>
                 <p>
                 <div>
-                    <label for="title"></label>
-                    <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력" value="-- 리뷰">
+                    <label for="content" th:class="label" >제목: </label>
+                    <input class="review-title_box" type="text" id="title" name="title" placeholder="제목 입력해주세요" >
                 </div>
                 </p>
-
                 <p>
                 <div>
-                    <label for="content"></label>
-                    <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.,,,500자 내" ></textarea>
+                    <label for="content" th:class="label" >내용: </label>
+                    <p>
+                        <textarea class="review-content_box" id="content" name="content" placeholder="리뷰 내용을 작성해주세요.. 500자 내."></textarea>
+                    </p>
                 </div>
+                </p>
                 </p>
                 <p>
                 <div class="stars">
@@ -46,22 +46,22 @@
                     <span class="star" data-value="3">★</span>
                     <span class="star" data-value="4">★</span>
                     <span class="star" data-value="5">★</span>
-                </div>
-                <p id="rating" >Rating: 0.0</p>
-                </p>
-                <p>
-                <div>
-                    <label for="user_id" th:size="30px">작성자</label>
-                    <input class="review-sub_box" type="text" id="user_id" name="user_id" value="admin10"> //로그인id
+                <input type="text" id="ratingInput" name="rating" value="0" readonly>
                 </div>
                 </p>
-                <p>
+                <p class="justify-content-p">
                     <button class="save-btn" type="submit">등록</button>
+                    <button class="save-btn" type="button" onclick="javascript:history.back()">취소</button>
                 </p>
             </div>
         </form>
     </div>
 <script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const paragraphText = document.getElementById('rating').innerText; // 또는 textContent
+        document.getElementById('rating-text').innerText = paragraphText; // 가져온 값을 출력
+    });
 
     const stars = document.querySelectorAll('.star');
     const ratingDisplay = document.getElementById('rating');
@@ -81,7 +81,7 @@
 
             // 마우스 위치에 따른 별 채우기 효과
             fillStars(hoverRating);
-            ratingDisplay.textContent = `Rating: ${hoverRating.toFixed(1)}`;
+            ratingDisplay.textContent = `${hoverRating.toFixed(1)}`;
         });
 
         star.addEventListener('click', (event) => {
@@ -96,13 +96,13 @@
 
             // 클릭한 점수를 적용
             fillStars(rating);
-            ratingDisplay.textContent = `Rating: ${rating.toFixed(1)}`;
+            ratingDisplay.textContent = `${rating.toFixed(1)}`;
         });
 
         // 마우스를 별에서 뗐을 때 원래 점수로 복원
         star.addEventListener('mouseleave', () => {
             fillStars(rating);
-            ratingDisplay.textContent = `Rating: ${rating.toFixed(1)}`;
+            ratingDisplay.textContent = `${rating.toFixed(1)}`;
         });
     });
 
@@ -117,6 +117,10 @@
                 star.classList.remove('active');
             }
         });
+
+        // 실시간으로 input 태그에 값 반영
+        document.getElementById('ratingInput').value = rating;
+
     }
 </script>
 </body>

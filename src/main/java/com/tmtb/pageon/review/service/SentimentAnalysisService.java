@@ -25,8 +25,8 @@ import java.util.Map;
 @Service
 public class SentimentAnalysisService {
 
-    private final String clientId = "";  // 네이버에서 발급받은 Client ID
-    private final String clientSecret = "";  // 네이버에서 발급받은 Client Secret
+    private final String clientId = "c2ye36iqy0";  // 네이버에서 발급받은 Client ID
+    private final String clientSecret = "9z2MNpmrlW4rnKMtnISMQYDuMnev4isdE5UGGGE6";  // 네이버에서 발급받은 Client Secret
     private final String apiUrl = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze";
 
     public String analyzeSentiment(String content) throws Exception {

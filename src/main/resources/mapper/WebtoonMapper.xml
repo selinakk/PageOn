@@ -3,6 +3,7 @@
 
 <mapper namespace="com.tmtb.pageon.webtoon.mapper.WebtoonMapper">
 
+<!--    전체웹툰 가나다 순서-->
     <select id="getWebtoonList" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
@@ -11,10 +12,26 @@
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
+
+    <select id="selectPopularWebtoons" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT w.*,
+               (SELECT COUNT(*) FROM pageon.bookshelf bs WHERE bs.work_num = w.item_id) AS added_bs
+        FROM pageon.work w WHERE w.type = 'webtoon'
+        ORDER BY added_bs DESC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
     <select id="getTotalCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM work
         WHERE type = 'webtoon'
+    </select>
+
+    <select id="getTotalCountByPopular" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM work
+        WHERE type = 'webtoon'
+        ORDER BY added_bs DESC
     </select>
 
     <select id="selectOne" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
@@ -27,16 +44,24 @@
     <select id="searchWebtoonByTitle" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
-        WHERE title LIKE CONCAT('%', #{searchWord}, '%')
-          AND type = 'webtoon'
+        WHERE title LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
+        AND type = 'webtoon'
+        <if test="categories != null and !categories.isEmpty()">
+            AND (
+            <foreach item="category" collection="categories" separator=" OR ">
+                categories LIKE CONCAT('%', #{category}, '%') COLLATE utf8mb4_unicode_ci
+            </foreach>
+            )
+        </if>
         ORDER BY item_id DESC
-            LIMIT #{pageSize} OFFSET #{offset}
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <select id="searchWebtoonWriter" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+
+    <select id="searchWebtoonByWriter" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
-        WHERE writer LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE writer LIKE CONCAT('%', #{searchWord}, '%') COLLATE utf8mb4_unicode_ci
           AND type = 'webtoon'
         ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
@@ -45,57 +70,96 @@
     <select id="searchWebtoonByCategories" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT *
         FROM work
-        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
           AND type = 'webtoon'
         ORDER BY item_id DESC
             LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="searchMultiCategories" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE type = 'webtoon'
+        AND (
+        <foreach item="category" collection="categories" separator=" OR ">
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
+        </foreach>
+        )
+        ORDER BY item_id DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="searchLikeCategories" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
+        SELECT *
+        FROM work
+        WHERE type = 'webtoon'
+        AND (
+        <foreach item="category" collection="likeCategories" separator=" OR ">
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
+        </foreach>
+        )
+        ORDER BY item_id DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="getTotalCountByLikeCategories" resultType="int">
+        SELECT COUNT(*)
+        FROM work
+        WHERE type = 'webtoon'
+        AND (
+        <foreach item="category" collection="likeCategories" separator=" OR ">
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
+        </foreach>
+        )
+    </select>
+
+    <select id="getTotalCountByMultiCategories" resultType="int">
+        SELECT COUNT(*)
+        FROM work
+        WHERE type = 'webtoon'
+        AND (
+        <foreach item="category" collection="categories" separator=" OR ">
+            categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
+        </foreach>
+        )
     </select>
 
 
     <select id="getTotalCountByTitle" resultType="int">
         SELECT COUNT(*)
         FROM work
-        WHERE title LIKE CONCAT('%', #{searchWord}, '%')
-          AND type = 'webtoon'
+        WHERE title LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
+        AND type = 'webtoon'
+        <if test="categories != null and !categories.isEmpty()">
+            AND (
+            <foreach item="category" collection="categories" separator=" OR ">
+                categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
+            </foreach>
+            )
+        </if>
     </select>
 
-    <select id="getTotalCountByContent" resultType="int">
+    <select id="getTotalCountByWriter" resultType="int">
         SELECT COUNT(*)
         FROM work
-        WHERE content LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE writer LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
           AND type = 'webtoon'
+        <if test="categories != null and !categories.isEmpty()">
+            AND (
+            <foreach item="category" collection="categories" separator=" OR ">
+                categories LIKE CONCAT('%', #{category}, '%')  COLLATE utf8mb4_unicode_ci
+            </foreach>
+            )
+        </if>
     </select>
 
     <select id="getTotalCountByCategories" resultType="int">
         SELECT COUNT(*)
         FROM work
-        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')
+        WHERE categories LIKE CONCAT('%', #{searchWord}, '%')  COLLATE utf8mb4_unicode_ci
         AND type = 'webtoon'
     </select>
 
-
-    <!--    필터링 관련-->
-    <select id="filterByCategories" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
-        SELECT *
-        FROM work
-        WHERE categories IN
-        <foreach item="category" collection="categories" open="(" separator="," close=")">
-            #{category}
-        </foreach>
-        AND type = 'webtoon'
-        ORDER BY item_id DESC
-        LIMIT #{pageSize} OFFSET #{offset}
-    </select>
-
-    <select id="getTotalCountByFilteredCategories" resultType="int">
-        SELECT COUNT(*)
-        FROM work
-        WHERE categories IN
-        <foreach item="category" collection="categories" open="(" separator="," close=")">
-            #{category}
-        </foreach>
-        AND type = 'webtoon'
-    </select>
 
 <!--    api - db 저장-->
     <insert id="saveWebtoon" parameterType="com.tmtb.pageon.webtoon.model.WebtoonVO">
@@ -139,7 +203,37 @@
           AND type = 'webtoon'
     </update>
 
+    <!--   사용자 리뷰 작성 추천- 웹툰 -->
+    <select id="getWebtoonRecommendationBycategory" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO" >
+        SELECT DISTINCT w.item_id, w.title, w.img_name, w.type, w.writer, r.categories
+        FROM work w
+                 JOIN review r ON r.categories = w.categories
+                 JOIN member m ON m.id = r.user_id
+        WHERE m.id = #{id}
+          AND w.item_id != r.work_num
+        AND w.type = 'webtoon'
+        ORDER BY item_id DESC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
 
+    <select id="webtoonGetRecommandationTotalCount" resultType="int">
+        SELECT COUNT(DISTINCT w.item_id)
+        FROM work w
+                 JOIN review r ON r.categories = w.categories
+                 JOIN member m ON m.id = r.user_id
+        WHERE m.id = #{id}
+          AND w.item_id != r.work_num
+        AND w.type = 'webtoon'
+    </select>
+
+
+
+<!--임시추가-->
+    <update id="incrementAddedBs">
+        UPDATE Webtoon
+        SET added_bs = added_bs + 1
+        WHERE item_id = #{workNum}
+    </update>
 
 
 </mapper>

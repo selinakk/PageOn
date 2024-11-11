@@ -1,40 +1,50 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Update User Information</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>PageOn 유저 정보 수정</title>
 </head>
 <body>
-<div class="container my-4">
-    <h2>회원 정보 수정</h2>
-    <form action="#" th:action="@{/user/update}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="id" th:value="${userVO.id}"/>
-        <div class="form-group">
-            <label for="editName">이름</label>
-            <input type="text" class="form-control" id="editName" name="name" th:value="${userVO.name}" required>
-        </div>
-        <div class="form-group">
-            <label for="editPassword">비밀번호</label>
-            <input type="password" class="form-control" id="editPassword" name="pw" th:value="${userVO.pw}" required>
-        </div>
-        <div class="form-group">
-            <label for="editTel">전화번호</label>
-            <input type="tel" class="form-control" id="editTel" name="tel" th:value="${userVO.tel}" required>
-        </div>
-        <div class="form-group">
-            <label for="editIntroduce">자기소개</label>
-            <textarea class="form-control" id="editIntroduce" name="introduce" th:text="${userVO.introduce}" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="imgFile">이미지 파일 업로드 (새 이미지를 업로드하지 않으면 기존 이미지가 유지됩니다.)</label>
-            <input type="file" class="form-control-file" id="imgFile" name="imgFile">
-            <div th:if="${userVO.img_name != null}">
+<main th:fragment="update-info">
+    <div class="container padding-medium">
+        <h3 class="mb-4" th:text="${userVO.id == null ? '회원 등록' : '회원 수정'}"></h3>
+        <form th:action="${userVO.id == null ? '/user' : '/user/update'}" method="post" class="row g-3" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:value="${userVO.id}"/>
+
+            <div class="col-12">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" id="name" name="name" th:value="${userVO.name}" class="form-control" required/>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">s</button>
-    </form>
-</div>
+
+            <div class="col-12">
+                <label for="tel" class="form-label">전화번호</label>
+                <input type="tel" id="tel" name="tel" th:value="${userVO.tel}" class="form-control" required/>
+                <small >형식: 010-1234-5678</small>
+            </div>
+
+            <div class="col-12">
+                <label for="introduce" class="form-label">소개</label>
+                <textarea id="introduce" name="introduce" th:text="${userVO.introduce}" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <div class="col-12">
+                <label for="img_name" class="form-label">이미지 이름</label>
+                <input type="text" id="img_name" name="img_name" th:value="${userVO.img_name}" class="form-control"/>
+            </div>
+
+            <div class="col-12">
+                <label for="imgFile" class="form-label">이미지 파일 업로드 (새 이미지를 업로드하지 않으면 기존 이미지가 유지됩니다.)</label>
+                <input type="file" class="form-control-file" id="imgFile" name="imgFile">
+                <div th:if="${userVO.img_name != null}">
+                    <small>현재 이미지: <span th:text="${userVO.img_name}"></span></small>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 py-3">
+                <a href="/user/profile" class="btn btn-dark">돌아가기</a>
+                <button type="submit" class="btn btn-primary">제출</button>
+            </div>
+        </form>
+    </div>
+</main>
 </body>
 </html>

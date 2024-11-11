@@ -1,10 +1,25 @@
 /***** custom sub style 시작 *****/
 /** 작성자: 김시윤 */
-
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
 /* Global */
+body {
+    font-family: "Nanum Gothic",-apple-system,system-ui,sans-serif;
+    letter-spacing: -0.01em;
+}
+b, strong {font-weight: 700;}
+input::placeholder, input::-webkit-input-placeholder, textarea::placeholder ,textarea::-webkit-input-placeholder {color:#7e7e7e !important;}
 i.svg-icon{width:0.9rem;}
 i.svg-icon--lg{width:1.25rem;}
 input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,input:-ms-input-placeholder{opacity:.5 !important;}
+.container{width:96%;}
+.search-item .search-button > svg {margin-top: -3px;}
+.table-wrapper {overflow-x: auto;}
+.table-wrapper table {min-width: 770px;}
+.login-container{
+    width: 90%;
+    max-width: 40rem;
+    margin: 0 auto;
+}
 .modal-md .modal-dialog{max-width: 500px;}
 .paging.d-flex > a {padding:.5rem;}
 .paging.d-flex > a.active {
@@ -12,11 +27,8 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     font-weight: 500;
 }
 .align-super {vertical-align:super !important}
-.logo {
-    width: 100px;
-}
+.logo {width: 80px;}
 /* Global 끝 */
-
 /* 토론 */
 .search-list--custom{
     max-width: 340px;
@@ -47,6 +59,8 @@ input::placeholder,input::-webkit-input-placeholder,input::-moz-placeholder,inpu
     -webkit-appearance: none;
     text-indent: -9999px;
 }
+#best-work .swiper-slide .card:hover .card-concern,
+#work-index .swiper-slide .card:hover .card-concern,
 .book-item:hover .card-concern,
 .webnovel-item:hover .card-concern,
 .content-item:hover .card-concern{bottom:160px;opacity:1;z-index: 2}
@@ -77,6 +91,7 @@ a.text-danger .svg-icon {
 }
 .forum__textarea {
     min-height: 20rem;
+    background: none;
 }
 /* 토론 끝 */
 /*서재 시작*/
@@ -85,20 +100,46 @@ a.text-danger .svg-icon {
     padding: .5rem 0;
     border-bottom: 2px solid transparent;
 }
-.custom-category li > a.active {
+.custom-category li > a.active,
+.custom-category li > a:hover {
     border-bottom: 2px solid var(--primary-color);
     font-weight: 500;
 }
 /*서재 끝*/
+/* 게시판 241109 김시윤 수정 */
+#notice-page .sort-wrapper select,
+.board-container .sort-wrapper select {
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    outline: 0;
+}
+#notice-page .sort-wrapper::after,
+.board-container .sort-wrapper::after {
+    display: inline-block;
+    margin-left: -.65em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left:.3em solid transparent
+}
+.board-container .sort-wrapper::after{
+    margin-left: .25em;
+}
+.board-container .search-list--custom {max-width: 350px;}
+.board-container .search-list--custom select.form-select {min-width: 4rem;}
 
+/* 공지사항 끝 */
 /* 댓글 */
 #comment {
-    max-width: 1200px; /* 최대 폭을 설정합니다 */
-    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
-    padding: 20px; /* 내부 여백을 추가합니다 */
-    border: 1px solid #ccc; /* 테두리를 추가합니다 (선택 사항) */
-    border-radius: 8px; /* 모서리를 둥글게 설정합니다 (선택 사항) */
-    background-color: #f9f9f9; /* 배경색을 추가합니다 (선택 사항) */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
 #comment .comment {
@@ -113,362 +154,436 @@ a.text-danger .svg-icon {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    margin-left: 40px; /* 들여쓰기 추가 */
-    background-color: #f9f9f9; /* 배경색을 약간 변경해서 시각적 구분 */
+    margin-left: 40px;
+    background-color: #f9f9f9;
 }
 
-#comment .replyForm {
+#comment .replyForm,
+#comment .editForm {
     margin-top: 10px;
-    padding: 10px; /* 내부 여백 추가 */
-    border: 1px solid #ccc; /* 테두리 추가 */
-    border-radius: 5px; /* 모서리를 둥글게 설정 */
-    background-color: #f1f1f1; /* 배경색 설정 */
-    max-width: 100%; /* 부모 요소의 폭에 맞춤 */
-    width: 100%; /* 전체 폭을 사용 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    width: 100%;
 }
 
 #comment .editForm {
-    margin-top: 10px;
     display: none; /* 기본적으로 숨김 */
-    padding: 10px; /* 내부 여백 추가 */
-    border: 1px solid #ccc; /* 테두리 추가 */
-    border-radius: 5px; /* 모서리를 둥글게 설정 */
-    background-color: #f1f1f1; /* 배경색 설정 */
-    max-width: 800px; /* 최대 폭을 댓글 작성과 동일하게 설정 */
-    width: 100%; /* 전체 폭을 사용 */
 }
 
-/* 댓글 텍스트 영역 스타일 */
+/* 댓글 텍스트 영역 */
 #comment #commentText {
-    width: calc(100% - 100px); /* 버튼 폭을 제외한 폭 설정 */
-    margin-top: 10px; /* 텍스트 영역 간격 설정 */
-    padding: 8px; /* 텍스트 영역 내부 여백 */
-    border: 1px solid #ccc; /* 텍스트 영역 경계선 */
-    border-radius: 4px; /* 텍스트 영역 둥근 모서리 */
-    resize: none; /* 텍스트 영역 크기 조절 비활성화 */
+    width: calc(100% - 100px);
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
 }
 
-/* 댓글 작성 버튼 스타일 */
-#comment #submitCommentButton {
-    margin-top: 10px; /* 버튼과 텍스트 간격 설정 */
-    padding: 10px 15px; /* 버튼 내부 여백 */
-    border: none; /* 버튼 경계선 제거 */
-    border-radius: 5px; /* 버튼 둥근 모서리 */
-    background-color: #007bff; /* 버튼 배경색 */
-    color: white; /* 버튼 글자색 */
-    cursor: pointer; /* 마우스 포인터 변경 */
-    display: block; /* 버튼을 블록 요소로 변경하여 전체 폭 사용 */
-    width: 100%; /* 버튼 폭을 100%로 설정 */
-    box-sizing: border-box; /* 패딩과 테두리를 포함한 폭 계산 */
+/* 버튼 스타일 */
+#comment #submitCommentButton,
+#comment .replySubmitButton,
+#comment .replyButton,
+#comment .editButton,
+#comment .deleteButton,
+#comment .reportButton {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
 }
 
-#comment #submitCommentButton:hover {
-    background-color: #0056b3; /* 버튼 hover 색상 */
-}
-
-/* 대댓글 버튼 스타일 */
-#comment .replyButton, .editButton, .deleteButton, .reportButton {
-    margin-top: 5px; /* 버튼 간격 설정 */
-    padding: 8px 12px; /* 버튼 내부 여백 */
-    border: none; /* 버튼 경계선 제거 */
-    border-radius: 5px; /* 버튼 둥글게 */
-    background-color: #28a745; /* 기본 버튼 색상 */
-    color: white; /* 버튼 글자색 */
-    cursor: pointer; /* 마우스 포인터 변경 */
-}
-
-#comment .replyButton:hover, .editButton:hover, .deleteButton:hover, .reportButton:hover {
-    background-color: #218838; /* hover 색상 */
-}
-
-/* 대댓글 입력 버튼 스타일 */
+#comment #submitCommentButton,
 #comment .replySubmitButton {
-    margin-top: 5px; /* 버튼과 텍스트 간격 설정 */
-    padding: 8px 12px; /* 버튼 내부 여백 */
-    border: none; /* 버튼 경계선 제거 */
-    border-radius: 5px; /* 버튼 둥글게 */
-    background-color: #007bff; /* 버튼 배경색 */
-    color: white; /* 버튼 글자색 */
-    cursor: pointer; /* 마우스 포인터 변경 */
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-#comment .replySubmitButton:hover {
-    background-color: #0056b3; /* 버튼 hover 색상 */
-}
-
+/* 댓글 내 액션 버튼 정렬 */
 #comment .comment-actions {
     display: flex;
-    flex-direction: row;
     justify-content: flex-end;
-    gap: 10px; /* 버튼 간격 */
+    gap: 10px;
 }
 
-#comment #paging {
+/* 페이징 스타일 */
+#comment #paging,
+#comment .page-link {
     display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin: 20px 0; /* 상하 여백 */
+    justify-content: center;
+    margin: 0 10px;
+    flex-direction: row;
 }
 
 #comment #paging ul {
-    list-style: none; /* 기본 리스트 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-    margin: 0; /* 기본 마진 제거 */
-    display: flex; /* 가로 방향으로 나열 */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
 }
 
 #comment #paging li {
-    margin: 0 5px; /* 각 페이지 간의 간격 */
-}
-
-#comment #paging a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: #007bff; /* 링크 색상 */
-    font-size: 16px; /* 글자 크기 */
-}
-
-#comment #paging a:hover {
-    text-decoration: underline; /* 호버 시 밑줄 추가 */
-}
-
-#comment #paging .active {
-    font-weight: bold; /* 현재 페이지 강조 */
-    color: #333; /* 강조 색상 */
-}
-
-#comment .page-link {
-    cursor: pointer; /* 포인터 커서로 변경 */
-    color: #007bff; /* 링크 색상 */
-    margin: 0 5px; /* 각 페이지 간의 간격 */
-    font-size: 16px; /* 글자 크기 */
-    text-decoration: none; /* 밑줄 제거 */
-    display: inline-block; /* 수평 정렬을 위해 inline-block 사용 */
-}
-
-#comment .page-link:hover {
-    text-decoration: underline; /* 호버 시 밑줄 추가 */
-}
-
-#comment .page-link.active {
-    font-weight: bold; /* 현재 페이지 강조 */
-    color: #333; /* 강조 색상 */
-    cursor: default; /* 기본 커서로 변경 */
-}
-
-#comment .comment-icon {
-    cursor: pointer; /* 포인터 커서로 변경 */
-    width: 30px; /* 이미지 너비 */
-    height: 30px; /* 이미지 높이 */
-    margin-right: 20px; /* 오른쪽 여백 */
-}
-
-/* 이미지 호버 효과 (원하는 경우 추가) */
-#comment .comment-icon:hover {
-    opacity: 0.8; /* 호버 시 투명도 변경 */
-    transition: opacity 0.3s; /* 부드러운 전환 효과 */
-}
-
-/* 댓글 끝 */
-
-/* 도서 */
-#book-list {
-    max-width: 1600px; /* 최대 폭을 설정합니다 */
-    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
-    padding: 20px; /* 내부 여백을 추가합니다 */
-}
-
-#book-list div {
-    text-align: center;
-    margin-bottom: 20px; /* 검색과 카테고리 간 간격 추가 */
-}
-
-/* 검색 폼과 정렬 옵션을 동일한 라인에 배치하고, 정렬 옵션을 오른쪽 끝으로 이동 */
-#book-list #filter-container {
+    margin: 0 10px;
     display: flex;
-    justify-content: space-between; /* 검색 폼과 정렬 옵션을 양 끝에 배치 */
-    align-items: center; /* 검색 폼과 정렬 옵션의 수직 정렬을 맞춤 */
-    margin-bottom: 20px; /* 아래 여백 */
+    flex-direction: row;
 }
 
-/* 정렬 옵션 스타일 */
-#book-list #sort-options {
-    margin-left: auto; /* 우측 끝으로 이동 */
-}
-
-#book-list .selected-sort {
-    font-weight: bold;
-    color: #007bff; /* 강조된 색상 */
-}
-
-#book-list .sort-option {
-    color: #333;
-    margin-left: 10px; /* 각 정렬 옵션 간의 간격 */
+#comment #paging a,
+#comment .page-link {
     text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#book-list .sort-option:hover {
-    color: #0056b3;
-    text-decoration: underline;
+/* 댓글 페이징 스타일 */
+#comment #paging .active a,
+#comment #paging .page-link.active {
+    font-weight: bold;
+    color: var(--primary-color);
+    cursor: default;
 }
 
-/* 기존 검색 폼 스타일 */
-#book-list .book-search {
+/* 아이콘 버튼 스타일 */
+#comment .comment-icon {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
+
+#comment .comment-icon:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+/* 댓글 스타일 끝 */
+
+/* 도서와 웹소설 공통 스타일 */
+/* 작품 목록 */
+/* 기본 레이아웃 설정 */
+/*#book-list, #webnovel-list {*/
+/*    max-width: 1600px;*/
+/*    margin: 0 auto;*/
+/*    padding: 20px;*/
+/*}*/
+
+#book-list div, #webnovel-list div {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-#book-list .book-search select,
-#book-list .book-search input[type="text"] {
-    height: 40px; /* 동일한 높이 설정 */
-    vertical-align: middle; /* 동일 높이로 정렬 */
-    padding: 0 10px; /* 텍스트와 필드 경계 간의 여백 설정 */
-    line-height: 40px; /* 높이에 맞춰 텍스트의 세로 정렬을 맞춤 */
-    box-sizing: border-box; /* 패딩과 경계도 높이에 포함 */
+/* 필터와 정렬 옵션의 기본 스타일 */
+#book-list #filter-container, #webnovel-list #filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-#book-list .book-search input[type="image"] {
-    width: 40px; /* 텍스트 필드와 동일한 크기 */
-    height: 40px; /* 텍스트 필드와 동일한 크기 */
-    object-fit: contain; /* 비율을 유지하면서 이미지가 안에 맞춰짐 */
-    margin-left: 5px; /* 이미지와 텍스트 필드 사이 여백 */
-    vertical-align: middle; /* 세로로 중앙에 배치 */
+#book-list #sort-options, #webnovel-list #sort-options {
+    margin-left: auto;
 }
 
-#book-list .search-icon {
-    width: 30px;
-    height: 30px;
-    vertical-align: middle; /* 아이콘을 검색창과 같은 높이로 정렬 */
-    margin-left: 5px; /* 검색창과 아이콘 사이에 약간의 여백 추가 */
+#book-list .selected-sort, #webnovel-list .selected-sort,
+#book-list .sort-option, #webnovel-list .sort-option {
+    font-size: 1rem;
+    text-decoration: none;
 }
 
-/* 선택 필터 스타일 */
-#book-list #filter-options {
-    text-align: center;  /* 필터 옵션 중앙 정렬 */
-    margin-bottom: 20px; /* 그리드와의 간격 */
+#book-list .selected-sort, #webnovel-list .selected-sort {
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
-#book-list .filter-option,
-#book-list .category { /* 필터 옵션과 카테고리의 기본 스타일 */
+/* 검색 스타일 */
+#book-list .book-search, #webnovel-list .webnovel-search {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    max-width: 340px;
+}
+
+/* 드롭다운 스타일 */
+#book-list .book-search select, #webnovel-list .webnovel-search select {
+    min-width: 6rem;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1rem;
+    margin-right: -1px;
+    line-height: 40px;
+    border-radius: 0;
+    background-position: right 0.25em center;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+/* 텍스트 입력 스타일 */
+#book-list .book-search input[type="text"], #webnovel-list .webnovel-search input[type="text"] {
+    flex: 1;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1rem;
+    line-height: 40px;
+    border-radius: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+
+/* 필터 스타일 */
+#book-list #filter-options, #webnovel-list #filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#book-list .filter-option, #webnovel-list .filter-option,
+#book-list .category, #webnovel-list .category {
     color: black;
     text-decoration: none;
-    margin-right: 10px;
     font-weight: normal;
+    font-size: 1rem;
 }
 
-/* 선택된 필터 옵션과 카테고리 스타일 */
-#book-list .selected-option,
-#book-list .selected-category {
-    color: red;
+#book-list .selected-option, #webnovel-list .selected-option,
+#book-list .selected-category, #webnovel-list .selected-category {
+    color: var(--primary-color);
     font-weight: bold;
 }
 
-/* 카테고리 영역의 기본 스타일 */
-#book-list .category {
-    color: black;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-/* 선택된 카테고리 색상 */
-#book-list .selected-category {
-    color: red;
-    font-weight: bold;
-}
-
-#book-list .book-item {
+/* 아이템 스타일 */
+#book-list .book-item, #webnovel-list .webnovel-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 5px; /* 패딩을 줄여서 아이템 내부 여백을 줄임 */
-    width: 180px;  /* book-item의 너비를 유지 */
+    padding: 10px;
     transition: transform 0.2s;
 }
 
-#book-list .book-grid {
+/* 아이템 그리드 레이아웃 반응형 */
+#book-list .book-grid, #webnovel-list .webnovel-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns 유지 */
-    gap: 10px; /* 간격을 좁게 조정 */
-    padding: 10px; /* 전체 그리드의 여백을 줄임 */
-    margin-bottom: 30px;
-    place-items: center; /* 그리드 셀 내부 아이템 중앙 정렬 */
+    gap: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+    place-items: center;
 }
 
-#book-list .book-item:hover {
-    transform: scale(1.05);
+/* 반응형 레이아웃 */
+@media (min-width: 1200px) {
+    /* 4열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
-/* 이미지 기본 사이즈 고정 */
-#book-list .book-img {
-    width: 150px;  /* 고정된 너비 */
-    height: 200px; /* 고정된 높이 */
+@media (min-width: 768px) and (max-width: 1199px) {
+    /* 3열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* 글자 크기와 검색 바 크기 조정 */
+    #book-list .sort-option, #webnovel-list .sort-option,
+    #book-list .filter-option, #webnovel-list .filter-option,
+    #book-list .category, #webnovel-list .category,
+    #book-list .selected-category, #webnovel-list .selected-category {
+        font-size: 0.9rem;
+    }
+
+    #book-list .book-search, #webnovel-list .webnovel-search {
+        max-width: 100%;
+    }
+
+    /* 필터 옵션과 정렬 옵션을 세로로 쌓기 */
+    #book-list #filter-container, #webnovel-list #filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 767px) {
+    .custom-category.fs-5 li{font-size: 1rem;}
+    .table-wrapper table {margin-top: 0 !important;}
+    .table-wrapper * {font-size: 1rem;}
+    .table-wrapper table thead tr th {padding: .5rem .25rem;}
+    .table-wrapper table tbody tr td {padding: 2px;}
+    /* 2열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* 글자 크기 줄이기 */
+    #book-list .sort-option, #webnovel-list .sort-option,
+    #book-list .filter-option, #webnovel-list .filter-option,
+    #book-list .category, #webnovel-list .category,
+    #book-list .selected-category, #webnovel-list .selected-category {
+        font-size: 0.8rem;
+    }
+
+    #book-list .book-search, #webnovel-list .webnovel-search {
+        max-width: 100%;
+        font-size: 0.9rem;
+    }
+
+    /* 필터 및 정렬 옵션을 한 줄로 정렬 */
+    #book-list #filter-container, #webnovel-list #filter-container {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    #book-list #filter-options, #webnovel-list #filter-options {
+        justify-content: center;
+    }
+}
+
+/* 반응형 그리드 */
+@media (min-width: 1200px) {
+    /* 4열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    /* 3열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    /* 2열 */
+    #book-list .book-grid, #webnovel-list .webnovel-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .search-list--custom .form-control {min-width: 12rem}
+}
+
+/* 이미지 크기 */
+#book-list .book-img, #webnovel-list .webnovel-img {
     object-fit: cover;
     margin-bottom: 10px;
 }
 
-#book-list .book-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
+/* 반응형 이미지 크기 */
+@media (min-width: 1200px) {
+    #book-list .book-img, #webnovel-list .webnovel-img {
+        width: 220px;
+        height: 300px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    #book-list .book-img, #webnovel-list .webnovel-img {
+        width: 170px;
+        height: 230px;
+    }
+}
+
+@media (max-width: 767px) {
+    #book-list .book-img, #webnovel-list .webnovel-img {
+        width: 120px;
+        height: 160px;
+    }
+}
+
+/* 제목 스타일 */
+#book-list .book-title, #webnovel-list .webnovel-title {
     text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
-/* 페이징을 중앙에 배치 */
-#book-list .pagination {
+/* 제목 크기 조정 */
+@media (min-width: 1200px) {
+    #book-list .book-title, #webnovel-list .webnovel-title {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    #book-list .book-title, #webnovel-list .webnovel-title {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 767px) {
+    #book-list .book-title, #webnovel-list .webnovel-title {
+        font-size: 14px;
+    }
+}
+
+/* 페이징 */
+#book-list .pagination, #webnovel-list .pagination {
     display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin-top: 20px; /* 그리드와의 간격 */
+    justify-content: center;
+    margin-top: 20px;
 }
 
-#book-list .pagination a {
-    margin: 0 5px;
+#book-list .pagination a, #webnovel-list .pagination a {
+    margin: 0 10px;
     text-decoration: none;
-    color: #007bff;
 }
 
-#book-list .pagination a:hover {
-    text-decoration: underline;
+/* 현재 페이지 빨간색 강조 */
+#book-list .pagination a.active, #webnovel-list .pagination a.active {
+    color: var(--primary-color) !important;
 }
 
-/* book-detail 섹션 전체 */
-#book-detail .book-detail-container {
+/* 작품 상세보기 */
+/* 작품 상세보기 컨테이너 */
+#book-detail .book-detail-container, #webnovel-detail .webnovel-detail-container {
     max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 책 정보 섹션 */
-#book-detail .book-info {
+/* 정보 섹션 */
+#book-detail .book-info, #webnovel-detail .webnovel-info {
     display: flex;
     align-items: flex-start;
     margin-bottom: 20px;
+    flex-wrap: nowrap; /* 텍스트가 이미지 옆에 고정되도록 설정 */
 }
 
-#book-detail .book-cover {
+#book-detail .book-cover, #webnovel-detail .webnovel-cover {
     width: 150px;
     height: 200px;
     object-fit: cover;
     margin-right: 20px;
 }
 
-#book-detail #desc.short {
+#book-detail #desc.short, #webnovel-detail #desc.short {
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* 표시할 줄 수 */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* 내 서재에 추가 버튼 및 드롭다운 */
-#book-detail .add-to-library {
+/* 추가 버튼과 드롭다운 */
+#book-detail .add-to-library, #webnovel-detail .add-to-library {
     position: relative;
     display: inline-block;
     margin-bottom: 20px;
 }
 
-#book-detail .dropdown-button {
-    background-color: #007bff;
+#book-detail .dropdown-button, #webnovel-detail .dropdown-button {
+    background-color: var(--primary-color);
     color: white;
     padding: 10px 20px;
     border: none;
@@ -476,43 +591,52 @@ a.text-danger .svg-icon {
     cursor: pointer;
 }
 
-#book-detail .dropdown-button:hover {
-    background-color: #0056b3;
+#book-detail .dropdown-button:hover, #webnovel-detail .dropdown-button:hover {
+    background-color: var(--primary-color);
 }
 
-#book-detail .dropdown-content {
+#book-detail .dropdown-content, #webnovel-detail .dropdown-content {
     display: none;
     position: absolute;
-    background-color: white;
+    top: 100%;
+    left: 0;
+    background-color: black;
     min-width: 160px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    z-index: 1;
+    z-index: 2;
+    padding: 0;
+    list-style: none; /* 불필요한 불릿 제거 */
 }
 
-#book-detail .dropdown-content a,
-#book-detail .dropdown-content label{
-    color: black;
+#book-detail .dropdown-content a, #webnovel-detail .dropdown-content a,
+#book-detail .dropdown-content label, #webnovel-detail .dropdown-content label {
+    color: white;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-}
-#book-detail .dropdown-content label input{
-    appearance: none;
-    text-indent: -9999px;
-}
-#book-detail .dropdown-content a:hover,
-#book-detail .dropdown-content label:hover{
-    background-color: #f1f1f1;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-#book-detail .add-to-library:hover .dropdown-content {
+#book-detail .dropdown-content label input, #webnovel-detail .dropdown-content label input {
+    appearance: none;
+    text-indent: -9999px; /* 라벨의 점을 숨기기 */
+}
+
+#book-detail .dropdown-content a:hover, #webnovel-detail .dropdown-content a:hover,
+#book-detail .dropdown-content label:hover, #webnovel-detail .dropdown-content label:hover {
+    background-color: var(--primary-color);
+}
+
+/* 드롭다운 활성화 */
+#book-detail .add-to-library:hover .dropdown-content,
+#webnovel-detail .add-to-library:hover .dropdown-content {
     display: block;
 }
 
-/* 감상/구매, 토론 열기, 리뷰 작성 버튼 */
-#book-detail .action-button {
-    background-color: #28a745;
+/* action 버튼 스타일 */
+#book-detail .action-button, #webnovel-detail .action-button {
+    background-color: var(--primary-color);
     color: white;
     padding: 10px 20px;
     margin-right: 10px;
@@ -520,197 +644,163 @@ a.text-danger .svg-icon {
     border-radius: 4px;
     cursor: pointer;
     display: inline-block;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-#book-detail .action-button:hover {
-    background-color: #218838;
+#book-detail .action-button:hover, #webnovel-detail .action-button:hover {
+    background-color: black;
 }
 
-/* 리뷰 섹션 스타일 */
-#book-detail .review-header {
+/* 리뷰 섹션 */
+#book-detail .review-header, #webnovel-detail .review-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px;
 }
 
-#book-detail .review-header h3 {
+#book-detail .review-header h3, #webnovel-detail .review-header h3 {
     margin: 0;
 }
 
-#book-detail .review-header .more-button {
-    margin-left: 20px; /* 제목과 버튼 간의 여백 */
-}
-
-#book-detail .review-header .action-button {
-    background-color: #007bff;
+#book-detail .review-header .action-button, #webnovel-detail .review-header .action-button {
     color: white;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 4px;
 }
 
-#book-detail .review-header .action-button:hover {
-    background-color: #0056b3;
-}
-
-/* 리뷰 리스트 */
-#book-detail .review-list {
+#book-detail .review-list, #webnovel-detail .review-list {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* 각 리뷰 간의 간격 */
-    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-#book-detail .review-list .review-item {
+#book-detail .review-list .review-item, #webnovel-detail .review-list .review-item {
     text-align: center;
-    width: 150px; /* 각 리뷰 항목의 너비 */
+    width: 150px;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 4px;
 }
 
-#book-detail .review-list .review-item strong {
+#book-detail .review-list .review-item strong, #webnovel-detail .review-list .review-item strong {
     font-weight: bold;
     font-size: 16px;
     margin-bottom: 8px;
     display: block;
 }
 
-#book-detail .review-list .review-item p {
+#book-detail .review-list .review-item p, #webnovel-detail .review-list .review-item p {
     font-size: 14px;
     margin-bottom: 5px;
 }
 
-#book-detail .review-list .review-item .rating {
-    color: #f39c12; /* 평점에 색상을 부여 */
+#book-detail .review-list .review-item .rating, #webnovel-detail .review-list .review-item .rating {
+    color: #f39c12;
     font-weight: bold;
 }
 
-/* 유사한 작품 섹션 */
-#book-detail .similar-books-header {
+/* 유사 작품 섹션 */
+#book-detail .similar-books-header, #webnovel-detail .similar-webnovels-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px;
 }
 
-/* 제목과 더보기 버튼 */
-#book-detail .similar-books-header h3 {
+#book-detail .similar-books-header h3, #webnovel-detail .similar-webnovels-header h3 {
     margin: 0;
 }
 
-#book-detail .similar-books-header .more-button {
-    margin-left: 20px; /* 제목과 버튼 간의 여백 */
-}
-
-#book-detail .similar-books-header .action-button {
-    background-color: #007bff;
+#book-detail .similar-books-header .action-button, #webnovel-detail .similar-webnovels-header .action-button {
     color: white;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 4px;
 }
 
-#book-detail .similar-books-header .action-button:hover {
-    background-color: #0056b3;
-}
-
-/* 유사한 작품 리스트 */
-#book-detail .similar-books {
+#book-detail .similar-books, #webnovel-detail .similar-webnovels {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* 각 책 항목 사이의 간격 */
-    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-#book-detail .similar-books .book-item {
+#book-detail .similar-books .book-item, #webnovel-detail .similar-webnovels .webnovel-item {
     text-align: center;
-    width: 150px; /* 각 책 항목의 너비 */
+    width: 150px;
 }
 
-#book-detail .similar-books .book-item img {
+#book-detail .similar-books .book-item img, #webnovel-detail .similar-webnovels .webnovel-item img {
     width: 100px;
     height: 150px;
     object-fit: cover;
     margin-bottom: 10px;
 }
 
-#book-detail .similar-books .book-item p {
+#book-detail .similar-books .book-item p, #webnovel-detail .similar-webnovels .webnovel-item p {
     font-size: 14px;
 }
 
-
-/* 토론 섹션 스타일 */
-#book-detail .forums-header {
+/* 토론 섹션 */
+#book-detail .forums-header, #webnovel-detail .forums-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px;
 }
 
-/* 제목과 더보기 버튼 */
-#book-detail .forums-header h3 {
+#book-detail .forums-header h3, #webnovel-detail .forums-header h3 {
     margin: 0;
 }
 
-#book-detail .forums-header .more-button {
-    margin-left: 20px; /* 제목과 버튼 간의 여백 */
-}
-
-#book-detail .forums-header .action-button {
-    background-color: #007bff;
+#book-detail .forums-header .action-button, #webnovel-detail .forums-header .action-button {
     color: white;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 4px;
 }
 
-#book-detail .forums-header .action-button:hover {
-    background-color: #0056b3;
-}
-
-/* 토론 리스트 */
-#book-detail .forums {
+#book-detail .forums, #webnovel-detail .forums {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* 각 토론 항목 사이의 간격 */
-    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-#book-detail .forums .forum-item {
+#book-detail .forums .forum-item, #webnovel-detail .forums .forum-item {
     text-align: center;
-    width: 150px; /* 각 토론 항목의 너비 */
+    width: 150px;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 4px;
 }
 
-#book-detail .forums .forum-item p {
+#book-detail .forums .forum-item p, #webnovel-detail .forums .forum-item p {
     font-size: 14px;
     margin-bottom: 8px;
 }
 
-/* 토론 항목 제목, 작성자, 댓글 수 */
-#book-detail .forums .forum-item .forum-title {
+#book-detail .forums .forum-item .forum-title, #webnovel-detail .forums .forum-item .forum-title {
     font-weight: bold;
     font-size: 16px;
     margin-bottom: 5px;
 }
 
-#book-detail .forums .forum-item .forum-author,
-#book-detail .forums .forum-item .forum-comments {
+#book-detail .forums .forum-item .forum-author, #webnovel-detail .forums .forum-item .forum-author,
+#book-detail .forums .forum-item .forum-comments, #webnovel-detail .forums .forum-item .forum-comments {
     font-size: 14px;
     color: #555;
 }
 
-/* 빈 리스트 메시지 중앙 정렬 및 스타일 */
-#reviews .empty-message,
-#forums .empty-message {
+/* 빈 리스트 메시지 */
+#reviews .empty-message, #forums .empty-message {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 300px; /* 아이템 5개일 때와 같은 높이 설정 */
+    height: 300px;
     font-size: 18px;
     color: #888;
     width: 100%;
@@ -720,16 +810,16 @@ a.text-danger .svg-icon {
     background-color: #f9f9f9;
 }
 
-#book-detail .card h6 {
+#book-detail .card h6, #webnovel-detail .card h6 {
     font-size: 16px;
     font-weight: bold;
     margin-top: 10px;
-    white-space: nowrap; /* 텍스트가 한 줄로 나오도록 설정 */
-    overflow: hidden;    /* 넘치는 텍스트를 숨김 */
-    text-overflow: ellipsis; /* 넘치는 부분에 "..." 표시 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#book-detail .card p {
+#book-detail .card p, #webnovel-detail .card p {
     font-size: 14px;
     color: #555;
     white-space: nowrap;
@@ -737,496 +827,153 @@ a.text-danger .svg-icon {
     text-overflow: ellipsis;
 }
 
-#book-detail .img-fluid {
+#book-detail .img-fluid, #webnovel-detail .img-fluid {
     width: 100px;
     height: 150px;
     object-fit: cover;
-    display: block; /* 블록 요소로 변경 */
-    margin: 0 auto; /* 좌우 중앙 정렬 */
-    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
-}
-/* 도서끝 */
-
-/* 웹소설 */
-#webnovel-list {
-    max-width: 1600px; /* 최대 폭을 설정합니다 */
-    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
-    padding: 20px; /* 내부 여백을 추가합니다 */
-}
-
-#webnovel-list div {
-    text-align: center;
-    margin-bottom: 20px; /* 검색과 카테고리 간 간격 추가 */
-}
-
-/* 검색 폼과 정렬 옵션을 동일한 라인에 배치하고, 정렬 옵션을 오른쪽 끝으로 이동 */
-#webnovel-list #filter-container {
-    display: flex;
-    justify-content: space-between; /* 검색 폼과 정렬 옵션을 양 끝에 배치 */
-    align-items: center; /* 검색 폼과 정렬 옵션의 수직 정렬을 맞춤 */
-    margin-bottom: 20px; /* 아래 여백 */
-}
-
-/* 정렬 옵션 스타일 */
-#webnovel-list #sort-options {
-    margin-left: auto; /* 우측 끝으로 이동 */
-}
-
-#webnovel-list .selected-sort {
-    font-weight: bold;
-    color: #007bff; /* 강조된 색상 */
-}
-
-#webnovel-list .sort-option {
-    color: #333;
-    margin-left: 10px; /* 각 정렬 옵션 간의 간격 */
-    text-decoration: none;
-}
-
-#webnovel-list .sort-option:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-/* 기존 검색 폼 스타일 */
-#webnovel-list .webnovel-search {
-    margin-bottom: 20px;
-}
-
-#webnovel-list .webnovel-search select,
-#webnovel-list .webnovel-search input[type="text"] {
-    height: 40px; /* 동일한 높이 설정 */
-    vertical-align: middle; /* 동일 높이로 정렬 */
-    padding: 0 10px; /* 텍스트와 필드 경계 간의 여백 설정 */
-    line-height: 40px; /* 높이에 맞춰 텍스트의 세로 정렬을 맞춤 */
-    box-sizing: border-box; /* 패딩과 경계도 높이에 포함 */
-}
-
-#webnovel-list .webnovel-search input[type="image"] {
-    width: 40px; /* 텍스트 필드와 동일한 크기 */
-    height: 40px; /* 텍스트 필드와 동일한 크기 */
-    object-fit: contain; /* 비율을 유지하면서 이미지가 안에 맞춰짐 */
-    margin-left: 5px; /* 이미지와 텍스트 필드 사이 여백 */
-    vertical-align: middle; /* 세로로 중앙에 배치 */
-}
-
-#webnovel-list .search-icon {
-    width: 30px;
-    height: 30px;
-    vertical-align: middle; /* 아이콘을 검색창과 같은 높이로 정렬 */
-    margin-left: 5px; /* 검색창과 아이콘 사이에 약간의 여백 추가 */
-}
-
-/* 선택 필터 스타일 */
-#webnovel-list #filter-options {
-    text-align: center;  /* 필터 옵션 중앙 정렬 */
-    margin-bottom: 20px; /* 그리드와의 간격 */
-}
-
-#webnovel-list .filter-option,
-#webnovel-list .category { /* 필터 옵션과 카테고리의 기본 스타일 */
-    color: black;
-    text-decoration: none;
-    margin-right: 10px;
-    font-weight: normal;
-}
-
-/* 선택된 필터 옵션과 카테고리 스타일 */
-#webnovel-list .selected-option,
-#webnovel-list .selected-category {
-    color: red;
-    font-weight: bold;
-}
-
-/* 카테고리 영역의 기본 스타일 */
-#webnovel-list .category {
-    color: black;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-/* 선택된 카테고리 색상 */
-#webnovel-list .selected-category {
-    color: red;
-    font-weight: bold;
-}
-
-#webnovel-list .webnovel-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 5px; /* 패딩을 줄여서 아이템 내부 여백을 줄임 */
-    width: 180px;  /* webnovel-item의 너비를 유지 */
-    transition: transform 0.2s;
-}
-
-#webnovel-list .webnovel-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns 유지 */
-    gap: 10px; /* 간격을 좁게 조정 */
-    padding: 10px; /* 전체 그리드의 여백을 줄임 */
-    margin-bottom: 30px;
-    place-items: center; /* 그리드 셀 내부 아이템 중앙 정렬 */
-}
-
-#webnovel-list .webnovel-item:hover {
-    transform: scale(1.05);
-}
-
-/* 이미지 기본 사이즈 고정 */
-#webnovel-list .webnovel-img {
-    width: 150px;  /* 고정된 너비 */
-    height: 200px; /* 고정된 높이 */
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-#webnovel-list .webnovel-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-    text-align: center;
-}
-
-/* 페이징을 중앙에 배치 */
-#webnovel-list .pagination {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin-top: 20px; /* 그리드와의 간격 */
-}
-
-#webnovel-list .pagination a {
-    margin: 0 5px;
-    text-decoration: none;
-    color: #007bff;
-}
-
-#webnovel-list .pagination a:hover {
-    text-decoration: underline;
-}
-
-/* webnovel-detail 섹션 전체 */
-#webnovel-detail .webnovel-detail-container {
-    max-width: 1600px;
+    display: block;
     margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+/* 회원가입 모달 */
+#exampleModal .form-control  {padding: 0.7rem ;}
+#exampleModal .btn.position-absolute {
+    top: 50%;
+    right: 0.7rem;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    padding: .1rem .8rem;
+    letter-spacing: -0.25px;
+}
+#exampleModal textarea[name="introduce"] {min-height: unset;}
+/******************** 반응형 설정 ******************/
+@media screen and (min-width:1400px){
+    .container-lg {max-width: 1420px;}
+}
+@media (max-width: 1199px) {
+    .logo {
+        width: auto;
+        height: 3.4rem;
+        padding: 5px 0;
+    }
+    #book-detail .book-cover, #webnovel-detail .webnovel-cover {
+        width: 120px;
+        height: 160px;
+        margin-right: 15px;
+    }
 
-/* 웹소설 정보 섹션 */
-#webnovel-detail .webnovel-info {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-}
+    #book-detail .dropdown-button, #webnovel-detail .dropdown-button,
+    #book-detail .action-button, #webnovel-detail .action-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
 
-#webnovel-detail .webnovel-cover {
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-    margin-right: 20px;
-}
+    #book-detail .review-list .review-item, #webnovel-detail .review-list .review-item,
+    #book-detail .forums .forum-item, #webnovel-detail .forums .forum-item {
+        width: 130px;
+    }
 
-#webnovel-detail #desc.short {
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* 표시할 줄 수 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+    #book-detail .similar-books .book-item img, #webnovel-detail .similar-webnovels .webnovel-item img {
+        width: 90px;
+        height: 135px;
+    }
 
-/* 내 서재에 추가 버튼 및 드롭다운 */
-#webnovel-detail .add-to-library {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 20px;
+    #book-detail .review-list .review-item p, #webnovel-detail .review-list .review-item p {
+        font-size: 13px;
+    }
 }
+@media (max-width: 991px){
+    .navbar-nav, .nav-item, .navbar-nav .dropdown-menu {width: 100%;}
+    .navbar-toggler, .navbar-nav .dropdown-menu{border: 0 !important}
+    .navbar-nav .dropdown-menu{
+        position: static;
+        top: unset;
+        left: unset;
+    }
+}
+@media (max-width: 767px) {
+    .navbar-toggler svg.navbar-icon {
+        width: 40px;
+        height: 40px;
+    }
+    #best-work ~ .padding-medium {
+        padding-top:2em;
+        padding-bottom: 2em;
+    }
+    .navbar{padding: 0!important;}
+    .btn{padding: 0.5rem 1.625rem;}
+    #book-detail .book-info, #webnovel-detail .webnovel-info {
+        display: flex;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin: 0 auto;
+    }
 
-#webnovel-detail .dropdown-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    #book-detail .book-cover, #webnovel-detail .webnovel-cover {
+        width: 100px;
+        height: 140px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
 
-#webnovel-detail .dropdown-button:hover {
-    background-color: #0056b3;
-}
+    #book-detail .dropdown-button, #webnovel-detail .dropdown-button,
+    #book-detail .action-button, #webnovel-detail .action-button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
 
-#webnovel-detail .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    z-index: 1;
-}
+    #book-detail .dropdown-content, #webnovel-detail .dropdown-content {
+        min-width: 140px;
+    }
 
-#webnovel-detail .dropdown-content a,
-#webnovel-detail .dropdown-content label{
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-#webnovel-detail .dropdown-content label input{
-    appearance: none;
-    text-indent: -9999px;
-}
-#webnovel-detail .dropdown-content a:hover,
-#webnovel-detail .dropdown-content label:hover{
-    background-color: #f1f1f1;
-}
+    #book-detail .dropdown-content a, #webnovel-detail .dropdown-content a,
+    #book-detail .dropdown-content label, #webnovel-detail .dropdown-content label {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
 
-#webnovel-detail .add-to-library:hover .dropdown-content {
-    display: block;
-}
+    #book-detail .review-list .review-item, #webnovel-detail .review-list .review-item,
+    #book-detail .forums .forum-item, #webnovel-detail .forums .forum-item {
+        width: 100%;
+        padding: 8px;
+    }
 
-/* 감상/구매, 토론 열기, 리뷰 작성 버튼 */
-#webnovel-detail .action-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-}
+    #book-detail .similar-books .book-item img, #webnovel-detail .similar-webnovels .webnovel-item img {
+        width: 80px;
+        height: 120px;
+    }
 
-#webnovel-detail .action-button:hover {
-    background-color: #218838;
+    #book-detail .review-list .review-item p, #webnovel-detail .review-list .review-item p {
+        font-size: 12px;
+    }
+    /*.section-title > h3 {margin-bottom: 1rem;}*/
+    .search-list--custom {padding-top: 1rem;}
+    .list-unstyled.row-cols-xl-4 {padding-top: 0;}
+    div:has(.sort-wrapper) {padding-top: 2rem;}
 }
-
-/* 리뷰 섹션 스타일 */
-#webnovel-detail .review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px;
-}
-
-#webnovel-detail .review-header h3 {
-    margin: 0;
-}
-
-#webnovel-detail .review-header .more-button {
-    margin-left: 20px; /* 제목과 버튼 간의 여백 */
-}
-
-#webnovel-detail .review-header .action-button {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 16px;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-#webnovel-detail .review-header .action-button:hover {
-    background-color: #0056b3;
-}
-
-/* 리뷰 리스트 */
-#webnovel-detail .review-list {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px; /* 각 리뷰 간의 간격 */
-    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
-}
-
-#webnovel-detail .review-list .review-item {
-    text-align: center;
-    width: 150px; /* 각 리뷰 항목의 너비 */
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-#webnovel-detail .review-list .review-item strong {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 8px;
-    display: block;
-}
-
-#webnovel-detail .review-list .review-item p {
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-#webnovel-detail .review-list .review-item .rating {
-    color: #f39c12; /* 평점에 색상을 부여 */
-    font-weight: bold;
-}
-
-/* 유사한 작품 섹션 */
-#webnovel-detail .similar-webnovels-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px;
-}
-
-/* 제목과 더보기 버튼 */
-#webnovel-detail .similar-webnovels-header h3 {
-    margin: 0;
-}
-
-#webnovel-detail .similar-webnovels-header .more-button {
-    margin-left: 20px; /* 제목과 버튼 간의 여백 */
-}
-
-#webnovel-detail .similar-webnovels-header .action-button {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 16px;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-#webnovel-detail .similar-webnovels-header .action-button:hover {
-    background-color: #0056b3;
-}
-
-/* 유사한 작품 리스트 */
-#webnovel-detail .similar-webnovels {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px; /* 각 웹소설 항목 사이의 간격 */
-    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
-}
-
-#webnovel-detail .similar-webnovels .webnovel-item {
-    text-align: center;
-    width: 150px; /* 각 웹소설 항목의 너비 */
-}
-
-#webnovel-detail .similar-webnovels .webnovel-item img {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-#webnovel-detail .similar-webnovels .webnovel-item p {
-    font-size: 14px;
-}
-
-
-/* 토론 섹션 스타일 */
-#webnovel-detail .forums-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px;
-}
-
-/* 제목과 더보기 버튼 */
-#webnovel-detail .forums-header h3 {
-    margin: 0;
-}
-
-#webnovel-detail .forums-header .more-button {
-    margin-left: 20px; /* 제목과 버튼 간의 여백 */
-}
-
-#webnovel-detail .forums-header .action-button {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 16px;
-    text-decoration: none;
-    border-radius: 4px;
-}
-
-#webnovel-detail .forums-header .action-button:hover {
-    background-color: #0056b3;
-}
-
-/* 토론 리스트 */
-#webnovel-detail .forums {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px; /* 각 토론 항목 사이의 간격 */
-    flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 */
-}
-
-#webnovel-detail .forums .forum-item {
-    text-align: center;
-    width: 150px; /* 각 토론 항목의 너비 */
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-#webnovel-detail .forums .forum-item p {
-    font-size: 14px;
-    margin-bottom: 8px;
-}
-
-/* 토론 항목 제목, 작성자, 댓글 수 */
-#webnovel-detail .forums .forum-item .forum-title {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-
-#webnovel-detail .forums .forum-item .forum-author,
-#webnovel-detail .forums .forum-item .forum-comments {
-    font-size: 14px;
-    color: #555;
-}
-
-#webnovel-detail .card h6 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    white-space: nowrap; /* 텍스트가 한 줄로 나오도록 설정 */
-    overflow: hidden;    /* 넘치는 텍스트를 숨김 */
-    text-overflow: ellipsis; /* 넘치는 부분에 "..." 표시 */
-}
-
-#webnovel-detail .card p {
-    font-size: 14px;
-    color: #555;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#webnovel-detail .img-fluid {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    display: block; /* 블록 요소로 변경 */
-    margin: 0 auto; /* 좌우 중앙 정렬 */
-    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
-}
-/* 웹소설 끝 */
+/* 최종 정리 끝 */
 
 /* 작품 메인 */
-#work-index {
-    max-width: 2000px;
-    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
-    padding: 20px; /* 내부 여백을 추가합니다 */
-}
+/*#work-index {*/
+/*    max-width: 2000px;*/
+/*    margin: 0 auto; !* 중앙 정렬을 위해 마진을 자동으로 설정합니다 *!*/
+/*    padding: 20px; !* 내부 여백을 추가합니다 *!*/
+/*}*/
 #work-index #recommendation-container {
     display: flex;
     flex-wrap: wrap;  /* 화면 크기에 따라 자동 줄바꿈 */
     justify-content: space-between;  /* 요소 간 간격 조정 */
     overflow: hidden;  /* 화면을 벗어나는 요소를 숨김 */
 }
-#work-index #user-recommend, #categories-recommend {
-    flex: 1;  /* 두 요소가 같은 크기를 차지하도록 설정 */
-    max-width: 50%;  /* 화면의 50%까지만 차지하게 설정 */
+
+/*#work-index #user-recommend, #work-index #categories-recommend {
+    display: flex;
+    flex: 1;  !* 두 요소가 같은 크기를 차지하도록 설정 *!
+    max-width: 50%;  !* 화면의 50%까지만 차지하게 설정 *!
     box-sizing: border-box;
-    padding: 10px;  /* 각 요소 간 약간의 여백 추가 */
-}
+    padding: 10px;  !* 각 요소 간 약간의 여백 추가 *!
+}*/
+
 #work-index .card h6 {
     font-size: 16px;
     font-weight: bold;
@@ -1251,6 +998,16 @@ a.text-danger .svg-icon {
     display: block; /* 블록 요소로 변경 */
     margin: 0 auto; /* 좌우 중앙 정렬 */
     margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+}
+
+@media (max-width: 1400px) {
+    #work-index #user-recommend, #work-index #categories-recommend {
+        flex: 1 1 100%; /* 너비를 100%로 설정하여 세로로 배치되도록 */
+        max-width: 100%; /* 최대 너비를 100%로 설정 */
+    }
+    #work-index #recommendation-container {
+        justify-content: center; /* 중앙 정렬로 변경 */
+    }
 }
 /* 작품 메인 끝 */
 
@@ -1282,182 +1039,252 @@ a.text-danger .svg-icon {
 }
 /* 메인화면 작품 스와이프 끝 */
 
-/* 댓글 */
-#comment {
-    max-width: 1200px; /* 최대 폭을 설정합니다 */
-    margin: 0 auto; /* 중앙 정렬을 위해 마진을 자동으로 설정합니다 */
-    padding: 20px; /* 내부 여백을 추가합니다 */
-    border: 1px solid #ccc; /* 테두리를 추가합니다 (선택 사항) */
-    border-radius: 8px; /* 모서리를 둥글게 설정합니다 (선택 사항) */
-    background-color: #f9f9f9; /* 배경색을 추가합니다 (선택 사항) */
+
+
+
+
+/* 리뷰 css*/
+
+/*리뷰 작성 별점 css*/
+.starview {
+    width: 30px; /* 별 이미지의 크기 조정 */
+    height: 30px;
+    margin-right: 2px; /* 별 사이의 간격 */
+}
+.stars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.star {
+    font-size: 50px;
+    color: lightgray;
+    cursor: pointer;
+}
+.star:hover,
+.star.active {
+   color: gold;
+}
+.justify-content-p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+.like-btn{
+    width: 30px;
+    height: 30px;
+}
+#like-button, #dislike-button{
+    margin: 10px;
 }
 
-.comment {
+.selected-content{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition-property: transform;
+    transition-timing-function: var(--swiper-wrapper-transition-timing-function, initial);
+    box-sizing: content-box;
+    display: grid;
+
+}
+.selected-list{
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 20px;
+    z-index: 1;
+    text-align: center;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(4, 1fr); /* 4열 */
+    gap: 10px; /* 아이템 간의 간격 */
+}
+
+.pagecount{
+    text-align: center;
+    word-spacing: 10px;
+}
+.md-2{
+    padding: 30px;
+}
+.review-title_box{
+    border-radius: 5px;
+    width: 100%;
+    height: 50px;
+    background-color: #f8f9fa;
+}
+.review-content_box{
+    border-radius: 5px;
+    width: 100%;
+    height: 300px;
+    background-color: #f8f9fa;
+    font-size: 20px;
+    line-height: 1.5;
+}
+#reviewContent{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.img-view{
+    width: 500px;
+    height: 600px;
+    margin: auto;
+    flex: 0 0 auto;
+
+}
+.review-position{
+    margin-left: 100px;
+    flex: 1 ;
+}
+.review-container{
+    display: flex; /* flexbox 사용 */
+    justify-content: space-between; /* 요소 간 간격 조절 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 10px; /* 패딩 */
+    line-height: 1.5;
+}
+.side-bar{
+    float: right;
+    text-decoration-color: #888888;
+}
+
+#sentimentResult{
+    border-radius: 5px;
+    background-color: #FFE8F0;
+    border: #f8f9fa;
+    margin: 10px;
+}
+.text-auto{
+    font-weight: bold;
+}
+
+.save-btn{
+    margin: 10px;
+    border-radius: 30px;
+    border: #F86D72;
+    background-color: #F86D72;
+    width: 200px;
+    height: 60px;
+    font-size: 30px;
+
+}
+
+#save-btn-justify-content {
+    text-align: center;
+}
+.label {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.btn-st {
+    margin: 0 auto;
+}
+#ratingInput{
+    margin: 10px;
+    width: 50px;
+    text-align: center;
+    border: none;
+}
+/* 헤더 검색 팝업 */
+.search-type {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.search-type-text {
+    cursor: pointer;
+    font-weight: bold;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.search-type-text.selected {
+    color: var(--primary-color); /* 선택된 텍스트 색상 */
+}
+
+.cat-list-item {
+    margin: 5px 0;
+}
+
+.cat-list-item a {
+    color: #555;
+    text-decoration: none;
+}
+
+.cat-list-item a:hover {
+    color: var(--primary-color); /* 카테고리 링크 hover 색상 */
+}
+
+/* 검색 필드와 버튼을 포함한 전체 컨테이너 */
+.search-popup #filter-container {
+    display: flex;
+    align-items: center;
     border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+    border-radius: 50px;
+    padding: 8px 15px;
+    background-color: #f8f8f8;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
 }
 
-.childComment {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    margin-left: 40px; /* 들여쓰기 추가 */
-    background-color: #f9f9f9; /* 배경색을 약간 변경해서 시각적 구분 */
+/* 검색 드롭다운 */
+.search-key {
+    padding: 8px;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
-.replyForm {
-    margin-top: 10px;
-    padding: 10px; /* 내부 여백 추가 */
-    border: 1px solid #ccc; /* 테두리 추가 */
-    border-radius: 5px; /* 모서리를 둥글게 설정 */
-    background-color: #f1f1f1; /* 배경색 설정 */
-    max-width: 100%; /* 부모 요소의 폭에 맞춤 */
-    width: 100%; /* 전체 폭을 사용 */
+/* 검색 입력 필드 */
+.search-field {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 16px;
+    color: #333;
+    background-color: transparent;
 }
 
-.editForm {
-    margin-top: 10px;
-    display: none; /* 기본적으로 숨김 */
-    padding: 10px; /* 내부 여백 추가 */
-    border: 1px solid #ccc; /* 테두리 추가 */
-    border-radius: 5px; /* 모서리를 둥글게 설정 */
-    background-color: #f1f1f1; /* 배경색 설정 */
-    max-width: 800px; /* 최대 폭을 댓글 작성과 동일하게 설정 */
-    width: 100%; /* 전체 폭을 사용 */
+/* 검색 버튼 위치 */
+.search-submit {
+    position: absolute !important;
+    right: 20px !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
-/* 댓글 텍스트 영역 스타일 */
-#commentText {
-    width: calc(100% - 100px); /* 버튼 폭을 제외한 폭 설정 */
-    margin-top: 10px; /* 텍스트 영역 간격 설정 */
-    padding: 8px; /* 텍스트 영역 내부 여백 */
-    border: 1px solid #ccc; /* 텍스트 영역 경계선 */
-    border-radius: 4px; /* 텍스트 영역 둥근 모서리 */
-    resize: none; /* 텍스트 영역 크기 조절 비활성화 */
+.search-submit svg {
+    width: 20px;
+    height: 20px;
+    fill: #555;
 }
+/* 헤더 검색 팝업 끝 */
 
-/* 댓글 작성 버튼 스타일 */
-#submitCommentButton {
-    margin-top: 10px; /* 버튼과 텍스트 간격 설정 */
-    padding: 10px 15px; /* 버튼 내부 여백 */
-    border: none; /* 버튼 경계선 제거 */
-    border-radius: 5px; /* 버튼 둥근 모서리 */
-    background-color: #007bff; /* 버튼 배경색 */
-    color: white; /* 버튼 글자색 */
-    cursor: pointer; /* 마우스 포인터 변경 */
-    display: block; /* 버튼을 블록 요소로 변경하여 전체 폭 사용 */
-    width: 100%; /* 버튼 폭을 100%로 설정 */
-    box-sizing: border-box; /* 패딩과 테두리를 포함한 폭 계산 */
+@media screen and (max-width:576px){
+    main {
+        width: 96%;
+        margin: 0 auto;
+    }
+    #latest-forum .list-unstyled li.p-3, #latest-review .list-unstyled li.p-3{padding: 0.5rem!important;}
+    .forum-view-info {padding-top: 1rem;}
+    .forum-view-info > div:first-of-type{margin-bottom: 1rem;}
+    .forum__textarea{min-height: unset;}
 }
-
-#submitCommentButton:hover {
-    background-color: #0056b3; /* 버튼 hover 색상 */
-}
-
-/* 대댓글 버튼 스타일 */
-.replyButton, .editButton, .deleteButton, .reportButton {
-    margin-top: 5px; /* 버튼 간격 설정 */
-    padding: 8px 12px; /* 버튼 내부 여백 */
-    border: none; /* 버튼 경계선 제거 */
-    border-radius: 5px; /* 버튼 둥글게 */
-    background-color: #28a745; /* 기본 버튼 색상 */
-    color: white; /* 버튼 글자색 */
-    cursor: pointer; /* 마우스 포인터 변경 */
-}
-
-.replyButton:hover, .editButton:hover, .deleteButton:hover, .reportButton:hover {
-    background-color: #218838; /* hover 색상 */
-}
-
-/* 대댓글 입력 버튼 스타일 */
-.replySubmitButton {
-    margin-top: 5px; /* 버튼과 텍스트 간격 설정 */
-    padding: 8px 12px; /* 버튼 내부 여백 */
-    border: none; /* 버튼 경계선 제거 */
-    border-radius: 5px; /* 버튼 둥글게 */
-    background-color: #007bff; /* 버튼 배경색 */
-    color: white; /* 버튼 글자색 */
-    cursor: pointer; /* 마우스 포인터 변경 */
-}
-
-.replySubmitButton:hover {
-    background-color: #0056b3; /* 버튼 hover 색상 */
-}
-
-.comment-actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10px; /* 버튼 간격 */
-}
-
-#paging {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin: 20px 0; /* 상하 여백 */
-}
-
-#paging ul {
-    list-style: none; /* 기본 리스트 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-    margin: 0; /* 기본 마진 제거 */
-    display: flex; /* 가로 방향으로 나열 */
-}
-
-#paging li {
-    margin: 0 5px; /* 각 페이지 간의 간격 */
-}
-
-#paging a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: #007bff; /* 링크 색상 */
-    font-size: 16px; /* 글자 크기 */
-}
-
-#paging a:hover {
-    text-decoration: underline; /* 호버 시 밑줄 추가 */
-}
-
-#paging .active {
-    font-weight: bold; /* 현재 페이지 강조 */
-    color: #333; /* 강조 색상 */
-}
-
-.page-link {
-    cursor: pointer; /* 포인터 커서로 변경 */
-    color: #007bff; /* 링크 색상 */
-    margin: 0 5px; /* 각 페이지 간의 간격 */
-    font-size: 16px; /* 글자 크기 */
-    text-decoration: none; /* 밑줄 제거 */
-    display: inline-block; /* 수평 정렬을 위해 inline-block 사용 */
-}
-
-.page-link:hover {
-    text-decoration: underline; /* 호버 시 밑줄 추가 */
-}
-
-.page-link.active {
-    font-weight: bold; /* 현재 페이지 강조 */
-    color: #333; /* 강조 색상 */
-    cursor: default; /* 기본 커서로 변경 */
-}
-
-.comment-icon {
-    cursor: pointer; /* 포인터 커서로 변경 */
-    width: 30px; /* 이미지 너비 */
-    height: 30px; /* 이미지 높이 */
-    margin-right: 20px; /* 오른쪽 여백 */
-}
-
-/* 이미지 호버 효과 (원하는 경우 추가) */
-.comment-icon:hover {
-    opacity: 0.8; /* 호버 시 투명도 변경 */
-    transition: opacity 0.3s; /* 부드러운 전환 효과 */
-}
-
-/* 댓글 끝 */
-
 /***** //custom sub style 끝 *****/

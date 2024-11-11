@@ -1,80 +1,60 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{board_layout :: layout(~{::title}, ~{::body})}">
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판</title>
+    <title>PageOn 질문게시판</title>
 </head>
 <body>
-<div th:fragment="content">
-    <div class="container mt-5">
-        <h3 class="mb-4">질문 게시판</h3>
-
-        <div class="board-container d-flex align-items-start">
-            <!-- 게시판 선택 -->
-            <div class="d-flex mr-3">
-                <div class="card text-center board-card" th:classappend="${category == 'free'} ? 'border-primary' : ''"
-                     onclick="location.href='/freeboard'">
-                    <div class="card-body">
-                        <h5 class="card-title">자유 게시판</h5>
-                    </div>
-                </div>
-                <div class="card text-center board-card ml-3"
-                     th:classappend="${category == 'qna'} ? 'border-primary' : ''"
-                     onclick="location.href='/qnaboard'">
-                    <div class="card-body">
-                        <h5 class="card-title">질문 게시판</h5>
-                    </div>
-                </div>
-            </div>
-            <!-- 정렬 선택 -->
-            <div class="d-flex ml-3">
-                <div class="card text-center sort-card mr-2" th:classappend="${sort == 'date'} ? 'border-primary' : ''"
-                     onclick="sortByDate()">
-                    <div class="card-body p-1">
-                        <h5 class="card-title">최신순</h5>
-                    </div>
-                </div>
-                <div class="card text-center sort-card" th:classappend="${sort == 'hitcount'} ? 'border-primary' : ''"
-                     onclick="sortByHitCount()">
-                    <div class="card-body p-1">
-                        <h5 class="card-title">조회순</h5>
-                    </div>
-                </div>
-            </div>
-            <!-- 검색 폼과 글작성 버튼 -->
-            <div class="d-flex ml-auto">
-                <form action="/b_search" method="get" class="d-flex">
-                    <div class="input-group mt-3">
-                        <div class="d-flex">
-                            <select name="category" class="form-control form-control-sm mr-1 search-select"
-                                    style="width: 60px;">
-                                <option value="all">전체</option>
-                                <option value="free">자유</option>
-                                <option value="qna">질문</option>
-                            </select>
-                            <select name="searchType" class="form-control form-control-sm mr-1 search-select"
-                                    style="width: 60px;">
-                                <option value="title">제목</option>
-                                <option value="content">내용</option>
-                            </select>
-                        </div>
-                        <input type="text" name="searchWord" class="form-control form-control-sm mr-1"
-                               placeholder="검색어를 입력하세요">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-outline-primary">검색</button>
-                        </div>
-                    </div>
-                </form>
-                <div class="mt-3 ml-4 input-group-append">
-                    <button onclick="location.href='/b_insert'" class="btn btn-outline-primary">글작성</button>
-                </div>
-            </div>
+<section class="board-container container padding-medium">
+    <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+        <h3>질문 게시판</h3>
+        <form class="search-list--custom d-flex" action="/b_search" method="get">
+            <select name="category" class="form-select p-2 w-25 rounded-0">
+                <option value="all">전체</option>
+                <option value="free">자유</option>
+                <option value="qna">질문</option>
+            </select>
+            <select name="searchType" class="form-select p-2 w-25 rounded-0">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input class="form-control p-2 w-75 rounded-0" type="text" id="searchWord" name="searchWord"
+                   placeholder="검색어를 입력하세요">
+            <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2 search-btn">검색</button>
+        </form>
+    </div>
+    <!-- 게시판 선택 -->
+    <div class="position-relative">
+        <ul class="custom-category list-unstyled d-flex justify-content-center mb-0 py-4 fs-5">
+            <li class="free-qna mx-2 text-nowrap" th:classappend="${category == 'free'} ? 'border-primary' : ''"
+                onclick="location.href='/freeboard'">
+                <a>자유 게시판</a>
+            </li>
+            <li class="free-qna mx-2 text-nowrap"
+                th:classappend="${category == 'qna'} ? 'border-primary' : ''"
+                onclick="location.href='/qnaboard'">
+                <a class="active">질문 게시판</a>
+            </li>
+        </ul>
+    </div>
+    <div class="d-flex justify-content-end align-items-center w-100" id="sortDiv">
+        <div class="sort-wrapper position-relative d-flex align-items-center">
+            <select name="sort" class="border-0 vstack text-center" onchange="handleSortChange(this.value)">
+                <option value="date" th:selected="${sort == 'date'}"><small>최신순</small></option>
+                <option id="sort-hitcount" value="hitcount" th:selected="${sort == 'hitcount'}"><small>조회순</small></option>
+            </select>
         </div>
+    </div>
 
-        <div class="card p-4">
+    <div th:if="${#lists.isEmpty(boardList)}" class="text-center mt-4">
+        검색 결과가 없습니다.
+    </div>
+
+    <div th:if="${!#lists.isEmpty(boardList)}">
+        <div class="padding-small">
             <table class="table table-bordered table-hover">
                 <thead>
-                <tr>
+                <tr class="table-list">
                     <th>번호</th>
                     <th>제목</th>
                     <th>작성자</th>
@@ -85,34 +65,112 @@
                 <tr th:each="board : ${boardList}" th:data-num="${board.num}" style="cursor:pointer;"
                     onclick="location.href='/b_selectOne?num=' + this.getAttribute('data-num') + '&category=qna'">
                     <td>[[${board.num}]]</td>
-                    <td th:text="${board.title}"></td>
+                    <td class="ellipsis" th:text="${board.title}"></td>
                     <td th:text="${board.user_id}"></td>
                     <td th:text="${board.boardhitcount}"></td>
                 </tr>
                 </tbody>
             </table>
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:if="${currentPage > 1}">
-                        <a class="page-link" th:href="@{/qnaboard(page=${currentPage - 1}, sort=${sort})}"
-                           aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
-                        th:classappend="${i == currentPage} ? 'active'">
-                        <a class="page-link" th:href="@{/qnaboard(page=${i}, sort=${sort})}" th:text="${i}"></a>
-                    </li>
-                    <li class="page-item" th:if="${currentPage < totalPages}">
-                        <a class="page-link" th:href="@{/qnaboard(page=${currentPage + 1}, sort=${sort})}"
-                           aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="d-flex justify-content-end w-100">
+                <button id="writeButton" class="btn btn-right btn-outline-primary btn-dark rounded-0 p-2">글작성</button>
+            </div>
+
+        </div>
+
+        <div th:if="${sort == 'hitcount'}" class="pagination justify-content-center">
+            <ul class="pagination">
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link"
+                       th:href="@{/qnaboard(page=${currentPage - 1}, sort=${sort})}">
+                        이전
+                    </a>
+                </li>
+                <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/qnaboard(page=${i}, sort=${sort})}"
+                       th:text="${i}"></a>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link"
+                       th:href="@{/qnaboard(page=${currentPage + 1}, sort=${sort})}"
+                       aria-label="Next">
+                        다음
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div th:if="${sort != 'hitcount'}" class="pagination justify-content-center">
+            <ul class="pagination">
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage - 1})}">
+                        이전
+                    </a>
+                </li>
+                <li class="page-item page-padding" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${i})}"
+                       th:text="${i}"></a>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a class="page-link"
+                       th:href="@{/b_search(category=${category}, searchType=${searchType}, searchWord=${searchWord}, page=${currentPage + 1})}"
+                       aria-label="Next">
+                        다음
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const sessionId = [[${session.id}]];
+
+            function openLoginModal(event) {
+                event.preventDefault();
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            document.getElementById("writeButton").addEventListener("click", function (event) {
+                if (!sessionId) {
+                    openLoginModal(event);
+                } else {
+                    location.href = '/b_insert';
+                }
+            });
+        });
+    </script>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchWord");
+            const maxLength = 20; // 최대 글자 수
+
+            searchInput.addEventListener("input", function () {
+                if (searchInput.value.length > maxLength) {
+                    alert("검색어는 최대 " + maxLength + "자까지 입력할 수 있습니다.");
+                    searchInput.value = searchInput.value.substring(0, maxLength);
+                }
+            });
+        });
+    </script>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchParams = new URLSearchParams(window.location.search);
+            const sortDiv = document.getElementById('sortDiv');
+
+            if (searchParams.has('searchWord')) {
+                sortDiv.style.display = 'none';
+            }
+        });
+    </script>
+
+</section>
 </body>
 </html>

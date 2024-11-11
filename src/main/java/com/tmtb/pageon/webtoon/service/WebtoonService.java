@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tmtb.pageon.board.model.BoardVO;
+import com.tmtb.pageon.webnovel.model.WebnovelVO;
 import com.tmtb.pageon.webtoon.mapper.WebtoonMapper;
 import com.tmtb.pageon.webtoon.model.WebtoonVO;
 import lombok.extern.slf4j.Slf4j;
@@ -24,39 +25,61 @@ public class WebtoonService {
 
     @Autowired
     private WebtoonMapper webtoonMapper;
-
+    //웹툰 리스트
     public List<WebtoonVO> getWebtoonList(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        return webtoonMapper.getWebtoonList(offset, pageSize);
+        return webtoonMapper.getWebtoonList(offset, pageSize , "popular");
     }
-
-    public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize) {
-        return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize);
+    //인기 웹툰 리스트
+    public List<WebtoonVO> selectPopularWebtoons(int offset, int pageSize) {
+        return webtoonMapper.selectPopularWebtoons(offset, pageSize);
     }
-
-    public List<WebtoonVO> searchWebtoonWriter(String searchWord, int offset, int pageSize) {
-        return webtoonMapper.searchWebtoonWriter(searchWord, offset, pageSize);
+    //제목 검색
+    public List<WebtoonVO> searchWebtoonByTitle(String searchWord, int offset, int pageSize, List<String> categories) {
+        return webtoonMapper.searchWebtoonByTitle(searchWord, offset, pageSize, categories);
     }
-
+    //작가 검색
+    public List<WebtoonVO> searchWebtoonByWriter(String searchWord, int offset, int pageSize,  List<String> categories) {
+        return webtoonMapper.searchWebtoonByWriter(searchWord, offset, pageSize,categories);
+    }
+    //장르 검색
     public List<WebtoonVO> searchWebtoonByCategories(String searchWord, int offset, int pageSize) {
         return webtoonMapper.searchWebtoonByCategories(searchWord, offset, pageSize);
+    }
+
+    public List<WebtoonVO> searchMultiCategories(List<String> categories, int offset, int pageSize) {
+        return webtoonMapper.searchMultiCategories(categories, offset, pageSize);
     }
 
     public List<WebtoonVO> getCategories() {
         return webtoonMapper.getCategories();
     }
 
-
-    public int getTotalCountByTitle(String searchWord) {
-        return webtoonMapper.getTotalCountByTitle(searchWord);
+    public List<WebtoonVO> searchLikeCategories(List<String> likeCategories, int offset, int pageSize) {
+        return webtoonMapper.searchLikeCategories(likeCategories, offset, pageSize);
+    }
+    public int getTotalCountByLikeCategories(List<String> likeCategories) {
+        return webtoonMapper.getTotalCountByLikeCategories(likeCategories);
     }
 
-    public int getTotalCountByContent(String searchWord) {
-        return webtoonMapper.getTotalCountByContent(searchWord);
+    public int getTotalCountByPopular() {
+        return webtoonMapper.getTotalCountByPopular();
+    }
+
+    public int getTotalCountByTitle(String searchWord,List<String> categories) {
+        return webtoonMapper.getTotalCountByTitle(searchWord,categories);
+    }
+
+    public int getTotalCountByWriter(String searchWord, List<String> categories) {
+        return webtoonMapper.getTotalCountByWriter(searchWord, categories);
     }
 
     public int getTotalCountByCategories(String searchWord) {
         return webtoonMapper.getTotalCountByCategories(searchWord);
+    }
+
+    public int getTotalCountByMultiCategories(List<String> categories) {
+        return webtoonMapper.getTotalCountByMultiCategories(categories);
     }
 
     public int getTotalCount() {
@@ -68,14 +91,7 @@ public class WebtoonService {
         return webtoonMapper.selectOne(vo);
     }
 
-    // 필터링 관련
-    public List<WebtoonVO> filterByCategories(List<String> categories, int offset, int pageSize) {
-        return webtoonMapper.filterByCategories(categories, offset, pageSize);
-    }
 
-    public int getTotalCountByFilteredCategories(List<String> categories) {
-        return webtoonMapper.getTotalCountByFilteredCategories(categories);
-    }
 
 
     //웹툰 api 연동
@@ -94,9 +110,10 @@ public class WebtoonService {
         String baseUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=eaa479a1691ab5f1d257cae310412971&viewItemCnt=100&pltfomCdNm=네이버웹툰&pageNo=";
 
         List<JsonNode> allWebtoons = new ArrayList<>();
+        Set<String> titles = new HashSet<>();
 
         // 페이지 번호를 0부터 100까지 100씩 증가 + 3000까지 반복으로 일단 하드코딩
-        for (int pageNo = 0; pageNo <= 3000; pageNo += 100) {
+        for (int pageNo = 0; pageNo <= 100; pageNo += 100) {
             // 현재 페이지 번호를 포함 API URL을 생성
             String apiUrl = baseUrl + pageNo;
 
@@ -108,14 +125,30 @@ public class WebtoonService {
                 JsonNode webtoons = objectMapper.readTree(result);
 
                 // 변환된 JsonNode 객체를 리스트에 추가
-                allWebtoons.add(webtoons);
+                if (webtoons.has("itemList") && webtoons.get("itemList").isArray()) {
+                    for (JsonNode node : webtoons.get("itemList")) {
+                        String title = node.get("title").asText();
+                        if (!titles.contains(title)) {
+                            titles.add(title);
+                            allWebtoons.add(node);
+                        } else {
+                            // 중복된 경우 업데이트
+                            WebtoonVO existingWebtoon = webtoonMapper.findByTitle(title);
+                            WebtoonVO webtoon = objectMapper.convertValue(node, WebtoonVO.class);
+                            if (existingWebtoon != null) {
+                                webtoon.setItem_id(existingWebtoon.getItem_id());
+                                webtoonMapper.updateWebtoon(webtoon);
+                            }
+                        }
+                    }
+                }
             } catch (JsonProcessingException e) {
                 // 실패한 경우 예외 발생
                 throw new RuntimeException("Failed to parse JSON", e);
             }
         }
 
-        //데이터를 JsonNode 객체로 반환
+        // 데이터를 JsonNode 객체로 반환
         return objectMapper.valueToTree(allWebtoons);
     }
 
@@ -124,9 +157,10 @@ public class WebtoonService {
         String baseUrl = "https://www.kmas.or.kr/openapi/search/bookAndWebtoonList?prvKey=eaa479a1691ab5f1d257cae310412971&viewItemCnt=100&pltfomCdNm=카카오웹툰&pageNo=";
 
         List<JsonNode> allWebtoons = new ArrayList<>();
+        Set<String> titles = new HashSet<>();
 
         // 페이지 번호를 0부터 100까지 100씩 증가 + 1500까지 반복으로 일단 하드코딩
-        for (int pageNo = 0; pageNo <= 1500; pageNo += 100) {
+        for (int pageNo = 0; pageNo <= 100; pageNo += 100) {
             // 현재 페이지 번호를 포함 API URL을 생성
             String apiUrl = baseUrl + pageNo;
 
@@ -138,14 +172,30 @@ public class WebtoonService {
                 JsonNode webtoons = objectMapper.readTree(result);
 
                 // 변환된 JsonNode 객체를 리스트에 추가
-                allWebtoons.add(webtoons);
+                if (webtoons.has("itemList") && webtoons.get("itemList").isArray()) {
+                    for (JsonNode node : webtoons.get("itemList")) {
+                        String title = node.get("title").asText();
+                        if (!titles.contains(title)) {
+                            titles.add(title);
+                            allWebtoons.add(node);
+                        } else {
+                            // 중복된 경우 업데이트
+                            WebtoonVO existingWebtoon = webtoonMapper.findByTitle(title);
+                            WebtoonVO webtoon = objectMapper.convertValue(node, WebtoonVO.class);
+                            if (existingWebtoon != null) {
+                                webtoon.setItem_id(existingWebtoon.getItem_id());
+                                webtoonMapper.updateWebtoon(webtoon);
+                            }
+                        }
+                    }
+                }
             } catch (JsonProcessingException e) {
                 // 실패한 경우 예외 발생
                 throw new RuntimeException("Failed to parse JSON", e);
             }
         }
 
-        //데이터를 JsonNode 객체로 반환
+        // 데이터를 JsonNode 객체로 반환
         return objectMapper.valueToTree(allWebtoons);
     }
 
@@ -263,6 +313,18 @@ public class WebtoonService {
             }
         }
     }
+
+    public List<WebtoonVO> getWebtoonRecommendationBycategory(String id, int offset, int pageSize) {
+        return webtoonMapper.getWebtoonRecommendationBycategory(id, offset, pageSize);
+    }
+
+
+    public int webtoonGetRecommandationTotalCount(String id) {
+        return webtoonMapper.webtoonGetRecommandationTotalCount(id);
+    }
+
+
+
 }
 
 

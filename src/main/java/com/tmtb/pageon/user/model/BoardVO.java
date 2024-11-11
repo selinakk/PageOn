@@ -16,4 +16,5 @@ public class BoardVO {
     private int report;
     private String category;
     private int boardhitcount;
+    private String name;
 }

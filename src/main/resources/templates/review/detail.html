@@ -1,9 +1,11 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title th:text="'PageOn 리뷰 ' + ${vo2.title} + ' 상세보기'"></title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/sub.css" rel="stylesheet">
     <link href="/review/styles.css" rel="stylesheet">
@@ -14,56 +16,54 @@
     <div class="container">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
             <h3 class="d-flex align-items-center">리뷰 상세보기</h3>
-            <a href="/review/insert">write</a>
-            <a href="/review/list">목록</a>
         </div>
-        <div th:class="dt-1" >
-            <p th:class="dt-2">제목: <span th:text="${vo2.title}"></span></p>
-            <p th:class="dt-2">작성일: <span th:text="${vo2.wdate}"></span></p>
-            <p th:class="dt-2">리뷰 내용: <span id="reviewContent" th:text="${vo2.content}"></span></p>
-            <p th:class="dt-2">
-                별점: <span th:text="${vo2.rating}"></span></p>
-            <div id="review-detail" th:data-num="${vo2.num}" th:class="dt-2">
-                <button id="like-button"><img src="/img/like.png" th:class="like-btn"><span id="like-count" th:text="${vo2.like}"></span></button>
-                <button id="dislike-button"><img src="/img/dislike.png" th:class="like-btn"><span id="hate-count" th:text="${vo2.hate}"></span></button>
-            </div>
-            </p>
-                <span th:class="dt-2" >
-                    <form th:action="@{/r_reportOK}" method="POST" id="reportForm">
-                        <span th:text="${vo2.report}"></span>
-                        <button th:class="btn-3" type="button" onclick="confirmReport()">report</button>
-                    </form>
+        <div >
+            <div class="side-bar">
+                <span>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal">신고🚨</a>
+                    <span th:if="${vo2.user_id} == ${session.id}">
+                        <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
+                    </span>
                 </span>
-            <div th:if="${result}">
-                <h2>감정 분석 결과:</h2>
-                <p th:text="${result}"></p>
-            </div>
-            <div th:if="${error}">
-                <h2>오류:</h2>
-                <p th:text="${error}"></p>
-            </div>
         </div>
-        <small>
-            <p id="sentimentResult">분석되지 않음</p>
-            <button id="analyzeButton">감정 분석하기</button>
-        </small>
+        <div class="review-container">
+            <img class="img-view" th:src="@{${vo2.workImg}}" th:alt="|${vo2.workTitle} 작품 이미지|">
+            <div th:class="review-position" >
+                <p><h4 class="text-auto" th:text="'[ ' + ${vo2.workTitle}+' ] 에 대한 리뷰'"></h4></p>
 
-        <div >//로그인
-            <div>
-                <a th:href="@{/review/deleteOK(num=${vo2.num})}" th:text="삭제">삭제</a>
-                <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
+                <p ><small th:text="'작성일: '+${vo2.wdate}"></small></p>
+                <p ><h3 th:text="${vo2.title}"></h3></p>
+                <a th:href="@{/user/userprofile(id=${vo2.user_id})}" class="d-inline-flex align-items-center">
+                      <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
+                        <img class="w-100 h-100" th:src="${vo2.imgDataAsBase64}" th:alt="|${vo2.userName}님 프로필 이미지|">
+                      </span>
+                <strong th:text="${vo2.userName}"></strong>
+            </a>
+                <p  id="reviewContent" ><h7 th:text="'내용: '+${vo2.content}"></h7></p>
+                <p ><h7  th:text="'★ '+${vo2.rating}"></h7></p>
+                <div id="review-detail" th:data-num="${vo2.num}">
+                    <button id="like-button">👍 <span id="like-count" th:text="${vo2.like}"></span></button>
+                    <button id="dislike-button">👎 <span id="hate-count" th:text="${vo2.hate}"></span></button>
+                </div>
+                </p>
+                <div>
+                    <small>
+                        <span id="sentimentResult"></span>
+                    </small>
+                </div>
             </div>
-
         </div>
     </div>
+        <hr>
 
 </div>
 <!-- 여기가 댓글 관련 내용입니다. 이부분을 부모글의 상세보기와 추가해주시면 됩니다. -->
-<section id="comment" class="position-relative padding-small">
+<section id="comment" class="position-relative my-5">
     <h3>댓글</h3>
     <div class="replyForm">
         <textarea id="commentText" rows="4" placeholder="댓글을 입력하세요... 500자 이내"></textarea>
-        <img src="/img/comment_write.png" alt="대댓글 작성" onclick="submitComment()" class="comment-icon"/>
+        <img src="/img/comment_write.png" alt="댓글 작성" th:onclick="'handleCommentClick()'" class="comment-icon"/>
     </div>
 
     <div id="commentList">
@@ -72,14 +72,16 @@
                 <strong th:text="${comment.user_id}"></strong>:
                 <span th:text="${comment.content}" class="comment-content"></span>
             </p>
-            <p>작성일: <span th:text="${comment.wdate}"></span></p>
+            <p>작성일: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd')}"></span></p>
             <div class="actionButtons">
                 <img src="/img/comment_child.png" alt="대댓글 더보기" th:onclick="'fetchChildComments(' + ${comment.num} + ')'" class="comment-icon"/>
                 <img src="/img/comment_childup.png" alt="대댓글 줄이기" th:onclick="'hideComment(' + ${comment.num} + ')'" class="comment-icon"/>
-                <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'showReplyForm(' + ${comment.num} + ')'" class="comment-icon"/>
-                <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'" class="comment-icon"/>
-                <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'" class="comment-icon"/>
-                <img src="/img/comment_report.png" alt="신고" th:onclick="'reportComment(' + ${comment.num} + ')'" class="comment-icon"/>
+                <img src="/img/comment_write.png" alt="대댓글 작성" th:onclick="'handleReplyClick(' + ${comment.num} + ')'" class="comment-icon"/>
+                <span th:if="${comment.user_id == session.id}">
+                    <img src="/img/comment_update.png" alt="수정" th:onclick="'editComment(' + ${comment.num} + ')'" class="comment-icon"/>
+                    <img src="/img/comment_delete.png" alt="삭제" th:onclick="'deleteComment(' + ${comment.num} + ')'" class="comment-icon"/>
+                </span>
+                <img src="/img/comment_report.png" alt="신고" th:onclick="'handleReportClick(' + ${comment.num} + ')'" class="comment-icon"/>
             </div>
 
             <!-- 대댓글 입력 폼 -->
@@ -107,35 +109,36 @@
 
     <div id="paging" th:if="${totalPageCount > 1}">
         <ul>
-            <li th:if="${cpage > 1}">
-                <a th:href="@{/test(cpage=${cpage - 1}, pageBlock=${pageBlock})}">이전</a>
-            </li>
             <li th:each="i : ${#numbers.sequence(1, totalPageCount)}" th:classappend="${i == cpage} ? 'active'">
                 <a th:href="@{/test(cpage=${i}, pageBlock=${pageBlock})}" th:text="${i}"></a>
-            </li>
-            <li th:if="${cpage < totalPageCount}">
-                <a th:href="@{/test(cpage=${cpage + 1}, pageBlock=${pageBlock})}">다음</a>
             </li>
         </ul>
     </div>
 </section>
+    <div class="d-flex justify-content-center py-3">
+        <a href="/review/list" class="btn btn-dark">목록으로</a>
+    </div>
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script>
-function confirmReport() {
-    if (confirm("정말 신고 하시겠습니까?")){
-        console.log("report click..");
-        const form = document.getElementById("reportForm");
+<script th:inline="javascript">
+    function displayRating(rating) {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
 
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body : formData
-        })
-        console.log("report end..")
+        let stars = '★'.repeat(fullStars) + '☆'.repeat(emptyStars);
+        if (halfStar) {
+            stars = stars.slice(0, -emptyStars) + '½' + '☆'.repeat(emptyStars - 1);
+        }
+        return stars;
     }
 
-}
+    const averageRating = 4.3;
+    console.log(displayRating(averageRating)); // 예: "★★★★½☆"
+
+
+
+
+
 
 //좋아요 새로고침 없이 바로 view
 $(document).ready(function() {
@@ -179,26 +182,26 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('#analyzeButton').click(function() {
-        var content = $('#reviewContent').text();  // 리뷰 내용을 가져옴
+window.addEventListener('DOMContentLoaded', function (){
+    var content = $('#reviewContent').text();  // 리뷰 내용을 가져옴
 
-        // AJAX로 감정 분석 API 호출
-        $.ajax({
-            url: '/analyzeOK',
-            type: 'POST',
-            data: { content: content },
-            success: function(result) {
-                $('#sentimentResult').text(result);  // 결과를 화면에 표시
-            },
-            error: function(err) {
-                $('#sentimentResult').text('감정 분석 실패: ' + err.responseText);
-            }
+    // AJAX로 감정 분석 API 호출
+            $.ajax({
+                url: '/analyzeOK',
+                type: 'POST',
+                data: { content: content },
+                success: function(result) {
+                    $('#sentimentResult').text(result);  // 결과를 화면에 표시
+                },
+                error: function(err) {
+                    $('#sentimentResult').text('감정 분석 실패: ' + err.responseText);
+                }
+            });
         });
-    });
-});
+
 
 var rnum = [[${vo2.num}]]; // vo2.num 값을 정수로 저장
+const sessionId = [[${session.id}]];
 
 function fetchChildComments(commentId, page = 1) {
     const childCommentsDiv = $('#childComments-' + commentId);
@@ -216,17 +219,21 @@ function fetchChildComments(commentId, page = 1) {
             childCommentsDiv.empty();
             if (childComments.length > 0) {
                 childComments.forEach(function(childComment) {
+                    const isOwner = childComment.user_id === sessionId; // 세션 ID와 댓글 작성자 ID 비교
+                    const formattedDate = new Date(childComment.wdate).toISOString().split('T')[0];
                     const childCommentElem = `
                     <div class="childComment" id="childComment-${childComment.num}">
                         <p><strong>${childComment.user_id}:</strong> ${childComment.content}</p>
-                        <p>작성일: ${childComment.wdate}</p>
+                        <p>작성일: <span>${formattedDate}</span></p>
                         <p>
                             <img src="/img/comment_child.png" alt="대댓글 더보기" onclick="fetchChildComments(${childComment.num})" class="comment-icon"/>
                             <img src="/img/comment_childup.png" alt="대댓글 줄이기" onclick="hideComment(${childComment.num})" class="comment-icon"/>
-                            <img src="/img/comment_write.png" alt="대댓글 작성" onclick="showReplyForm(${childComment.num}, true)" class="comment-icon"/>
-                            <img src="/img/comment_update.png" alt="수정" onclick="editComment(${childComment.num}, true)" class="comment-icon"/>
-                            <img src="/img/comment_delete.png" alt="삭제" onclick="deleteComment(${childComment.num}, true)" class="comment-icon"/>
-                            <img src="/img/comment_report.png" alt="신고" onclick="reportComment(${childComment.num}, true)" class="comment-icon"/>
+                            <img src="/img/comment_write.png" alt="대댓글 작성" onclick="handleReplyClick( ${childComment.num}, true)" class="comment-icon"/>
+                            ${isOwner ? `
+                                <img src="/img/comment_update.png" alt="수정" onclick="editComment(${childComment.num}, true)" class="comment-icon"/>
+                                <img src="/img/comment_delete.png" alt="삭제" onclick="deleteComment(${childComment.num}, true)" class="comment-icon"/>
+                            ` : ''}
+                            <img src="/img/comment_report.png" alt="신고" onclick="handleReportClick(${childComment.num}, true)" class="comment-icon"/>
                         </p>
 
                         <div class="replyForm" id="childReplyForm-${childComment.num}" style="display:none;">
@@ -275,16 +282,24 @@ function updatePaging(pagingDiv, totalPageCount, currentPage, commentId) {
         return;
     }
 
+    // 페이지 링크 컨테이너 생성 (가로 정렬을 위한 flex 컨테이너)
+    const pageLinksContainer = $('<div class="page-links-container"></div>').css({
+        display: 'flex',
+        'justify-content': 'center',
+        'flex-direction': 'row'
+    });
+
     // 페이지 링크 생성
     for (let i = 1; i <= totalPageCount; i++) {
         const pageLink = $(`<span class="page-link" onclick="fetchChildComments(${commentId}, ${i})">${i}</span>`);
         if (i === currentPage) {
             pageLink.addClass('active'); // 현재 페이지 강조
         }
-        pagingDiv.append(pageLink);
+        pageLinksContainer.append(pageLink);
     }
 
-    // 페이징 div를 보여줌
+    // 페이지 링크 컨테이너를 pagingDiv에 추가하고, 표시
+    pagingDiv.append(pageLinksContainer);
     pagingDiv.show();
 }
 
@@ -316,7 +331,7 @@ function submitComment() {
             content: commentText,
             type: "review", // 부모글 타입
             rnum: rnum, // 부모글id
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -343,7 +358,7 @@ function submitReply(parentId) {
             type: "review", // 부모글 타입
             rnum: rnum, // 부모글id
             cnum: parentId,
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -394,7 +409,7 @@ function submitEdit(commentId) {
         contentType: "application/json",
         data: JSON.stringify({
             content: newCommentText,
-            user_id: "user123" // 로그인id
+            user_id: sessionId // 로그인id
         }),
         success: function() {
             location.reload();
@@ -440,6 +455,96 @@ function reportComment(commentId) {
     });
 }
 
+    document.addEventListener("DOMContentLoaded", function () {
+        function openLoginModal(event) {
+            event.preventDefault();
+            const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            modal.show();
+        }
+
+        // 댓글 작성 클릭 이벤트 처리
+        window.handleCommentClick = function() {
+            if (!sessionId) {
+                openLoginModal(event);
+            } else {
+                // 세션이 있을 경우 댓글 작성 기능 수행
+                submitComment();
+            }
+        }
+
+        // 대댓글 작성 클릭 이벤트 처리
+        window.handleReplyClick = function(commentNum, isChild = false) {
+            if (!sessionId) {
+                openLoginModal(event);
+            } else {
+                // 대댓글 작성 기능 호출
+                showReplyForm(commentNum, isChild);
+            }
+        }
+
+        // 신고 클릭 이벤트 처리
+        window.handleReportClick = function(commentNum, isChild = false) {
+            if (!sessionId) {
+                openLoginModal(event);
+            } else {
+                // 신고 기능 호출
+                reportComment(commentNum, isChild);
+            }
+        }
+    });
+
+
+    function confirmReport() {
+        // 사용자에게 신고 확인 메시지를 표시하고, "확인"을 누르면 true를 반환
+        if (confirm("정말 신고하시겠습니까? 해당 신고글을 관리자가 관리합니다")) {
+            // 폼 요소를 가져옴
+            const form = document.getElementById("reportForm");
+            // 폼 데이터를 FormData 객체로 생성
+            const formData = new FormData(form);
+
+            // fetch API를 사용하여 비동기 POST 요청을 보냄
+            fetch(form.action, {
+                method: 'POST', // HTTP 메서드를 POST로 설정
+                body: formData  // 요청 본문에 폼 데이터를 포함
+            })
+                // 서버 응답을 텍스트로 변환
+                .then(response => response.text())
+                // 변환된 텍스트를 alert로 표시
+                .then(data => {
+                    alert(data);
+                })
+                // 요청 중 에러가 발생하면 콘솔에 에러 메시지를 출력
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
 </script>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                정말 해당 리뷰를 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary" data-bs-dismiss="modal">취소</a>
+                <a class="btn btn-danger" th:href="@{/review/deleteOK(num=${vo2.num})}">삭제</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                정말 해당 리뷰를 신고하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary" data-bs-dismiss="modal">취소</a>
+                <a class="btn btn-danger" th:href="@{/review/reportOK(num=${vo2.num})}">신고</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
