@@ -124,7 +124,7 @@ public class BoardController {
         log.info("originName:{}", originName);
 
         if (originName.length() == 0) {
-            vo.setImg_name("default.png");
+            vo.setImg_name("");
         } else {
             String save_name = "img_" + System.currentTimeMillis() + originName.substring(originName.lastIndexOf("."));
             log.info("save_name:{}", save_name);

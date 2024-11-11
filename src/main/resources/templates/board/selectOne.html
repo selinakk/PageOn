@@ -32,7 +32,6 @@
                     <input type="hidden" name="num" th:value="${vo2.num}">
                     <input type="hidden" name="category" th:value="${vo2.category}">
                     <button type="button" class="btn btn-outline-primary btn-dark rounded-0 p-2" onclick="confirmDelete()">
-<!--                        <p>작성일: <span th:text="${#dates.format(comment.wdate, 'yyyy-MM-dd')}"></span></p>       -->
                         삭제
                     </button>
                 </form>
@@ -55,7 +54,7 @@
                 </thead>
             </table>
             <div>
-                <img th:if="${vo2.img_name != 'default.png'}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"
+                <img th:if="${vo2.img_name != ''}" th:src="@{/uploadimgPath/{img}(img=${vo2.img_name})}"
                      class="img-thumbnail">
                 <p th:utext="${vo2.formattedContent}"></p> <!-- th:utext를 사용하여 HTML 태그를 해석 -->
             </div>
