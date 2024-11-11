@@ -24,14 +24,8 @@
                     <span th:if="${vo2.user_id} == ${session.id}">
                         <a th:href="@{/review/update(num=${vo2.num})}" th:text="수정"></a>
                           <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
-
+                    </span>
                 </span>
-
-
-
-
-            </div>
-
         </div>
         <div class="review-container">
             <img class="img-view" th:src="@{${vo2.workImg}}" th:alt="|${vo2.workTitle} 작품 이미지|">
@@ -55,18 +49,10 @@
                 </p>
                 <div>
                     <small>
-                        <button id="analyzeButton">감정 분석</button>
                         <span id="sentimentResult"></span>
                     </small>
                 </div>
-                <div th:if="${result}">
-                    <h2>분석 결과:</h2>
-                    <p th:text="${result}"></p>
-                </div>
-                <div th:if="${error}">
-                    <h2>오류:</h2>
-                    <p th:text="${error}"></p>
-                </div>
+            </div>
         </div>
     </div>
         <hr>
@@ -196,24 +182,23 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('#analyzeButton').click(function() {
-        var content = $('#reviewContent').text();  // 리뷰 내용을 가져옴
+window.addEventListener('DOMContentLoaded', function (){
+    var content = $('#reviewContent').text();  // 리뷰 내용을 가져옴
 
-        // AJAX로 감정 분석 API 호출
-        $.ajax({
-            url: '/analyzeOK',
-            type: 'POST',
-            data: { content: content },
-            success: function(result) {
-                $('#sentimentResult').text(result);  // 결과를 화면에 표시
-            },
-            error: function(err) {
-                $('#sentimentResult').text('감정 분석 실패: ' + err.responseText);
-            }
+    // AJAX로 감정 분석 API 호출
+            $.ajax({
+                url: '/analyzeOK',
+                type: 'POST',
+                data: { content: content },
+                success: function(result) {
+                    $('#sentimentResult').text(result);  // 결과를 화면에 표시
+                },
+                error: function(err) {
+                    $('#sentimentResult').text('감정 분석 실패: ' + err.responseText);
+                }
+            });
         });
-    });
-});
+
 
 var rnum = [[${vo2.num}]]; // vo2.num 값을 정수로 저장
 const sessionId = [[${session.id}]];

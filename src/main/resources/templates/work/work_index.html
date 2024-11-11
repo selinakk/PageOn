@@ -10,7 +10,7 @@
     <section id="user-recommend" class="position-relative padding-small" th:if="${session.id != null && preferWebtoons.size() !=0}">
       <div class="container container-lg">
         <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
-          <h3 class="d-flex align-items-center" th:if="${preferWebtoons.size() !=0} and ${preferWebnovel.size() !=0} and ${preferBooks.size() !=0}">사용자 추천</h3>
+          <h3 class="d-flex align-items-center" >사용자 추천</h3>
           <a th:href="@{/webtoonrecommendation}" class="btn" th:if="${preferWebtoons.size() !=0}">더보기</a>
         </div>
         <h4>웹툰</h4>
