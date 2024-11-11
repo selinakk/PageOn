@@ -77,7 +77,7 @@
 
 <!--    리뷰 상세 -->
     <select id="review_selectOne" resultType="com.tmtb.pageon.review.model.ReviewVO">
-        SELECT r.* , w.title AS workTitle, w.img_name AS workImg, m.name AS userName , m.img_data AS userImg
+        SELECT r.* , w.title AS workTitle, w.img_name AS workImg, m.name AS userName , m.img_data AS userImgData
         FROM review r JOIN work w ON r.work_num = w.item_id
         JOIN member m ON m.id = r.user_id WHERE r.num=#{num}
     </select>

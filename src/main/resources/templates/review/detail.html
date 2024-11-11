@@ -36,7 +36,7 @@
                 <p ><h3 th:text="${vo2.title}"></h3></p>
                 <a th:href="@{/user/userprofile(id=${vo2.user_id})}" class="d-inline-flex align-items-center">
                       <span class="user-profile col-2 d-inline-flex me-2 border border-dark align-middle align-content-center justify-content-center">
-                        <img class="w-100 h-100" th:src="${vo2.userImg}" th:alt="|${vo2.userName}님 프로필 이미지|">
+                        <img class="w-100 h-100" th:src="${vo2.imgDataAsBase64}" th:alt="|${vo2.userName}님 프로필 이미지|">
                       </span>
                 <strong th:text="${vo2.userName}"></strong>
             </a>
