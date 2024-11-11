@@ -97,11 +97,14 @@ public class BoardController {
 
     //게시판 글 작성 페이지
     @GetMapping("/b_insert")
-    public String b_insert(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String b_insert(Model model, HttpSession session) {
         log.info("게시글 작성 페이지");
 
-        model.addAttribute("id", userDetails.getUsername());
-        log.info("id:{}", userDetails.getUsername());
+        String userId = (String) session.getAttribute("id");
+        log.info("세션에서 가져온 사용자 ID: {}", userId);
+
+        model.addAttribute("userId", userId);
+
 
         return "board/insert";
     }
