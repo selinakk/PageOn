@@ -85,7 +85,7 @@
         <!-- 사진 첨부 필드 -->
         <div class="form-group">
           <label for="file" class="form-label">사진첨부</label>
-          <img th:src="'/uploadimgPath/' + ${vo2.img_name}" alt="공지사항 이미지" class="img-thumbnail w-100 mb-3"/>
+          <img th:src="'/uploadimgPath/' + ${vo2.img_name}" alt="공지사항 이미지" class="img-thumbnail mb-3" style="max-width: 100%; max-height: 300px"/>
           <input type="file" class="form-control-file mt-2 mb-4" id="file" name="file">
           <input type="hidden" id="img_name" name="img_name" th:value="${vo2.img_name}">
         </div>
