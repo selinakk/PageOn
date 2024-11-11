@@ -31,15 +31,16 @@ public class UserVO {
     public String getImgDataAsBase64() {
         if (img_data != null && img_data.length > 0) {
             return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(img_data);
+        } else {
+            try {
+                File defaultImageFile = ResourceUtils.getFile("classpath:static/img/default.png");
+                byte[] defaultImageData = Files.readAllBytes(defaultImageFile.toPath());
+                return "data:image/png;base64," + Base64.getEncoder().encodeToString(defaultImageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
-        try {
-            File defaultImageFile = ResourceUtils.getFile("classpath:/img/default.png");
-            byte[] defaultImageData = Files.readAllBytes(defaultImageFile.toPath());
-            return "data:image/png;base64," + Base64.getEncoder().encodeToString(defaultImageData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 
