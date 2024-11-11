@@ -8,35 +8,36 @@
 <section class="board-container container padding-medium">
     <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
         <h3>질문 게시판</h3>
-            <form class="search-list--custom d-flex" action="/b_search" method="get">
-                <select name="category" class="form-select p-2 w-25 rounded-0">
-                    <option value="all">전체</option>
-                    <option value="free">자유</option>
-                    <option value="qna">질문</option>
-                </select>
-                <select name="searchType" class="form-select p-2 w-25 rounded-0">
-                    <option value="title">제목</option>
-                    <option value="content">내용</option>
-                </select>
-                <input class="form-control p-2 w-75 rounded-0" type="text" id="searchWord" name="searchWord" placeholder="검색어를 입력하세요">
-                <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2 search-btn">검색</button>
-            </form>
+        <form class="search-list--custom d-flex" action="/b_search" method="get">
+            <select name="category" class="form-select p-2 w-25 rounded-0">
+                <option value="all">전체</option>
+                <option value="free">자유</option>
+                <option value="qna">질문</option>
+            </select>
+            <select name="searchType" class="form-select p-2 w-25 rounded-0">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input class="form-control p-2 w-75 rounded-0" type="text" id="searchWord" name="searchWord"
+                   placeholder="검색어를 입력하세요">
+            <button type="submit" class="btn btn-outline-primary btn-dark rounded-0 p-2 search-btn">검색</button>
+        </form>
     </div>
     <!-- 게시판 선택 -->
     <div class="position-relative">
         <ul class="custom-category list-unstyled d-flex justify-content-center mb-0 py-4 fs-5">
             <li class="free-qna mx-2 text-nowrap" th:classappend="${category == 'free'} ? 'border-primary' : ''"
-                 onclick="location.href='/freeboard'">
+                onclick="location.href='/freeboard'">
                 <a>자유 게시판</a>
             </li>
             <li class="free-qna mx-2 text-nowrap"
-                 th:classappend="${category == 'qna'} ? 'border-primary' : ''"
-                 onclick="location.href='/qnaboard'">
+                th:classappend="${category == 'qna'} ? 'border-primary' : ''"
+                onclick="location.href='/qnaboard'">
                 <a class="active">질문 게시판</a>
             </li>
         </ul>
     </div>
-    <div class="d-flex justify-content-end align-items-center w-100">
+    <div class="d-flex justify-content-end align-items-center w-100" id="sortDiv">
         <div class="sort-wrapper position-relative d-flex align-items-center">
             <select name="sort" class="border-0 vstack text-center" onchange="handleSortChange(this.value)">
                 <option value="date" th:selected="${sort == 'date'}"><small>최신순</small></option>
@@ -44,6 +45,7 @@
             </select>
         </div>
     </div>
+
     <div th:if="${#lists.isEmpty(boardList)}" class="text-center mt-4">
         검색 결과가 없습니다.
     </div>
@@ -122,6 +124,7 @@
                 </li>
             </ul>
         </div>
+    </div>
 
     <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
@@ -154,6 +157,17 @@
                     searchInput.value = searchInput.value.substring(0, maxLength);
                 }
             });
+        });
+    </script>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchParams = new URLSearchParams(window.location.search);
+            const sortDiv = document.getElementById('sortDiv');
+
+            if (searchParams.has('searchWord')) {
+                sortDiv.style.display = 'none';
+            }
         });
     </script>
 

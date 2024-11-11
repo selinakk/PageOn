@@ -70,24 +70,26 @@ function goToPage(page) {
     fetchFilteredData();
 }
 
-//날짜 조회순으로 게시판 정렬하는 함수
+// 조회순으로 게시판 정렬하는 함수
 function handleSortChange(value) {
     const currentPath = window.location.pathname;
+    const searchParams = new URLSearchParams(window.location.search);
+    const category = searchParams.get('category');
+
     if (value === 'hitcount') {
-        if (currentPath.includes('freeboard')) {
+        if (currentPath.includes('freeboard') || category === 'all' || category === 'free') {
             location.href = '/freeboard?sort=hitcount';
-        } else if (currentPath.includes('qnaboard')) {
+        } else if (currentPath.includes('qnaboard') || category === 'qna') {
             location.href = '/qnaboard?sort=hitcount';
         }
     } else if (value === 'date') {
-        if (currentPath.includes('freeboard')) {
+        if (currentPath.includes('freeboard') || category === 'all' || category === 'free') {
             location.href = '/freeboard';
-        } else if (currentPath.includes('qnaboard')) {
+        } else if (currentPath.includes('qnaboard') || category === 'qna') {
             location.href = '/qnaboard';
         }
     }
 }
-
 
 // 댓글 관련
 function fetchChildComments(commentId, page = 1) {
