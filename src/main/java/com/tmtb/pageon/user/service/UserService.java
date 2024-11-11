@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import java.io.InputStream;
 import java.util.List;
 
 @Slf4j
@@ -26,14 +27,27 @@ public class UserService {
     // 사용자 등록
     public void insertUser(UserVO user, MultipartFile imgFile) {
         try {
-            user.setImg_name(imgFile.getOriginalFilename());
-            user.setImg_data(imgFile.getBytes());
+            // 이미지 파일 처리 (InputStream 및 바이트 배열로 처리)
+            if (imgFile != null && !imgFile.isEmpty()) {
+                user.setImg_name(imgFile.getOriginalFilename());  // 파일 이름 저장
+
+                // InputStream으로 변환하여 이미지 데이터를 바이트 배열로 읽기
+                InputStream inputStream = imgFile.getInputStream();
+                byte[] imgData = inputStream.readAllBytes();
+                user.setImg_data(imgData);  // 이미지 데이터 저장
+            }
+
+            // 비밀번호 암호화
             String encodedPwd = encoder.encode(user.getPw());
             user.setPw(encodedPwd);
-            log.info("uservo정보",user);
-            mapper.insertUser(user);
+
+            log.info("userVO 정보: {}", user);  // 사용자 정보 로그로 출력
+
+            // 사용자 등록
+            mapper.insertUser(user);  // 매퍼를 통해 DB에 사용자 정보 저장
         } catch (IOException e) {
             e.printStackTrace();
+            log.error("파일 처리 중 오류 발생: {}", e.getMessage());
         }
     }
     // 아이디 중복 체크
@@ -52,15 +66,22 @@ public class UserService {
                 // 새 이미지가 업로드된 경우 이미지 데이터 설정
                 log.info("Uploaded file name: " + imgFile.getOriginalFilename());
                 log.info("File size: " + imgFile.getSize());
-                user.setImg_name(imgFile.getOriginalFilename());
-                user.setImg_data(imgFile.getBytes());
+
+                // InputStream을 사용하여 이미지 데이터 바이트 배열로 읽기
+                InputStream inputStream = imgFile.getInputStream();
+                byte[] imgData = inputStream.readAllBytes();
+                user.setImg_name(imgFile.getOriginalFilename()); // 파일 이름 저장
+                user.setImg_data(imgData); // 이미지 데이터 바이트 배열 저장
+
             } else {
                 // 이미지가 업로드되지 않은 경우 기존 이미지 정보를 유지
                 UserVO existingUser = mapper.findById(user.getId()); // 기존 사용자 정보 가져오기
-                user.setImg_name(existingUser.getImg_name());
-                user.setImg_data(existingUser.getImg_data());
+                user.setImg_name(existingUser.getImg_name()); // 기존 이미지 이름 유지
+                user.setImg_data(existingUser.getImg_data()); // 기존 이미지 데이터 유지
                 log.info("No new image uploaded. Keeping existing image data.");
             }
+
+            // 사용자 정보 업데이트
             mapper.updateUserInfo(user);
         } catch (IOException e) {
             log.error("Error while processing the image file", e);

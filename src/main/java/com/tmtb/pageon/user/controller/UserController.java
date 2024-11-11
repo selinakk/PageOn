@@ -13,9 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +43,6 @@ public class UserController {
         // 이메일과 ID가 유효한지 확인
         if (email != null && !email.isEmpty()) {
             try {
-                // 아이디 이메일 전송
                 mailService.sendRegisterIdByEmail(email, id);
                 userService.insertUser(userVO, imgFile);
                 model.addAttribute("message", "회원가입이 완료되었습니다. 홈으로 가서 다시 로그인하세요.");
