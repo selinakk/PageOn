@@ -42,7 +42,7 @@
             <a th:href="@{/wt_selectAll}"
                th:classappend="${searchType == 'null'} ? 'selected-sort' : 'sort-option'">전체보기</a>
 
-            <a th:href="@{/wt_search(searchType='popular')}"
+            <a th:href="@{/wt_search(searchType='popular')}" id="sort-popular"
                th:classappend="${searchType == 'popular'} ? 'selected-sort' : 'sort-option'">인기순</a>
         </div>
     </div>
@@ -161,6 +161,10 @@
         } else {
             allCategoryElement.classList.remove('selected-category');
         }
+
+        document.getElementById('sort-popular').addEventListener('click', function () {
+            localStorage.clear();
+        });
 
         categories.forEach(category => {
             const element = document.querySelector(`[data-category="${category}"]`);
