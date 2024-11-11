@@ -122,10 +122,11 @@
                 if (childComments.length > 0) {
                   childComments.forEach(function(childComment) {
                     const isOwner = childComment.user_id === sessionId; // 세션 ID와 댓글 작성자 ID 비교
+                    const formattedDate = new Date(childComment.wdate).toISOString().split('T')[0];
                     const childCommentElem = `
                     <div class="childComment" id="childComment-${childComment.num}">
                         <p><strong>${childComment.user_id}:</strong> ${childComment.content}</p>
-                        <p>작성일: ${childComment.wdate}</p>
+                        <p>작성일: <span>${formattedDate}</span></p>
                         <p>
                             <img src="/img/comment_child.png" alt="대댓글 더보기" onclick="fetchChildComments(${childComment.num})" class="comment-icon"/>
                             <img src="/img/comment_childup.png" alt="대댓글 줄이기" onclick="hideComment(${childComment.num})" class="comment-icon"/>
