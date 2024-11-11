@@ -38,25 +38,27 @@
         <h3 class="mb-5">공지사항 상세페이지</h3>
         <div class="card p-4 table-responsive mb-5">
             <!-- 공지사항 정보 테이블 -->
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="table-layout: fixed;">
                 <thead>
                 <tr>
                     <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">글번호</th>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">제목</th>
-                    <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">작성자</th>
+                    <th class="text-center" style="font-weight: 600; width: 30%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">제목</th>
+                    <th class="text-center" style="font-weight: 600; width: 20%; white-space: nowrap">작성자</th>
                     <th class="text-center" style="font-weight: 600; width: 10%; white-space: nowrap">조회수</th>
-                    <th class="text-center" style="font-weight: 600;">작성일자</th>
+                    <th class="text-center" style="font-weight: 600; width: 20%; white-space: nowrap">작성일자</th>
                 </tr>
-
+                </thead>
+                <tbody>
                 <tr>
                     <td th:text="${vo2.num} + '번'" class="text-center"></td>
-                    <td th:text="${vo2.title}" class="text-center"></td>
+                    <td th:text="${vo2.title}" class="text-center" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                     <td th:text="${vo2.user_id}" class="text-center"></td>
                     <td th:text="${vo2.hitcount}" class="text-center"></td>
                     <td th:text="${vo2.wdate}" class="text-center"></td>
                 </tr>
-                </thead>
+                </tbody>
             </table>
+
 
             <div>
                 <!-- 이미지 경로 설정 주석 처리 -->
