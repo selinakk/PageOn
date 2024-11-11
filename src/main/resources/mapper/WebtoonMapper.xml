@@ -12,7 +12,7 @@
             LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-<!--    인기 웹툰 임시-->
+
     <select id="selectPopularWebtoons" resultType="com.tmtb.pageon.webtoon.model.WebtoonVO">
         SELECT w.*,
                (SELECT COUNT(*) FROM pageon.bookshelf bs WHERE bs.work_num = w.item_id) AS added_bs

@@ -4,7 +4,9 @@ package com.tmtb.pageon.board.model;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class BoardVO {
@@ -13,7 +15,7 @@ public class BoardVO {
     private String title;
     private String content;
     private String user_id;
-    private LocalDate wdate;
+    private Timestamp wdate;
     private String img_name;
     private Integer report;
     private String category;
