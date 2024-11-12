@@ -69,6 +69,7 @@ public class ReviewContoller {
         log.info("sortType:{}", sortType);
         log.info("review seleteAll cpage:{}, pageBlock:{}", cpage,pageBlock);
         model.addAttribute("cpage", cpage);
+        model.addAttribute("sortType", sortType);
 
 
 
